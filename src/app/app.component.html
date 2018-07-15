@@ -1,2 +1,8 @@
-<button mat-button>Click me!</button>
-<app-login></app-login>
+
+<mat-drawer-container class="example-container" hasBackdrop="false">
+    <mat-drawer #drawer mode="push">I'm a drawer</mat-drawer>
+    <mat-drawer-content>
+        <button mat-raised-button (click)="drawer.toggle()"><mat-icon>reorder</mat-icon></button>
+        <app-login></app-login>
+    </mat-drawer-content>
+</mat-drawer-container>
