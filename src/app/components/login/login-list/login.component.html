@@ -1,9 +1,10 @@
 <div fxFlex fxLayout="column" fxLayoutAlign="center center" fxFlex="100%">
-
-  <div fxFlex fxFlex="33,3%" fxLayoutAlign="center center">
+  <div fxFlex fxLayoutAlign="center center">
     <mat-card align="center">
       <img [src]="'assets/logo.svg'" alt="image" height="250">
+
       <form align="end">
+
         <mat-form-field class="full-width">
           <input matInput placeholder="Usuário">
         </mat-form-field>
@@ -11,9 +12,14 @@
         <mat-form-field class="full-width">
           <input matInput placeholder="Senha" type="password">
         </mat-form-field>
-        <button mat-button>Entrar</button>
+
+        <div fxLayoutGap="10px">
+          <button mat-button type="reset">Limpar</button>
+          <button mat-button type="button" (click)="onSubmit()">Entrar</button>
+        </div>
+
       </form>
+
     </mat-card>
   </div>
-
 </div>
