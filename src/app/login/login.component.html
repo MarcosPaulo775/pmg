@@ -1,15 +1,19 @@
-<div>
-  <mat-card align="center">
-    <img [src]="'assets/logo.svg'" alt="image" height="400"> 
-    <form align="end">
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Usuário">
-      </mat-form-field>
+<div fxFlex fxLayout="column" fxLayoutAlign="center center" fxFlex="100%">
 
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Senha" type="password">
-      </mat-form-field>
-      <button mat-button>Click me!</button>
-    </form>
-  </mat-card>
+  <div fxFlex fxFlex="33,3%" fxLayoutAlign="center center">
+    <mat-card align="center">
+      <img [src]="'assets/logo.svg'" alt="image" height="250">
+      <form align="end">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Usuário">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Senha" type="password">
+        </mat-form-field>
+        <button mat-button>Entrar</button>
+      </form>
+    </mat-card>
+  </div>
+
 </div>

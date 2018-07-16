@@ -4,6 +4,7 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CdkTableModule} from '@angular/cdk/table';
 import {CdkTreeModule} from '@angular/cdk/tree';
+import {FlexLayoutModule} from '@angular/flex-layout';
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -81,6 +82,7 @@ import {
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+    FlexLayoutModule
   ],
   exports: [
     CdkTableModule,
@@ -120,6 +122,7 @@ import {
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+    FlexLayoutModule
   ],
   providers: []
 })
