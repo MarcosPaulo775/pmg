@@ -1,0 +1,162 @@
+<div fxFlex fxLayout="column" fxFlex="grow" fxLayoutGap="10px">
+
+  <div>
+    <mat-card>
+      <p>
+        Usuário
+      </p>
+      <mat-divider></mat-divider>
+
+      <mat-tab-group>
+        <!--Tab Minha conta-->
+        <mat-tab label="Minha conta">
+          <p></p>
+          <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
+            <div fxFlex="20%">
+
+              <!--Detalhes da conta-->
+              <mat-card class="card" align="center">
+                <mat-card-header>
+                  <mat-card-title>Profile Detail</mat-card-title>
+                </mat-card-header>
+                <i fxFlexFill class="material-icons avatar">account_circle</i>
+                <mat-card-content>
+                  <p>
+                    Usuário
+                  </p>
+                  <p>
+                    <i class="material-icons icone">email</i> usuario@email.com
+                  </p>
+                </mat-card-content>
+                <mat-card-content>
+                  <p>
+                    0 arquivos
+                  </p>
+                </mat-card-content>
+                <mat-card-actions>
+                  <button mat-button>Editar foto do perfil</button>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+
+            <!--Formulario detalhes da conta-->
+            <div fxFlex="80%">
+              <mat-card class="card" align="right">
+                <mat-card-header>
+                  <mat-card-title>Minha conta</mat-card-title>
+                </mat-card-header>
+
+                <mat-divider></mat-divider>
+                <p></p>
+
+                <mat-card-content>
+                  <form fxLayout="column" fxLayoutGap="10px">
+
+                    <mat-form-field>
+                      <input matInput placeholder="Nome">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                      <input matInput placeholder="Email">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                      <input matInput placeholder="Senha" type="password">
+                    </mat-form-field>
+
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
+                      <mat-form-field fxFlex="50%">
+                        <input matInput placeholder="Telefone">
+                      </mat-form-field>
+
+                      <mat-form-field fxFlex="50%">
+                        <input matInput placeholder="Whatzap">
+                      </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
+                      <mat-form-field fxFlex="50%">
+                        <input matInput placeholder="Skype">
+                      </mat-form-field>
+
+                      <mat-form-field fxFlex="50%">
+                        <input matInput placeholder="Links Facebook">
+                      </mat-form-field>
+                    </div>
+
+                    <mat-form-field>
+                      <mat-select placeholder="Tipos de Usuário">
+                        <mat-option *ngFor="let value of tipos" [value]="value">
+                          {{value}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                      <mat-select placeholder="Status">
+                        <mat-option *ngFor="let value of status" [value]="value">
+                          {{value}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <div fxLayoutGap="10px">
+                      <button mat-button type="reset">Limpar</button>
+                      <button mat-button type="button" (click)="onSubmit()" class="button-blue">Salvar</button>
+                    </div>
+
+                  </form>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!--Tab Configurações-->
+        <mat-tab label="Configurações">
+          <p></p>
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Configurar modulos</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <form fxLayout="column" fxLayoutGap="10px">
+                <mat-checkbox>Produção</mat-checkbox>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
+                  <mat-checkbox>Seguencia de impressão</mat-checkbox>
+                  <mat-checkbox>Orçamentos</mat-checkbox>
+                  <mat-checkbox>Trabalhos</mat-checkbox>
+                  <mat-checkbox>Ordem de serviço</mat-checkbox>
+                  <mat-checkbox>Fluxo de serviço</mat-checkbox>
+                </div>
+                <mat-checkbox>Email marketing</mat-checkbox>
+                <mat-checkbox>Storage</mat-checkbox>
+                <mat-checkbox>CRM</mat-checkbox>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
+                  <mat-checkbox>Empresa</mat-checkbox>
+                  <mat-checkbox>Calendário</mat-checkbox>
+                  <mat-checkbox>Representante</mat-checkbox>
+                  <mat-checkbox>Workplace</mat-checkbox>
+                </div>
+                <mat-checkbox>Tarefas</mat-checkbox>
+                <mat-checkbox>Configurações</mat-checkbox>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
+                  <mat-checkbox>Patrimônios</mat-checkbox>
+                  <mat-checkbox>Grupo de atendimento</mat-checkbox>
+                  <mat-checkbox>Etapas fluxo de serviço</mat-checkbox>
+                  <mat-checkbox>Logs</mat-checkbox>
+                </div>
+                <mat-checkbox>Financeiro</mat-checkbox>
+                <div>
+                  <button mat-button type="button" (click)="onSubmit()" class="button-blue">Salvar</button>
+                </div>
+              </form>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+        <mat-tab label="Clientes"> Content 3 </mat-tab>
+        <mat-tab label="Contas"> Content 3 </mat-tab>
+      </mat-tab-group>
+    </mat-card>
+  </div>
+</div>
