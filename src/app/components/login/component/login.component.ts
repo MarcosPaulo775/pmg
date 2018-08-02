@@ -30,30 +30,24 @@ export class LoginComponent implements OnInit {
     var session = {};
 
     if (this.form.valid) {
-      
-      this._key.post('http://192.168.1.225:9090/portal.cgi', {
-        "method": "auth.create_session",
-        "user_name": this.form.get('usuario').value,
-        "user_pass": this.form.get('senha').value,
 
-      }).subscribe((data) => {
-        session = data;
-        console.log('gravado com sucesso');
+      //auth.create_session
+      this._key.post('http://192.168.1.225:9090/portal.cgi',
+        {
+          'method': 'auth.create_session',
+          'user_name': this.form.get('usuario').value,
+          'user_pass': this.form.get('senha').value,
+        }
+
+      ).subscribe((result: JSON) => {
+        session = result;
+        console.log('Sucesso');
       }, () => {
-        console.log('Deu merda!');
+        console.log('Erro!');
       });
 
-      this._login.post('http://192.168.1.225:9090/portal.cgi', {
-        "method": "auth.login",
-        "user_name": session,
-        "user_pass": this.form.get('senha').value,
-
-      }).subscribe(() => {
-        console.log('gravado com sucesso');
-      }, () => {
-        console.log('Deu merda!');
-      });
     }
+
   }
 
 }
