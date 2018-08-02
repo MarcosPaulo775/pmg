@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { UserRoutingModule } from './user-routing.module';
 
-import { UserComponent } from './user-list/user.component';
-import { MaterialModule } from '../../material';
+import { UserComponent } from './component/user.component';
+import { MaterialModule } from '../../modules/material';
 
 @NgModule({
   imports: [

@@ -4,11 +4,15 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: 'login',
-    loadChildren: './components/login/login.module#LoginModule'
+    loadChildren: '../components/login/login.module#LoginModule'
   },
   {
     path: 'user',
-    loadChildren: './components/user/user.module#UserModule'
+    loadChildren: '../components/user/user.module#UserModule'
+  },
+  {
+    path: 'report',
+    loadChildren: '../components/report/report.module#ReportModule'
   },
   {
     path: '',

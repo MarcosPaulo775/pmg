@@ -1,0 +1,240 @@
+<script src="node_modules/chart.js/src/chart.js"></script>
+<div fxFlex fxLayout="column" fxFlex="grow" fxLayoutGap="10px">
+    <div>
+        <mat-card>
+            <input id="file-upload" type="file" accept=".txt" (change)="fileUpload($event)">
+            <textarea rows="4" cols="50">{{fileText}}</textarea>
+            <button (click)="oneLine()">line</button>
+        </mat-card>
+    </div>
+
+    <mat-tab-group *ngIf="visivel">
+        <mat-tab label="Ordem de serviço">
+
+            <div fxFlex fxLayout="column" fxFlex="grow" fxLayoutGap="10px">
+
+                <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxFlex="grow" fxLayoutGap="10px">
+                    <div fxFlex="30%">
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title>OS Criadas</mat-card-title>
+                            </mat-card-header>
+                            <div style="display: block">
+                                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                                    (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                            <div>
+                                <mat-list role="list">
+                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                </mat-list>
+                            </div>
+                        </mat-card>
+                    </div>
+                    <div fxFlex="30%">
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title>Impressões</mat-card-title>
+                            </mat-card-header>
+                            <div style="display: block">
+                                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                                    (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                            <div>
+                                <mat-list role="list">
+                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                </mat-list>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+
+                <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxFlex="grow" fxLayoutGap="10px">
+                    <div fxFlex="30%">
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title>Desenvolvimento</mat-card-title>
+                            </mat-card-header>
+                            <div style="display: block">
+                                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                                    (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                            <div>
+                                <mat-list role="list">
+                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                </mat-list>
+                            </div>
+                        </mat-card>
+                    </div>
+                    <div fxFlex="30%">
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title>Aprovação</mat-card-title>
+                            </mat-card-header>
+                            <div style="display: block">
+                                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                                    (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                            <div>
+                                <mat-list role="list">
+                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                </mat-list>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+
+                <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxFlex="grow" fxLayoutGap="10px">
+                    <div fxFlex="30%">
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title>Atendimento</mat-card-title>
+                            </mat-card-header>
+                            <div style="display: block">
+                                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                                    (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                            <div>
+                                <mat-list role="list">
+                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                </mat-list>
+                            </div>
+                        </mat-card>
+                    </div>
+                    <div fxFlex="30%">
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title>Gravação</mat-card-title>
+                            </mat-card-header>
+                            <div style="display: block">
+                                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                                    (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                            <div>
+                                <mat-list role="list">
+                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                </mat-list>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+
+                <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxFlex="grow" fxLayoutGap="10px">
+                    <div fxFlex="30%">
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title>Expedição</mat-card-title>
+                            </mat-card-header>
+                            <div style="display: block">
+                                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                                    (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                            <div>
+                                <mat-list role="list">
+                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                </mat-list>
+                            </div>
+                        </mat-card>
+                    </div>
+                    <div fxFlex="30%">
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title>Cores Cadastradas</mat-card-title>
+                            </mat-card-header>
+                            <div style="display: block">
+                                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                                    (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                            <div>
+                                <mat-list role="list">
+                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                </mat-list>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Vendas">
+
+            <div fxFlex fxLayout="column" fxFlex="grow" fxLayoutGap="10px">
+                <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxFlex="grow" fxLayoutGap="10px">
+                    <div fxFlex="30%">
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title>Arquivos</mat-card-title>
+                            </mat-card-header>
+                            <div style="display: block">
+                                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                                    (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                            <div>
+                                <mat-list role="list">
+                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                </mat-list>
+                            </div>
+                        </mat-card>
+                    </div>
+                    <div fxFlex="30%">
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title>Faturamento por cliente</mat-card-title>
+                            </mat-card-header>
+                            <div style="display: block">
+                                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                                    (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                            <div>
+                                <mat-list role="list">
+                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                </mat-list>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+
+                <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxFlex="grow" fxLayoutGap="10px">
+                    <div fxFlex="30%">
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title>Faturamento mensal</mat-card-title>
+                            </mat-card-header>
+                            <div style="display: block">
+                                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                                    (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                            <div>
+                                <mat-list role="list">
+                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                </mat-list>
+                            </div>
+                        </mat-card>
+                    </div>
+                    <div fxFlex="30%">
+                        <mat-card>
+                            <mat-card-header>
+                                <mat-card-title>Percentual de arquivos produzidos</mat-card-title>
+                            </mat-card-header>
+                            <div style="display: block">
+                                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                                    (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                            <div>
+                                <mat-list role="list">
+                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                </mat-list>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+
+            </div>
+        </mat-tab>
+        <mat-tab label="Clientes">
+
+        </mat-tab>
+    </mat-tab-group>
+
+
+</div>

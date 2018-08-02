@@ -3,19 +3,19 @@
     <mat-card align="center">
       <img [src]="'assets/logo.svg'" alt="image" height="250">
 
-      <form align="end">
+      <form align="end" [formGroup]="form">
 
         <mat-form-field class="full-width">
-          <input matInput placeholder="Usuário">
+          <input matInput placeholder="Usuário" formControlName="usuario">
         </mat-form-field>
 
         <mat-form-field class="full-width">
-          <input matInput placeholder="Senha" type="password">
+          <input matInput placeholder="Senha" type="password" formControlName="senha">
         </mat-form-field>
 
         <div fxLayoutGap="10px">
           <button mat-button type="reset">Limpar</button>
-          <button mat-button type="button" (click)="onSubmit()">Entrar</button>
+          <button mat-button type="button" (click)="onSubmit()" >Entrar</button>
         </div>
 
       </form>

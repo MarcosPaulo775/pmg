@@ -3,14 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import { LoginRoutingModule } from './login-routing.module';
 
-import { LoginComponent } from './login-list/login.component';
-import { MaterialModule } from '../../material';
+import { LoginComponent } from './component/login.component';
+import { MaterialModule } from '../../modules/material';
+
+import { HttpClientModule } from '@angular/common/http';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     LoginRoutingModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   declarations: [LoginComponent],
