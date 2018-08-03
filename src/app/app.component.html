@@ -4,11 +4,8 @@
 <script type="text/javascript" src="./jquery.cookie.js"></script>
 <script type="text/javascript" src="./api.js"></script>
 
-<mat-toolbar>
-    <button routerLink="">Home</button>
-    <button routerLink="/login">Login</button>
-    <button routerLink="/user">User</button>
-    <button routerLink="/report">Report</button>
+<mat-toolbar *ngIf='mostrarMenu'>
+    <button routerLink="/login" (click)="onSubmit()">Login</button>
 </mat-toolbar>
 
 <router-outlet></router-outlet>

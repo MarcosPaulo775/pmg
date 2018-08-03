@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { Route, Router } from '../../../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private _login: HttpClient,
-    private _key: HttpClient) { }
+    private _key: HttpClient,
+    private _router: Router
+  ) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -46,6 +49,7 @@ export class LoginComponent implements OnInit {
         console.log('Erro!');
       });
 
+      this._router.navigate(['/user']);
     }
 
   }
