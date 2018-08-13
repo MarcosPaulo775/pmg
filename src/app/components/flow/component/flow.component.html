@@ -1,0 +1,143 @@
+<div fxFlex fxLayout="column" fxLayoutGap="20px">
+
+
+  <div fxFlex fxLayout="column" fxLayoutGap="10px">
+    <div>
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Fluxo de serviço</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px" align="center">
+            <div class="full-width" fxLayout="column">
+              <button mat-button class="button_blue">
+                <p>Todos</p>
+                <p>30</p>
+              </button>
+            </div>
+            <div class="full-width" fxLayout="column">
+              <button mat-button class="button_blue">
+                <p>Atendimento</p>
+                <p>30</p>
+              </button>
+            </div>
+            <div class="full-width" fxLayout="column">
+              <button mat-button class="button_blue">
+                <p>Desenvolvimento</p>
+                <p>30</p>
+              </button>
+            </div>
+            <div class="full-width" fxLayout="column">
+              <button mat-button class="button_blue">
+                <p>Aprovação</p>
+                <p>30</p>
+              </button>
+            </div>
+            <div class="full-width" fxLayout="column">
+              <button mat-button class="button_blue">
+                <p>Editoração</p>
+                <p>30</p>
+              </button>
+            </div>
+            <div class="full-width" fxLayout="column">
+              <button mat-button class="button_blue">
+                <p>Conferência</p>
+                <p>30</p>
+              </button>
+            </div>
+            <div class="full-width" fxLayout="column">
+              <button mat-button class="button_blue">
+                <p>Gravação</p>
+                <p>30</p>
+              </button>
+            </div>
+            <div class="full-width" fxLayout="column">
+              <button mat-button class="button_blue">
+                <p>Expedição</p>
+                <p>30</p>
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div>
+      <mat-card class="card" align="right" >
+        <mat-card-header>
+          <mat-card-title>Fluxo de serviço</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div>
+            <button mat-button class="button_blue">
+              Nova Ordem de Serviço
+            </button>
+          </div>
+          <p></p>
+          <div>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+              <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> Id </th>
+                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="cor">
+                <th mat-header-cell *matHeaderCellDef> Cor </th>
+                <td mat-cell *matCellDef="let element"> {{element.cor}} </td>
+              </ng-container>
+
+              <!-- Weight Column -->
+              <ng-container matColumnDef="lineatura_1">
+                <th mat-header-cell *matHeaderCellDef> Lineatura 1 </th>
+                <td mat-cell *matCellDef="let element"> {{element.lineatura_1}} </td>
+              </ng-container>
+
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="lineatura_2">
+                <th mat-header-cell *matHeaderCellDef> Lineatura 2 </th>
+                <td mat-cell *matCellDef="let element"> {{element.lineatura_2}} </td>
+              </ng-container>
+
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="angulo">
+                <th mat-header-cell *matHeaderCellDef> Angulo </th>
+                <td mat-cell *matCellDef="let element"> {{element.angulo}} </td>
+              </ng-container>
+
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="jogos">
+                <th mat-header-cell *matHeaderCellDef> Jogos </th>
+                <td mat-cell *matCellDef="let element"> {{element.jogos}} </td>
+              </ng-container>
+
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="configs">
+                <th mat-header-cell *matHeaderCellDef> Configs </th>
+                <td mat-cell *matCellDef="let element"> {{element.configs}} </td>
+              </ng-container>
+
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="excluir">
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let element" style="width:10px">
+                  <button mat-button class="button_red">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

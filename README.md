@@ -1,6 +1,7 @@
 # Pmg
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
+Gerenciador de OS CloudFlow.
 
 ## Development server
 

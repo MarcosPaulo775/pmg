@@ -1,0 +1,14 @@
+.button_blue {
+    background-color: rgb(0, 122, 204);
+    color: white;
+    width: 190px;
+}
+
+table {
+    width: 100%;
+}
+
+.divTable {
+    border: 10px;
+    padding: 10px;
+}

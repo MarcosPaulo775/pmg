@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Route, Router } from '../../../../../node_modules/@angular/router';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
         console.log('Erro!');
       });
 
-      this._router.navigate(['/user']);
+      this._router.navigate(['/production']);
     }
 
   }

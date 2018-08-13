@@ -3,6 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'production',
+    pathMatch: 'full'
+  },
+  {
     path: 'login',
     loadChildren: '../components/login/login.module#LoginModule'
   },
@@ -15,10 +20,9 @@ const routes: Routes = [
     loadChildren: '../components/report/report.module#ReportModule'
   },
   {
-    path: '',
-    redirectTo: '',
-    pathMatch: 'full'
-  }
+    path: 'production',
+    loadChildren: '../components/production/production.module#ProductionModule'
+  },
 ];
 
 @NgModule({
