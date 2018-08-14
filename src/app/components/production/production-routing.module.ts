@@ -11,7 +11,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'os',
+        redirectTo: 'flow',
         pathMatch: 'full'
       },
       {

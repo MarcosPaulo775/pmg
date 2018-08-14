@@ -10,7 +10,7 @@ export class ProductionComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.onTitle('Ordem de Serviço');
+    this.onTitle('Fluxo de Serviço');
   }
 
   showFiller = false;
