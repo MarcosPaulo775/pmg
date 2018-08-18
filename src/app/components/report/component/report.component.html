@@ -1,15 +1,10 @@
 <script src="node_modules/chart.js/src/chart.js"></script>
 <div fxFlex fxLayout="column" fxFlex="grow" fxLayoutGap="10px">
-    <div>
-        <mat-card>
-            <input id="file-upload" type="file" accept=".txt" (change)="fileUpload($event)">
-            <textarea rows="4" cols="50">{{fileText}}</textarea>
-            <button (click)="oneLine()">line</button>
-        </mat-card>
-    </div>
 
-    <mat-tab-group *ngIf="visivel">
+    <mat-tab-group>
         <mat-tab label="Ordem de serviço">
+
+            <p></p>
 
             <div fxFlex fxLayout="column" fxFlex="grow" fxLayoutGap="10px">
 
@@ -24,8 +19,8 @@
                                     (chartClick)="chartClicked($event)"></canvas>
                             </div>
                             <div>
-                                <mat-list role="list">
-                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                <mat-list *ngFor="let user of users" role="list">
+                                    <span>{{user.nome}}: </span>{{user.createOs}}
                                 </mat-list>
                             </div>
                         </mat-card>
@@ -40,8 +35,8 @@
                                     (chartClick)="chartClicked($event)"></canvas>
                             </div>
                             <div>
-                                <mat-list role="list">
-                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                <mat-list *ngFor="let user of users" role="list">
+                                    <span>{{user.nome}}: </span>{{user.createOs}}
                                 </mat-list>
                             </div>
                         </mat-card>
@@ -59,8 +54,8 @@
                                     (chartClick)="chartClicked($event)"></canvas>
                             </div>
                             <div>
-                                <mat-list role="list">
-                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                <mat-list *ngFor="let user of users" role="list">
+                                    <span>{{user.nome}}: </span>{{user.createOs}}
                                 </mat-list>
                             </div>
                         </mat-card>
@@ -75,8 +70,8 @@
                                     (chartClick)="chartClicked($event)"></canvas>
                             </div>
                             <div>
-                                <mat-list role="list">
-                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                <mat-list *ngFor="let user of users" role="list">
+                                    <span>{{user.nome}}: </span>{{user.createOs}}
                                 </mat-list>
                             </div>
                         </mat-card>
@@ -94,8 +89,8 @@
                                     (chartClick)="chartClicked($event)"></canvas>
                             </div>
                             <div>
-                                <mat-list role="list">
-                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                <mat-list *ngFor="let user of users" role="list">
+                                    <span>{{user.nome}}: </span>{{user.createOs}}
                                 </mat-list>
                             </div>
                         </mat-card>
@@ -110,8 +105,8 @@
                                     (chartClick)="chartClicked($event)"></canvas>
                             </div>
                             <div>
-                                <mat-list role="list">
-                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                <mat-list *ngFor="let user of users" role="list">
+                                    <span>{{user.nome}}: </span>{{user.createOs}}
                                 </mat-list>
                             </div>
                         </mat-card>
@@ -129,8 +124,8 @@
                                     (chartClick)="chartClicked($event)"></canvas>
                             </div>
                             <div>
-                                <mat-list role="list">
-                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                <mat-list *ngFor="let user of users" role="list">
+                                    <span>{{user.nome}}: </span>{{user.createOs}}
                                 </mat-list>
                             </div>
                         </mat-card>
@@ -145,8 +140,8 @@
                                     (chartClick)="chartClicked($event)"></canvas>
                             </div>
                             <div>
-                                <mat-list role="list">
-                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                <mat-list *ngFor="let user of users" role="list">
+                                    <span>{{user.nome}}: </span>{{user.createOs}}
                                 </mat-list>
                             </div>
                         </mat-card>
@@ -170,8 +165,8 @@
                                     (chartClick)="chartClicked($event)"></canvas>
                             </div>
                             <div>
-                                <mat-list role="list">
-                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                <mat-list *ngFor="let user of users" role="list">
+                                    <span>{{user.nome}}: </span>{{user.createOs}}
                                 </mat-list>
                             </div>
                         </mat-card>
@@ -186,8 +181,8 @@
                                     (chartClick)="chartClicked($event)"></canvas>
                             </div>
                             <div>
-                                <mat-list role="list">
-                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                <mat-list *ngFor="let user of users" role="list">
+                                    <span>{{user.nome}}: </span>{{user.createOs}}
                                 </mat-list>
                             </div>
                         </mat-card>
@@ -205,8 +200,8 @@
                                     (chartClick)="chartClicked($event)"></canvas>
                             </div>
                             <div>
-                                <mat-list role="list">
-                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                <mat-list *ngFor="let user of users" role="list">
+                                    <span>{{user.nome}}: </span>{{user.createOs}}
                                 </mat-list>
                             </div>
                         </mat-card>
@@ -221,8 +216,8 @@
                                     (chartClick)="chartClicked($event)"></canvas>
                             </div>
                             <div>
-                                <mat-list role="list">
-                                    <mat-list-item *ngFor="let user of users">{{user.nome}}: {{user.createOs}}</mat-list-item>
+                                <mat-list *ngFor="let user of users" role="list">
+                                    <span>{{user.nome}}: </span>{{user.createOs}}
                                 </mat-list>
                             </div>
                         </mat-card>
@@ -231,10 +226,5 @@
 
             </div>
         </mat-tab>
-        <mat-tab label="Clientes">
-
-        </mat-tab>
     </mat-tab-group>
-
-
 </div>

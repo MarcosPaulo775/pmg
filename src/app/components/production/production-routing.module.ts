@@ -11,7 +11,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'flow',
+        redirectTo: 'os',
         pathMatch: 'full'
       },
       {
@@ -25,6 +25,10 @@ const routes: Routes = [
       {
         path: 'flow',
         loadChildren: '../flow/flow.module#FlowModule'
+      },
+      {
+        path: 'report',
+        loadChildren: '../report/report.module#ReportModule'
       },
     ]
   }

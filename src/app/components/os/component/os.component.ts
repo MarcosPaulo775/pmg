@@ -27,7 +27,10 @@ export class OsComponent implements OnInit {
 
   constructor() { }
 
+  loading = true;
+
   ngOnInit() {
+    this.loading = false;
   }
 
   step = -1;

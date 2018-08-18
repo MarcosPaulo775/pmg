@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { Route, Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { LoginService } from '../../../core/authentication/login.service';
+
 
 @Component({
   selector: 'app-login',
@@ -15,9 +15,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private _login: HttpClient,
-    private _key: HttpClient,
-    private _router: Router
+    private loginService: LoginService,
+    private router: Router   
   ) { }
 
   ngOnInit() {
@@ -30,28 +29,9 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
 
-    var session = {};
-
     if (this.form.valid) {
-
-      //auth.create_session
-      this._key.post('http://192.168.1.225:9090/portal.cgi',
-        {
-          'method': 'auth.create_session',
-          'user_name': this.form.get('usuario').value,
-          'user_pass': this.form.get('senha').value,
-        }
-
-      ).subscribe((result: JSON) => {
-        session = result;
-        console.log('Sucesso');
-      }, () => {
-        console.log('Erro!');
-      });
-
-      this._router.navigate(['/production']);
-    }
-
+      this.loginService.login(this.form.get('usuario').value, this.form.get('senha').value);
+      this.router.navigate(['/production']);
+    }      
   }
-
 }

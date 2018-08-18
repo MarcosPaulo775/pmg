@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { UserRoutingModule } from './user-routing.module';
-
 import { UserComponent } from './component/user.component';
-import { MaterialModule } from '../../modules/material';
+
+import { SharedModule } from '../../shared/modules/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     UserRoutingModule,
-    MaterialModule
+    SharedModule
   ],
   providers: [],
   declarations: [UserComponent],

@@ -2,22 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FlowRoutingModule } from './flow-routing.module';
-
 import { FlowComponent } from './component/flow.component';
-import { MaterialModule } from '../../modules/material';
 
-import { HttpClientModule } from '@angular/common/http';
-
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../../shared/modules/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FlowRoutingModule,
-    MaterialModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule
+    SharedModule
   ],
   providers: [],
   declarations: [FlowComponent],

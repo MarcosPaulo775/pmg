@@ -1,20 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
 
 import { ReportRoutingModule } from './report-routing.module';
-
 import { ReportComponent } from './component/report.component';
-import { MaterialModule } from '../../modules/material';
-import { ChartsModule } from 'ng2-charts';
+
+import { SharedModule } from '../../shared/modules/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     ReportRoutingModule,
-    MaterialModule,
-    ReactiveFormsModule,
-    ChartsModule
+    ChartsModule,
+    SharedModule
   ],
   providers: [],
   declarations: [ReportComponent],

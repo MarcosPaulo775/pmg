@@ -2,22 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { OsRoutingModule } from './os-routing.module';
-
 import { OsComponent } from './component/os.component';
-import { MaterialModule } from '../../modules/material';
 
-import { HttpClientModule } from '@angular/common/http';
-
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../../shared/modules/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     OsRoutingModule,
-    MaterialModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule
+    SharedModule
   ],
   providers: [],
   declarations: [OsComponent],

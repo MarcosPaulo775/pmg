@@ -13,6 +13,7 @@
         <a mat-button (click)="onTitle('Fluxo de Serviço')" routerLink="/production/flow">Fluxo de serviço</a>
         <a mat-button (click)="onTitle('RIP')" routerLink="/production/jobs">RIP</a>
         <a mat-button (click)="onTitle('Aprovação')" routerLink="/production/jobs">Aprovação</a>
+        <a mat-button (click)="onTitle('Relatório')" routerLink="/production/report">Relatório</a>
       </div>
     </div>
   </mat-drawer>
@@ -24,6 +25,7 @@
       </button>
       <p>{{title}}</p>
     </mat-toolbar>
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
     <div class="contend">
       <router-outlet></router-outlet>
     </div>
