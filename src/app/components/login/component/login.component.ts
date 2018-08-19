@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
 
     if (this.form.valid) {
       this.loginService.login(this.form.get('usuario').value, this.form.get('senha').value);
-      this.router.navigate(['/production']);
+      //this.router.navigate(['/production']);
     }      
   }
 }

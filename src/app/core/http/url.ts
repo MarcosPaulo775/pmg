@@ -1,6 +1,5 @@
-export const server = '192.168.1.225:9090/portal.cgi/';
-export const proxy = 'localhost:1337/';
+export const server = '/api/portal.cgi/';
 
-//auth.create_session
 //chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
-//corsproxy --host 0.0.0.0 --disable-host-check
+//corsproxy
+//ng serve --host 0.0.0.0 --disable-host-check --proxy-config proxy.config.json

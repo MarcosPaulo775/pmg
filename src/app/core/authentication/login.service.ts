@@ -14,10 +14,10 @@ export class LoginService {
     /** Autenticação */
     login(user: string, pass: string) {
         let session = new Session();
-        const url = 'http://' + URL.proxy + URL.server;
+        const url = URL.server;
 
         this.http.post(
-            url,
+            URL.server,
             {
                 'method': 'auth.create_session',
                 'user_name': user,
