@@ -5,6 +5,7 @@ export class User extends AbstractEntity {
         //dados pessoais
         public nome?: string,
         public sobrenome?: string,
+        public createOs?: number,
         id?: number
     ) {
         super(id);
