@@ -28,7 +28,7 @@ export class ReportComponent {
     for (let i = 0; i < 5; i++) {
       this.user = new User();
       this.user.createOs = this.pieChartData[i];
-      this.user.nome = this.pieChartLabels[i];
+      this.user.username = this.pieChartLabels[i];
       this.users.push(this.user);
     } this.pieChartType = 'pie';
   }

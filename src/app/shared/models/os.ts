@@ -1,12 +1,11 @@
-import { AbstractEntity } from './abstract-entity';
-import { User } from './user';
-
-export class Os extends AbstractEntity {
-    constructor(
-        public user?: User,
-        public sobrenome?: string,
-        id?: number
-    ) {
-        super(id);
-    }
-}
+export class Os {
+    _id?: string
+    username?: string;
+    userpass?: string;
+    fullname?: string;
+    email?: string;
+    createdby?: string;
+    createOs?: number;
+    permissions?: string[];
+    attributes?: string[];
+  }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LoginService } from '../../../core/authentication/login.service';
+import { AuthService } from '../../../core/authentication/auth.service';
+import { User } from '../../../shared/models/user';
 
 
 @Component({
@@ -12,10 +13,11 @@ import { LoginService } from '../../../core/authentication/login.service';
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
+  user: User;
 
   constructor(
     private formBuilder: FormBuilder,
-    private loginService: LoginService,
+    private authService: AuthService,
     private router: Router   
   ) { }
 
@@ -24,14 +26,18 @@ export class LoginComponent implements OnInit {
       usuario: [null, [Validators.required]],
       senha: [null, [Validators.required]]
     });
+    this.get_current_user();
   }
 
+  get_current_user(){
+    this.authService.get_current_user().subscribe((data: User) => {
+      this.user = data;
+  }, (data) => {
+      console.log('Erro: ' + data);
+  });
+  }
 
   onSubmit() {
-
-    if (this.form.valid) {
-      this.loginService.login(this.form.get('usuario').value, this.form.get('senha').value);
-      //this.router.navigate(['/production']);
-    }      
+    console.log(this.user);
   }
 }
