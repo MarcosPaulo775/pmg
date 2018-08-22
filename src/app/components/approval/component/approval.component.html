@@ -1,0 +1,27 @@
+<div fxFlex fxLayout="column" fxLayoutGap="20px">
+
+
+  <div fxFlex fxLayout="column" fxLayoutGap="10px">
+    <div>
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Aprovação de arte</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+
+          <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of options" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </form>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

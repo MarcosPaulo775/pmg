@@ -38,7 +38,7 @@ export class ProductionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.onTitle('Relatório');
+    this.onTitle("Ordem de Serviço");
   }
 
   showFiller = false;
@@ -47,6 +47,20 @@ export class ProductionComponent implements OnInit {
 
   onTitle(title: string) {
     this.title = title;
+
+    document.getElementById("Dashboard").classList.remove('selected');
+    document.getElementById("Trabalhos").classList.remove('selected');
+    document.getElementById("Inbox").classList.remove('selected');
+    document.getElementById("Orçamentos").classList.remove('selected');
+    document.getElementById("Sequencia de Impressão").classList.remove('selected');
+    document.getElementById("Ordem de Serviço").classList.remove('selected');
+    document.getElementById("Fluxo de Serviço").classList.remove('selected');
+    document.getElementById("RIP").classList.remove('selected');
+    document.getElementById("Aprovação").classList.remove('selected');
+    document.getElementById("Relatório").classList.remove('selected');
+
+
+    document.getElementById(title).classList.toggle('selected');
   }
 
 }
