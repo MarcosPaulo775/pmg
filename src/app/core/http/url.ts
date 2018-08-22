@@ -1,4 +1,4 @@
-export const server = '/api/portal.cgi/';
+export const server = 'api/portal.cgi/';
 
 //chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
 //corsproxy

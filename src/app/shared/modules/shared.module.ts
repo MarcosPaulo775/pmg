@@ -13,15 +13,13 @@ import { MaterialModule } from './material.module';
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        HttpClientModule,
-        
+        HttpClientModule
     ],
     exports: [
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        HttpClientModule,
-        
+        HttpClientModule       
     ],
     providers: [],
 })

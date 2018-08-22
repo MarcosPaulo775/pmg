@@ -1,3 +1,4 @@
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 <div fxFlex fxLayout="column" fxLayoutGap="20px">
 
 
@@ -106,28 +107,25 @@
                 <input matInput placeholder="Código Barras">
               </mat-form-field>
             </div>
-            <div>
-              <button mat-button type="button" class="button_blue">Busca OS</button>
-            </div>
           </div>
           <div align="right">
             <div fxLayoutGap="5px">
-              <button mat-button class="button_grey">
+              <button mat-button class="button_grey" matTooltip="Email">
                 <mat-icon>email</mat-icon>
               </button>
-              <button mat-button class="button_grey">
+              <button mat-button class="button_grey" matTooltip="Gerar PDF">
                 <mat-icon>picture_as_pdf</mat-icon>
               </button>
-              <button mat-button class="button_grey">
+              <button mat-button class="button_grey" matTooltip="Imprimir">
                 <mat-icon>print</mat-icon>
               </button>
-              <button mat-button class="button_red">
+              <button mat-button class="button_red" matTooltip="Deletar">
                 <mat-icon>delete</mat-icon>
               </button>
-              <button mat-button class="button_orange">
+              <button mat-button class="button_orange" matTooltip="Nova Versão">
                 <mat-icon>toll</mat-icon>
               </button>
-              <button mat-button class="button_blue">
+              <button mat-button class="button_blue" matTooltip="Salvar">
                 <mat-icon>save</mat-icon>
               </button>
             </div>
@@ -214,7 +212,7 @@
                 </div>
 
                 <mat-action-row>
-                  <button mat-button class="button_blue" (click)="nextStep()">
+                  <button mat-button class="button_blue" (click)="nextStep()" matTooltip="Salvar">
                     <mat-icon>save</mat-icon>
                   </button>
                 </mat-action-row>
@@ -336,10 +334,10 @@
                   </div>
 
                   <mat-action-row>
-                    <button mat-button class="button_red" (click)="prevStep()">
+                    <button mat-button class="button_red" (click)="prevStep()" matTooltip="Voltar">
                       <mat-icon>undo</mat-icon>
                     </button>
-                    <button mat-button class="button_blue" (click)="nextStep()">
+                    <button mat-button class="button_blue" (click)="nextStep()" matTooltip="Salvar">
                       <mat-icon>save</mat-icon>
                     </button>
                   </mat-action-row>
@@ -458,10 +456,10 @@
 
 
                 <mat-action-row>
-                  <button mat-button class="button_red" (click)="prevStep()">
+                  <button mat-button class="button_red" (click)="prevStep()" matTooltip="Voltar">
                     <mat-icon>undo</mat-icon>
                   </button>
-                  <button mat-button class="button_blue" (click)="nextStep()">
+                  <button mat-button class="button_blue" (click)="nextStep()" matTooltip="Salvar">
                     <mat-icon>save</mat-icon>
                   </button>
                 </mat-action-row>
@@ -578,10 +576,10 @@
                 </div>
 
                 <mat-action-row>
-                  <button mat-button class="button_red" (click)="prevStep()">
+                  <button mat-button class="button_red" (click)="prevStep()" matTooltip="Voltar">
                     <mat-icon>undo</mat-icon>
                   </button>
-                  <button mat-button class="button_blue" (click)="nextStep()">
+                  <button mat-button class="button_blue" (click)="nextStep()" matTooltip="Salvar">
                     <mat-icon>save</mat-icon>
                   </button>
                 </mat-action-row>
@@ -603,10 +601,10 @@
                 </mat-form-field>
 
                 <mat-action-row>
-                  <button mat-button class="button_red" (click)="prevStep()">
+                  <button mat-button class="button_red" (click)="prevStep()" matTooltip="Voltar">
                     <mat-icon>undo</mat-icon>
                   </button>
-                  <button mat-button class="button_blue" (click)="nextStep()">
+                  <button mat-button class="button_blue" (click)="nextStep()" matTooltip="Salvar">
                     <mat-icon>save</mat-icon>
                   </button>
                 </mat-action-row>
@@ -628,10 +626,10 @@
                 </mat-form-field>
 
                 <mat-action-row>
-                  <button mat-button class="button_red" (click)="prevStep()">
+                  <button mat-button class="button_red" (click)="prevStep()"  matTooltip="Voltar">
                     <mat-icon>undo</mat-icon>
                   </button>
-                  <button mat-button class="button_blue" (click)="nextStep()">
+                  <button mat-button class="button_blue" (click)="nextStep()" matTooltip="Salvar">
                     <mat-icon>save</mat-icon>
                   </button>
                 </mat-action-row>
@@ -653,10 +651,10 @@
                 </mat-form-field>
 
                 <mat-action-row>
-                  <button mat-button class="button_red" (click)="prevStep()">
+                  <button mat-button class="button_red" (click)="prevStep()"  matTooltip="Voltar">
                     <mat-icon>undo</mat-icon>
                   </button>
-                  <button mat-button class="button_blue" (click)="nextStep()">
+                  <button mat-button class="button_blue" (click)="nextStep()" matTooltip="Salvar">
                     <mat-icon>save</mat-icon>
                   </button>
                 </mat-action-row>
@@ -678,10 +676,10 @@
                 </mat-form-field>
 
                 <mat-action-row>
-                  <button mat-button class="button_red" (click)="prevStep()">
+                  <button mat-button class="button_red" (click)="prevStep()"  matTooltip="Voltar">
                     <mat-icon>undo</mat-icon>
                   </button>
-                  <button mat-button class="button_blue" (click)="nextStep()">
+                  <button mat-button class="button_blue" (click)="nextStep()" matTooltip="Salvar">
                     <mat-icon>save</mat-icon>
                   </button>
                 </mat-action-row>
@@ -704,10 +702,10 @@
                 <mat-datepicker #picker></mat-datepicker>
 
                 <mat-action-row>
-                  <button mat-button class="button_red" (click)="prevStep()">
+                  <button mat-button class="button_red" (click)="prevStep()"  matTooltip="Voltar">
                     <mat-icon>undo</mat-icon>
                   </button>
-                  <button mat-button class="button_blue" (click)="nextStep()">
+                  <button mat-button class="button_blue" (click)="nextStep()" matTooltip="Salvar">
                     <mat-icon>save</mat-icon>
                   </button>
                 </mat-action-row>

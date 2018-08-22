@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationCancel,
+        Event,
+        NavigationEnd,
+        NavigationError,
+        NavigationStart,
+        Router } from '@angular/router';
 
 export interface PeriodicElement {
   position: number;
@@ -22,15 +28,32 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class OsComponent implements OnInit {
 
+  loading: boolean;
+
   displayedColumns: string[] = ['position', 'cor', 'lineatura_1', 'lineatura_2', 'angulo', 'jogos', 'configs', 'excluir'];
   dataSource = ELEMENT_DATA;
 
-  constructor() { }
-
-  loading = true;
+  constructor( private _router: Router) {
+    this._router.events.subscribe((event: Event) => {
+      this.navigationInterceptor(event);
+    });
+  }
+  private navigationInterceptor(event: Event): void {
+    if (event instanceof NavigationStart) {
+      this.loading = true;
+    }
+    if (event instanceof NavigationEnd) {
+      this.loading = false;
+    }
+    if (event instanceof NavigationCancel) {
+      this.loading = false;
+    }
+    if (event instanceof NavigationError) {
+      this.loading = false;
+    }
+  }
 
   ngOnInit() {
-    this.loading = false;
   }
 
   step = -1;

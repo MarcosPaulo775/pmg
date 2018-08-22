@@ -1,3 +1,4 @@
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side" opened>
     <div align="center">
@@ -5,15 +6,19 @@
       <img mat-card-avatar [src]="'assets/logo.svg'" alt="image">
       <p></p>
       <div class="btn-group" fxLayout="column" fxLayoutGap="5px" >
-        <a mat-button (click)="onTitle('Trabalhos')" routerLink="/production/jobs">Trabalhos</a>
-        <a mat-button (click)="onTitle('Inbox')" routerLink="/production/jobs">Inbox</a>
-        <a mat-button (click)="onTitle('Orçamentos')" routerLink="/production/jobs">Orçamentos</a>
-        <a mat-button (click)="onTitle('Sequencia de Impressão')" routerLink="/production/jobs">Sequencia de impressão</a>
-        <a mat-button (click)="onTitle('Ordem de Serviço')" routerLink="/production/os">Ordem de serviço</a>
-        <a mat-button (click)="onTitle('Fluxo de Serviço')" routerLink="/production/flow">Fluxo de serviço</a>
-        <a mat-button (click)="onTitle('RIP')" routerLink="/production/jobs">RIP</a>
-        <a mat-button (click)="onTitle('Aprovação')" routerLink="/production/jobs">Aprovação</a>
-        <a mat-button (click)="onTitle('Relatório')" routerLink="/production/report">Relatório</a>
+        <a mat-button (click)="onTitle('Trabalhos')" routerLink="/production/jobs"><mat-icon>dashboard</mat-icon>  Dashboard</a>
+        <a mat-button (click)="onTitle('Trabalhos')" routerLink="/production/jobs"><mat-icon>business_center</mat-icon>  Trabalhos</a>
+        <a mat-button (click)="onTitle('Inbox')" routerLink="/production/jobs"><mat-icon>forum</mat-icon> Inbox</a>
+        <a mat-button (click)="onTitle('Orçamentos')" routerLink="/production/jobs"><mat-icon>monetization_on</mat-icon>  Orçamentos</a>
+        <a mat-button (click)="onTitle('Sequencia de Impressão')" routerLink="/production/jobs"><mat-icon>print</mat-icon>  Sequencia
+          de impressão</a>
+        <a mat-button (click)="onTitle('Ordem de Serviço')" routerLink="/production/os"><mat-icon>assignment</mat-icon>  Ordem
+          de serviço</a>
+        <a mat-button (click)="onTitle('Fluxo de Serviço')" routerLink="/production/flow"><mat-icon>timeline</mat-icon>  Fluxo
+          de serviço</a>
+        <a mat-button (click)="onTitle('RIP')" routerLink="/production/jobs"><mat-icon>gradient</mat-icon>  RIP</a>
+        <a mat-button (click)="onTitle('Aprovação')" routerLink="/production/jobs"><mat-icon>check_circle</mat-icon>  Aprovação</a>
+        <a mat-button (click)="onTitle('Relatório')" routerLink="/production/report"><mat-icon>assessment</mat-icon>  Relatório</a>
       </div>
     </div>
   </mat-drawer>
@@ -25,7 +30,6 @@
       </button>
       <p>{{title}}</p>
     </mat-toolbar>
-    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
     <div class="contend">
       <router-outlet></router-outlet>
     </div>

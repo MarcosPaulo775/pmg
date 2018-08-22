@@ -1,6 +1,14 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { User } from '../../../shared/models/user';
+import {
+  NavigationCancel,
+  Event,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router
+} from '@angular/router';
 
 @Component({
   selector: 'app-report',
@@ -16,8 +24,27 @@ export class ReportComponent {
   users: User[];
   user: User;
 
-  constructor(
-  ) { }
+  loading: boolean;
+
+  constructor( private _router: Router) {
+    this._router.events.subscribe((event: Event) => {
+      this.navigationInterceptor(event);
+    });
+  }
+  private navigationInterceptor(event: Event): void {
+    if (event instanceof NavigationStart) {
+      this.loading = true;
+    }
+    if (event instanceof NavigationEnd) {
+      this.loading = false;
+    }
+    if (event instanceof NavigationCancel) {
+      this.loading = false;
+    }
+    if (event instanceof NavigationError) {
+      this.loading = false;
+    }
+  }
 
   ngOnInit() {
     this.oneLine();  

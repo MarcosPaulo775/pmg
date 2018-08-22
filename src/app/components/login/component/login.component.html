@@ -2,24 +2,25 @@
   <div fxFlex fxLayoutAlign="center center">
     <mat-card align="center">
       <img [src]="'assets/logo.svg'" alt="image" height="250">
-
+      
       <form align="end" [formGroup]="form">
-
+        
         <mat-form-field class="full-width">
           <input matInput placeholder="Usuário" formControlName="usuario">
         </mat-form-field>
-
+        
         <mat-form-field class="full-width">
           <input matInput placeholder="Senha" type="password" formControlName="senha">
         </mat-form-field>
-
+        
         <div fxLayoutGap="10px">
           <button mat-button type="reset">Limpar</button>
           <button mat-button type="button" (click)="onSubmit()" id="entrar" >Entrar</button>
         </div>
-
+        
       </form>
-
+      <p></p>
+      <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
     </mat-card>
   </div>
 </div>
