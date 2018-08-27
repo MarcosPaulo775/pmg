@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { ApprovalService } from '../../../core/http/approval.service';
 import { Cliente, Result } from '../../../core/http/cliente';
+import { ProductionComponent } from '../../production/component/production.component';
 
 @Component({
   selector: 'app-approval',
@@ -15,10 +16,13 @@ export class ApprovalComponent implements OnInit {
   myControl = new FormControl();
   
   constructor(
-    private approvalService: ApprovalService
+    private approvalService: ApprovalService,
+    private production: ProductionComponent
   ) { }
   
   ngOnInit() {
+
+    this.production.title = 'Aprovação';
 
     this.approvalService.getClientes().subscribe((data: Result) => {
       

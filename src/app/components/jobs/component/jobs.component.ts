@@ -7,6 +7,7 @@ import {
   NavigationStart,
   Router
 } from '@angular/router';
+import { ProductionComponent } from '../../production/component/production.component';
 
 @Component({
   selector: 'app-jobs',
@@ -17,7 +18,10 @@ export class JobsComponent implements OnInit {
 
   loading: boolean;
 
-  constructor( private _router: Router) {
+  constructor(
+    private _router: Router,
+    private production: ProductionComponent
+  ) {
     this._router.events.subscribe((event: Event) => {
       this.navigationInterceptor(event);
     });
@@ -38,6 +42,7 @@ export class JobsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.production.title = 'Trabalhos';
   }
 
 }

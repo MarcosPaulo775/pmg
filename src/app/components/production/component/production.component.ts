@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input  } from '@angular/core';
 import {
   NavigationCancel,
   Event,
@@ -16,6 +16,12 @@ import {
 export class ProductionComponent implements OnInit {
 
   loading: boolean;
+  title: string;
+
+  @Input()
+  set setTitle(title: string) {
+    this.title = title;
+  }
 
   constructor( private _router: Router) {
     this._router.events.subscribe((event: Event) => {
@@ -38,29 +44,7 @@ export class ProductionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.onTitle("Ordem de Serviço");
-  }
-
-  showFiller = false;
-
-  title: string;
-
-  onTitle(title: string) {
-    this.title = title;
-
-    document.getElementById("Dashboard").classList.remove('selected');
-    document.getElementById("Trabalhos").classList.remove('selected');
-    document.getElementById("Inbox").classList.remove('selected');
-    document.getElementById("Orçamentos").classList.remove('selected');
-    document.getElementById("Sequencia de Impressão").classList.remove('selected');
-    document.getElementById("Ordem de Serviço").classList.remove('selected');
-    document.getElementById("Fluxo de Serviço").classList.remove('selected');
-    document.getElementById("RIP").classList.remove('selected');
-    document.getElementById("Aprovação").classList.remove('selected');
-    document.getElementById("Relatório").classList.remove('selected');
-
-
-    document.getElementById(title).classList.toggle('selected');
+    this.title = '';
   }
 
 }

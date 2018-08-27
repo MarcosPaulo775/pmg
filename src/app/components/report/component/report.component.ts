@@ -9,6 +9,7 @@ import {
   NavigationStart,
   Router
 } from '@angular/router';
+import { ProductionComponent } from '../../production/component/production.component';
 
 @Component({
   selector: 'app-report',
@@ -26,7 +27,10 @@ export class ReportComponent {
 
   loading: boolean;
 
-  constructor( private _router: Router) {
+  constructor(
+    private _router: Router,
+    private production: ProductionComponent
+  ) {
     this._router.events.subscribe((event: Event) => {
       this.navigationInterceptor(event);
     });
@@ -47,7 +51,8 @@ export class ReportComponent {
   }
 
   ngOnInit() {
-    this.oneLine();  
+    this.oneLine();
+    this.production.title = 'Relatório';
   }
 
   oneLine(): void {

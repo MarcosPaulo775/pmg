@@ -5,6 +5,7 @@ import { NavigationCancel,
         NavigationError,
         NavigationStart,
         Router } from '@angular/router';
+import { ProductionComponent } from '../../production/component/production.component';
 
 export interface PeriodicElement {
   position: number;
@@ -33,7 +34,10 @@ export class OsComponent implements OnInit {
   displayedColumns: string[] = ['position', 'cor', 'lineatura_1', 'lineatura_2', 'angulo', 'jogos', 'configs', 'excluir'];
   dataSource = ELEMENT_DATA;
 
-  constructor( private _router: Router) {
+  constructor(
+    private _router: Router,
+    private production: ProductionComponent
+  ) {
     this._router.events.subscribe((event: Event) => {
       this.navigationInterceptor(event);
     });
@@ -54,6 +58,7 @@ export class OsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.production.title = 'Ordem de serviço';
   }
 
   step = -1;
