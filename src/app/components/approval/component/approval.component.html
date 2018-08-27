@@ -1,6 +1,5 @@
 <div fxFlex fxLayout="column" fxLayoutGap="20px">
 
-
   <div fxFlex fxLayout="column" fxLayoutGap="10px">
     <div>
       <mat-card class="card">
@@ -9,15 +8,40 @@
         </mat-card-header>
         <mat-card-content>
 
-          <form class="example-form">
-            <mat-form-field class="example-full-width" *ngIf="clientes">
-              <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <form class="form" [formGroup]="form">
+            <mat-form-field class="full-width" *ngIf="clientes">
+              <input type="text" placeholder="Cliente" aria-label="Number" matInput [matAutocomplete]="auto" formControlName="cliente">
+              <mat-error>
+                Campo <strong>obrigatório</strong>
+              </mat-error>
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let cliente of clientes" [value]="cliente">
                   {{cliente}}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Numero da OS" formControlName="os">
+              <mat-error>
+                Campo <strong>obrigatório</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <input matInput placeholder="versao" formControlName="versao">
+              <mat-error>
+                Campo <strong>obrigatório</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Email" formControlName="email">
+              <mat-error>
+                Email válido é <strong>obrigatório</strong>
+              </mat-error>
+            </mat-form-field>
+
           </form>
 
         </mat-card-content>

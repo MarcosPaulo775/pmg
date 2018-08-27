@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {FormControl, FormGroup, FormBuilder, Validators, EmailValidator} from '@angular/forms';
 import { ApprovalService } from '../../../core/http/approval.service';
 import { Cliente, Result } from '../../../core/http/cliente';
 import { ProductionComponent } from '../../production/component/production.component';
@@ -13,9 +13,10 @@ export class ApprovalComponent implements OnInit {
   
   clientes: string[];
   cliente: string;
-  myControl = new FormControl();
+  form: FormGroup;
   
   constructor(
+    private formBuilder: FormBuilder,
     private approvalService: ApprovalService,
     private production: ProductionComponent
   ) { }
@@ -23,6 +24,13 @@ export class ApprovalComponent implements OnInit {
   ngOnInit() {
 
     this.production.title = 'Aprovação';
+
+    this.form = this.formBuilder.group({
+      cliente: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
+      versao: [null, [Validators.required]],
+      os: [null, [Validators.required]]
+    });
 
     this.approvalService.getClientes().subscribe((data: Result) => {
       
