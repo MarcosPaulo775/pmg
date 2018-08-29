@@ -41,6 +41,11 @@
                 Email válido é <strong>obrigatório</strong>
               </mat-error>
             </mat-form-field>
+            
+            <div fxLayoutGap="10px">
+              <button mat-raised-button (click)="openUploadDialog()">Upload</button>
+              <button mat-raised-button (click)="onSubmit()">Enviar email</button>
+            </div>
 
           </form>
 

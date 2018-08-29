@@ -30,8 +30,8 @@ textarea{
   max-width: 1920px;
 }
 
-.example-headers-align .mat-expansion-panel-header-title, 
-.example-headers-align .mat-expansion-panel-header-description {
+.headers-align .mat-expansion-panel-header-title, 
+.headers-align .mat-expansion-panel-header-description {
   flex-basis: 0;
 }
 

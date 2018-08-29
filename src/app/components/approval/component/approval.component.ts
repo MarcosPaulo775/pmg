@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, FormBuilder, Validators, EmailValidator} from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+
+import { MatDialog } from '@angular/material';
+import { DialogComponent } from '../dialog/dialog.component';
+import { UploadService } from '../upload.service';
+
 import { ApprovalService } from '../../../core/http/approval.service';
-import { Cliente, Result } from '../../../core/http/cliente';
+import { Result } from '../../../core/http/cliente';
 import { ProductionComponent } from '../../production/component/production.component';
 
 @Component({
@@ -14,12 +19,39 @@ export class ApprovalComponent implements OnInit {
   clientes: string[];
   cliente: string;
   form: FormGroup;
-  
+
+  fileName: string[] = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private approvalService: ApprovalService,
-    private production: ProductionComponent
+    private production: ProductionComponent,
+    public dialog: MatDialog,
+    public uploadService: UploadService
   ) { }
+
+  public openUploadDialog() {
+    let dialogRef = this.dialog.open(DialogComponent, { width: '50%', height: '50%' });
+  }
+  
+  onSubmit(){
+    if(this.form.valid){
+      this.fileName = new Array<string>();
+      this.fileName = this.uploadService.getName;
+      console.log(this.fileName);
+      this.uploadService.setName = [];
+  
+      this.uploadService.start_from_whitepaper(
+        this.form.get('cliente').value,
+        this.form.get('email').value,
+        this.form.get('os').value,
+        this.form.get('versao').value,
+        this.fileName[0],
+      ).subscribe((data) => {
+        console.log(data);
+      }, (data) => {});
+    }
+  }
   
   ngOnInit() {
 
@@ -42,19 +74,12 @@ export class ApprovalComponent implements OnInit {
         }
         
       } else {
-        
         if (localStorage.getItem('session')) {
           localStorage.removeItem('session');
-        }
-        
+        } 
       }
-
-    }, (data) => {
-      
-    });
+    }, (data) => {});
 
   }
-  
-  options: string[] = ['One', 'Two', 'Three'];
 
 }

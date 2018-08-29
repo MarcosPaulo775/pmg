@@ -9,7 +9,7 @@ export class ApprovalService {
     constructor(
         private http: HttpClient,
     ) { }
-    /** Autenticação */
+    
     getClientes() {
         const url = URL.server;
 
