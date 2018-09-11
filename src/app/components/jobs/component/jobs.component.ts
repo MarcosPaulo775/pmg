@@ -26,16 +26,15 @@ export class JobsComponent implements OnInit {
   ];
 
   dataSource: MatTableDataSource<Os>;
-  selection = new SelectionModel<Os>(true, [])
+  selection = new SelectionModel<Os>(true, []);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private production: ProductionComponent,
     private jobsService: JobsService,
     public dialog: MatDialog
-  ) {  }
+  ) { }
 
   ngOnInit() {
     this.list();
@@ -60,20 +59,29 @@ export class JobsComponent implements OnInit {
         if (data.error == null) {
           this.dataSource = new MatTableDataSource(data.results);
           this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+          this.selection.clear();
         } else {
         }
       }, (data) => {
       });
   }
 
-  flow(id: string, status: string){
-    //adiciona o campo deleted
-    this.jobsService.custom_objects_set_keys(id, { 'status': status })
-    .subscribe((data: Result_OS) => {
-    }, (data) => {
-      
-    });
+  flow(status: string) {
+
+    let selected = this.selection.selected;
+
+    for (let i = 0; i < selected.length; i++) {
+
+      this.jobsService.custom_objects_set_keys(selected[i]._id, { 'status': status })
+        .subscribe((data) => {
+          if(i == (selected.length - 1)){
+            this.list();
+          }
+
+        }, (data) => {
+
+        });
+    }
   }
 
   applyFilter(filterValue: string) {
@@ -88,7 +96,6 @@ export class JobsComponent implements OnInit {
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    console.log(this.selection.selected);
     return numSelected === numRows;
   }
 

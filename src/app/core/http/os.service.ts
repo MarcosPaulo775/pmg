@@ -78,7 +78,7 @@ export class OsService {
 
     }
 
-    public custom_objects_list(query: number, field: string) {
+    public custom_objects_list(query: string, field: string) {
 
         const url = URL.server;
 

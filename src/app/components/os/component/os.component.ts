@@ -44,7 +44,8 @@ export class OsComponent implements OnInit {
     this.osService.custom_objects_count()
       .subscribe((data: Count) => {
         if (data.error == null) {
-          this.os.os = data.count + 1;
+          let n = data.count + 1;
+          this.os.os = n.toString();
         } else {
         }
       }, (data) => {
@@ -91,7 +92,8 @@ export class OsComponent implements OnInit {
     this.osService.custom_objects_count()
       .subscribe((data: Count) => {
         if (data.error == null) {
-          this.os.os = data.count + 1;
+          let n = data.count + 1;
+          this.os.os = n.toString();
 
           //salva os dados
           this.osService.custom_objects_create(os)
