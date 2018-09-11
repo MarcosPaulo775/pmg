@@ -74,7 +74,7 @@ export class JobsComponent implements OnInit {
 
       this.jobsService.custom_objects_set_keys(selected[i]._id, { 'status': status })
         .subscribe((data) => {
-          if(i == (selected.length - 1)){
+          if (i == (selected.length - 1)) {
             this.list();
           }
 
@@ -82,6 +82,19 @@ export class JobsComponent implements OnInit {
 
         });
     }
+  }
+
+  onDelete(id: string) {
+
+    this.jobsService.custom_objects_set_keys(id, { 'deleted': 'true' })
+      .subscribe((data) => {
+
+      }, (data) => {
+
+      });
+
+    this.list();
+
   }
 
   applyFilter(filterValue: string) {

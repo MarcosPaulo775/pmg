@@ -9,7 +9,7 @@ export class Os {
   codigo?: string;
   barra?: string;
   detail?: Detail;
-  deleted?: boolean;
+  deleted?: string;
   status?: string;
   error_code?: string;
   error?: string;

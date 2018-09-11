@@ -15,7 +15,8 @@ export class JobsService {
             {
                 'session': localStorage.getItem('session'),
                 'method': 'custom_objects.list',
-                'collection': 'Os'
+                'collection': 'Os',
+                'query': ['deleted', 'equal to', 'false']
             }
         )
     }

@@ -62,6 +62,7 @@ export class OsComponent implements OnInit {
       this.os.data = this.form.get('data').value;
       this.os.codigo = this.form.get('codigo').value;
       this.os.barra = this.form.get('barra').value;
+      this.os.deleted = 'false';
       this.save(this.os);
     }
   }
