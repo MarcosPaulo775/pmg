@@ -19,4 +19,21 @@ export class JobsService {
             }
         )
     }
+
+    public custom_objects_set_keys(id, data){
+
+        const url = URL.server;
+
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'custom_objects.set_keys',
+                'collection': 'Os',
+                'id': id,
+                'key_data': data
+            }
+        )
+
+    }
 }

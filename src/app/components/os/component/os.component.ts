@@ -14,7 +14,6 @@ import { MatSnackBar } from '@angular/material';
 export class OsComponent implements OnInit {
 
   form: FormGroup;
-  loading: boolean;
   os: Os;
 
   constructor(
@@ -44,23 +43,17 @@ export class OsComponent implements OnInit {
   nOs() {
     this.osService.custom_objects_count()
       .subscribe((data: Count) => {
-        this.loading = false;
         if (data.error == null) {
           this.os.os = data.count + 1;
         } else {
-          this.openSnackBar("Erro", "OK");
         }
-        console.log(data);
       }, (data) => {
-        this.loading = false;
-        console.log('Erro: ' + data);
       });
   }
 
   /**Adicona o formulario no objeto 'OS'*/
   onSubmit() {
     if (this.form.valid) {
-      this.loading = true;
       this.os.nome = this.form.get('nome').value;
       this.os.versao = this.form.get('versao').value;
       this.os.cliente = this.form.get('cliente').value;
@@ -77,26 +70,17 @@ export class OsComponent implements OnInit {
 
     //busca o id da ordem de serviço
     if (this.os.nome != null) {
-      this.loading = true;
       this.osService.custom_objects_list(this.os.os, "")
         .subscribe((data: Result_OS) => {
-          console.log(data);
           this.os = data.results[0];
 
           //adiciona o campo deleted
           this.osService.custom_objects_set_keys(this.os._id, { 'deleted': 'true' })
             .subscribe((data: Result_OS) => {
-              this.nOs();
-              this.loading = false;
-              console.log(data);
             }, (data) => {
-              this.loading = false;
-              this.openSnackBar("Erro", "OK");
             });
 
         }, (data) => {
-          this.loading = false;
-          this.openSnackBar("Erro", "OK");
         });
     }
   }
@@ -106,32 +90,21 @@ export class OsComponent implements OnInit {
     //obtem o numero da os
     this.osService.custom_objects_count()
       .subscribe((data: Count) => {
-        this.loading = false;
         if (data.error == null) {
           this.os.os = data.count + 1;
-          
+
           //salva os dados
           this.osService.custom_objects_create(os)
             .subscribe((data: Os) => {
-              this.loading = false;
               if (data.error == null) {
-                this.openSnackBar("Ordem de serviço " + os.os + " salva", "OK");
               } else {
-                this.openSnackBar("Erro", "OK");
               }
-              console.log(data);
             }, (data) => {
-              this.loading = false;
-              this.openSnackBar("Erro", "OK");
             });
 
         } else {
-          this.openSnackBar("Erro", "OK");
         }
-        console.log(data);
       }, (data) => {
-        this.loading = false;
-        console.log('Erro: ' + data);
       });
   }
 

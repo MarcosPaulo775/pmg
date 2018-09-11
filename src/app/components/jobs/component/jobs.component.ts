@@ -5,13 +5,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { JobsService } from '../../../core/http/jobs.service';
 import { Result_OS } from '../../../shared/models/api';
 import { Os } from '../../../shared/models/os';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component';
-
-export interface DialogData {
-  animal: string;
-  name: string;
-}
 
 @Component({
   selector: 'app-jobs',
@@ -20,9 +15,6 @@ export interface DialogData {
 })
 
 export class JobsComponent implements OnInit {
-
-  animal: string;
-  name: string;
 
   displayedColumns: string[] = [
     'select',
@@ -43,8 +35,11 @@ export class JobsComponent implements OnInit {
     private production: ProductionComponent,
     private jobsService: JobsService,
     public dialog: MatDialog
-  ) {
-    // Assign the data to the data source for the table to render
+  ) {  }
+
+  ngOnInit() {
+    this.list();
+    this.production.title = 'Trabalhos';
   }
 
   openDialog(os: Os): void {
@@ -55,14 +50,9 @@ export class JobsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.animal = result;
     });
   }
-  
-  ngOnInit() {
-    this.list();
-    this.production.title = 'Trabalhos';
-  }
+
 
   list() {
     this.jobsService.custom_objects_list()
@@ -73,9 +63,17 @@ export class JobsComponent implements OnInit {
           this.dataSource.sort = this.sort;
         } else {
         }
-        console.log(data);
       }, (data) => {
       });
+  }
+
+  flow(id: string, status: string){
+    //adiciona o campo deleted
+    this.jobsService.custom_objects_set_keys(id, { 'status': status })
+    .subscribe((data: Result_OS) => {
+    }, (data) => {
+      
+    });
   }
 
   applyFilter(filterValue: string) {
@@ -90,7 +88,7 @@ export class JobsComponent implements OnInit {
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    console.log(this.dataSource.data.toString());
+    console.log(this.selection.selected);
     return numSelected === numRows;
   }
 
@@ -99,7 +97,6 @@ export class JobsComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
-      console.log(this.dataSource.data.values());
   }
 
 }
