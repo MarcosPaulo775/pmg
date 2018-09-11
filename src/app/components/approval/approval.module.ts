@@ -7,7 +7,7 @@ import { ApprovalComponent } from './component/approval.component';
 import { SharedModule } from '../../shared/modules/shared.module';
 
 import { DialogComponent } from './dialog/dialog.component';
-import { UploadService } from './upload.service';
+import { UploadService } from '../../core/http/upload.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({

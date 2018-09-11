@@ -2,9 +2,9 @@ import { Injectable, Input, Output } from '@angular/core';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs';
-import * as URL from '../../core/http/url';
+import * as URL from './url';
 
-const url = 'http://localhost:3000/upload';
+const url = URL.server_upload;
 
 @Injectable()
 export class UploadService {

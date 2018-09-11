@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Ordem de serviço {{os.os}}</h1>
+<div mat-dialog-content fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px" >
+  <div>
+    <p> <strong>Nome do serviço:</strong> {{os.nome}} </p>
+    <p> <strong>Cliente:</strong> {{os.cliente}} </p>
+    <p> <strong>Ordem de serviço:</strong> {{os.os}} </p>
+    <p> <strong>Data de Despacho:</strong> {{os.data}} </p>
+  </div>
+  <div>
+    <p> <strong>Pedido: </strong> 1</p>
+    <p> <strong>Código Barras:</strong> 7897423000204</p>
+    <p> <strong>Versão: </strong>1</p>
+  </div>
+</div>
+<div mat-dialog-actions align="center">
+  <button mat-button (click)="onNoClick()">Fechar</button>
+</div>

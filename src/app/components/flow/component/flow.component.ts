@@ -1,31 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductionComponent } from '../../production/component/production.component';
+import {SelectionModel} from '@angular/cdk/collections';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
-export interface PeriodicElement {
-  position: number;
-  cor: string;
-  lineatura_1: number;
-  lineatura_2: number;
-  angulo: number;
-  jogos: number;
-  configs: string;
-};
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 0, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla'},
-  {position: 1, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla'},
-  {position: 1, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla'},
-  {position: 1, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla'},
-  {position: 1, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla'},
-  {position: 1, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla'},
-  {position: 1, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla'},
-  {position: 1, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla'},
-  {position: 1, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla'},
-  {position: 1, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla'},
-  {position: 1, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla'},
-  {position: 1, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla'},
-  {position: 1, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla'},
-];
+export interface Data {
+  id: string;
+  cliente: string,
+  nome: string,
+  data: string,
+  acoes: string
+}
 
 @Component({
   selector: 'app-flow',
@@ -34,14 +18,59 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class FlowComponent implements OnInit {
 
-  displayedColumns: string[] = ['position', 'cor', 'lineatura_1', 'lineatura_2', 'angulo', 'jogos', 'configs', 'excluir'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = [
+    'select',
+    'id',
+    'Cliente',
+    'Nome do trabalho',
+    'Data',
+    'Ações'
+  ];
+
+
+  data: Data[] = [
+    { id: 'string', cliente: 'strsdfsdfdsfsd fdsfsdfdsing', nome: 'string', data: 'string', acoes: 'string' },
+    { id: 'string', cliente: 'string', nome: 'string', data: 'string', acoes: 'string' }
+  ]
+
+  dataSource: MatTableDataSource<Data>;
+  selection = new SelectionModel<Data>(true, [])
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private production: ProductionComponent
-  ) { }
+  ) {
+    // Assign the data to the data source for the table to render
+    this.dataSource = new MatTableDataSource(this.data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
   ngOnInit() {
     this.production.title = 'Fluxo de serviço';
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
 }

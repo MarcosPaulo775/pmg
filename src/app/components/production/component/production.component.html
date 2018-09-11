@@ -1,27 +1,27 @@
 <mat-drawer-container class="container" autosize>
-  <mat-drawer #drawer class="sidenav" mode="side" opened>
+  <mat-drawer #drawer class="sidenav" [mode]="'side'" opened>
     <div align="center">
       <p></p>
       <img mat-card-avatar [src]="'assets/logo.svg'" alt="image">
       <p></p>
-      <div class="btn-group" fxLayout="column" fxLayoutGap="5px">
-        <a mat-button routerLink="/production/jobs"><mat-icon>dashboard</mat-icon>
-          Dashboard</a>
-        <a mat-button routerLink="/production/jobs"><mat-icon>business_center</mat-icon>
+      <div fxLayout="column" fxLayoutGap="5px">
+        <!--a mat-button href="#" routerLink="/production/jobs"><mat-icon>dashboard</mat-icon>
+          Dashboard</a-->
+        <a mat-button href="#" routerLink="/production/jobs"><mat-icon>business_center</mat-icon>
           Trabalhos</a>
-        <a mat-button routerLink="/production/jobs"><mat-icon>forum</mat-icon> Inbox</a>
-        <a mat-button routerLink="/production/jobs"><mat-icon>monetization_on</mat-icon>
-          Orçamentos</a>
-        <a mat-button routerLink="/production/jobs"><mat-icon>print</mat-icon>
-          Sequencia de impressão</a>
-        <a mat-button routerLink="/production/os"><mat-icon>assignment</mat-icon>
-          Ordem de serviço</a>
-        <a mat-button routerLink="/production/flow"><mat-icon>timeline</mat-icon>
+        <!--a mat-button href="#" routerLink="/production/jobs"><mat-icon>forum</mat-icon> Inbox</a-->
+        <!--a mat-button href="#" routerLink="/production/jobs"><mat-icon>monetization_on</mat-icon>
+          Orçamentos</a-->
+        <!--a mat-button href="#" routerLink="/production/jobs"><mat-icon>print</mat-icon>
+          Sequencia de impressão</a-->
+        <!--a mat-button href="#" routerLink="/production/os"><mat-icon>assignment</mat-icon>
+          Ordem de serviço</a-->
+        <a mat-button href="#" routerLink="/production/flow"><mat-icon>timeline</mat-icon>
           Fluxo de serviço</a>
-        <a mat-button routerLink="/production/jobs"><mat-icon>gradient</mat-icon> RIP</a>
-        <a mat-button routerLink="/production/approval"><mat-icon>check_circle</mat-icon>
+        <!--a mat-button href="#" routerLink="/production/jobs"><mat-icon>gradient</mat-icon> RIP</a-->
+        <a mat-button href="#" routerLink="/production/approval"><mat-icon>check_circle</mat-icon>
           Aprovação</a>
-        <a mat-button routerLink="/production/report"><mat-icon>assessment</mat-icon>
+        <a mat-button href="#" routerLink="/production/report"><mat-icon>assessment</mat-icon>
           Relatório</a>
       </div>
     </div>

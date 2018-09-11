@@ -5,6 +5,8 @@ import { JobsRoutingModule } from './jobs-routing.module';
 import { JobsComponent } from './component/jobs.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
+import { JobsService } from '../../core/http/jobs.service';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   imports: [
@@ -12,7 +14,8 @@ import { SharedModule } from '../../shared/modules/shared.module';
     JobsRoutingModule,
     SharedModule
   ],
-  providers: [],
-  declarations: [JobsComponent],
+  providers: [JobsService],
+  entryComponents: [DialogComponent],
+  declarations: [JobsComponent, DialogComponent],
 })
 export class JobsModule { }

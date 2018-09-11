@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { UploadService } from '../upload.service';
+import { UploadService } from '../../../core/http/upload.service';
 import { forkJoin } from 'rxjs';
 
 @Component({

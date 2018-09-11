@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/authentication/auth.service';
 import { User } from '../../../shared/models/user';
-import { Session } from '../../../core/authentication/session';
+import { Session } from '../../../shared/models/api';
 import { MatSnackBar } from '@angular/material';
 
 
@@ -36,30 +36,32 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
 
-    this.authService.create_session
-      (this.form.get('usuario').value, this.form.get('senha').value)
-      .subscribe((data: Session) => {
-        console.log(data);
+    if (this.form.valid) {
+      this.authService.create_session
+        (this.form.get('usuario').value, this.form.get('senha').value)
+        .subscribe((data: Session) => {
+          console.log(data);
 
-        if (data.error != 'invalid_username_or_password' && data.session != null) {
-          console.log('Logou ...');
-          localStorage.setItem('session', data.session);
-          this.openSnackBar("Logou", "OK");
-          this.router.navigate(['/production']);
-        } else {
-          this.openSnackBar("Usuário ou senha inválido", "OK");
-          if (localStorage.getItem('session')) {
-            localStorage.removeItem('session');
+          if (data.error != 'invalid_username_or_password' && data.session != null) {
+            console.log('Logou ...');
+            localStorage.setItem('session', data.session);
+            this.openSnackBar("Logou", "OK");
+            this.router.navigate(['/production']);
+          } else {
+            this.openSnackBar("Usuário ou senha inválido", "OK");
+            if (localStorage.getItem('session')) {
+              localStorage.removeItem('session');
+            }
+            this.loading = false;
+            console.log('Errou');
           }
-          this.loading = false;
-          console.log('Errou');
-        }
 
-      }, (data) => {
-        this.openSnackBar("Erro de conexão", "OK");
-        this.loading = false;
-        console.log('Erro: ' + data);
-      });
+        }, (data) => {
+          this.openSnackBar("Erro de conexão", "OK");
+          this.loading = false;
+          console.log('Erro: ' + data);
+        });
+    }
   }
 
   openSnackBar(message: string, action: string) {

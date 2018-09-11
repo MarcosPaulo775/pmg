@@ -5,6 +5,8 @@ import { OsRoutingModule } from './os-routing.module';
 import { OsComponent } from './component/os.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
+import { DetailsComponent } from './details/details.component';
+import { OsService } from '../../core/http/os.service';
 
 @NgModule({
   imports: [
@@ -12,7 +14,8 @@ import { SharedModule } from '../../shared/modules/shared.module';
     OsRoutingModule,
     SharedModule
   ],
-  providers: [],
-  declarations: [OsComponent],
+  providers: [OsService],
+  entryComponents: [DetailsComponent],
+  declarations: [OsComponent, DetailsComponent],
 })
 export class OsModule { }

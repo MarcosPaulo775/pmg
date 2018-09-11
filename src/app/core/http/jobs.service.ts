@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import * as URL from '../http/url';
-@Injectable({
-    providedIn: "root",
-})
-export class ApprovalService {
+import * as URL from './url';
 
-    constructor(
-        private http: HttpClient,
-    ) { }
-    
-    getClientes() {
+@Injectable()
+export class JobsService {
+    constructor(private http: HttpClient) { }
+
+    public custom_objects_list() {
+
         const url = URL.server;
 
         return this.http.post(
@@ -18,9 +15,8 @@ export class ApprovalService {
             {
                 'session': localStorage.getItem('session'),
                 'method': 'custom_objects.list',
-                'collection': 'clientesArtes'
+                'collection': 'Os'
             }
         )
     }
-
 }

@@ -3,10 +3,9 @@ import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
 import { MatDialog } from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component';
-import { UploadService } from '../upload.service';
+import { UploadService } from '../../../core/http/upload.service';
 
-import { ApprovalService } from '../../../core/http/approval.service';
-import { Result } from '../../../core/http/cliente';
+import { Result_Cliente} from '../../../shared/models/api';
 import { ProductionComponent } from '../../production/component/production.component';
 
 @Component({
@@ -24,7 +23,6 @@ export class ApprovalComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private approvalService: ApprovalService,
     private production: ProductionComponent,
     public dialog: MatDialog,
     public uploadService: UploadService
@@ -63,22 +61,6 @@ export class ApprovalComponent implements OnInit {
       versao: [null, [Validators.required]],
       os: [null, [Validators.required]]
     });
-
-    this.approvalService.getClientes().subscribe((data: Result) => {
-      
-      if (data.error != 'invalid_username_or_password' && data.results != null) {
-        this.clientes = new Array<string>();
-        for(let i=0; i< data.results.length; i++){
-          this.cliente = data.results[i].nome;
-          this.clientes.push(this.cliente);
-        }
-        
-      } else {
-        if (localStorage.getItem('session')) {
-          localStorage.removeItem('session');
-        } 
-      }
-    }, (data) => {});
 
   }
 

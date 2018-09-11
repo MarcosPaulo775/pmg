@@ -11,7 +11,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'approval',
+        redirectTo: 'jobs',
         pathMatch: 'full'
       },
       {
