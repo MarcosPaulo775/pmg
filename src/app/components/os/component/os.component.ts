@@ -5,6 +5,7 @@ import { OsService } from '../../../core/http/os.service';
 import { Os } from '../../../shared/models/os';
 import { Count, Result_OS } from '../../../shared/models/api';
 import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-os',
@@ -20,7 +21,8 @@ export class OsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private production: ProductionComponent,
     private osService: OsService,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    private router: Router,
   ) { }
 
   /**Funcoes inicializadas com a pagina */
@@ -47,6 +49,7 @@ export class OsComponent implements OnInit {
           let n = data.count + 1;
           this.os.os = n.toString();
         } else {
+          this.session(data.error_code);
         }
       }, (data) => {
       });
@@ -74,11 +77,17 @@ export class OsComponent implements OnInit {
     if (this.os.nome != null) {
       this.osService.custom_objects_list(this.os.os, "")
         .subscribe((data: Result_OS) => {
-          this.os = data.results[0];
+
+          if (data.error == null) {
+            this.os = data.results[0];
+          } else {
+            this.session(data.error_code);
+          }
 
           //adiciona o campo deleted
           this.osService.custom_objects_set_keys(this.os._id, { 'deleted': 'true' })
             .subscribe((data: Result_OS) => {
+              this.session(data.error_code);
             }, (data) => {
             });
 
@@ -106,6 +115,7 @@ export class OsComponent implements OnInit {
             });
 
         } else {
+          this.session(data.error_code);
         }
       }, (data) => {
       });
@@ -116,6 +126,14 @@ export class OsComponent implements OnInit {
     this.snackBar.open(message, action, {
       duration: 4000,
     });
+  }
+
+  session(error_code: string) {
+    if (error_code == 'invalid_session') {
+      if (localStorage.getItem('session')) {
+        localStorage.removeItem('session');
+      } this.router.navigate(['/login']);
+    }
   }
 
 }

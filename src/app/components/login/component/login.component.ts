@@ -32,18 +32,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  /** Login do usuário */
   onSubmit() {
-
     this.loading = true;
-
     if (this.form.valid) {
       this.authService.create_session
         (this.form.get('usuario').value, this.form.get('senha').value)
         .subscribe((data: Session) => {
-          console.log(data);
-
           if (data.error != 'invalid_username_or_password' && data.session != null) {
-            console.log('Logou ...');
             localStorage.setItem('session', data.session);
             this.openSnackBar("Logou", "OK");
             this.router.navigate(['/production']);
@@ -53,17 +49,15 @@ export class LoginComponent implements OnInit {
               localStorage.removeItem('session');
             }
             this.loading = false;
-            console.log('Errou');
           }
-
         }, (data) => {
           this.openSnackBar("Erro de conexão", "OK");
           this.loading = false;
-          console.log('Erro: ' + data);
         });
     }
   }
 
+  /** Notificação */
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 4000,
