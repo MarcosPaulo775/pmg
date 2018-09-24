@@ -3,11 +3,12 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ProductionComponent } from '../../production/component/production.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { JobsService } from '../../../core/http/jobs.service';
-import { Result_OS } from '../../../shared/models/api';
+import { Result_OS, Count } from '../../../shared/models/api';
 import { Os } from '../../../shared/models/os';
 import { MatDialog } from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Router } from '@angular/router';
+import { query } from '@angular/core/src/render3/query';
 
 @Component({
   selector: 'app-jobs',
@@ -27,6 +28,16 @@ export class JobsComponent implements OnInit {
     'Ações'
   ];
 
+  all: number;
+  atendimento: number;
+  desenvolvimento: number;
+  aprovacao: number;
+  editoracao: number;
+  conferencia: number;
+  gravacao: number;
+  expedicao: number;
+  status: string;
+
   dataSource: MatTableDataSource<Os>;
   selection = new SelectionModel<Os>(true, []);
 
@@ -40,7 +51,7 @@ export class JobsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.list();
+    this.list(['deleted', 'equal to', 'false']);
     this.production.title = 'Trabalhos';
   }
 
@@ -56,13 +67,14 @@ export class JobsComponent implements OnInit {
   }
 
   /**busca no banco de dados as ordens de serviço */
-  list() {
-    this.jobsService.custom_objects_list()
+  list(query) {
+    this.count();
+    this.jobsService.custom_objects_list(query)
       .subscribe((data: Result_OS) => {
         console.log(data);
         if (data.error == null) {
           //inserção de dados na tabela
-          this.dataSource = new MatTableDataSource(data.results);
+          this.dataSource = new MatTableDataSource(data.results.reverse());
           this.dataSource.paginator = this.paginator;
           this.selection.clear();
         } else {
@@ -72,6 +84,97 @@ export class JobsComponent implements OnInit {
       });
   }
 
+  onFlow(query: string) {
+    if (query == 'all') {
+      this.list(['deleted', 'equal to', 'false']);
+    } else {
+      this.list(['status', 'equal to', query]);
+    }
+  }
+
+  count() {
+    this.jobsService.custom_objects_count(['deleted', 'equal to', 'false'])
+      .subscribe((data: Count) => {
+        if (data.error == null) {
+          this.all = data.count;
+        } else {
+          this.session(data.error_code);
+        }
+      }, (data) => {
+      });
+
+    this.jobsService.custom_objects_count(['status', 'equal to', 'Atendimento'])
+      .subscribe((data: Count) => {
+        if (data.error == null) {
+          this.atendimento = data.count;
+        } else {
+          this.session(data.error_code);
+        }
+      }, (data) => {
+      });
+
+    this.jobsService.custom_objects_count(['status', 'equal to', 'Desenvolvimento'])
+      .subscribe((data: Count) => {
+        if (data.error == null) {
+          this.desenvolvimento = data.count;
+        } else {
+          this.session(data.error_code);
+        }
+      }, (data) => {
+      });
+
+    this.jobsService.custom_objects_count(['status', 'equal to', 'Aprovação'])
+      .subscribe((data: Count) => {
+        if (data.error == null) {
+          this.aprovacao = data.count;
+        } else {
+          this.session(data.error_code);
+        }
+      }, (data) => {
+      });
+
+    this.jobsService.custom_objects_count(['status', 'equal to', 'Editoração'])
+      .subscribe((data: Count) => {
+        if (data.error == null) {
+          this.editoracao = data.count;
+        } else {
+          this.session(data.error_code);
+        }
+      }, (data) => {
+      });
+
+    this.jobsService.custom_objects_count(['status', 'equal to', 'Conferência'])
+      .subscribe((data: Count) => {
+        if (data.error == null) {
+          this.conferencia = data.count;
+        } else {
+          this.session(data.error_code);
+        }
+      }, (data) => {
+      });
+
+    this.jobsService.custom_objects_count(['status', 'equal to', 'Gravação'])
+      .subscribe((data: Count) => {
+        if (data.error == null) {
+          this.gravacao = data.count;
+        } else {
+          this.session(data.error_code);
+        }
+      }, (data) => {
+      });
+
+    this.jobsService.custom_objects_count(['status', 'equal to', 'Expedição'])
+      .subscribe((data: Count) => {
+        if (data.error == null) {
+          this.expedicao = data.count;
+        } else {
+          this.session(data.error_code);
+        }
+      }, (data) => {
+      });
+
+  }
+
   /** Muda o status dos itens selecionados na tabela */
   flow(status: string) {
     let selected = this.selection.selected;
@@ -79,11 +182,18 @@ export class JobsComponent implements OnInit {
       this.jobsService.custom_objects_set_keys(selected[i]._id, { 'status': status })
         .subscribe((data) => {
           if (i == (selected.length - 1)) {
-            this.list();
+            this.list(['deleted', 'equal to', 'false']);
           }
         }, (data) => {
         });
     }
+  }
+
+  onAdd() {
+    if (localStorage.getItem('_id')) {
+      localStorage.removeItem('_id');
+    }
+    this.router.navigate(['/production/os']);
   }
 
   /** Marca a ordem de serviço como deletada */
@@ -93,7 +203,15 @@ export class JobsComponent implements OnInit {
         this.session(data.error_code);
       }, (data) => {
       });
-    this.list();
+    this.list(['deleted', 'equal to', 'false']);
+  }
+
+  /** Edita a ordem de serviço */
+  onEdit(id: string) {
+    if (id != null) {
+      localStorage.setItem('_id', id);
+      this.router.navigate(['/production/os']);
+    }
   }
 
   /** Aplica um filtro na tabela */

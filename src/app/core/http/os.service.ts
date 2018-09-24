@@ -110,7 +110,7 @@ export class OsService {
 
     }
 
-    public custom_objects_set_keys(id, data){
+    public custom_objects_set_keys(id: string, data) {
 
         const url = URL.server;
 
@@ -124,6 +124,23 @@ export class OsService {
                 'key_data': data
             }
         )
+
+    }
+
+    public custom_objects_get(id) {
+
+        const url = URL.server;
+        
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'custom_objects.get',
+                'collection': 'Os',
+                'id': id
+            }
+        )
+
 
     }
 

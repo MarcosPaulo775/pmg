@@ -6,7 +6,7 @@ import * as URL from './url';
 export class JobsService {
     constructor(private http: HttpClient) { }
 
-    public custom_objects_list() {
+    public custom_objects_list(query) {
 
         const url = URL.server;
 
@@ -16,7 +16,7 @@ export class JobsService {
                 'session': localStorage.getItem('session'),
                 'method': 'custom_objects.list',
                 'collection': 'Os',
-                'query': ['deleted', 'equal to', 'false']
+                'query': query
             }
         )
     }
@@ -35,6 +35,23 @@ export class JobsService {
                 'key_data': data
             }
         )
+
+    }
+
+    public custom_objects_count(query){
+
+        const url = URL.server
+
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'custom_objects.count',
+                'collection': 'Os',
+                'query': query
+            }
+        )
+
 
     }
 }

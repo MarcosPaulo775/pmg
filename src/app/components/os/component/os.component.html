@@ -1,55 +1,7 @@
 <div fxFlex fxLayout="column" fxLayoutGap="20px">
 
   <div fxFlex fxLayout="column" fxLayoutGap="20px">
-    <div *ngIf="details">
-      <mat-card class="card">
-        <mat-card-header>
-          <mat-card-title>Fluxo de serviço</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px" align="center">
-            <div class="full-width" fxLayout="column">Atendimento
-              <button mat-button>
-                <mat-icon>play_arrow</mat-icon>
-              </button>
-            </div>
-            <div class="full-width" fxLayout="column">Desenvolvimento
-              <button mat-button>
-                <mat-icon>play_arrow</mat-icon>
-              </button>
-            </div>
-            <div class="full-width" fxLayout="column">Aprovação
-              <button mat-button>
-                <mat-icon>play_arrow</mat-icon>
-              </button>
-            </div>
-            <div class="full-width" fxLayout="column">Editoração
-              <button mat-button>
-                <mat-icon>play_arrow</mat-icon>
-              </button>
-            </div>
-            <div class="full-width" fxLayout="column">Conferência
-              <button mat-button>
-                <mat-icon>play_arrow</mat-icon>
-              </button>
-            </div>
-            <div class="full-width" fxLayout="column">Gravação
-              <button mat-button>
-                <mat-icon>play_arrow</mat-icon>
-              </button>
-            </div>
-            <div class="full-width" fxLayout="column">Expedição
-              <button mat-button>
-                <mat-icon>play_arrow</mat-icon>
-              </button>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
     <div>
-
       <mat-tab-group>
 
         <mat-tab label="Ordem de serviço">
@@ -90,9 +42,6 @@
 
                     <div fxLayout="column">
                       <mat-form-field class="full-width">
-                        <input matInput placeholder="Versão" formControlName="versao" autocomplete="off">
-                      </mat-form-field>
-                      <mat-form-field class="full-width">
                         <input matInput placeholder="Código do produto" formControlName="codigo" autocomplete="off">
                       </mat-form-field>
                     </div>
@@ -111,19 +60,19 @@
                   </div>
                   <div align="right">
                     <div fxLayoutGap="5px">
-                      <button mat-button type="button" class="button_grey" matTooltip="Email">
+                      <button mat-button type="button" class="button_grey" matTooltip="Email" *ngIf="details">
                         <mat-icon>email</mat-icon>
                       </button>
-                      <button mat-button type="button" class="button_grey" matTooltip="Gerar PDF">
+                      <button mat-button type="button" class="button_grey" matTooltip="Gerar PDF" *ngIf="details">
                         <mat-icon>picture_as_pdf</mat-icon>
                       </button>
-                      <button mat-button type="button" class="button_grey" matTooltip="Imprimir">
+                      <button mat-button type="button" class="button_grey" matTooltip="Imprimir" *ngIf="details">
                         <mat-icon>print</mat-icon>
                       </button>
-                      <button mat-button type="reset" (click)="onDelete()" class="button_red" matTooltip="Deletar">
+                      <button mat-button type="reset" (click)="onDelete()" class="button_red" matTooltip="Deletar" *ngIf="details">
                         <mat-icon>delete</mat-icon>
                       </button>
-                      <button mat-button type="button" class="button_orange" matTooltip="Nova Versão">
+                      <button mat-button type="button" class="button_orange" (click)="onVersion()" matTooltip="Nova Versão" *ngIf="details">
                         <mat-icon>toll</mat-icon>
                       </button>
                       <button mat-button type="button" class="button_blue" (click)="onSubmit()" matTooltip="Salvar">

@@ -16,6 +16,7 @@ export class OsComponent implements OnInit {
 
   form: FormGroup;
   os: Os;
+  details: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,91 +26,107 @@ export class OsComponent implements OnInit {
     private router: Router,
   ) { }
 
-  /**Funcoes inicializadas com a pagina */
   ngOnInit() {
     this.os = new Os();
     this.production.title = 'Ordem de serviço';
     this.form = this.formBuilder.group({
       cliente: [null, [Validators.required]],
       nome: [null, [Validators.required]],
-      versao: [null, [Validators.required]],
       pedido: [null, [Validators.required]],
       codigo: [null, [Validators.required]],
       data: [null, [Validators.required]],
       barra: [null, [Validators.required]]
     });
-    this.nOs();
+
+    if (localStorage.getItem('_id')) {
+      this.getOs();
+    }
+    else { }
   }
 
-  /**busca o numero de ordem de serviço no banco e cria um novo numero*/
-  nOs() {
-    this.osService.custom_objects_count()
-      .subscribe((data: Count) => {
+  getOs() {
+    this.osService.custom_objects_get(localStorage.getItem('_id'))
+      .subscribe((data: Os) => {
         if (data.error == null) {
-          let n = data.count + 1;
-          this.os.os = n.toString();
+          this.os = data;
+          console.log(data);
+          this.form.get('nome').setValue(this.os.nome);
+          this.form.get('cliente').setValue(this.os.cliente);
+          this.form.get('pedido').setValue(this.os.pedido);
+          this.form.get('data').setValue(this.os.data);
+          this.form.get('codigo').setValue(this.os.codigo);
+          this.form.get('barra').setValue(this.os.barra);
+          this.details = true;
         } else {
           this.session(data.error_code);
         }
       }, (data) => {
+        this.openSnackBar('Erro ao salvar','OK');
       });
   }
 
-  /**Adicona o formulario no objeto 'OS'*/
+  getForm() {
+    this.os.nome = this.form.get('nome').value;
+    this.os.cliente = this.form.get('cliente').value;
+    this.os.pedido = this.form.get('pedido').value;
+    this.os.data = this.form.get('data').value;
+    this.os.codigo = this.form.get('codigo').value;
+    this.os.barra = this.form.get('barra').value;
+    this.os.deleted = 'false';
+
+  }
+
   onSubmit() {
+
     if (this.form.valid) {
-      this.os.nome = this.form.get('nome').value;
-      this.os.versao = this.form.get('versao').value;
-      this.os.cliente = this.form.get('cliente').value;
-      this.os.pedido = this.form.get('pedido').value;
-      this.os.data = this.form.get('data').value;
-      this.os.codigo = this.form.get('codigo').value;
-      this.os.barra = this.form.get('barra').value;
-      this.os.deleted = 'false';
-      this.save(this.os);
+      this.getForm();
+
+      if (!localStorage.getItem("_id")) {
+        this.os.versao = 1;
+        this.save();
+      } else {
+        this.update();
+
+      }
+
     }
   }
 
-  /**Marca a ordem de serviço como deletada, não e excluida realmente*/
-  onDelete() {
+  save() {
 
-    //busca o id da ordem de serviço
-    if (this.os.nome != null) {
-      this.osService.custom_objects_list(this.os.os, "")
-        .subscribe((data: Result_OS) => {
-
-          if (data.error == null) {
-            this.os = data.results[0];
-          } else {
-            this.session(data.error_code);
-          }
-
-          //adiciona o campo deleted
-          this.osService.custom_objects_set_keys(this.os._id, { 'deleted': 'true' })
-            .subscribe((data: Result_OS) => {
-              this.session(data.error_code);
-            }, (data) => {
-            });
-
-        }, (data) => {
-        });
-    }
-  }
-
-  /**Salva uma nova ordem de serviço*/
-  save(os: Os) {
-    //obtem o numero da os
     this.osService.custom_objects_count()
       .subscribe((data: Count) => {
         if (data.error == null) {
-          let n = data.count + 1;
-          this.os.os = n.toString();
+          if (localStorage.getItem('version') != 'true') {
+            let n = data.count + 1;
+            this.os.os = n.toString() + " - " + this.os.versao;
+          } else {
+            let aux;
+            aux = this.os.os.split(" ");
+            this.os.os = aux[0] + " - " + this.os.versao;
+          }
 
-          //salva os dados
-          this.osService.custom_objects_create(os)
+          this.osService.custom_objects_create(this.os)
             .subscribe((data: Os) => {
-              if (data.error == null) {
+              if (!data.error) {
+                this.os = data;
+
+                this.osService.custom_objects_get(this.os._id)
+                  .subscribe((data: Os) => {
+                    if (data.error == null) {
+                      this.os = data;
+                      localStorage.setItem('_id', this.os._id);
+                      localStorage.setItem('version', 'false');
+                      this.openSnackBar('Salvo', 'OK');
+                    } else {
+                      this.save();
+                    }
+                  }, (data) => {
+                    this.openSnackBar('Erro ao salvar', 'OK');
+                  });
+
               } else {
+                this.session(data.error_code);
               }
             }, (data) => {
             });
@@ -118,7 +135,28 @@ export class OsComponent implements OnInit {
           this.session(data.error_code);
         }
       }, (data) => {
+        this.openSnackBar('Erro ao salvar', 'OK');
       });
+  }
+
+  update() {
+    this.osService.custom_objects_update(this.os)
+      .subscribe((data: Count) => {
+        if (data.error == null) {
+          this.openSnackBar('Salvo', 'OK');
+        } else {
+          this.session(data.error_code);
+        }
+      }, (data) => {
+        this.openSnackBar('Erro ao salvar', 'OK');
+      });
+  }
+
+  onVersion() {
+    this.os.versao++;
+    localStorage.removeItem('_id');
+    localStorage.setItem('version', 'true');
+    this.save();
   }
 
   /**Notificação*/
@@ -128,8 +166,10 @@ export class OsComponent implements OnInit {
     });
   }
 
+  /** Verifica se a sessão e válida */
   session(error_code: string) {
     if (error_code == 'invalid_session') {
+      this.openSnackBar('Sessão expirou', 'OK');
       if (localStorage.getItem('session')) {
         localStorage.removeItem('session');
       } this.router.navigate(['/login']);

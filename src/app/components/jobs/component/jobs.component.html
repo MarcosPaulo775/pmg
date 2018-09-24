@@ -1,6 +1,67 @@
 <div fxFlex fxLayout="column" fxLayoutGap="20px">
 
   <div fxFlex fxLayout="column" fxLayoutGap="20px">
+
+    <div>
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Etapas</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px" align="center">
+            <div class="full-width" fxLayout="column" fxFlex="12.5">
+              <button mat-button class="button_blue" (click)="onFlow('all')">
+                <p>Todos</p>
+                <p>{{all}}</p>
+              </button>
+            </div>
+            <div class="full-width" fxLayout="column" fxFlex="12.5">
+              <button mat-button class="button_blue" (click)="onFlow('Atendimento')">
+                <p>Atendimento</p>
+                <p>{{atendimento}}</p>
+              </button>
+            </div>
+            <div class="full-width" fxLayout="column" fxFlex="12.5">
+              <button mat-button class="button_blue" (click)="onFlow('Desenvolvimento')">
+                <p>Desenvolvimento</p>
+                <p>{{desenvolvimento}}</p>
+              </button>
+            </div>
+            <div class="full-width" fxLayout="column" fxFlex="12.5">
+              <button mat-button class="button_blue" (click)="onFlow('Aprovação')">
+                <p>Aprovação</p>
+                <p>{{aprovacao}}</p>
+              </button>
+            </div>
+            <div class="full-width" fxLayout="column" fxFlex="12.5">
+              <button mat-button class="button_blue" (click)="onFlow('Editoração')">
+                <p>Editoração</p>
+                <p>{{editoracao}}</p>
+              </button>
+            </div>
+            <div class="full-width" fxLayout="column" fxFlex="12.5">
+              <button mat-button class="button_blue" (click)="onFlow('Conferência')">
+                <p>Conferência</p>
+                <p>{{conferencia}}</p>
+              </button>
+            </div>
+            <div class="full-width" fxLayout="column" fxFlex="12.5">
+              <button mat-button class="button_blue" (click)="onFlow('Gravação')">
+                <p>Gravação</p>
+                <p>{{gravacao}}</p>
+              </button>
+            </div>
+            <div class="full-width" fxLayout="column" fxFlex="12.5">
+              <button mat-button class="button_blue" (click)="onFlow('Expedição')">
+                <p>Expedição</p>
+                <p>{{expedicao}}</p>
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
     <div>
       <mat-card class="card">
         <mat-card-header>
@@ -57,7 +118,7 @@
           </mat-card-header>
           <mat-card-content>
             <div fxLayoutGap="10px">
-              <button mat-button class="button_blue" matTooltip="Adicionar ordem de serviço" routerLink="/production/os">
+              <button mat-button class="button_blue" matTooltip="Adicionar ordem de serviço" (click)="onAdd()">
                 <mat-icon>add</mat-icon> Adicionar
               </button>
             </div>
@@ -114,7 +175,7 @@
                           <mat-icon>visibility</mat-icon>
                         </button>
 
-                        <button mat-button matTooltip="Editar" routerLink="/production/os">
+                        <button mat-button matTooltip="Editar" (click)="onEdit(row._id)">
                           <mat-icon>edit</mat-icon>
                         </button>
 

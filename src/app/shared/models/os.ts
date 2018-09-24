@@ -1,7 +1,7 @@
 export class Os {
   _id?: string;
   os?: string;
-  versao?: string;
+  versao?: number;
   nome?: string;
   cliente?: string;
   pedido?: string;
