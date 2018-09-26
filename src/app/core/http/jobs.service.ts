@@ -11,10 +11,9 @@ export class JobsService {
         const url = URL.server;
 
         return this.http.post(
-            URL.server,
+            URL.server + '/custom_objects/list',
             {
                 'session': localStorage.getItem('session'),
-                'method': 'custom_objects.list',
                 'collection': 'Os',
                 'query': query
             }
@@ -43,10 +42,9 @@ export class JobsService {
         const url = URL.server
 
         return this.http.post(
-            URL.server,
+            URL.server + '/custom_objects/count',
             {
                 'session': localStorage.getItem('session'),
-                'method': 'custom_objects.count',
                 'collection': 'Os',
                 'query': query
             }

@@ -11,30 +11,30 @@ export class AuthService {
     ) { }
     /** Autenticação */
     create_session(user: string, pass: string) {
-        const url = URL.server;
-
+        
         return this.http.post(
-            URL.server,
+            URL.server + '/auth/login',
             {
-                'method': 'auth.create_session',
                 'user_name': user,
                 'user_pass': pass,
             }
         )
     }
 
-    get_current_user() {
-
-        const url = URL.server;
-
-        return this.http.post(
-            URL.server,
-            {
-                'session': localStorage.getItem('session'),
-                'method': 'auth.get_current_user'
-            }
-
-        )
-
-    }
+    /**
+     get_current_user() {
+ 
+         const url = URL.server;
+ 
+         return this.http.post(
+             URL.server,
+             {
+                 'session': localStorage.getItem('session'),
+                 'method': 'auth.get_current_user'
+             }
+ 
+         )
+ 
+     } 
+     */
 }

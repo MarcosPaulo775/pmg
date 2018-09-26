@@ -51,8 +51,8 @@ export class LoginComponent implements OnInit {
             this.loading = false;
           }
         }, (data) => {
-          this.openSnackBar("Erro de conexão", "OK");
-          this.loading = false;
+            this.openSnackBar("Erro de conexão", "OK");
+            this.loading = false;
         });
     }
   }
