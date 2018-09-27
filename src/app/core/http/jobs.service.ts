@@ -8,8 +8,6 @@ export class JobsService {
 
     public custom_objects_list(query) {
 
-        const url = URL.server;
-
         return this.http.post(
             URL.server + '/custom_objects/list',
             {
@@ -22,13 +20,10 @@ export class JobsService {
 
     public custom_objects_set_keys(id, data){
 
-        const url = URL.server;
-
         return this.http.post(
-            URL.server,
+            URL.server + '/custom_objects/set_keys',
             {
                 'session': localStorage.getItem('session'),
-                'method': 'custom_objects.set_keys',
                 'collection': 'Os',
                 'id': id,
                 'key_data': data
@@ -38,8 +33,6 @@ export class JobsService {
     }
 
     public custom_objects_count(query){
-
-        const url = URL.server
 
         return this.http.post(
             URL.server + '/custom_objects/count',
