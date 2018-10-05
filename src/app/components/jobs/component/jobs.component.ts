@@ -71,7 +71,6 @@ export class JobsComponent implements OnInit {
     this.count();
     this.jobsService.custom_objects_list(query)
       .subscribe((data: Result_OS) => {
-        console.log(data);
         if (data.error == null) {
           //inserção de dados na tabela
           this.dataSource = new MatTableDataSource(data.results.reverse());
@@ -201,9 +200,9 @@ export class JobsComponent implements OnInit {
     this.jobsService.custom_objects_set_keys(id, { 'deleted': 'true' })
       .subscribe((data: Result_OS) => {
         this.session(data.error_code);
+        this.list(['deleted', 'equal to', 'false']);
       }, (data) => {
       });
-    this.list(['deleted', 'equal to', 'false']);
   }
 
   /** Edita a ordem de serviço */

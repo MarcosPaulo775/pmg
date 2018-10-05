@@ -47,9 +47,9 @@ export class OsComponent implements OnInit {
   getOs() {
     this.osService.custom_objects_get(localStorage.getItem('_id'))
       .subscribe((data: Os) => {
-        if (data.error == null) {
+        console.log(data);
+        if (data.error_code == null) {
           this.os = data;
-          console.log(data);
           this.form.get('nome').setValue(this.os.nome);
           this.form.get('cliente').setValue(this.os.cliente);
           this.form.get('pedido').setValue(this.os.pedido);
@@ -61,7 +61,7 @@ export class OsComponent implements OnInit {
           this.session(data.error_code);
         }
       }, (data) => {
-        this.openSnackBar('Erro ao salvar','OK');
+        this.openSnackBar('Erro ao salvar', 'OK');
       });
   }
 
@@ -83,60 +83,32 @@ export class OsComponent implements OnInit {
 
       if (!localStorage.getItem("_id")) {
         this.os.versao = 1;
+        this.os.os = '';
         this.save();
       } else {
         this.update();
-
       }
-
     }
   }
 
   save() {
 
-    this.osService.custom_objects_count()
-      .subscribe((data: Count) => {
+    this.osService.custom_objects_create(this.os)
+      .subscribe((data: Os) => {
         if (data.error == null) {
-          if (localStorage.getItem('version') != 'true') {
-            let n = data.count + 1;
-            this.os.os = n.toString() + " - " + this.os.versao;
-          } else {
-            let aux;
-            aux = this.os.os.split(" ");
-            this.os.os = aux[0] + " - " + this.os.versao;
-          }
-
-          this.osService.custom_objects_create(this.os)
-            .subscribe((data: Os) => {
-              if (!data.error) {
-                this.os = data;
-
-                this.osService.custom_objects_get(this.os._id)
-                  .subscribe((data: Os) => {
-                    if (data.error == null) {
-                      this.os = data;
-                      localStorage.setItem('_id', this.os._id);
-                      localStorage.setItem('version', 'false');
-                      this.openSnackBar('Salvo', 'OK');
-                    } else {
-                      this.save();
-                    }
-                  }, (data) => {
-                    this.openSnackBar('Erro ao salvar', 'OK');
-                  });
-
-              } else {
-                this.session(data.error_code);
-              }
-            }, (data) => {
-            });
-
+          this.os = data;
+          console.log(data);
+          localStorage.setItem('_id', this.os._id);
+          localStorage.setItem('version', 'false');
+          this.details = true;
+          this.openSnackBar('Salvo', 'OK');
         } else {
           this.session(data.error_code);
         }
       }, (data) => {
         this.openSnackBar('Erro ao salvar', 'OK');
       });
+
   }
 
   update() {

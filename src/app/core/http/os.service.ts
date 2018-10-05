@@ -33,13 +33,10 @@ export class OsService {
 
     public custom_objects_create(os: Os) {
 
-        const url = URL.server;
-
         return this.http.post(
-            URL.server,
+            URL.server + '/custom_objects/create/os',
             {
                 'session': localStorage.getItem('session'),
-                'method': 'custom_objects.create',
                 'collection': 'Os',
                 'data': os
             }
@@ -47,46 +44,43 @@ export class OsService {
 
     }
 
-    public custom_objects_count() {
-
-        const url = URL.server;
+    public custom_objects_count(){
 
         return this.http.post(
-            URL.server,
+            URL.server + '/custom_objects/count',
             {
                 'session': localStorage.getItem('session'),
-                'method': 'custom_objects.count',
-                'collection': 'Os'
-            }
-        )
-
-    }
-
-    public custom_objects_delete(id: string) {
-
-        const url = URL.server;
-
-        return this.http.post(
-            URL.server,
-            {
-                'session': localStorage.getItem('session'),
-                'method': 'custom_objects.delete',
                 'collection': 'Os',
-                'id': id
+                'query': ' '
             }
         )
 
     }
+
+    /**
+     public custom_objects_delete(id: string) {
+ 
+         const url = URL.server;
+ 
+         return this.http.post(
+             URL.server,
+             {
+                 'session': localStorage.getItem('session'),
+                 'method': 'custom_objects.delete',
+                 'collection': 'Os',
+                 'id': id
+             }
+         )
+ 
+     } 
+     */
 
     public custom_objects_list(query: string, field: string) {
 
-        const url = URL.server;
-
         return this.http.post(
-            URL.server,
+            URL.server + '/custom_objects/list',
             {
                 'session': localStorage.getItem('session'),
-                'method': 'custom_objects.list',
                 'collection': 'Os',
                 'query': ['os', 'equal to', query],
                 'fields': { '': field }
@@ -96,13 +90,10 @@ export class OsService {
 
     public custom_objects_update(os: Os) {
 
-        const url = URL.server;
-
         return this.http.post(
-            URL.server,
+            URL.server + '/custom_objects/update',
             {
                 'session': localStorage.getItem('session'),
-                'method': 'custom_objects.update',
                 'collection': 'Os',
                 'data': os
             }
@@ -110,15 +101,12 @@ export class OsService {
 
     }
 
-    public custom_objects_set_keys(id: string, data) {
-
-        const url = URL.server;
+    public custom_objects_set_keys(id, data){
 
         return this.http.post(
-            URL.server,
+            URL.server + '/custom_objects/set_keys',
             {
                 'session': localStorage.getItem('session'),
-                'method': 'custom_objects.set_keys',
                 'collection': 'Os',
                 'id': id,
                 'key_data': data
@@ -132,10 +120,9 @@ export class OsService {
         const url = URL.server;
         
         return this.http.post(
-            URL.server,
+            URL.server + '/custom_objects/get',
             {
                 'session': localStorage.getItem('session'),
-                'method': 'custom_objects.get',
                 'collection': 'Os',
                 'id': id
             }

@@ -13,7 +13,8 @@ export class JobsService {
             {
                 'session': localStorage.getItem('session'),
                 'collection': 'Os',
-                'query': query
+                'query': query,
+                'fields': ' '
             }
         )
     }
@@ -42,7 +43,6 @@ export class JobsService {
                 'query': query
             }
         )
-
 
     }
 }
