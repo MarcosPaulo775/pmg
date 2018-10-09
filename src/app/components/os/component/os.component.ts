@@ -6,6 +6,8 @@ import { Os } from '../../../shared/models/os';
 import { Count, Result_OS } from '../../../shared/models/api';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
+import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-os',
@@ -17,6 +19,41 @@ export class OsComponent implements OnInit {
   form: FormGroup;
   os: Os;
   details: boolean;
+  progress: Subject<number>;
+
+  inputFileChange(event) {
+    console.log('Passou');
+
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const formData = new FormData;
+      formData.append('session', 'session', 'session');
+      formData.append('file', file, file.name);
+      
+      const req = new HttpRequest('POST', 'http://localhost:3000/upload', formData, {
+        reportProgress: true
+      });
+    
+      this.progress = new Subject<number>();
+
+      this.http.request(req).subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress) {
+
+          // calculate the progress percentage
+          const percentDone = Math.round(100 * event.loaded / event.total);
+
+          // pass the percentage into the progress-stream
+          this.progress.next(percentDone);
+        } else if (event instanceof HttpResponse) {
+
+          // Close the progress-stream if we get an answer form the API
+          // The upload is complete
+          this.progress.complete();
+        }
+      });
+    }
+
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,6 +61,7 @@ export class OsComponent implements OnInit {
     private osService: OsService,
     public snackBar: MatSnackBar,
     private router: Router,
+    private http: HttpClient
   ) { }
 
   ngOnInit() {

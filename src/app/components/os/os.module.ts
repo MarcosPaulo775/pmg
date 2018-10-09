@@ -7,12 +7,14 @@ import { OsComponent } from './component/os.component';
 import { SharedModule } from '../../shared/modules/shared.module';
 import { DetailsComponent } from './details/details.component';
 import { OsService } from '../../core/http/os.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
     CommonModule,
     OsRoutingModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule
   ],
   providers: [OsService],
   entryComponents: [DetailsComponent],

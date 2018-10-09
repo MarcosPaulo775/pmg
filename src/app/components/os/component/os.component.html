@@ -88,6 +88,13 @@
 
         <mat-tab label="Arquivo">
 
+          <input type="file" (change)="inputFileChange($event)"/>
+          
+          <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress | async"></mat-progress-bar>
+          <p>
+            {{percentDone}}
+          </p>
+
         </mat-tab>
       </mat-tab-group>
 
