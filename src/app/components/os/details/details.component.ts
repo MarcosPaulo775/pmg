@@ -81,7 +81,7 @@ export class DetailsComponent implements OnInit {
   getDetail() {
     this.osService.custom_objects_get('Detail', localStorage.getItem('_id_Detail'))
       .subscribe((data: Detail) => {
-        console.log(data);
+
         if (data.error_code == null) {
           this.detail = data;
 
@@ -188,7 +188,6 @@ export class DetailsComponent implements OnInit {
       this.detail.obs_cliche = this.cliche.get('observacoes').value;
       this.osService.custom_objects_update('Detail', this.detail)
         .subscribe((data) => {
-          console.log(data);
         }, (data) => { }
         );
     }

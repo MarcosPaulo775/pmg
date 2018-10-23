@@ -108,7 +108,6 @@ export class OsComponent implements OnInit {
   getDetail() {
     this.osService.custom_objects_list("Detail", ['os', 'equal to', this.os.os], '_id')
       .subscribe((data: Result_Detail) => {
-        console.log(data);
         if (data.error_code == null && data.results[0] != null) {
           localStorage.setItem('_id_Detail', data.results[0]._id);
         }
@@ -143,8 +142,6 @@ export class OsComponent implements OnInit {
   save() {
 
     if (localStorage.getItem('version') == 'true') {
-      console.log('entrou');
-
       let os = this.os.os.split(' ');
       let versao = Number(os[2]);
       this.os.versao = versao + 1;
@@ -155,7 +152,11 @@ export class OsComponent implements OnInit {
           if (data.error == null) {
             localStorage.setItem('_id', this.os._id);
             localStorage.setItem('version', 'false');
-            this.details = true;
+            this.osService.custom_objects_create('Detail', this.detail)
+              .subscribe((data: Detail) => {
+                localStorage.setItem('_id_Detail', data._id);
+                this.details = true;
+              }, (data) => { });
             this.openSnackBar('Salvo', 'OK');
           } else {
             this.session(data.error_code);
@@ -172,12 +173,6 @@ export class OsComponent implements OnInit {
             this.nOs();
             localStorage.setItem('_id', this.os._id);
             localStorage.setItem('version', 'false');
-            this.osService.custom_objects_create('Detail', this.detail)
-            .subscribe((data: Detail) => {
-              localStorage.setItem('_id_Detail', data._id);
-              this.details = true;
-            }, (data) => { });
-            
             this.openSnackBar('Salvo', 'OK');
           } else {
             this.session(data.error_code);
@@ -185,21 +180,28 @@ export class OsComponent implements OnInit {
         }, (data) => {
           this.openSnackBar('Erro ao salvar', 'OK');
         });
-        
-      }
+
     }
-    
-    nOs() {
-      
-      this.osService.custom_objects_list("Os", ['deleted', 'equal to', 'false'], '_id')
+  }
+
+  nOs() {
+
+    this.osService.custom_objects_list("Os", ['deleted', 'equal to', 'false'], '_id')
       .subscribe((data: Result_OS) => {
         if (data.error == null) {
-          
+
           for (let i = 0; i < data.results.length; i++) {
             if (this.os._id == data.results[i]._id) {
               let os = i + 1;
               this.os.os = os.toString() + " - " + this.os.versao.toString();
-              this.detail.os = this.os.os;
+              this.detail.os = os.toString() + " - " + this.os.versao.toString();
+
+              this.osService.custom_objects_create('Detail', this.detail)
+                .subscribe((data: Detail) => {
+                  localStorage.setItem('_id_Detail', data._id);
+                  this.details = true;
+                }, (data) => { });
+
               this.update();
               break;
             }
