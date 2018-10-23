@@ -9,9 +9,10 @@ export class JobsService {
     public custom_objects_list(query) {
 
         return this.http.post(
-            URL.server + '/custom_objects/list',
+            URL.server,
             {
                 'session': localStorage.getItem('session'),
+                'method': 'custom_objects.list',
                 'collection': 'Os',
                 'query': query,
                 'fields': ' '
@@ -22,9 +23,10 @@ export class JobsService {
     public custom_objects_set_keys(id, data){
 
         return this.http.post(
-            URL.server + '/custom_objects/set_keys',
+            URL.server,
             {
                 'session': localStorage.getItem('session'),
+                'method': 'custom_objects.set_keys',
                 'collection': 'Os',
                 'id': id,
                 'key_data': data
@@ -36,9 +38,10 @@ export class JobsService {
     public custom_objects_count(query){
 
         return this.http.post(
-            URL.server + '/custom_objects/count',
+            URL.server,
             {
                 'session': localStorage.getItem('session'),
+                'method': 'custom_objects.count',
                 'collection': 'Os',
                 'query': query
             }

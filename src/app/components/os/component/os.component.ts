@@ -29,11 +29,11 @@ export class OsComponent implements OnInit {
       const formData = new FormData;
       formData.append('session', 'session', 'session');
       formData.append('file', file, file.name);
-      
+
       const req = new HttpRequest('POST', 'http://localhost:3000/upload', formData, {
         reportProgress: true
       });
-    
+
       this.progress = new Subject<number>();
 
       this.http.request(req).subscribe(event => {
@@ -131,22 +131,67 @@ export class OsComponent implements OnInit {
 
   save() {
 
-    this.osService.custom_objects_create(this.os)
-      .subscribe((data: Os) => {
+    if (localStorage.getItem('version') == 'true') {
+      console.log('entrou');
+
+      let os = this.os.os.split(' ');
+      let versao = Number(os[2]);
+      this.os.versao = versao + 1;
+      this.os.os = os[0] + ' - ' + this.os.versao.toString();
+
+      this.osService.custom_objects_create(this.os)
+        .subscribe((data: Os) => {
+          if (data.error == null) {
+            localStorage.setItem('_id', this.os._id);
+            localStorage.setItem('version', 'false');
+            this.details = true;
+            this.openSnackBar('Salvo', 'OK');
+          } else {
+            this.session(data.error_code);
+          }
+        }, (data) => {
+          this.openSnackBar('Erro ao salvar', 'OK');
+        });
+
+    } else {
+      this.osService.custom_objects_create(this.os)
+        .subscribe((data: Os) => {
+          if (data.error == null) {
+            this.os = data;
+            this.nOs();
+            localStorage.setItem('_id', this.os._id);
+            localStorage.setItem('version', 'false');
+            this.details = true;
+            this.openSnackBar('Salvo', 'OK');
+          } else {
+            this.session(data.error_code);
+          }
+        }, (data) => {
+          this.openSnackBar('Erro ao salvar', 'OK');
+        });
+    }
+  }
+
+  nOs() {
+
+    this.osService.custom_objects_list(['deleted', 'equal to', 'false'], '_id')
+      .subscribe((data: Result_OS) => {
         if (data.error == null) {
-          this.os = data;
-          console.log(data);
-          localStorage.setItem('_id', this.os._id);
-          localStorage.setItem('version', 'false');
-          this.details = true;
-          this.openSnackBar('Salvo', 'OK');
+
+          for (let i = 0; i < data.results.length; i++) {
+            if (this.os._id == data.results[i]._id) {
+              let os = i + 1;
+              this.os.os = os.toString() + " - " + this.os.versao.toString();
+              this.update();
+              break;
+            }
+          }
         } else {
           this.session(data.error_code);
         }
       }, (data) => {
         this.openSnackBar('Erro ao salvar', 'OK');
       });
-
   }
 
   update() {

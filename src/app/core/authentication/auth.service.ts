@@ -13,10 +13,11 @@ export class AuthService {
     create_session(user: string, pass: string) {
         
         return this.http.post(
-            URL.server + '/auth/login',
+            URL.server,
             {
-                'user_name': user,
-                'user_pass': pass,
+                "method": "auth.create_session",
+                "user_name": "Leonardo",
+                "user_pass": "leonardo@#"
             }
         )
     }

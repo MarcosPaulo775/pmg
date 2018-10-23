@@ -29,11 +29,7 @@ const routes: Routes = [
       {
         path: 'report',
         loadChildren: '../report/report.module#ReportModule'
-      },
-      {
-        path: 'approval',
-        loadChildren: '../approval/approval.module#ApprovalModule'
-      },
+      }
     ]
   }
 ];
