@@ -16,6 +16,8 @@ export class Os {
 }
 
 export class Detail {
+  _id?: string;
+  os?: string;
 
   //cliche
   tecnologia?: string;
@@ -64,7 +66,9 @@ export class Detail {
   velocidade?: string;
   dupla_face?: string;
   temperatura?: string;
-  horario?: string
+  horario?: string;
+  error_code?: string;
+  error?: string;
 }
 
 export class Color {

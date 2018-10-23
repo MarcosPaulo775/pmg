@@ -16,8 +16,8 @@ export class AuthService {
             URL.server,
             {
                 "method": "auth.create_session",
-                "user_name": "Leonardo",
-                "user_pass": "leonardo@#"
+                "user_name": user,
+                "user_pass": pass
             }
         )
     }

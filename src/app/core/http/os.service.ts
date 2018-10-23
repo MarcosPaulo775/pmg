@@ -31,15 +31,15 @@ export class OsService {
 
     }
 
-    public custom_objects_create(os: Os) {
+    public custom_objects_create(collection, data) {
 
         return this.http.post(
             URL.server,
             {
                 'session': localStorage.getItem('session'),
                 'method': 'custom_objects.create',
-                'collection': 'Os',
-                'data': os
+                'collection': collection,
+                'data': data
             }
         )
 
@@ -73,42 +73,42 @@ export class OsService {
  
      } 
 
-    public custom_objects_list(query, field: string) {
+    public custom_objects_list(collection, query, field: string) {
 
         return this.http.post(
             URL.server,
             {
                 'session': localStorage.getItem('session'),
                 'method': 'custom_objects.list',
-                'collection': 'Os',
+                'collection': collection,
                 'query': query,
                 'fields': { '': field }
             }
         )
     }
 
-    public custom_objects_update(os: Os) {
+    public custom_objects_update(collection ,data) {
 
         return this.http.post(
             URL.server,
             {
                 'session': localStorage.getItem('session'),
                 'method': 'custom_objects.update',
-                'collection': 'Os',
-                'data': os
+                'collection': collection,
+                'data': data
             }
         )
 
     }
 
-    public custom_objects_set_keys(id, data){
+    public custom_objects_set_keys(collection, id, data){
 
         return this.http.post(
             URL.server,
             {
                 'session': localStorage.getItem('session'),
                 'method' : 'custom_objects.set_keys',
-                'collection': 'Os',
+                'collection': collection,
                 'id': id,
                 'key_data': data
             }
@@ -116,14 +116,14 @@ export class OsService {
 
     }
 
-    public custom_objects_get(id) {
+    public custom_objects_get(collection, id) {
         
         return this.http.post(
             URL.server,
             {
                 'session': localStorage.getItem('session'),
                 'method' : 'custom_objects.get',
-                'collection': 'Os',
+                'collection': collection,
                 'id': id
             }
         )

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductionComponent } from '../../production/component/production.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OsService } from '../../../core/http/os.service';
-import { Os } from '../../../shared/models/os';
-import { Count, Result_OS } from '../../../shared/models/api';
+import { Os, Detail } from '../../../shared/models/os';
+import { Count, Result_OS, Result_Detail } from '../../../shared/models/api';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
@@ -18,6 +18,7 @@ export class OsComponent implements OnInit {
 
   form: FormGroup;
   os: Os;
+  detail: Detail;
   details: boolean;
   progress: Subject<number>;
 
@@ -66,6 +67,7 @@ export class OsComponent implements OnInit {
 
   ngOnInit() {
     this.os = new Os();
+    this.detail = new Detail();
     this.production.title = 'Ordem de serviço';
     this.form = this.formBuilder.group({
       cliente: [null, [Validators.required]],
@@ -83,9 +85,8 @@ export class OsComponent implements OnInit {
   }
 
   getOs() {
-    this.osService.custom_objects_get(localStorage.getItem('_id'))
+    this.osService.custom_objects_get('Os', localStorage.getItem('_id'))
       .subscribe((data: Os) => {
-        console.log(data);
         if (data.error_code == null) {
           this.os = data;
           this.form.get('nome').setValue(this.os.nome);
@@ -94,6 +95,7 @@ export class OsComponent implements OnInit {
           this.form.get('data').setValue(this.os.data);
           this.form.get('codigo').setValue(this.os.codigo);
           this.form.get('barra').setValue(this.os.barra);
+          this.getDetail();
           this.details = true;
         } else {
           this.session(data.error_code);
@@ -101,6 +103,16 @@ export class OsComponent implements OnInit {
       }, (data) => {
         this.openSnackBar('Erro ao salvar', 'OK');
       });
+  }
+
+  getDetail() {
+    this.osService.custom_objects_list("Detail", ['os', 'equal to', this.os.os], '_id')
+      .subscribe((data: Result_Detail) => {
+        console.log(data);
+        if (data.error_code == null && data.results[0] != null) {
+          localStorage.setItem('_id_Detail', data.results[0]._id);
+        }
+      }, (data) => { });
   }
 
   getForm() {
@@ -111,7 +123,6 @@ export class OsComponent implements OnInit {
     this.os.codigo = this.form.get('codigo').value;
     this.os.barra = this.form.get('barra').value;
     this.os.deleted = 'false';
-
   }
 
   onSubmit() {
@@ -139,7 +150,7 @@ export class OsComponent implements OnInit {
       this.os.versao = versao + 1;
       this.os.os = os[0] + ' - ' + this.os.versao.toString();
 
-      this.osService.custom_objects_create(this.os)
+      this.osService.custom_objects_create('Os', this.os)
         .subscribe((data: Os) => {
           if (data.error == null) {
             localStorage.setItem('_id', this.os._id);
@@ -154,14 +165,19 @@ export class OsComponent implements OnInit {
         });
 
     } else {
-      this.osService.custom_objects_create(this.os)
+      this.osService.custom_objects_create('Os', this.os)
         .subscribe((data: Os) => {
           if (data.error == null) {
             this.os = data;
             this.nOs();
             localStorage.setItem('_id', this.os._id);
             localStorage.setItem('version', 'false');
-            this.details = true;
+            this.osService.custom_objects_create('Detail', this.detail)
+            .subscribe((data: Detail) => {
+              localStorage.setItem('_id_Detail', data._id);
+              this.details = true;
+            }, (data) => { });
+            
             this.openSnackBar('Salvo', 'OK');
           } else {
             this.session(data.error_code);
@@ -169,19 +185,21 @@ export class OsComponent implements OnInit {
         }, (data) => {
           this.openSnackBar('Erro ao salvar', 'OK');
         });
+        
+      }
     }
-  }
-
-  nOs() {
-
-    this.osService.custom_objects_list(['deleted', 'equal to', 'false'], '_id')
+    
+    nOs() {
+      
+      this.osService.custom_objects_list("Os", ['deleted', 'equal to', 'false'], '_id')
       .subscribe((data: Result_OS) => {
         if (data.error == null) {
-
+          
           for (let i = 0; i < data.results.length; i++) {
             if (this.os._id == data.results[i]._id) {
               let os = i + 1;
               this.os.os = os.toString() + " - " + this.os.versao.toString();
+              this.detail.os = this.os.os;
               this.update();
               break;
             }
@@ -195,7 +213,7 @@ export class OsComponent implements OnInit {
   }
 
   update() {
-    this.osService.custom_objects_update(this.os)
+    this.osService.custom_objects_update('Os', this.os)
       .subscribe((data: Count) => {
         if (data.error == null) {
           this.openSnackBar('Salvo', 'OK');

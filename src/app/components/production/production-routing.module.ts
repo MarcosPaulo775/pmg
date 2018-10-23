@@ -21,14 +21,6 @@ const routes: Routes = [
       {
         path: 'jobs',
         loadChildren: '../jobs/jobs.module#JobsModule'
-      },
-      {
-        path: 'flow',
-        loadChildren: '../flow/flow.module#FlowModule'
-      },
-      {
-        path: 'report',
-        loadChildren: '../report/report.module#ReportModule'
       }
     ]
   }

@@ -14,67 +14,70 @@
 
     <!--Conteudo-->
 
-    <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
-      <mat-form-field>
-        <mat-select placeholder="Tecnologia">
-          <mat-option *ngFor="let value of tecnologia" [value]="value">
-            {{value}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="Variação">
-          <mat-option *ngFor="let value of variacao" [value]="value">
-            {{value}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="Material">
-          <mat-option *ngFor="let value of material" [value]="value">
-            {{value}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="Lineatura">
-          <mat-option *ngFor="let value of lineatura" [value]="value">
-            {{value}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="Espessura">
-          <mat-option *ngFor="let value of espessura" [value]="value">
-            {{value}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="Camada">
-          <mat-option *ngFor="let value of camada" [value]="value">
-            {{value}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field>
-        <mat-select placeholder="Local da Gravação">
-          <mat-option *ngFor="let value of local" [value]="value">
-            {{value}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="full-width">
-        <textarea matInput placeholder="Observações"></textarea>
-      </mat-form-field>
-    </div>
+    <form [formGroup]="cliche">
+      <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
+        <mat-form-field *ngIf="tecnologia">
+          <mat-select placeholder="Tecnologia" formControlName="tecnologia">
+            <mat-option *ngFor="let value of tecnologia" [value]="value" >
+              {{value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="variacao">
+          <mat-select placeholder="Variação" formControlName="variacao">
+            <mat-option *ngFor="let value of variacao" [value]="value" >
+              {{value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="material">
+          <mat-select placeholder="Material" formControlName="material">
+            <mat-option *ngFor="let value of material" [value]="value" >
+              {{value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="lineatura">
+          <mat-select placeholder="Lineatura" formControlName="lineatura">
+            <mat-option *ngFor="let value of lineatura" [value]="value" >
+              {{value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="espessura">
+          <mat-select placeholder="Espessura" formControlName="espessura">
+            <mat-option *ngFor="let value of espessura" [value]="value" >
+              {{value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="camada">
+          <mat-select placeholder="Camada" formControlName="camada">
+            <mat-option *ngFor="let value of camada" [value]="value" >
+              {{value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field *ngIf="local">
+          <mat-select placeholder="Local da Gravação" formControlName="local">
+            <mat-option *ngFor="let value of local" [value]="value" >
+              {{value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <textarea matInput placeholder="Observações" formControlName="observacoes"></textarea>
+        </mat-form-field>
+      </div>
+
+    </form>
 
     <!--/Conteudo-->
 
     <mat-action-row>
-      <button mat-button class="button_blue" (click)="nextStep()" matTooltip="Salvar">
+      <button mat-button class="button_blue" (click)="nextStep('cliche')" matTooltip="Salvar">
         <mat-icon>save</mat-icon>
       </button>
     </mat-action-row>
