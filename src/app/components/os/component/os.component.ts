@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
+import * as URL from '../../../core/http/url';
 
 @Component({
   selector: 'app-os',
@@ -21,40 +22,6 @@ export class OsComponent implements OnInit {
   detail: Detail;
   details: boolean;
   progress: Subject<number>;
-
-  inputFileChange(event) {
-    console.log('Passou');
-
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const formData = new FormData;
-      formData.append('session', 'session', 'session');
-      formData.append('file', file, file.name);
-
-      const req = new HttpRequest('POST', 'http://localhost:3000/upload', formData, {
-        reportProgress: true
-      });
-
-      this.progress = new Subject<number>();
-
-      this.http.request(req).subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress) {
-
-          // calculate the progress percentage
-          const percentDone = Math.round(100 * event.loaded / event.total);
-
-          // pass the percentage into the progress-stream
-          this.progress.next(percentDone);
-        } else if (event instanceof HttpResponse) {
-
-          // Close the progress-stream if we get an answer form the API
-          // The upload is complete
-          this.progress.complete();
-        }
-      });
-    }
-
-  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -84,6 +51,42 @@ export class OsComponent implements OnInit {
     else { }
   }
 
+  /** Upload de arquivo */
+  inputFileChange(event) {
+    console.log('Passou');
+
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const formData = new FormData;
+      formData.append('session', 'session', 'session');
+      formData.append('file', file, file.name);
+
+      const req = new HttpRequest('POST', URL.server + '/upload', formData, {
+        reportProgress: true
+      });
+
+      this.progress = new Subject<number>();
+
+      this.http.request(req).subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress) {
+
+          // calculate the progress percentage
+          const percentDone = Math.round(100 * event.loaded / event.total);
+
+          // pass the percentage into the progress-stream
+          this.progress.next(percentDone);
+        } else if (event instanceof HttpResponse) {
+
+          // Close the progress-stream if we get an answer form the API
+          // The upload is complete
+          this.progress.complete();
+        }
+      });
+    }
+  }
+
+
+  /** Busca a ordem de serviço no banco de dados */
   getOs() {
     this.osService.custom_objects_get('Os', localStorage.getItem('_id'))
       .subscribe((data: Os) => {
@@ -105,6 +108,7 @@ export class OsComponent implements OnInit {
       });
   }
 
+  /**Busca o id do detalhes da ordem de serviço no banco de dados */
   getDetail() {
     this.osService.custom_objects_list("Detail", ['os', 'equal to', this.os.os], '_id')
       .subscribe((data: Result_Detail) => {
@@ -114,6 +118,7 @@ export class OsComponent implements OnInit {
       }, (data) => { });
   }
 
+  /** Cria um ordem de serviço com os dados do formulario */
   getForm() {
     this.os.nome = this.form.get('nome').value;
     this.os.cliente = this.form.get('cliente').value;
@@ -124,6 +129,10 @@ export class OsComponent implements OnInit {
     this.os.deleted = 'false';
   }
 
+  /** Dispara quando aperta o botão salvar
+   * Caso não tenha um id no localstorage ele cria uma Ordem de servico nova
+   * Caso tenha um id no localstorage ele atualiza a Ordem de servico
+   */
   onSubmit() {
 
     if (this.form.valid) {
@@ -139,8 +148,10 @@ export class OsComponent implements OnInit {
     }
   }
 
+  /** Salva uma Ordem de serviço nova no banco de dados*/
   save() {
 
+    // Salva uma versao nova
     if (localStorage.getItem('version') == 'true') {
       let os = this.os.os.split(' ');
       let versao = Number(os[2]);
@@ -165,7 +176,9 @@ export class OsComponent implements OnInit {
           this.openSnackBar('Erro ao salvar', 'OK');
         });
 
-    } else {
+    } 
+    // Salva uma totalmente nova
+    else {
       this.osService.custom_objects_create('Os', this.os)
         .subscribe((data: Os) => {
           if (data.error == null) {
@@ -184,8 +197,9 @@ export class OsComponent implements OnInit {
     }
   }
 
-  nOs() {
 
+  /** Cria um numero para Ordem de servico */
+  nOs() {
     this.osService.custom_objects_list("Os", ['deleted', 'equal to', 'false'], '_id')
       .subscribe((data: Result_OS) => {
         if (data.error == null) {
@@ -214,6 +228,7 @@ export class OsComponent implements OnInit {
       });
   }
 
+  /** Atualiza os dados de uma ordem de servico existente */
   update() {
     this.osService.custom_objects_update('Os', this.os)
       .subscribe((data: Count) => {
@@ -227,6 +242,7 @@ export class OsComponent implements OnInit {
       });
   }
 
+  /** Dispara quando aperta o botao de criar uma nova versao */
   onVersion() {
     this.os.versao++;
     localStorage.removeItem('_id');

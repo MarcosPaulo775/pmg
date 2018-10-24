@@ -28,6 +28,9 @@ export class JobsComponent implements OnInit {
     'Ações'
   ];
 
+  /** Etapas da ordem de serviço
+   * Irei mudar para o banco de dados futuramente
+   */
   all: number;
   atendimento: number;
   desenvolvimento: number;
@@ -38,6 +41,7 @@ export class JobsComponent implements OnInit {
   expedicao: number;
   status: string;
 
+  /** Variaveis da tabela */
   dataSource: MatTableDataSource<Os>;
   selection = new SelectionModel<Os>(true, []);
 
@@ -51,6 +55,7 @@ export class JobsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    //lista todas as ordens de serviço ao iniciar
     this.list(['deleted', 'equal to', 'false']);
     this.production.title = 'Trabalhos';
   }
@@ -83,6 +88,7 @@ export class JobsComponent implements OnInit {
       });
   }
 
+  /** Muda a busca caso queira buscar todos */
   onFlow(query: string) {
     if (query == 'all') {
       this.list(['deleted', 'equal to', 'false']);
@@ -188,6 +194,7 @@ export class JobsComponent implements OnInit {
     }
   }
 
+  /** Entra na pagina de cadastro de ordem de servico */
   onAdd() {
     if (localStorage.getItem('_id')) {
       localStorage.removeItem('_id');
