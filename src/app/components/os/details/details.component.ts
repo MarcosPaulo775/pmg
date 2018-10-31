@@ -2,22 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { OsService } from 'src/app/core/http/os.service';
 import { Item, Result_Item } from '../../../shared/models/api';
-import { Os, Detail } from 'src/app/shared/models/os';
-
-export interface PeriodicElement {
-  position: number;
-  cor: string;
-  lineatura_1: number;
-  lineatura_2: number;
-  angulo: number;
-  jogos: number;
-  configs: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 0, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla' },
-  { position: 1, cor: 'Verde', lineatura_1: 2, lineatura_2: 2, angulo: 2, jogos: 2, configs: 'bla' },
-];
+import { Os, Detail, Color } from 'src/app/shared/models/os';
 
 @Component({
   selector: 'app-details',
@@ -25,9 +10,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./details.component.css']
 })
 export class DetailsComponent implements OnInit {
-
-  displayedColumns: string[] = ['position', 'cor', 'lineatura_1', 'lineatura_2', 'angulo', 'jogos', 'configs', 'excluir'];
-  dataSource = ELEMENT_DATA;
 
   step = -1;
 
@@ -53,7 +35,18 @@ export class DetailsComponent implements OnInit {
   local: string[];
   substrato: string[];
   face: string[];
+
+  detail: Detail;
+  color: Color;
+  colors: Color[] = [
+    {name: 'Preto', hexa: "#000000"},
+    {name: 'Amarelo', hexa: '#ffff00'},
+    {name: 'Magenta', hexa: '#ff00ff'},
+    {name: 'Ciano', hexa: '#00ffff'}
+  ];
+
   cliche: FormGroup;
+  cores: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -70,6 +63,10 @@ export class DetailsComponent implements OnInit {
       camada: [null, []],
       local: [null, []],
       observacoes: [null, []],
+    });
+
+    this.cores = this.formBuilder.group({
+      nome: [null, []],
     });
 
     if(localStorage.getItem('_id_Detail')){
@@ -174,7 +171,6 @@ export class DetailsComponent implements OnInit {
       }, (data) => { });
   }
 
-  detail: Detail;
   save(n: string) {
 
     if (n = 'cliche') {
@@ -190,6 +186,14 @@ export class DetailsComponent implements OnInit {
         .subscribe((data) => {
         }, (data) => { }
         );
+    }
+    if (n = 'cores'){
+
+      this.color = new Color();
+
+      this.color.name = this.cores.get('nome').value;
+      console.log(this.color.name);
+
     }
   }
 

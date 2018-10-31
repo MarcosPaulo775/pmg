@@ -18,42 +18,42 @@
       <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
         <mat-form-field *ngIf="tecnologia">
           <mat-select placeholder="Tecnologia" formControlName="tecnologia">
-            <mat-option *ngFor="let value of tecnologia" [value]="value" >
+            <mat-option *ngFor="let value of tecnologia" [value]="value">
               {{value}}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field *ngIf="variacao">
           <mat-select placeholder="Variação" formControlName="variacao">
-            <mat-option *ngFor="let value of variacao" [value]="value" >
+            <mat-option *ngFor="let value of variacao" [value]="value">
               {{value}}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field *ngIf="material">
           <mat-select placeholder="Material" formControlName="material">
-            <mat-option *ngFor="let value of material" [value]="value" >
+            <mat-option *ngFor="let value of material" [value]="value">
               {{value}}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field *ngIf="lineatura">
           <mat-select placeholder="Lineatura" formControlName="lineatura">
-            <mat-option *ngFor="let value of lineatura" [value]="value" >
+            <mat-option *ngFor="let value of lineatura" [value]="value">
               {{value}}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field *ngIf="espessura">
           <mat-select placeholder="Espessura" formControlName="espessura">
-            <mat-option *ngFor="let value of espessura" [value]="value" >
+            <mat-option *ngFor="let value of espessura" [value]="value">
               {{value}}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field *ngIf="camada">
           <mat-select placeholder="Camada" formControlName="camada">
-            <mat-option *ngFor="let value of camada" [value]="value" >
+            <mat-option *ngFor="let value of camada" [value]="value">
               {{value}}
             </mat-option>
           </mat-select>
@@ -62,7 +62,7 @@
       <div>
         <mat-form-field *ngIf="local">
           <mat-select placeholder="Local da Gravação" formControlName="local">
-            <mat-option *ngFor="let value of local" [value]="value" >
+            <mat-option *ngFor="let value of local" [value]="value">
               {{value}}
             </mat-option>
           </mat-select>
@@ -99,45 +99,26 @@
     <div fxLayoutGap="20px" class="divTable">
 
       <!--Conteudo-->
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Cores">
-      </mat-form-field>
 
-      <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Lineatura">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Lineatura 2">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Angulo">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Jogos">
-        </mat-form-field>
-        <mat-checkbox>Fot</mat-checkbox>
-        <mat-checkbox>Unit</mat-checkbox>
-        <mat-checkbox>Cam</mat-checkbox>
-      </div>
+      <form [formGroup]="cores">
 
-      <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
-        <button mat-button class="button_blue">
-          Adicionar CMYK
-        </button>
-        <button mat-button class="button_blue">
-          Adicionar Cor
-        </button>
-      </div>
+        <mat-form-field>
+          <input type="text" placeholder="Adicione uma cor" aria-label="Number" matInput [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let value of colors" [value]="value.name">
+              <div fxLayout="row" align="center center">
+                <div>
+                  <mat-icon [style.color]="value.hexa">fiber_manual_record</mat-icon>
+                </div>
+                <div>
+                  {{value.name}}
+                </div>
+              </div>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
 
-      <div fxLayout="column" fxLayoutGap="10px">
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Perfil de cor">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <textarea matInput placeholder="Observações"></textarea>
-        </mat-form-field>
-      </div>
+      </form>
 
       <!--/Conteudo-->
 
@@ -145,7 +126,7 @@
         <button mat-button class="button_red" (click)="prevStep()" matTooltip="Voltar">
           <mat-icon>undo</mat-icon>
         </button>
-        <button mat-button class="button_blue" (click)="nextStep()" matTooltip="Salvar">
+        <button mat-button class="button_blue" (click)="nextStep('cores')" matTooltip="Salvar">
           <mat-icon>save</mat-icon>
         </button>
       </mat-action-row>

@@ -72,12 +72,10 @@ export class Detail {
 }
 
 export class Color {
-  nome?: string;
+  name?: string;
+  hexa?: string;
   lineatura1?: string;
   lineatura2?: string;
   angulo?: string;
   jogos?: string;
-  fot?: boolean;
-  unit?: boolean;
-  cam?: boolean;
 }
