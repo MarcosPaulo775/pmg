@@ -24,7 +24,6 @@ export class OsComponent implements OnInit {
   details_view: boolean;
   details: FormGroup;
   progress: Subject<number>;
-  myControl = new FormControl();
 
   tecnologia: string[];
   variacao: string[];
@@ -37,8 +36,6 @@ export class OsComponent implements OnInit {
   face: string[];
   angulo: string[];
   perfil: string[];
-
-  color: Color;
 
   filteredColors: Observable<Color[]>;
 
@@ -56,14 +53,7 @@ export class OsComponent implements OnInit {
     public snackBar: MatSnackBar,
     private router: Router,
     private http: HttpClient
-  ) {
-
-    this.filteredColors = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(color => color ? this._filter(color) : this.colors.slice())
-      );
-   }
+  ) { }
 
   private _filter(value: string): Color[] {
     const filterValue = value.toLowerCase();
@@ -88,8 +78,16 @@ export class OsComponent implements OnInit {
       angulo: [null, []],
       perfil: [null, []],
       observacoes_cores: [null, []],
-      observacoes_cliche: [null, []]
+      observacoes_cliche: [null, []],
+
+      cor: [null, []]
     });
+
+    this.filteredColors = this.details.get('cor').valueChanges
+      .pipe(
+        startWith(''),
+        map(color => color ? this._filter(color) : this.colors.slice())
+      );
 
     this.form = this.formBuilder.group({
       cliente: [null, [Validators.required]],

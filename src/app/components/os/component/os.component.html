@@ -177,8 +177,7 @@
 
                 <div>
                   <mat-form-field class="mat-form-color">
-                    <input type="text" placeholder="Adicione uma cor" aria-label="Number" matInput [matAutocomplete]="auto"
-                      [formControl]="myControl">
+                    <input type="text" placeholder="Adicione uma cor" aria-label="Number" matInput [matAutocomplete]="auto" formControlName="cor">
                     <mat-autocomplete #auto="matAutocomplete">
                       <mat-option *ngFor="let color of filteredColors | async" [value]="color.Color">
                         <div fxLayout="row" align="center center">
@@ -236,6 +235,17 @@
 
               </div>
 
+              <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
+                <button mat-button class="button_blue_light" matTooltip="Adicionar ordem de serviço" (click)="onAdd()">
+                  <mat-icon>add</mat-icon> Adicionar Cor
+                </button>
+
+                <button mat-button class="button_blue_light" matTooltip="Adicionar ordem de serviço" (click)="onAdd()">
+                  <mat-icon>add</mat-icon> Adicionar CMYK
+                </button>
+              </div>
+
+
               <div>
                 <table>
                   <thead>
@@ -256,7 +266,17 @@
                       <td>value.lineatura2</td>
                       <td>value.angulo</td>
                       <td>value.jogos</td>
-                      <td></td>
+                      <td>
+                        <div>
+                          <mat-checkbox disabled="true" checked="true">Fotocélula</mat-checkbox>
+                        </div>
+                        <div>
+                          <mat-checkbox disabled="true" checked="true">Unitario</mat-checkbox>
+                        </div>
+                        <div>
+                          <mat-checkbox disabled="true" checked="true">Camerom</mat-checkbox>
+                        </div>
+                      </td>
                       <td>
                         <button mat-button matTooltip="Excluir" (click)="onDelete(row._id)">
                           <mat-icon>delete</mat-icon>
