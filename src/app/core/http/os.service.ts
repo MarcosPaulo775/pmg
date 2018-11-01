@@ -73,7 +73,7 @@ export class OsService {
  
      } 
 
-    public custom_objects_list(collection, query, field: string) {
+    public custom_objects_list(collection, query, field) {
 
         return this.http.post(
             URL.server,
@@ -82,7 +82,7 @@ export class OsService {
                 'method': 'custom_objects.list',
                 'collection': collection,
                 'query': query,
-                'fields': { '': field }
+                'fields': field
             }
         )
     }
