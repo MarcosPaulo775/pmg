@@ -39,6 +39,8 @@ export class OsComponent implements OnInit {
 
   filteredColors: Observable<Color[]>;
 
+  color: Color;
+
   colors: Color[] = [
     { Color: 'Preto', Hex: "#000000" },
     { Color: 'Amarelo', Hex: '#ffff00' },
@@ -76,14 +78,18 @@ export class OsComponent implements OnInit {
       camada: [null, []],
       local: [null, []],
       angulo: [null, []],
+      jogos: [null, []],
       perfil: [null, []],
       observacoes_cores: [null, []],
       observacoes_cliche: [null, []],
 
-      cor: [null, []]
+      color: [null, []],
+      fotocelula: [null, []],
+      unitario: [null, []],
+      camerom: [null, []]
     });
 
-    this.filteredColors = this.details.get('cor').valueChanges
+    this.filteredColors = this.details.get('color').valueChanges
       .pipe(
         startWith(''),
         map(color => color ? this._filter(color) : this.colors.slice())
@@ -330,6 +336,72 @@ export class OsComponent implements OnInit {
     }
   }
 
+  onAdd() {
+
+    this.getColor();
+
+    if (this.color.Color) {
+      if (this.os.colors[0] == null) {
+        this.os.colors = new Array<Color>();
+        this.color._id = 1;
+      } else {
+        this.color._id = this.os.colors[this.os.colors.length - 1]._id + 1;
+      }
+
+      for (let i = 0; i < this.colors.length; i++) {
+        if (this.color.Color === this.colors[i].Color) {
+          this.color.Hex = this.colors[i].Hex;
+        }
+      }
+
+      this.os.colors.push(this.color);
+
+      this.onSubmit();
+
+      this.clearColor();
+    }
+  }
+
+  onDeleteColor(_id) {
+
+    let temp = new Array<Color>();
+
+    for (let i = 0; i < this.os.colors.length; i++) {
+      if (_id != this.os.colors[i]._id) {
+        temp.push(this.os.colors[i]);
+      }
+    }
+
+    this.os.colors = temp;
+    this.update();
+  }
+
+  getColor() {
+
+    this.color = new Color();
+
+    this.color.Color = this.details.get('color').value;
+    this.color.lineatura1 = this.details.get('lineatura_1').value;
+    this.color.lineatura2 = this.details.get('lineatura_2').value;
+    this.color.angulo = this.details.get('angulo').value;
+    this.color.fotocelula = this.details.get('fotocelula').value;
+    this.color.unitario = this.details.get('unitario').value;
+    this.color.camerom = this.details.get('camerom').value;
+    this.color.jogos = String(this.details.get('jogos').value);
+
+  }
+
+  clearColor() {
+    this.details.get('color').setValue(null);
+    this.details.get('lineatura_1').setValue(null);
+    this.details.get('lineatura_2').setValue(null);
+    this.details.get('angulo').setValue(null);
+    this.details.get('fotocelula').setValue(null);
+    this.details.get('unitario').setValue(null);
+    this.details.get('camerom').setValue(null);
+    this.details.get('jogos').setValue(null);
+  }
+
   /** Salva uma Ordem de serviço nova no banco de dados*/
   save() {
 
@@ -354,6 +426,7 @@ export class OsComponent implements OnInit {
           this.openSnackBar('Erro ao salvar', 'OK');
         });
     }
+
     // Salva uma totalmente nova
     else {
       this.osService.custom_objects_create('Os', this.os)
@@ -372,7 +445,6 @@ export class OsComponent implements OnInit {
         });
     }
   }
-
 
   /** Cria um numero para Ordem de servico */
   nOs() {

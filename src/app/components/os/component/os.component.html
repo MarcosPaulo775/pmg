@@ -177,7 +177,8 @@
 
                 <div>
                   <mat-form-field class="mat-form-color">
-                    <input type="text" placeholder="Adicione uma cor" aria-label="Number" matInput [matAutocomplete]="auto" formControlName="cor">
+                    <input type="text" placeholder="Adicione uma cor" aria-label="Number" matInput [matAutocomplete]="auto"
+                      formControlName="color">
                     <mat-autocomplete #auto="matAutocomplete">
                       <mat-option *ngFor="let color of filteredColors | async" [value]="color.Color">
                         <div fxLayout="row" align="center center">
@@ -222,29 +223,31 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-
-                <div>
-                  <mat-checkbox>Fotocélula</mat-checkbox>
-                </div>
-                <div>
-                  <mat-checkbox>Unitario</mat-checkbox>
-                </div>
-                <div>
-                  <mat-checkbox>Camerom</mat-checkbox>
-                </div>
-
               </div>
+
+              <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field>
+                  <input matInput placeholder="Jogos" type="number" formControlName="jogos">
+                </mat-form-field>
+
+                <div>
+                  <mat-checkbox formControlName="fotocelula">Fotocélula</mat-checkbox>
+                </div>
+                <div>
+                  <mat-checkbox formControlName="unitario">Unitario</mat-checkbox>
+                </div>
+                <div>
+                  <mat-checkbox formControlName="camerom">Camerom</mat-checkbox>
+                </div>
+              </div>
+
+              
 
               <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
-                <button mat-button class="button_blue_light" matTooltip="Adicionar ordem de serviço" (click)="onAdd()">
+                <button mat-button class="button_blue_light" matTooltip="Adiciona a cor do formulario" (click)="onAdd()">
                   <mat-icon>add</mat-icon> Adicionar Cor
                 </button>
-
-                <button mat-button class="button_blue_light" matTooltip="Adicionar ordem de serviço" (click)="onAdd()">
-                  <mat-icon>add</mat-icon> Adicionar CMYK
-                </button>
               </div>
-
 
               <div>
                 <table>
@@ -260,25 +263,34 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>value.Color</td>
-                      <td>value.lineatura1</td>
-                      <td>value.lineatura2</td>
-                      <td>value.angulo</td>
-                      <td>value.jogos</td>
+                    <tr *ngFor="let color of os.colors">
+                      <td>
+                        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+                          <div>
+                            <mat-icon [style.color]="color.Hex">fiber_manual_record</mat-icon>
+                          </div>
+                          <div>
+                            {{color.Color}}
+                          </div>
+                        </div>
+                      </td>
+                      <td>{{color.lineatura1}}</td>
+                      <td>{{color.lineatura2}}</td>
+                      <td>{{color.angulo}}</td>
+                      <td>{{color.jogos}}</td>
                       <td>
                         <div>
-                          <mat-checkbox disabled="true" checked="true">Fotocélula</mat-checkbox>
+                          <mat-checkbox disabled="true" [checked]="color.fotocelula">Fotocélula</mat-checkbox>
                         </div>
                         <div>
-                          <mat-checkbox disabled="true" checked="true">Unitario</mat-checkbox>
+                          <mat-checkbox disabled="true" [checked]="color.unitario">Unitario</mat-checkbox>
                         </div>
                         <div>
-                          <mat-checkbox disabled="true" checked="true">Camerom</mat-checkbox>
+                          <mat-checkbox disabled="true" [checked]="color.camerom">Camerom</mat-checkbox>
                         </div>
                       </td>
                       <td>
-                        <button mat-button matTooltip="Excluir" (click)="onDelete(row._id)">
+                        <button mat-button matTooltip="Excluir" (click)="onDeleteColor(color._id)">
                           <mat-icon>delete</mat-icon>
                         </button>
                       </td>
