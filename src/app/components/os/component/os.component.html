@@ -72,7 +72,8 @@
                       <!--button mat-button type="reset" (click)="onDelete()" class="button_red" matTooltip="Deletar" *ngIf="details">
                         <mat-icon>delete</mat-icon>
                       </button-->
-                      <button mat-button type="button" class="button_orange" (click)="onVersion()" matTooltip="Nova Versão" *ngIf="details">
+                      <button mat-button type="button" class="button_orange" (click)="onVersion()" matTooltip="Nova Versão"
+                        *ngIf="details">
                         <mat-icon>toll</mat-icon>
                       </button>
                       <button mat-button type="button" class="button_blue" (click)="onSubmit()" matTooltip="Salvar">
@@ -88,8 +89,8 @@
 
         <mat-tab label="Arquivo">
 
-          <input type="file" (change)="inputFileChange($event)"/>
-          
+          <input type="file" (change)="inputFileChange($event)" />
+
           <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress | async"></mat-progress-bar>
           <p>
             {{percentDone}}
@@ -100,14 +101,225 @@
 
     </div>
 
-    <div *ngIf="details">
+    <div *ngIf="details_view">
       <mat-card class="card">
         <mat-card-header>
           <mat-card-title>Detalhes</mat-card-title>
         </mat-card-header>
         <mat-card-content>
 
-          <app-details></app-details>
+          <form [formGroup]="details">
+            <p><strong>Clichê</strong></p>
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
+              <mat-form-field *ngIf="tecnologia">
+                <mat-select placeholder="Tecnologia" formControlName="tecnologia">
+                  <mat-option *ngFor="let value of tecnologia" [value]="value">
+                    {{value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field *ngIf="variacao">
+                <mat-select placeholder="Variação" formControlName="variacao">
+                  <mat-option *ngFor="let value of variacao" [value]="value">
+                    {{value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field *ngIf="material">
+                <mat-select placeholder="Material" formControlName="material">
+                  <mat-option *ngFor="let value of material" [value]="value">
+                    {{value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field *ngIf="lineatura">
+                <mat-select placeholder="Lineatura" formControlName="lineatura">
+                  <mat-option *ngFor="let value of lineatura" [value]="value">
+                    {{value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field *ngIf="espessura">
+                <mat-select placeholder="Espessura" formControlName="espessura">
+                  <mat-option *ngFor="let value of espessura" [value]="value">
+                    {{value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field *ngIf="camada">
+                <mat-select placeholder="Camada" formControlName="camada">
+                  <mat-option *ngFor="let value of camada" [value]="value">
+                    {{value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field *ngIf="local">
+                <mat-select placeholder="Local da Gravação" formControlName="local">
+                  <mat-option *ngFor="let value of local" [value]="value">
+                    {{value}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="Observações do Clichê" formControlName="observacoes_cliche"></textarea>
+              </mat-form-field>
+            </div>
+
+            <p></p>
+
+            <p><strong>Cores</strong></p>
+
+            <div fxLayout="column" fxLayoutGap="10px">
+
+              <div fxLayout="row" fxLayoutGap="10px">
+
+                <div>
+                  <mat-form-field class="mat-form-color">
+                    <input type="text" placeholder="Adicione uma cor" aria-label="Number" matInput [matAutocomplete]="auto"
+                      formControlName="color">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let color of filteredColors | async" [value]="color.Color">
+                        <div fxLayout="row" align="center center">
+                          <div>
+                            <mat-icon [style.color]="color.Hex">fiber_manual_record</mat-icon>
+                          </div>
+                          <div>
+                            {{color.Color}}
+                          </div>
+                        </div>
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <mat-form-field *ngIf="lineatura">
+                    <mat-select placeholder="Lineatura 1" formControlName="lineatura_1">
+                      <mat-option *ngFor="let value of lineatura" [value]="value">
+                        {{value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <mat-form-field *ngIf="lineatura">
+                    <mat-select placeholder="Lineatura 2" formControlName="lineatura_2">
+                      <mat-option *ngFor="let value of lineatura" [value]="value">
+                        {{value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <mat-form-field *ngIf="angulo">
+                    <mat-select placeholder="Angulo" formControlName="angulo">
+                      <mat-option *ngFor="let value of angulo" [value]="value">
+                        {{value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field>
+                  <input matInput placeholder="Jogos" type="number" formControlName="jogos">
+                </mat-form-field>
+
+                <div>
+                  <mat-checkbox formControlName="fotocelula">Fotocélula</mat-checkbox>
+                </div>
+                <div>
+                  <mat-checkbox formControlName="unitario">Unitario</mat-checkbox>
+                </div>
+                <div>
+                  <mat-checkbox formControlName="camerom">Camerom</mat-checkbox>
+                </div>
+              </div>
+
+              <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
+                <button mat-button class="button_blue_light" matTooltip="Adiciona a cor do formulario" (click)="onAdd()">
+                  <mat-icon>add</mat-icon> Adicionar Cor
+                </button>
+              </div>
+
+              <div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Cor</th>
+                      <th>Lineatura 1</th>
+                      <th>Lineatura 2</th>
+                      <th>Angulo</th>
+                      <th>Jogos</th>
+                      <th>Configuração</th>
+                      <th>Excluir</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let color of os.colors">
+                      <td>
+                        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+                          <div>
+                            <mat-icon [style.color]="color.Hex">fiber_manual_record</mat-icon>
+                          </div>
+                          <div>
+                            {{color.Color}}
+                          </div>
+                        </div>
+                      </td>
+                      <td>{{color.lineatura1}}</td>
+                      <td>{{color.lineatura2}}</td>
+                      <td>{{color.angulo}}</td>
+                      <td>{{color.jogos}}</td>
+                      <td>
+                        <div>
+                          <mat-checkbox disabled="true" [checked]="color.fotocelula">Fotocélula</mat-checkbox>
+                        </div>
+                        <div>
+                          <mat-checkbox disabled="true" [checked]="color.unitario">Unitario</mat-checkbox>
+                        </div>
+                        <div>
+                          <mat-checkbox disabled="true" [checked]="color.camerom">Camerom</mat-checkbox>
+                        </div>
+                      </td>
+                      <td>
+                        <button mat-button matTooltip="Excluir" (click)="onDeleteColor(color._id)">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div>
+
+                <div>
+                  <mat-form-field *ngIf="perfil">
+                    <mat-select placeholder="Perfil de cor" formControlName="perfil">
+                      <mat-option *ngFor="let value of perfil" [value]="value">
+                        {{value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <mat-form-field class="full-width">
+                    <textarea matInput placeholder="Observações das cores" formControlName="observacoes_cores"></textarea>
+                  </mat-form-field>
+                </div>
+
+              </div>
+
+            </div>
+
+          </form>
 
         </mat-card-content>
       </mat-card>

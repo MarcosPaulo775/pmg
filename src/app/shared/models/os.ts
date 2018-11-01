@@ -8,16 +8,8 @@ export class Os {
   data?: string;
   codigo?: string;
   barra?: string;
-  detail?: Detail;
   deleted?: string;
   status?: string;
-  error_code?: string;
-  error?: string;
-}
-
-export class Detail {
-  _id?: string;
-  os?: string;
 
   //cliche
   tecnologia?: string;
@@ -72,10 +64,17 @@ export class Detail {
 }
 
 export class Color {
-  name?: string;
-  hexa?: string;
+  _id?: number;
+  Color?: string;
+  Hex?: string;
+  Blue?: string;
+  Green?: string;
+  Red?: string;
   lineatura1?: string;
   lineatura2?: string;
   angulo?: string;
   jogos?: string;
+  fotocelula?: boolean;
+  unitario?: boolean;
+  camerom?: boolean;
 }

@@ -5,7 +5,6 @@ import { OsRoutingModule } from './os-routing.module';
 import { OsComponent } from './component/os.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
-import { DetailsComponent } from './details/details.component';
 import { OsService } from '../../core/http/os.service';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -17,7 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [OsService],
-  entryComponents: [DetailsComponent],
-  declarations: [OsComponent, DetailsComponent],
+  entryComponents: [],
+  declarations: [OsComponent],
 })
 export class OsModule { }

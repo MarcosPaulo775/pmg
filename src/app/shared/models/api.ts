@@ -1,4 +1,4 @@
-import { Os, Detail } from "./os";
+import { Os, Color } from "./os";
 
 export interface Session{
     session: string;
@@ -8,12 +8,6 @@ export interface Session{
 
 export interface Result_OS{
     results: Array<Os>;
-    error_code: string;
-    error: string;
-}
-
-export interface Result_Detail{
-    results: Array<Detail>;
     error_code: string;
     error: string;
 }
@@ -31,6 +25,12 @@ export interface Item{
 
 export interface Result_Item{
     results: Item[];
+    error_code: string;
+    error: string;
+}
+
+export interface Result_Color{
+    results: Color[];
     error_code: string;
     error: string;
 }
