@@ -18,6 +18,10 @@ const routes: Routes = [
         path: 'companies',
         loadChildren: '../companies/companies.module#CompaniesModule'
       },
+      {
+        path: 'register',
+        loadChildren: '../register/register.module#RegisterModule'
+      },
     ]
   }
 ];
