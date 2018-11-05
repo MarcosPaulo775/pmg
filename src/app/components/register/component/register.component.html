@@ -5,42 +5,45 @@
       <mat-card-title>Dados Básicos</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
-        <div>
-          <mat-form-field>
-            <mat-select placeholder="Solicitante / Vendas:">
-              <mat-option *ngFor="let user of users" [value]="user">
-                {{user}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-checkbox>Novo cadastro</mat-checkbox>
-        </div>
-      </div>
 
-      <div fxLayout="row" fxLayoutGap="10px">
+      <form [formGroup]="basicos">
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
-          <p>Tipo de cliente:</p>
-          <mat-checkbox>Pessoa física</mat-checkbox>
-          <mat-checkbox>Pessoa Juridica</mat-checkbox>
+          <div>
+            <mat-form-field>
+              <mat-select placeholder="Solicitante / Vendas" formControlName="solicitante">
+                <mat-option *ngFor="let user of users" [value]="user">
+                  {{user}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-checkbox formControlName="novo">Novo cadastro</mat-checkbox>
+          </div>
         </div>
-
-        <div>
-          <mat-form-field>
-            <input matInput placeholder="Cliente principal">
-          </mat-form-field>
+  
+        <div fxLayout="row" fxLayoutGap="10px">
+          <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+            <p>Tipo de cliente:</p>
+            <mat-checkbox formControlName="fisica">Pessoa física</mat-checkbox>
+            <mat-checkbox formControlName="juridica">Pessoa Juridica</mat-checkbox>
+          </div>
+  
+          <div>
+            <mat-form-field>
+              <input matInput placeholder="Cliente principal" formControlName="principal">
+            </mat-form-field>
+          </div>
+  
+          <div style="flex-grow: 1;"></div>
+  
+          <div>
+            <button mat-button type="button" class="button_blue" (click)="onSubmit()" matTooltip="Salvar">
+              <mat-icon>save</mat-icon>
+            </button>
+          </div>
         </div>
-
-        <div style="flex-grow: 1;"></div>
-
-        <div>
-          <button mat-button type="button" class="button_blue" (click)="onSubmit()" matTooltip="Salvar">
-            <mat-icon>save</mat-icon>
-          </button>
-        </div>
-      </div>
+      </form>
 
     </mat-card-content>
   </mat-card>
@@ -220,7 +223,6 @@
             </mat-form-field>
 
             <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
-              <p>Consultas:</p>
               <mat-checkbox>Consulta Serasa</mat-checkbox>
               <mat-checkbox>Cartão CNPJ e Insc. Estadual</mat-checkbox>
             </div>
