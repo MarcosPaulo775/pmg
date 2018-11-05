@@ -1,0 +1,36 @@
+<mat-drawer-container class="container" autosize>
+  <mat-drawer #drawer class="sidenav" [mode]="'side'" opened>
+    <!--opened-->
+    <div align="center">
+      <p></p>
+      <img mat-card-avatar [src]="'assets/logo.svg'" alt="image">
+      <p></p>
+      <div fxLayout="column" fxLayoutGap="5px">
+
+        <a mat-button href="#" routerLink="/dashboard">
+          <mat-icon>dashboard</mat-icon>
+          Dashboard
+        </a>
+
+        <a mat-button href="#" routerLink="/config">
+          <mat-icon>location_city</mat-icon>
+          Empresas
+        </a>
+
+      </div>
+    </div>
+  </mat-drawer>
+
+  <div class="sidenav-content">
+    <mat-toolbar fxLayoutGap="20px">
+      <button type="button" mat-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <p>{{title}}</p>
+    </mat-toolbar>
+    <div class="contend">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</mat-drawer-container>

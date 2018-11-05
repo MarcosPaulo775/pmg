@@ -22,6 +22,16 @@ const routes: Routes = [
     loadChildren: './components/production/production.module#ProductionModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'config',
+    loadChildren: './components/config/config.module#ConfigModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'crm',
+    loadChildren: './components/crm/crm.module#CrmModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({
