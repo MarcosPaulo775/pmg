@@ -11,9 +11,13 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '',
+        redirectTo: 'companies',
         pathMatch: 'full'
-      }
+      },
+      {
+        path: 'companies',
+        loadChildren: '../companies/companies.module#CompaniesModule'
+      },
     ]
   }
 ];

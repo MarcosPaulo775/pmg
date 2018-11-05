@@ -1,0 +1,45 @@
+<mat-card>
+  <div fxLayout="column" fxLayoutGap="10px">
+    <div>
+      <button mat-button class="button_blue_light" matTooltip="Adiciona a cor do formulario" (click)="onAdd()">
+        <mat-icon>add</mat-icon> Adicionar Empresa
+      </button>
+    </div>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Status</th>
+            <th>CNPJ</th>
+            <th>CPF</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>nome</td>
+            <td>Status</td>
+            <td>CNPJ</td>
+            <td>CPF</td>
+            <td>
+              <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column">
+                <button mat-button matTooltip="Visualizar" (click)="openDialog()">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+
+                <button mat-button matTooltip="Editar" (click)="onEdit()">
+                  <mat-icon>edit</mat-icon>
+                </button>
+
+                <button mat-button matTooltip="Excluir" (click)="onDelete()">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</mat-card>
