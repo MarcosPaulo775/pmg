@@ -12,4 +12,10 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   }
 
+  users: string[] = [
+    'Leo',
+    'Sidnei',
+    'Lorival'
+  ]
+
 }
