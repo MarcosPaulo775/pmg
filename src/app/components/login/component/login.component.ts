@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
           if (data.error != 'invalid_username_or_password' && data.session != null) {
             localStorage.setItem('session', data.session);
             this.openSnackBar("Logou", "OK");
-            this.router.navigate(['/production']);
+            this.router.navigate(['/dashboard']);
           } else {
             this.openSnackBar("Usuário ou senha inválido", "OK");
             if (localStorage.getItem('session')) {
