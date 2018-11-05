@@ -25,6 +25,7 @@ export class OsComponent implements OnInit {
   details: FormGroup;
   progress: Subject<number>;
 
+  pedidos: string[];
   tecnologia: string[];
   variacao: string[];
   material: string[];
@@ -98,7 +99,7 @@ export class OsComponent implements OnInit {
     this.form = this.formBuilder.group({
       cliente: [null, [Validators.required]],
       nome: [null, [Validators.required]],
-      pedido: [null, [Validators.required]],
+      pedidos: [null, [Validators.required]],
       codigo: [null, [Validators.required]],
       data: [null, [Validators.required]],
       barra: [null, [Validators.required]]
@@ -107,7 +108,20 @@ export class OsComponent implements OnInit {
     if (localStorage.getItem('_id')) {
       this.getOs();
     }
-    else { }
+    else {
+
+      this.osService.custom_objects_list('request', '', { '': 'name' })
+        .subscribe((data: Result_Item) => {
+          if (data.error_code == null) {
+            this.pedidos = new Array<string>();
+            for (let i = 0; i < data.results.length; i++) {
+              this.pedidos.push(data.results[i].name);
+            }
+          }
+        }, (data) => {
+        });
+    }
+
   }
 
   /** Upload de arquivo */
@@ -152,10 +166,22 @@ export class OsComponent implements OnInit {
           this.os = data;
           this.form.get('nome').setValue(this.os.nome);
           this.form.get('cliente').setValue(this.os.cliente);
-          this.form.get('pedido').setValue(this.os.pedido);
           this.form.get('data').setValue(this.os.data);
           this.form.get('codigo').setValue(this.os.codigo);
           this.form.get('barra').setValue(this.os.barra);
+
+          this.osService.custom_objects_list('request', '', { '': 'name' })
+            .subscribe((data: Result_Item) => {
+              if (data.error_code == null) {
+                this.pedidos = new Array<string>();
+                for (let i = 0; i < data.results.length; i++) {
+                  this.pedidos.push(data.results[i].name);
+                }
+                this.form.get('pedidos').setValue(this.os.pedido);
+              }
+            }, (data) => {
+            });
+
           this.getDetail();
           this.details_view = true;
         } else {
@@ -297,7 +323,7 @@ export class OsComponent implements OnInit {
   getForm() {
     this.os.nome = this.form.get('nome').value;
     this.os.cliente = this.form.get('cliente').value;
-    this.os.pedido = this.form.get('pedido').value;
+    this.os.pedido = this.form.get('pedidos').value;
     this.os.data = this.form.get('data').value;
     this.os.codigo = this.form.get('codigo').value;
     this.os.barra = this.form.get('barra').value;
@@ -347,7 +373,6 @@ export class OsComponent implements OnInit {
       } else {
         this.color._id = this.os.colors[this.os.colors.length - 1]._id + 1;
       }
-
       for (let i = 0; i < this.colors.length; i++) {
         if (this.color.Color === this.colors[i].Color) {
           this.color.Hex = this.colors[i].Hex;
