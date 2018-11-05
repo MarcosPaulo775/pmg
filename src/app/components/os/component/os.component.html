@@ -27,8 +27,12 @@
                         </div>
 
                         <div>
-                          <mat-form-field class="full-width">
-                            <input matInput placeholder="Pedido" formControlName="pedido" autocomplete="off">
+                          <mat-form-field *ngIf="pedidos">
+                            <mat-select placeholder="Pedido" formControlName="pedidos">
+                              <mat-option *ngFor="let value of pedidos" [value]="value">
+                                {{value}}
+                              </mat-option>
+                            </mat-select>
                           </mat-form-field>
                         </div>
                       </div>
