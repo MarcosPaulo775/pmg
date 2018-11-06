@@ -21,15 +21,15 @@ export class ApiService {
 
     }
 
-    public custom_objects_count(){
+    public custom_objects_count(collection, query){
 
         return this.http.post(
             URL.server,
             {
                 'session': localStorage.getItem('session'),
                 'method': 'custom_objects.count',
-                'collection': 'Os',
-                'query': ' '
+                'collection': collection,
+                'query': query
             }
         )
 

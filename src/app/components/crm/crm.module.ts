@@ -5,7 +5,6 @@ import { CrmRoutingModule } from './crm-routing.module';
 import { CrmComponent } from './component/crm.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
-import { JobsService } from '../../core/http/jobs.service';
 
 @NgModule({
   imports: [
@@ -13,7 +12,7 @@ import { JobsService } from '../../core/http/jobs.service';
     CrmRoutingModule,
     SharedModule
   ],
-  providers: [JobsService],
+  providers: [],
   entryComponents: [],
   declarations: [CrmComponent],
 })

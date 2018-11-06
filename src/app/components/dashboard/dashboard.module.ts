@@ -5,7 +5,6 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './component/dashboard.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
-import { JobsService } from '../../core/http/jobs.service';
 
 @NgModule({
   imports: [
@@ -13,7 +12,7 @@ import { JobsService } from '../../core/http/jobs.service';
     DashboardRoutingModule,
     SharedModule
   ],
-  providers: [JobsService],
+  providers: [],
   entryComponents: [],
   declarations: [DashboardComponent],
 })

@@ -5,7 +5,7 @@ import { OsRoutingModule } from './os-routing.module';
 import { OsComponent } from './component/os.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
-import { OsService } from '../../core/http/os.service';
+import { ApiService } from '../../core/http/api.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -15,7 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
     SharedModule,
     HttpClientModule
   ],
-  providers: [OsService],
+  providers: [ApiService],
   entryComponents: [],
   declarations: [OsComponent],
 })
