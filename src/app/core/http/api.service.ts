@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import * as URL from './url';
 
 @Injectable()
-export class CloudFlowService {
+export class ApiService {
 
     constructor(private http: HttpClient) { }
 

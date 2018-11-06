@@ -5,6 +5,7 @@ import { RegisterRoutingModule } from './register-routing.module';
 import { RegisterComponent } from './component/register.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
+import { ApiService } from 'src/app/core/http/api.service';
 
 @NgModule({
   imports: [
@@ -12,7 +13,7 @@ import { SharedModule } from '../../shared/modules/shared.module';
     RegisterRoutingModule,
     SharedModule
   ],
-  providers: [],
+  providers: [ApiService],
   entryComponents: [],
   declarations: [RegisterComponent],
 })

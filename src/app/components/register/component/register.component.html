@@ -21,22 +21,22 @@
             <mat-checkbox formControlName="novo">Novo cadastro</mat-checkbox>
           </div>
         </div>
-  
+
         <div fxLayout="row" fxLayoutGap="10px">
           <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
             <p>Tipo de cliente:</p>
             <mat-checkbox formControlName="fisica">Pessoa física</mat-checkbox>
             <mat-checkbox formControlName="juridica">Pessoa Juridica</mat-checkbox>
           </div>
-  
+
           <div>
             <mat-form-field>
               <input matInput placeholder="Cliente principal" formControlName="principal">
             </mat-form-field>
           </div>
-  
+
           <div style="flex-grow: 1;"></div>
-  
+
           <div>
             <button mat-button type="button" class="button_blue" (click)="onSubmit()" matTooltip="Salvar">
               <mat-icon>save</mat-icon>
@@ -55,88 +55,92 @@
     </mat-card-header>
     <mat-card-content>
 
-      <mat-form-field>
-        <input matInput placeholder="Razão Social">
-      </mat-form-field>
+      <form [formGroup]="cadastrais">
 
-      <mat-form-field>
-        <input matInput placeholder="Nome Fantasia">
-      </mat-form-field>
-
-      <mat-form-field>
-        <input matInput placeholder="Endereço">
-      </mat-form-field>
-
-
-      <div fxLayout="row" fxLayoutGap="10px">
         <mat-form-field>
-          <input matInput placeholder="Bairro">
+          <input matInput placeholder="Razão Social" formControlName="razao">
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="Cidade">
+          <input matInput placeholder="Nome Fantasia" formControlName="fantasia">
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="UF">
+          <input matInput placeholder="Endereço" formControlName="endereco">
         </mat-form-field>
-      </div>
 
-      <div fxLayout="row" fxLayoutGap="10px">
+
+        <div fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field>
+            <input matInput placeholder="Bairro" formControlName="bairro">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Cidade" formControlName="cidade">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="UF" formControlName="uf">
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field>
+            <input matInput placeholder="CEP" formControlName="cep">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Tel." formControlName="tel">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Fax" formControlName="fax">
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field>
+            <input matInput placeholder="CNPJ / CPF" formControlName="cnpj_cpf">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="I.E. / RG" formControlName="ie_rg">
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field>
+            <input matInput placeholder="Contato Comercial" formControlName="comercial">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Tel." formControlName="tel_comercial">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="e-mail" formControlName="email_comercial">
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field>
+            <input matInput placeholder="Contato Financeiro" formControlName="financeiro">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Tel." formControlName="tel_financeiro">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="e-mail" formControlName="email_financeiro">
+          </mat-form-field>
+        </div>
+
         <mat-form-field>
-          <input matInput placeholder="CEP">
+          <input matInput placeholder="End. de Cobrança" formControlName="endereco_cobranca">
         </mat-form-field>
 
-        <mat-form-field>
-          <input matInput placeholder="Tel.">
-        </mat-form-field>
-
-        <mat-form-field>
-          <input matInput placeholder="Fax">
-        </mat-form-field>
-      </div>
-
-      <div fxLayout="row" fxLayoutGap="10px">
-        <mat-form-field>
-          <input matInput placeholder="CNPJ / CPF">
-        </mat-form-field>
-
-        <mat-form-field>
-          <input matInput placeholder="I.E. / RG">
-        </mat-form-field>
-      </div>
-
-      <div fxLayout="row" fxLayoutGap="10px">
-        <mat-form-field>
-          <input matInput placeholder="Contato Comercial">
-        </mat-form-field>
-
-        <mat-form-field>
-          <input matInput placeholder="Tel.">
-        </mat-form-field>
-
-        <mat-form-field>
-          <input matInput placeholder="e-mail">
-        </mat-form-field>
-      </div>
-
-      <div fxLayout="row" fxLayoutGap="10px">
-        <mat-form-field>
-          <input matInput placeholder="Contato Financeiro">
-        </mat-form-field>
-
-        <mat-form-field>
-          <input matInput placeholder="Tel.">
-        </mat-form-field>
-
-        <mat-form-field>
-          <input matInput placeholder="e-mail">
-        </mat-form-field>
-      </div>
-
-      <mat-form-field>
-        <input matInput placeholder="End. de Cobrança">
-      </mat-form-field>
+      </form>
 
     </mat-card-content>
   </mat-card>
@@ -155,17 +159,20 @@
             </mat-card-header>
             <mat-card-content>
 
-              <mat-form-field>
-                <input matInput placeholder="NF">
-              </mat-form-field>
+              <form [formGroup]="pagamento">
+                <mat-form-field>
+                  <input matInput placeholder="NF" formControlName="nf">
+                </mat-form-field>
+  
+                <mat-form-field>
+                  <input matInput placeholder="Boleto" formControlName="boleto">
+                </mat-form-field>
+  
+                <mat-form-field>
+                  <input matInput placeholder="Prazo" formControlName="prazo">
+                </mat-form-field>
+              </form>
 
-              <mat-form-field>
-                <input matInput placeholder="Boleto">
-              </mat-form-field>
-
-              <mat-form-field>
-                <input matInput placeholder="Prazo">
-              </mat-form-field>
 
             </mat-card-content>
           </mat-card>
@@ -176,29 +183,31 @@
             </mat-card-header>
             <mat-card-content>
 
-              <mat-form-field>
-                <input matInput placeholder="Digital 1,14">
-              </mat-form-field>
-
-              <mat-form-field>
-                <input matInput placeholder="Digital 1,70">
-              </mat-form-field>
-
-              <mat-form-field>
-                <input matInput placeholder="Digital 2,84">
-              </mat-form-field>
-
-              <mat-form-field>
-                <input matInput placeholder="Kodak NX 1,14">
-              </mat-form-field>
-
-              <mat-form-field>
-                <input matInput placeholder="Kodak NX 1,7">
-              </mat-form-field>
-
-              <mat-form-field>
-                <input matInput placeholder="Margem">
-              </mat-form-field>
+              <form [formGroup]="preco">
+                <mat-form-field>
+                  <input matInput placeholder="Digital 1,14" formControlName="digital_114">
+                </mat-form-field>
+  
+                <mat-form-field>
+                  <input matInput placeholder="Digital 1,70" formControlName="digital_170">
+                </mat-form-field>
+  
+                <mat-form-field>
+                  <input matInput placeholder="Digital 2,84" formControlName="digital_284">
+                </mat-form-field>
+  
+                <mat-form-field>
+                  <input matInput placeholder="Kodak NX 1,14" formControlName="kodak_114">
+                </mat-form-field>
+  
+                <mat-form-field>
+                  <input matInput placeholder="Kodak NX 1,7" formControlName="kodak_170">
+                </mat-form-field>
+  
+                <mat-form-field>
+                  <input matInput placeholder="Margem" formControlName="margem">
+                </mat-form-field>
+              </form>
 
             </mat-card-content>
           </mat-card>
@@ -210,31 +219,33 @@
           </mat-card-header>
           <mat-card-content>
 
-            <mat-form-field>
-              <input matInput placeholder="E-mail para NF’e">
-            </mat-form-field>
-
-            <mat-form-field>
-              <input matInput placeholder="E-mail para envio de materiais">
-            </mat-form-field>
-
-            <mat-form-field>
-              <input matInput placeholder="E-mail de Pedido / Valores">
-            </mat-form-field>
-
-            <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
-              <mat-checkbox>Consulta Serasa</mat-checkbox>
-              <mat-checkbox>Cartão CNPJ e Insc. Estadual</mat-checkbox>
-            </div>
-
-            <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+            <form [formGroup]="outros">
               <mat-form-field>
-                <textarea matInput placeholder="Financeiro"></textarea>
+                <input matInput placeholder="E-mail para NF’e" formControlName="email_nf">
               </mat-form-field>
+  
               <mat-form-field>
-                <textarea matInput placeholder="Diretoria"></textarea>
+                <input matInput placeholder="E-mail para envio de materiais" formControlName="email_materiais">
               </mat-form-field>
-            </div>
+  
+              <mat-form-field>
+                <input matInput placeholder="E-mail de Pedido / Valores" formControlName="email_pedido">
+              </mat-form-field>
+  
+              <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+                <mat-checkbox formControlName="serasa">Consulta Serasa</mat-checkbox>
+                <mat-checkbox formControlName="cartao_cnpj">Cartão CNPJ e Insc. Estadual</mat-checkbox>
+              </div>
+  
+              <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+                <mat-form-field>
+                  <textarea matInput placeholder="Financeiro" formControlName="obs_financeiro"></textarea>
+                </mat-form-field>
+                <mat-form-field>
+                  <textarea matInput placeholder="Diretoria" formControlName="obs_diretoria"></textarea>
+                </mat-form-field>
+              </div>
+            </form>
 
           </mat-card-content>
         </mat-card>

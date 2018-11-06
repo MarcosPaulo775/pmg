@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { ApiService } from 'src/app/core/http/api.service';
+import { Company } from 'src/app/shared/models/company';
 
 @Component({
   selector: 'app-register',
@@ -14,11 +16,16 @@ export class RegisterComponent implements OnInit {
   preco: FormGroup;
   outros: FormGroup;
 
+  company: Company;
+
   constructor(
     private formBuilder: FormBuilder,
+    private apiService: ApiService,
   ) { }
 
   ngOnInit() {
+    this.company = new Company();
+
     this.basicos = this.formBuilder.group({
       solicitante: [null, []],
       novo: [null, []],
@@ -45,7 +52,7 @@ export class RegisterComponent implements OnInit {
       financeiro: [null, []],
       tel_financeiro: [null, []],
       email_financeiro: [null, []],
-      endereco_cobranca: [null, []],      
+      endereco_cobranca: [null, []],
     });
 
     this.pagamento = this.formBuilder.group({
@@ -72,12 +79,162 @@ export class RegisterComponent implements OnInit {
       obs_financeiro: [null, []],
       obs_diretoria: [null, []],
     });
+
+    if (localStorage.getItem('_id_company')) {
+      this.getCompany();
+    }
+    else { }
   }
 
   users: string[] = [
     'Leo',
     'Sidnei',
     'Lorival'
-  ]
+  ];
+
+  getForm() {
+
+    this.company.solicitante = this.basicos.get('solicitante').value;
+    this.company.novo = this.basicos.get('novo').value;
+    this.company.fisica = this.basicos.get('fisica').value;
+    this.company.juridica = this.basicos.get('juridica').value;
+    this.company.principal = this.basicos.get('principal').value;
+
+    this.company.razao = this.cadastrais.get('razao').value;
+    this.company.fantasia = this.cadastrais.get('fantasia').value;
+    this.company.endereco = this.cadastrais.get('endereco').value;
+    this.company.bairro = this.cadastrais.get('bairro').value;
+    this.company.cidade = this.cadastrais.get('cidade').value;
+    this.company.uf = this.cadastrais.get('uf').value;
+    this.company.cep = this.cadastrais.get('cep').value;
+    this.company.tel = this.cadastrais.get('tel').value;
+    this.company.fax = this.cadastrais.get('fax').value;
+    this.company.cnpj_cpf = this.cadastrais.get('cnpj_cpf').value;
+    this.company.ie_rg = this.cadastrais.get('ie_rg').value;
+    this.company.comercial = this.cadastrais.get('comercial').value;
+    this.company.tel_comercial = this.cadastrais.get('tel_comercial').value;
+    this.company.email_comercial = this.cadastrais.get('email_comercial').value;
+    this.company.financeiro = this.cadastrais.get('financeiro').value;
+    this.company.tel_financeiro = this.cadastrais.get('tel_financeiro').value;
+    this.company.email_financeiro = this.cadastrais.get('email_financeiro').value;
+    this.company.endereco_cobranca = this.cadastrais.get('endereco_cobranca').value;
+
+    this.company.nf = this.pagamento.get('nf').value;
+    this.company.boleto = this.pagamento.get('boleto').value;
+    this.company.prazo = this.pagamento.get('prazo').value;
+
+    this.company.digital_114 = this.preco.get('digital_114').value;
+    this.company.digital_170 = this.preco.get('digital_170').value;
+    this.company.digital_284 = this.preco.get('digital_284').value;
+    this.company.kodak_114 = this.preco.get('kodak_114').value;
+    this.company.kodak_170 = this.preco.get('kodak_170').value;
+    this.company.margem = this.preco.get('margem').value;
+
+    this.company.email_nf = this.outros.get('email_nf').value;
+    this.company.email_materiais = this.outros.get('email_materiais').value;
+    this.company.email_pedido = this.outros.get('email_pedido').value;
+    this.company.serasa = this.outros.get('serasa').value;
+    this.company.cartao_cnpj = this.outros.get('cartao_cnpj').value;
+    this.company.obs_financeiro = this.outros.get('obs_financeiro').value;
+    this.company.obs_diretoria = this.outros.get('obs_diretoria').value;
+
+    this.company.deleted = false;
+
+  }
+
+  getCompany() {
+
+    this.apiService.custom_objects_get('company', localStorage.getItem('_id_company'))
+      .subscribe((data: Company) => {
+        if (data.error == null) {
+          this.company = data;
+          this.basicos.get('solicitante').setValue(this.company.solicitante);
+          this.basicos.get('novo').setValue(this.company.novo);
+          this.basicos.get('fisica').setValue(this.company.fisica);
+          this.basicos.get('juridica').setValue(this.company.juridica);
+          this.basicos.get('principal').setValue(this.company.principal);
+
+          this.cadastrais.get('razao').setValue(this.company.razao);
+          this.cadastrais.get('fantasia').setValue(this.company.fantasia);
+          this.cadastrais.get('endereco').setValue(this.company.endereco);
+          this.cadastrais.get('bairro').setValue(this.company.bairro);
+          this.cadastrais.get('cidade').setValue(this.company.cidade);
+          this.cadastrais.get('uf').setValue(this.company.uf);
+          this.cadastrais.get('cep').setValue(this.company.cep);
+          this.cadastrais.get('tel').setValue(this.company.tel);
+          this.cadastrais.get('fax').setValue(this.company.fax);
+          this.cadastrais.get('cnpj_cpf').setValue(this.company.cnpj_cpf);
+          this.cadastrais.get('ie_rg').setValue(this.company.ie_rg);
+          this.cadastrais.get('comercial').setValue(this.company.comercial);
+          this.cadastrais.get('tel_comercial').setValue(this.company.tel_comercial);
+          this.cadastrais.get('email_comercial').setValue(this.company.email_comercial);
+          this.cadastrais.get('financeiro').setValue(this.company.financeiro);
+          this.cadastrais.get('tel_financeiro').setValue(this.company.tel_financeiro);
+          this.cadastrais.get('email_financeiro').setValue(this.company.email_financeiro);
+          this.cadastrais.get('endereco_cobranca').setValue(this.company.endereco_cobranca);
+
+          this.pagamento.get('nf').setValue(this.company.nf);
+          this.pagamento.get('boleto').setValue(this.company.boleto);
+          this.pagamento.get('prazo').setValue(this.company.prazo);
+
+          this.preco.get('digital_114').setValue(this.company.digital_114);
+          this.preco.get('digital_170').setValue(this.company.digital_170);
+          this.preco.get('digital_284').setValue(this.company.digital_284);
+          this.preco.get('kodak_114').setValue(this.company.kodak_114);
+          this.preco.get('kodak_170').setValue(this.company.kodak_170);
+          this.preco.get('margem').setValue(this.company.margem);
+
+          this.outros.get('email_nf').setValue(this.company.email_nf);
+          this.outros.get('email_materiais').setValue(this.company.email_materiais);
+          this.outros.get('email_pedido').setValue(this.company.email_pedido);
+          this.outros.get('serasa').setValue(this.company.serasa);
+          this.outros.get('cartao_cnpj').setValue(this.company.cartao_cnpj);
+          this.outros.get('obs_financeiro').setValue(this.company.obs_financeiro);
+          this.outros.get('obs_diretoria').setValue(this.company.obs_diretoria);
+        } else {
+        }
+      }, (data) => {
+
+      });
+
+
+  }
+
+  onSubmit() {
+
+    if (this.basicos.valid && this.cadastrais.valid && this.pagamento.valid && this.preco.valid && this.outros.valid) {
+      this.getForm();
+
+      if (!localStorage.getItem("_id_company")) {
+        this.save();
+      } else {
+        this.update();
+      }
+    }
+  }
+
+  save() {
+    this.apiService.custom_objects_create('company', this.company)
+      .subscribe((data: Company) => {
+        if (data.error == null) {
+          this.company = data;
+          console.log(this.company);
+          localStorage.setItem('_id_company', this.company._id);
+        } else {
+        }
+      }, (data) => {
+      });
+  }
+
+  update() {
+    this.apiService.custom_objects_update('company', this.company)
+      .subscribe((data: Company) => {
+        if (data.error == null) {
+          console.log(data);
+        } else {
+        }
+      }, (data) => {
+      });
+  }
 
 }
