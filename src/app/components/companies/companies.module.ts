@@ -6,6 +6,7 @@ import { CompaniesComponent } from './component/companies.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
 import { DialogComponent } from './dialog/dialog.component';
+import { ApiService } from 'src/app/core/http/api.service';
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import { DialogComponent } from './dialog/dialog.component';
     CompaniesRoutingModule,
     SharedModule
   ],
-  providers: [],
+  providers: [ApiService],
   entryComponents: [DialogComponent],
   declarations: [CompaniesComponent, DialogComponent],
 })
