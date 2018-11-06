@@ -7,22 +7,7 @@ import { ConfigComponent } from './component/config.component';
 const routes: Routes = [
   {
     path: '',
-    component: ConfigComponent,
-    children: [
-      {
-        path: '',
-        redirectTo: 'companies',
-        pathMatch: 'full'
-      },
-      {
-        path: 'companies',
-        loadChildren: '../companies/companies.module#CompaniesModule'
-      },
-      {
-        path: 'register',
-        loadChildren: '../register/register.module#RegisterModule'
-      },
-    ]
+    component: ConfigComponent
   }
 ];
 

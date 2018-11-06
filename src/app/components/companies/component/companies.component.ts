@@ -68,7 +68,7 @@ export class CompaniesComponent implements OnInit {
     if (localStorage.getItem('_id_company')) {
       localStorage.removeItem('_id_company');
     }
-    this.router.navigate(['/config/register']);
+    this.router.navigate(['/crm/register']);
   }
 
 }

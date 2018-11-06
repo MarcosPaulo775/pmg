@@ -367,7 +367,11 @@ export class OsComponent implements OnInit {
     this.getColor();
 
     if (this.color.Color) {
-      if (this.os.colors[0] == null) {
+      if(this.os.colors == undefined){
+        this.os.colors = new Array<Color>();
+        this.color._id = 1;
+      }
+      else if (this.os.colors[0] == null) {
         this.os.colors = new Array<Color>();
         this.color._id = 1;
       } else {
@@ -444,6 +448,7 @@ export class OsComponent implements OnInit {
           if (data.error == null) {
             localStorage.setItem('_id', this.os._id);
             localStorage.setItem('version', 'false');
+            this.getOs();
           } else {
             this.session(data.error_code);
           }
@@ -499,6 +504,7 @@ export class OsComponent implements OnInit {
     this.apiService.custom_objects_update('Os', this.os)
       .subscribe((data: Count) => {
         if (data.error == null) {
+          this.getOs();
           this.openSnackBar('Salvo', 'OK');
         } else {
           this.session(data.error_code);
