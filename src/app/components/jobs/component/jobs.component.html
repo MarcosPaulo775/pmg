@@ -69,41 +69,49 @@
         </mat-card-header>
         <mat-card-content>
           <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px" align="center">
+            <div style="flex-grow: 1;"></div>
             <div class="full-width" fxLayout="column">Atendimento
               <button mat-button (click)="flow('Atendimento')">
                 <mat-icon>play_arrow</mat-icon>
               </button>
             </div>
+            <div style="flex-grow: 1;"></div>
             <div class="full-width" fxLayout="column">Desenvolvimento
               <button mat-button (click)="flow('Desenvolvimento')">
                 <mat-icon>play_arrow</mat-icon>
               </button>
             </div>
+            <div style="flex-grow: 1;"></div>
             <div class="full-width" fxLayout="column">Aprovação
               <button mat-button (click)="flow('Aprovação')">
                 <mat-icon>play_arrow</mat-icon>
               </button>
             </div>
+            <div style="flex-grow: 1;"></div>
             <div class="full-width" fxLayout="column">Editoração
               <button mat-button (click)="flow('Editoração')">
                 <mat-icon>play_arrow</mat-icon>
               </button>
             </div>
+            <div style="flex-grow: 1;"></div>
             <div class="full-width" fxLayout="column">Conferência
               <button mat-button (click)="flow('Conferência')">
                 <mat-icon>play_arrow</mat-icon>
               </button>
             </div>
+            <div style="flex-grow: 1;"></div>
             <div class="full-width" fxLayout="column">Gravação
               <button mat-button (click)="flow('Gravação')">
                 <mat-icon>play_arrow</mat-icon>
               </button>
             </div>
+            <div style="flex-grow: 1;"></div>
             <div class="full-width" fxLayout="column">Expedição
               <button mat-button (click)="flow('Expedição')">
                 <mat-icon>play_arrow</mat-icon>
               </button>
             </div>
+            <div style="flex-grow: 1;"></div>
           </div>
         </mat-card-content>
       </mat-card>
@@ -126,7 +134,7 @@
             <div>
 
               <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
               </mat-form-field>
 
               <div class="mat-elevation-z8">
@@ -192,7 +200,7 @@
                   </tr>
                 </table>
 
-                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                <mat-paginator [pageSizeOptions]="[30, 50, 100]"></mat-paginator>
               </div>
 
             </div>

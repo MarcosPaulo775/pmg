@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductionComponent } from '../../production/component/production.component';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { OsService } from '../../../core/http/os.service';
+import { ApiService } from '../../../core/http/api.service';
 import { Os, Color } from '../../../shared/models/os';
 import { Count, Result_OS, Result_Item, Result_Color } from '../../../shared/models/api';
 import { MatSnackBar } from '@angular/material';
@@ -42,17 +42,12 @@ export class OsComponent implements OnInit {
 
   color: Color;
 
-  colors: Color[] = [
-    { Color: 'Preto', Hex: "#000000" },
-    { Color: 'Amarelo', Hex: '#ffff00' },
-    { Color: 'Magenta', Hex: '#ff00ff' },
-    { Color: 'Ciano', Hex: '#00ffff' }
-  ];
+  colors: Color[];
 
   constructor(
     private formBuilder: FormBuilder,
     private production: ProductionComponent,
-    private osService: OsService,
+    private apiService: ApiService,
     public snackBar: MatSnackBar,
     private router: Router,
     private http: HttpClient
@@ -110,7 +105,7 @@ export class OsComponent implements OnInit {
     }
     else {
 
-      this.osService.custom_objects_list('request', '', { '': 'name' })
+      this.apiService.custom_objects_list('request', '', { '': 'name' })
         .subscribe((data: Result_Item) => {
           if (data.error_code == null) {
             this.pedidos = new Array<string>();
@@ -160,7 +155,7 @@ export class OsComponent implements OnInit {
 
   /** Busca a ordem de serviço no banco de dados */
   getOs() {
-    this.osService.custom_objects_get('Os', localStorage.getItem('_id'))
+    this.apiService.custom_objects_get('Os', localStorage.getItem('_id'))
       .subscribe((data: Os) => {
         if (data.error_code == null) {
           this.os = data;
@@ -170,7 +165,7 @@ export class OsComponent implements OnInit {
           this.form.get('codigo').setValue(this.os.codigo);
           this.form.get('barra').setValue(this.os.barra);
 
-          this.osService.custom_objects_list('request', '', { '': 'name' })
+          this.apiService.custom_objects_list('request', '', { '': 'name' })
             .subscribe((data: Result_Item) => {
               if (data.error_code == null) {
                 this.pedidos = new Array<string>();
@@ -194,7 +189,7 @@ export class OsComponent implements OnInit {
 
   /**Busca o id do detalhes da ordem de serviço no banco de dados */
   getDetail() {
-    this.osService.custom_objects_list('technology', '', { '': 'name' })
+    this.apiService.custom_objects_list('technology', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
         if (data.error_code == null) {
           this.tecnologia = new Array<string>();
@@ -206,7 +201,7 @@ export class OsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.osService.custom_objects_list('variation', '', { '': 'name' })
+    this.apiService.custom_objects_list('variation', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
         if (data.error_code == null) {
           this.variacao = new Array<string>();
@@ -218,7 +213,7 @@ export class OsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.osService.custom_objects_list('material', '', { '': 'name' })
+    this.apiService.custom_objects_list('material', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
         if (data.error_code == null) {
           this.material = new Array<string>();
@@ -230,7 +225,7 @@ export class OsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.osService.custom_objects_list('lineatura', '', { '': 'name' })
+    this.apiService.custom_objects_list('lineatura', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
         if (data.error_code == null) {
           this.lineatura = new Array<string>();
@@ -242,7 +237,7 @@ export class OsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.osService.custom_objects_list('thickness', '', { '': 'name' })
+    this.apiService.custom_objects_list('thickness', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
         if (data.error_code == null) {
           this.espessura = new Array<string>();
@@ -254,7 +249,7 @@ export class OsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.osService.custom_objects_list('layer', '', { '': 'name' })
+    this.apiService.custom_objects_list('layer', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
         if (data.error_code == null) {
           this.camada = new Array<string>();
@@ -266,7 +261,7 @@ export class OsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.osService.custom_objects_list('local', '', { '': 'name' })
+    this.apiService.custom_objects_list('local', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
         if (data.error_code == null) {
           this.local = new Array<string>();
@@ -278,7 +273,7 @@ export class OsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.osService.custom_objects_list('angle', '', { '': 'name' })
+    this.apiService.custom_objects_list('angle', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
         if (data.error_code == null) {
           this.angulo = new Array<string>();
@@ -289,7 +284,7 @@ export class OsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.osService.custom_objects_list('profile', '', { '': 'name' })
+    this.apiService.custom_objects_list('profile', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
         if (data.error_code == null) {
           this.perfil = new Array<string>();
@@ -301,10 +296,14 @@ export class OsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.osService.custom_objects_list('pantone', '', null)
+    this.apiService.custom_objects_list('pantone', '', null)
       .subscribe((data: Result_Color) => {
         if (data.error_code == null) {
-          //this.colors = new Array<string>();
+          this.colors = new Array<Color>();
+          this.colors.push({ Color: 'Preto', Hex: "#000000" });
+          this.colors.push({ Color: 'Amarelo', Hex: '#ffff00' });
+          this.colors.push({ Color: 'Magenta', Hex: '#ff00ff' });
+          this.colors.push({ Color: 'Ciano', Hex: '#00ffff' });
           for (let i = 0; i < data.results.length; i++) {
             data.results[i].Hex = '#' + data.results[i].Hex;
             data.results[i].Color = 'Pantone ' + data.results[i].Color;
@@ -367,7 +366,11 @@ export class OsComponent implements OnInit {
     this.getColor();
 
     if (this.color.Color) {
-      if (this.os.colors[0] == null) {
+      if (this.os.colors == undefined) {
+        this.os.colors = new Array<Color>();
+        this.color._id = 1;
+      }
+      else if (this.os.colors[0] == null) {
         this.os.colors = new Array<Color>();
         this.color._id = 1;
       } else {
@@ -439,11 +442,12 @@ export class OsComponent implements OnInit {
       this.os.versao = versao + 1;
       this.os.os = os[0] + ' - ' + this.os.versao.toString();
 
-      this.osService.custom_objects_create('Os', this.os)
+      this.apiService.custom_objects_create('Os', this.os)
         .subscribe((data: Os) => {
           if (data.error == null) {
             localStorage.setItem('_id', this.os._id);
             localStorage.setItem('version', 'false');
+            this.getOs();
           } else {
             this.session(data.error_code);
           }
@@ -454,14 +458,14 @@ export class OsComponent implements OnInit {
 
     // Salva uma totalmente nova
     else {
-      this.osService.custom_objects_create('Os', this.os)
+      this.apiService.custom_objects_create('Os', this.os)
         .subscribe((data: Os) => {
           if (data.error == null) {
             this.os = data;
             this.nOs();
             localStorage.setItem('_id', this.os._id);
             localStorage.setItem('version', 'false');
-            this.openSnackBar('Salvo', 'OK');
+            //this.openSnackBar('Salvo', 'OK');
           } else {
             this.session(data.error_code);
           }
@@ -473,7 +477,7 @@ export class OsComponent implements OnInit {
 
   /** Cria um numero para Ordem de servico */
   nOs() {
-    this.osService.custom_objects_list("Os", ['deleted', 'equal to', 'false'], { '': '_id' })
+    this.apiService.custom_objects_list("Os", ['deleted', 'equal to', 'false'], { '': '_id' })
       .subscribe((data: Result_OS) => {
         if (data.error == null) {
 
@@ -496,9 +500,10 @@ export class OsComponent implements OnInit {
   /** Atualiza os dados de uma ordem de servico existente */
   update() {
 
-    this.osService.custom_objects_update('Os', this.os)
+    this.apiService.custom_objects_update('Os', this.os)
       .subscribe((data: Count) => {
         if (data.error == null) {
+          this.getOs();
           this.openSnackBar('Salvo', 'OK');
         } else {
           this.session(data.error_code);

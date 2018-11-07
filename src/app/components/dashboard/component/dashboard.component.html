@@ -1,0 +1,41 @@
+<div fxFlex fxLayout="column" fxLayoutGap="10px">
+  <div>
+    <mat-toolbar fxLayoutGap="20px">
+      <p>Dashboard</p>
+    </mat-toolbar>
+  </div>
+  <div>
+    <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
+      <div>
+        <button mat-button class="mat-button-blue-light" routerLink="/production/jobs">
+          <i class="material-icons">
+            color_lens
+          </i>
+          <div>
+            Produção
+          </div>
+        </button>
+      </div>
+      <div>
+        <button mat-button class="mat-button-green" routerLink="/crm">
+          <i class="material-icons">
+            contacts
+          </i>
+          <div>
+            CRM
+          </div>
+        </button>
+      </div>
+      <div>
+        <button mat-button class="mat-button-red" routerLink="/config">
+          <i class="material-icons">
+            settings
+          </i>
+          <div>
+            Configurações
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

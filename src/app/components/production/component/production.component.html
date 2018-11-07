@@ -1,14 +1,25 @@
 <mat-drawer-container class="container" autosize>
-  <mat-drawer #drawer class="sidenav" [mode]="'side'" ><!--opened-->
+  <mat-drawer #drawer class="sidenav" [mode]="'side'" opened>
+    <!--opened-->
     <div align="center">
       <p></p>
       <img mat-card-avatar [src]="'assets/logo.svg'" alt="image">
       <p></p>
-      <div fxLayout="column" fxLayoutGap="5px">
-        
-        <a mat-button href="#" routerLink="/production/jobs"><mat-icon>business_center</mat-icon>
-          Trabalhos</a>
-        
+      <div fxLayout="column">
+        <a href="#" mat-button routerLink="/dashboard" [style.background-color]="dashboard">
+          <mat-icon>dashboard</mat-icon>
+          Dashboard
+        </a>
+
+        <a href="#" mat-button routerLink="/production/jobs" [style.background-color]="jobs">
+          <mat-icon>business_center</mat-icon>
+          Trabalhos
+        </a>
+
+        <a href="#" mat-button routerLink="/production/print" [style.background-color]="print">
+          <mat-icon>color_lens</mat-icon>
+          Seguencia de impressão
+        </a>
       </div>
     </div>
   </mat-drawer>

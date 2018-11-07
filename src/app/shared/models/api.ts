@@ -1,4 +1,5 @@
 import { Os, Color } from "./os";
+import { Company } from "./company";
 
 export interface Session{
     session: string;
@@ -31,6 +32,12 @@ export interface Result_Item{
 
 export interface Result_Color{
     results: Color[];
+    error_code: string;
+    error: string;
+}
+
+export interface Result_Company{
+    results: Company[];
     error_code: string;
     error: string;
 }

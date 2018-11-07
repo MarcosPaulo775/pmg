@@ -10,12 +10,26 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'dashboard',
+    loadChildren: './components/dashboard/dashboard.module#DashboardModule'
+  },
+  {
     path: 'login',
     loadChildren: './components/login/login.module#LoginModule'
   },
   {
     path: 'production',
     loadChildren: './components/production/production.module#ProductionModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'config',
+    loadChildren: './components/config/config.module#ConfigModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'crm',
+    loadChildren: './components/crm/crm.module#CrmModule',
     canActivate: [AuthGuard]
   },
 ];

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ProductionComponent } from '../../production/component/production.component';
 import { SelectionModel } from '@angular/cdk/collections';
-import { JobsService } from '../../../core/http/jobs.service';
+import { ApiService } from '../../../core/http/api.service';
 import { Result_OS, Count } from '../../../shared/models/api';
 import { Os } from '../../../shared/models/os';
 import { MatDialog } from '@angular/material';
@@ -49,7 +49,7 @@ export class JobsComponent implements OnInit {
 
   constructor(
     private production: ProductionComponent,
-    private jobsService: JobsService,
+    private apiService: ApiService,
     public dialog: MatDialog,
     private router: Router,
   ) { }
@@ -58,6 +58,9 @@ export class JobsComponent implements OnInit {
     //lista todas as ordens de serviço ao iniciar
     this.list(['deleted', 'equal to', 'false']);
     this.production.title = 'Trabalhos';
+    this.production.dashboard = '';
+    this.production.print = '';
+    this.production.jobs = 'rgb(0, 90, 176)';
   }
 
   /** Abre caixa de dialogo com as informações da ordem de serviço */
@@ -74,7 +77,7 @@ export class JobsComponent implements OnInit {
   /**busca no banco de dados as ordens de serviço */
   list(query) {
     this.count();
-    this.jobsService.custom_objects_list(query)
+    this.apiService.custom_objects_list('Os', query, ' ')
       .subscribe((data: Result_OS) => {
         if (data.error == null) {
           //inserção de dados na tabela
@@ -98,7 +101,7 @@ export class JobsComponent implements OnInit {
   }
 
   count() {
-    this.jobsService.custom_objects_count(['deleted', 'equal to', 'false'])
+    this.apiService.custom_objects_count('Os', ['deleted', 'equal to', 'false'])
       .subscribe((data: Count) => {
         if (data.error == null) {
           this.all = data.count;
@@ -108,7 +111,7 @@ export class JobsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.jobsService.custom_objects_count(['status', 'equal to', 'Atendimento'])
+    this.apiService.custom_objects_count('Os', ['status', 'equal to', 'Atendimento'])
       .subscribe((data: Count) => {
         if (data.error == null) {
           this.atendimento = data.count;
@@ -118,7 +121,7 @@ export class JobsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.jobsService.custom_objects_count(['status', 'equal to', 'Desenvolvimento'])
+    this.apiService.custom_objects_count('Os', ['status', 'equal to', 'Desenvolvimento'])
       .subscribe((data: Count) => {
         if (data.error == null) {
           this.desenvolvimento = data.count;
@@ -128,7 +131,7 @@ export class JobsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.jobsService.custom_objects_count(['status', 'equal to', 'Aprovação'])
+    this.apiService.custom_objects_count('Os', ['status', 'equal to', 'Aprovação'])
       .subscribe((data: Count) => {
         if (data.error == null) {
           this.aprovacao = data.count;
@@ -138,7 +141,7 @@ export class JobsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.jobsService.custom_objects_count(['status', 'equal to', 'Editoração'])
+    this.apiService.custom_objects_count('Os', ['status', 'equal to', 'Editoração'])
       .subscribe((data: Count) => {
         if (data.error == null) {
           this.editoracao = data.count;
@@ -148,7 +151,7 @@ export class JobsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.jobsService.custom_objects_count(['status', 'equal to', 'Conferência'])
+    this.apiService.custom_objects_count('Os', ['status', 'equal to', 'Conferência'])
       .subscribe((data: Count) => {
         if (data.error == null) {
           this.conferencia = data.count;
@@ -158,7 +161,7 @@ export class JobsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.jobsService.custom_objects_count(['status', 'equal to', 'Gravação'])
+    this.apiService.custom_objects_count('Os', ['status', 'equal to', 'Gravação'])
       .subscribe((data: Count) => {
         if (data.error == null) {
           this.gravacao = data.count;
@@ -168,7 +171,7 @@ export class JobsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.jobsService.custom_objects_count(['status', 'equal to', 'Expedição'])
+    this.apiService.custom_objects_count('Os', ['status', 'equal to', 'Expedição'])
       .subscribe((data: Count) => {
         if (data.error == null) {
           this.expedicao = data.count;
@@ -184,7 +187,7 @@ export class JobsComponent implements OnInit {
   flow(status: string) {
     let selected = this.selection.selected;
     for (let i = 0; i < selected.length; i++) {
-      this.jobsService.custom_objects_set_keys(selected[i]._id, { 'status': status })
+      this.apiService.custom_objects_set_keys('Os', selected[i]._id, { 'status': status })
         .subscribe((data) => {
           if (i == (selected.length - 1)) {
             this.list(['deleted', 'equal to', 'false']);
@@ -204,7 +207,7 @@ export class JobsComponent implements OnInit {
 
   /** Marca a ordem de serviço como deletada */
   onDelete(id: string) {
-    this.jobsService.custom_objects_set_keys(id, { 'deleted': 'true' })
+    this.apiService.custom_objects_set_keys('Os', id, { 'deleted': 'true' })
       .subscribe((data: Result_OS) => {
         this.session(data.error_code);
         this.list(['deleted', 'equal to', 'false']);

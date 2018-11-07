@@ -1,0 +1,57 @@
+<mat-card>
+  <div fxLayout="column" fxLayoutGap="10px">
+    <div>
+      <button mat-button class="button_blue" matTooltip="Adiciona a cor do formulario" (click)="onAdd()">
+        <mat-icon>add</mat-icon> Adicionar Empresa
+      </button>
+    </div>
+    <div>
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+      </mat-form-field>
+
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+  
+          <!-- Name Column -->
+          <ng-container matColumnDef="razao">
+            <th mat-header-cell *matHeaderCellDef> Razão Social </th>
+            <td mat-cell *matCellDef="let companie"> {{companie.razao}} </td>
+          </ng-container>
+  
+          <!-- Weight Column -->
+          <ng-container matColumnDef="cnpj_cpf">
+            <th mat-header-cell *matHeaderCellDef> cnpj / cpf </th>
+            <td mat-cell *matCellDef="let companie"> {{companie.cnpj_cpf}} </td>
+          </ng-container>
+  
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="button">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let companie">
+              <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column">
+                <div style="flex-grow: 1;"></div>
+                <button mat-button matTooltip="Visualizar" (click)="openDialog()">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+  
+                <button mat-button matTooltip="Editar" (click)="onEdit()">
+                  <mat-icon>edit</mat-icon>
+                </button>
+  
+                <button mat-button matTooltip="Excluir" (click)="onDelete()">
+                  <mat-icon>delete</mat-icon>
+                </button>
+  
+              </div>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[30, 50, 100]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+</mat-card>
