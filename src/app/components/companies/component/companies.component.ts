@@ -6,6 +6,7 @@ import { Result_Company } from 'src/app/shared/models/api';
 import { Company } from 'src/app/shared/models/company';
 import {MatTableDataSource} from '@angular/material';
 import { Router } from '@angular/router';
+import { CrmComponent } from '../../crm/component/crm.component';
 
 @Component({
   selector: 'app-companies',
@@ -17,7 +18,8 @@ export class CompaniesComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private apiService: ApiService,
-    private router: Router
+    private router: Router,
+    private crmComponent: CrmComponent
   ) { }
 
   displayedColumns: string[] = ['razao', 'cnpj_cpf', 'button'];
@@ -31,6 +33,9 @@ export class CompaniesComponent implements OnInit {
 
   ngOnInit() {
     this.list();
+    this.crmComponent.title = 'Empresas';
+    this.crmComponent.company = 'rgb(0, 90, 176)';
+    this.crmComponent.dashboard = '';
   }
 
   onEdit() {

@@ -58,6 +58,9 @@ export class JobsComponent implements OnInit {
     //lista todas as ordens de serviço ao iniciar
     this.list(['deleted', 'equal to', 'false']);
     this.production.title = 'Trabalhos';
+    this.production.dashboard = '';
+    this.production.print = '';
+    this.production.jobs = 'rgb(0, 90, 176)';
   }
 
   /** Abre caixa de dialogo com as informações da ordem de serviço */

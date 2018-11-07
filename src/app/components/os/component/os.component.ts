@@ -42,12 +42,7 @@ export class OsComponent implements OnInit {
 
   color: Color;
 
-  colors: Color[] = [
-    { Color: 'Preto', Hex: "#000000" },
-    { Color: 'Amarelo', Hex: '#ffff00' },
-    { Color: 'Magenta', Hex: '#ff00ff' },
-    { Color: 'Ciano', Hex: '#00ffff' }
-  ];
+  colors: Color[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -304,7 +299,11 @@ export class OsComponent implements OnInit {
     this.apiService.custom_objects_list('pantone', '', null)
       .subscribe((data: Result_Color) => {
         if (data.error_code == null) {
-          //this.colors = new Array<string>();
+          this.colors = new Array<Color>();
+          this.colors.push({ Color: 'Preto', Hex: "#000000" });
+          this.colors.push({ Color: 'Amarelo', Hex: '#ffff00' });
+          this.colors.push({ Color: 'Magenta', Hex: '#ff00ff' });
+          this.colors.push({ Color: 'Ciano', Hex: '#00ffff' });
           for (let i = 0; i < data.results.length; i++) {
             data.results[i].Hex = '#' + data.results[i].Hex;
             data.results[i].Color = 'Pantone ' + data.results[i].Color;
@@ -367,7 +366,7 @@ export class OsComponent implements OnInit {
     this.getColor();
 
     if (this.color.Color) {
-      if(this.os.colors == undefined){
+      if (this.os.colors == undefined) {
         this.os.colors = new Array<Color>();
         this.color._id = 1;
       }
@@ -466,7 +465,7 @@ export class OsComponent implements OnInit {
             this.nOs();
             localStorage.setItem('_id', this.os._id);
             localStorage.setItem('version', 'false');
-            this.openSnackBar('Salvo', 'OK');
+            //this.openSnackBar('Salvo', 'OK');
           } else {
             this.session(data.error_code);
           }

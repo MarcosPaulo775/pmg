@@ -8,6 +8,24 @@ import { Component, OnInit, Input  } from '@angular/core';
 export class ProductionComponent implements OnInit {
 
   title: string;
+  dashboard: string;
+  jobs: string;
+  print: string;
+
+  @Input()
+  set setDashboard(color: string) {
+    this.dashboard = color;
+  }
+
+  @Input()
+  set setJobs(color: string) {
+    this.jobs = color;
+  }
+
+  @Input()
+  set setPrint(color: string) {
+    this.print = color;
+  }
 
   @Input()
   set setTitle(title: string) {

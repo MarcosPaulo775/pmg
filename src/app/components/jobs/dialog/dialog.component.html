@@ -1,17 +1,102 @@
-<h1 mat-dialog-title>Ordem de serviço {{os.os}}</h1>
-<div mat-dialog-content fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px" >
-  <div>
-    <p> <strong>Nome do serviço:</strong> {{os.nome}} </p>
-    <p> <strong>Cliente:</strong> {{os.cliente}} </p>
-    <p> <strong>Ordem de serviço:</strong> {{os.os}} </p>
-    <p> <strong>Data de Despacho:</strong> {{os.data}} </p>
-    <p> <strong>Status:</strong> {{os.status}} </p>
+<h1 mat-dialog-title>Ordem de serviço {{os.os}} / {{os.status}}</h1>
+<div mat-dialog-content>
+
+  <div fxFlex fxLayout="column" fxLayoutGap="10px">
+    <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
+      <mat-card fxFlex="50">
+        <mat-card-header>
+          <mat-card-title>Dados</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div>
+            <div> <strong>Nome do serviço:</strong> {{os.nome}} </div>
+            <div> <strong>Cliente:</strong> {{os.cliente}} </div>
+            <div> <strong>Pedido: </strong> {{os.pedido}}</div>
+            <div> <strong>Código do produto: </strong> {{os.codigo}}</div>
+            <div> <strong>Data de Despacho:</strong> {{os.data.split('-')[2]}} / {{os.data.split('-')[1]}} /
+              {{os.data.split('-')[0]}}</div>
+            <div> <strong>Código Barras:</strong> {{os.barra}}</div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card fxFlex="50">
+        <mat-card-header>
+          <mat-card-title>Cliche</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div> <strong>Tecnologia:</strong> {{os.tecnologia}} </div>
+          <div> <strong>Variação:</strong> {{os.variacao}} </div>
+          <div> <strong>Material:</strong> {{os.material}} </div>
+          <div> <strong>Lineatura:</strong> {{os.lineatura}} </div>
+          <div> <strong>Espessura:</strong> {{os.espessura}} </div>
+          <div> <strong>Camada:</strong> {{os.camada}} </div>
+          <div> <strong>Local:</strong> {{os.local}} </div>
+          <div> <strong>observação:</strong> {{os.obs_cliche}} </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div *ngIf="os.colors[0]">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Cores</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+
+          <div style="position: relative; max-height: 140px; overflow: auto;">
+            <table style="font-family: arial, sans-serif; border-collapse: collapse; width: 100%;">
+              <thead>
+                <tr style="text-align: left;">
+                  <th>Cor</th>
+                  <th>Lineatura 1</th>
+                  <th>Lineatura 2</th>
+                  <th>Angulo</th>
+                  <th>Jogos</th>
+                  <th>Configuração</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let color of os.colors" style="border-top: 1px solid #dddddd;">
+                  <td>
+                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+                      <div>
+                        <mat-icon [style.color]="color.Hex">fiber_manual_record</mat-icon>
+                      </div>
+                      <div>
+                        {{color.Color}}
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{color.lineatura1}}</td>
+                  <td>{{color.lineatura2}}</td>
+                  <td>{{color.angulo}}</td>
+                  <td>{{color.jogos}}</td>
+                  <td>
+                    <div>
+                      <mat-checkbox disabled="true" [checked]="color.fotocelula">Fotocélula</mat-checkbox>
+                    </div>
+                    <div>
+                      <mat-checkbox disabled="true" [checked]="color.unitario">Unitario</mat-checkbox>
+                    </div>
+                    <div>
+                      <mat-checkbox disabled="true" [checked]="color.camerom">Camerom</mat-checkbox>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+          <div> <strong>Perfil de cor:</strong> {{os.perfil}} </div>
+          <div> <strong>observação:</strong> {{os.obs_color}} </div>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <p></p>
   </div>
-  <div>
-    <p> <strong>Pedido: </strong> 1</p>
-    <p> <strong>Código Barras:</strong> 7897423000204</p>
-    <p> <strong>Versão: </strong>1</p>
-  </div>
+
 </div>
 <div mat-dialog-actions align="center">
   <button mat-button (click)="onNoClick()">Fechar</button>
