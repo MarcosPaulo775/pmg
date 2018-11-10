@@ -43,6 +43,7 @@ export class OsComponent implements OnInit {
   color: Color;
 
   colors: Color[];
+  disabled = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -67,7 +68,7 @@ export class OsComponent implements OnInit {
       tecnologia: [null, []],
       variacao: [null, []],
       material: [null, []],
-      lineatura: [null, []],
+      substrato: [null, []],
       lineatura_1: [null, []],
       lineatura_2: [null, []],
       espessura: [null, []],
@@ -82,7 +83,34 @@ export class OsComponent implements OnInit {
       color: [null, []],
       fotocelula: [null, []],
       unitario: [null, []],
-      camerom: [null, []]
+      camerom: [null, []],
+
+      fechado: [null, []],
+      z: [null, []],
+      desenvolvimento: [null, []],
+      fechamento: [null, []],
+      qtpistas: [null, []],
+      entre_pistas: [null, []],
+      qtpasso: [null, []],
+      entre_passos: [null, []],
+      manta: [null, []],
+      faca: [null, []],
+      esquerda: [null, []],
+      direita: [null, []],
+      topo: [null, []],
+      base: [null, []],
+      esquerda_mm: [null, []],
+      direita_mm: [null, []],
+      topo_mm: [null, []],
+      base_mm: [null, []],
+      refile: [null, []],
+      corte: [null, []],
+      cameron: [null, []],
+      microponto: [null, []],
+      largura: [null, []],
+      altura: [null, []],
+      largura_material: [null, []],
+      obs_montagem: [null, []],
     });
 
     this.filteredColors = this.details.get('color').valueChanges
@@ -117,6 +145,14 @@ export class OsComponent implements OnInit {
         });
     }
 
+  }
+
+  fechado() {
+    if (this.details.get('fechado').value == true) {
+      this.disabled = true;
+    } else {
+      this.disabled = false;
+    }
   }
 
   /** Upload de arquivo */
@@ -225,14 +261,14 @@ export class OsComponent implements OnInit {
       }, (data) => {
       });
 
-    this.apiService.custom_objects_list('lineatura', '', { '': 'name' })
+    this.apiService.custom_objects_list('substrate', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
         if (data.error_code == null) {
-          this.lineatura = new Array<string>();
+          this.substrato = new Array<string>();
           for (let i = 0; i < data.results.length; i++) {
-            this.lineatura.push(data.results[i].name);
+            this.substrato.push(data.results[i].name);
           }
-          this.details.get('lineatura').setValue(this.os.lineatura);
+          this.details.get('substrato').setValue(this.os.substrato);
         }
       }, (data) => {
       });
@@ -316,6 +352,32 @@ export class OsComponent implements OnInit {
 
     this.details.get('observacoes_cliche').setValue(this.os.obs_cliche);
     this.details.get('observacoes_cores').setValue(this.os.obs_color);
+
+    this.details.get('fechado').setValue(this.os.fechado);
+    this.details.get('z').setValue(this.os.z);
+    this.details.get('desenvolvimento').setValue(this.os.desenvolvimento);
+    this.details.get('fechamento').setValue(this.os.fechamento);
+    this.details.get('qtpistas').setValue(this.os.qtpistas);
+    this.details.get('entre_pistas').setValue(this.os.entre_pistas);
+    this.details.get('qtpasso').setValue(this.os.qtpasso);
+    this.details.get('entre_passos').setValue(this.os.entre_passos);
+    this.details.get('manta').setValue(this.os.manta);
+    this.details.get('faca').setValue(this.os.faca);
+    this.details.get('esquerda').setValue(this.os.esquerda);
+    this.details.get('direita').setValue(this.os.direita);
+    this.details.get('topo').setValue(this.os.topo);
+    this.details.get('base').setValue(this.os.base);
+    this.details.get('esquerda_mm').setValue(this.os.esquerda_mm);
+    this.details.get('direita_mm').setValue(this.os.direita_mm);
+    this.details.get('topo_mm').setValue(this.os.topo_mm);
+    this.details.get('refile').setValue(this.os.refile);
+    this.details.get('corte').setValue(this.os.corte);
+    this.details.get('cameron').setValue(this.os.cameron);
+    this.details.get('microponto').setValue(this.os.microponto);
+    this.details.get('largura').setValue(this.os.largura);
+    this.details.get('altura').setValue(this.os.altura);
+    this.details.get('largura_material').setValue(this.os.largura_material);
+    this.details.get('obs_montagem').setValue(this.os.obs_montagem);
   }
 
   /** Cria um ordem de serviço com os dados do formulario */
@@ -330,7 +392,7 @@ export class OsComponent implements OnInit {
     this.os.tecnologia = this.details.get('tecnologia').value;
     this.os.varicacao = this.details.get('variacao').value;
     this.os.material = this.details.get('material').value;
-    this.os.lineatura = this.details.get('lineatura').value;
+    this.os.substrato = this.details.get('substrato').value;
     this.os.espessura = this.details.get('espessura').value;
     this.os.camada = this.details.get('camada').value;
     this.os.local = this.details.get('local').value;

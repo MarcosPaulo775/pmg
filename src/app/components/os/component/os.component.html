@@ -135,9 +135,9 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <mat-form-field *ngIf="lineatura">
-              <mat-select placeholder="Lineatura" formControlName="lineatura">
-                <mat-option *ngFor="let value of lineatura" [value]="value">
+            <mat-form-field *ngIf="substrato">
+              <mat-select placeholder="Substrato" formControlName="substrato">
+                <mat-option *ngFor="let value of substrato" [value]="value">
                   {{value}}
                 </mat-option>
               </mat-select>
@@ -323,16 +323,127 @@
                   <textarea matInput placeholder="Observações das cores" formControlName="observacoes_cores"></textarea>
                 </mat-form-field>
               </div>
-
             </div>
           </div>
-
         </mat-card-content>
-
       </mat-card>
 
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Montagem</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content fxLayout="column" fxLayoutGap="10px">
+
+          <div fxLayout="row" fxLayoutGap="10px">
+            <mat-card fxFlex="60">
+              <div fxLayout="column">
+                <mat-checkbox formControlName="fechado" (click)="fechado()">Já está no fechamento</mat-checkbox>
+                
+                <div fxLayout="row" fxLayoutGap="10px" *ngIf="disabled">
+
+                  <mat-form-field fxFlex="33.3">
+                    <input matInput placeholder="Z" formControlName="z">
+                  </mat-form-field>
+                  <mat-form-field fxFlex="33.3">
+                    <input matInput placeholder="Desenvolvimento" formControlName="desenvolvimento">
+                  </mat-form-field>
+                  <mat-form-field fxFlex="33.3">
+                    <input matInput placeholder="Fechamento" formControlName="fechamento">
+                  </mat-form-field>
+
+                </div>
+                <div fxLayout="row" fxLayoutGap="10px"  *ngIf="disabled">
+                  <mat-form-field fxFlex="50">
+                    <input matInput placeholder="Quantidade de Pistas" formControlName="qtpistas">
+                  </mat-form-field>
+                  <mat-form-field fxFlex="50">
+                    <input matInput placeholder="Entre Pistas" formControlName="entre_pistas">
+                  </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutGap="10px"  *ngIf="disabled">
+                  <mat-form-field fxFlex="50">
+                    <input matInput placeholder="Quantidade Passo" formControlName="qtpasso">
+                  </mat-form-field>
+                  <mat-form-field fxFlex="50">
+                    <input matInput placeholder="Entre Passo" formControlName="entre_passos">
+                  </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutGap="10px">
+                  <mat-form-field fxFlex="50">
+                    <input matInput placeholder="Manta" formControlName="manta">
+                  </mat-form-field>
+                  <mat-form-field fxFlex="50">
+                    <input matInput placeholder="Num. Faca" formControlName="faca">
+                  </mat-form-field>
+                </div>
+
+              </div>
+            </mat-card>
+
+            <mat-card fxFlex="40">
+              <div>
+                <a>Sangras</a>
+
+                <div fxLayout="row" fxLayoutGap="10px">
+                  <div fxLayout="column" fxLayoutGap="45px">
+                    <br>
+                    <mat-checkbox formControlName="esquerda">Esquerda</mat-checkbox>
+                    <mat-checkbox formControlName="direita">Direita</mat-checkbox>
+                    <mat-checkbox formControlName="topo">Topo</mat-checkbox>
+                    <mat-checkbox formControlName="base">Base</mat-checkbox>
+                  </div>
+                  <div fxLayout="column" fxLayoutGap="10px">
+                    <mat-form-field>
+                      <input matInput placeholder="mm" formControlName="esquerda_mm">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput placeholder="mm" formControlName="direita_mm">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput placeholder="mm" formControlName="topo_mm">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput placeholder="mm" formControlName="base_mm">
+                    </mat-form-field>
+                  </div>
+                  <div fxLayout="column" fxLayoutGap="45px">
+                    <br>
+                    <mat-checkbox formControlName="refile">Marcas Refile</mat-checkbox>
+                    <mat-checkbox formControlName="corte">Marcas Corte</mat-checkbox>
+                    <mat-checkbox formControlName="cameron">Cameron</mat-checkbox>
+                    <mat-checkbox formControlName="microponto">Microponto</mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+
+          </div>
+
+          <mat-card>
+
+            <div fxLayout="row" fxLayoutGap="10px">
+              <mat-form-field>
+                <input matInput placeholder="Tamanho Arte Largura" formControlName="largura">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput placeholder="Tamanho Arte Altura" formControlName="altura">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput placeholder="Largura Material" formControlName="largura_material">
+              </mat-form-field>
+
+            </div>
+
+            <mat-form-field class="full-width">
+              <textarea matInput placeholder="Observações das cores" formControlName="obs_montagem"></textarea>
+            </mat-form-field>
+          </mat-card>
+
+        </mat-card-content>
+      </mat-card>
     </form>
-
-
   </div>
 </div>

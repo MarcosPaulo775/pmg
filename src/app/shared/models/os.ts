@@ -27,14 +27,16 @@ export class Os {
   perfil?: string;
 
   //montagem
-  fechamento?: boolean;
+  fechado?: boolean;
+  z?: string;
   desenvolvimento?: string;
-  pistas?: string;
-  peso?: string;
-  gap?: string;
-  largura?: number;
-  altura?: number;
-  largura_material?: number;
+  fechamento?: string;
+  qtpistas?: string;
+  entre_pistas?: string;
+  qtpasso?: string;
+  entre_passos?: string;
+  manta?: number;
+  faca?: number;
 
   esquerda?: boolean;
   direita?: boolean;
@@ -50,6 +52,11 @@ export class Os {
   corte?: boolean;
   cameron?: boolean;
   microponto?: boolean;
+
+  largura?: string;
+  altura?: string;
+  largura_material?: string;
+  obs_montagem?: string;
 
   //Prova
 

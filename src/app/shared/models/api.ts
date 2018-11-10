@@ -24,6 +24,18 @@ export interface Item{
     name: string;
 }
 
+export interface Technology{
+    _id: string,
+    name: string;
+    variation: Item[];
+    material: Item[];
+}
+export interface Result_Technology{
+    results: Technology[];
+    error_code: string;
+    error: string;
+}
+
 export interface Result_Item{
     results: Item[];
     error_code: string;
