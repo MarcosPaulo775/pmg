@@ -338,9 +338,9 @@
           <div fxLayout="row" fxLayoutGap="10px">
             <mat-card fxFlex="60">
               <div fxLayout="column">
-                <mat-checkbox formControlName="fechado" (click)="fechado()">Já está no fechamento</mat-checkbox>
+                <mat-checkbox formControlName="fechado" [(ngModel)]="disabled">Já está no fechamento</mat-checkbox>
                 
-                <div fxLayout="row" fxLayoutGap="10px" *ngIf="disabled">
+                <div fxLayout="row" fxLayoutGap="10px" *ngIf="!disabled">
 
                   <mat-form-field fxFlex="33.3">
                     <input matInput placeholder="Z" formControlName="z">
@@ -353,7 +353,7 @@
                   </mat-form-field>
 
                 </div>
-                <div fxLayout="row" fxLayoutGap="10px"  *ngIf="disabled">
+                <div fxLayout="row" fxLayoutGap="10px"  *ngIf="!disabled">
                   <mat-form-field fxFlex="50">
                     <input matInput placeholder="Quantidade de Pistas" formControlName="qtpistas">
                   </mat-form-field>
@@ -362,7 +362,7 @@
                   </mat-form-field>
                 </div>
 
-                <div fxLayout="row" fxLayoutGap="10px"  *ngIf="disabled">
+                <div fxLayout="row" fxLayoutGap="10px"  *ngIf="!disabled">
                   <mat-form-field fxFlex="50">
                     <input matInput placeholder="Quantidade Passo" formControlName="qtpasso">
                   </mat-form-field>

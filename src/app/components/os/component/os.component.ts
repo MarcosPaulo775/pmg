@@ -147,14 +147,6 @@ export class OsComponent implements OnInit {
 
   }
 
-  fechado() {
-    if (this.details.get('fechado').value == true) {
-      this.disabled = true;
-    } else {
-      this.disabled = false;
-    }
-  }
-
   /** Upload de arquivo */
   inputFileChange(event) {
     console.log('Passou');
@@ -345,7 +337,6 @@ export class OsComponent implements OnInit {
             data.results[i].Color = 'Pantone ' + data.results[i].Color;
             this.colors.push(data.results[i]);
           }
-          //console.log(this.colors);
         }
       }, (data) => {
       });
@@ -353,7 +344,7 @@ export class OsComponent implements OnInit {
     this.details.get('observacoes_cliche').setValue(this.os.obs_cliche);
     this.details.get('observacoes_cores').setValue(this.os.obs_color);
 
-    this.details.get('fechado').setValue(this.os.fechado);
+    //this.details.get('fechado').setValue(this.os.fechado);
     this.details.get('z').setValue(this.os.z);
     this.details.get('desenvolvimento').setValue(this.os.desenvolvimento);
     this.details.get('fechamento').setValue(this.os.fechamento);
@@ -378,6 +369,8 @@ export class OsComponent implements OnInit {
     this.details.get('altura').setValue(this.os.altura);
     this.details.get('largura_material').setValue(this.os.largura_material);
     this.details.get('obs_montagem').setValue(this.os.obs_montagem);
+
+    this.disabled = this.os.fechado;
   }
 
   /** Cria um ordem de serviço com os dados do formulario */
@@ -400,6 +393,33 @@ export class OsComponent implements OnInit {
 
     this.os.perfil = this.details.get('perfil').value;
     this.os.obs_color = this.details.get('observacoes_cores').value;
+
+    this.os.fechado = this.details.get('fechado').value;
+    this.os.z = this.details.get('z').value;
+    this.os.desenvolvimento = this.details.get('desenvolvimento').value;
+    this.os.fechamento = this.details.get('fechamento').value;
+    this.os.qtpistas = this.details.get('qtpistas').value;
+    this.os.entre_pistas = this.details.get('entre_pistas').value;
+    this.os.qtpasso = this.details.get('qtpasso').value;
+    this.os.entre_passos = this.details.get('entre_passos').value;
+    this.os.manta = this.details.get('manta').value;
+    this.os.faca = this.details.get('faca').value;
+    this.os.esquerda = this.details.get('esquerda').value;
+    this.os.direita= this.details.get('direita').value;
+    this.os.topo = this.details.get('topo').value;
+    this.os.base = this.details.get('base').value;
+    this.os.esquerda_mm = this.details.get('esquerda_mm').value;
+    this.os.direita_mm = this.details.get('direita_mm').value;
+    this.os.topo_mm = this.details.get('topo_mm').value;
+    this.os.base_mm = this.details.get('base_mm').value;
+    this.os.refile = this.details.get('refile').value;
+    this.os.corte = this.details.get('corte').value;
+    this.os.cameron = this.details.get('cameron').value;
+    this.os.microponto = this.details.get('microponto').value;
+    this.os.largura =  this.details.get('largura').value;
+    this.os.altura = this.details.get('altura').value;
+    this.os.largura_material = this.details.get('largura_material').value;
+    this.os.obs_montagem = this.details.get('obs_montagem').value;
 
     this.os.deleted = 'false';
   }
