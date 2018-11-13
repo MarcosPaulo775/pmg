@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductionComponent } from '../../production/component/production.component';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { ApiService } from '../../../core/http/api.service';
 import { Os, Color } from '../../../shared/models/os';
 import { Count, Result_OS, Result_Item, Result_Color } from '../../../shared/models/api';

@@ -490,6 +490,7 @@
               <input matInput placeholder="Horário da impressão" formControlName="horario">
             </mat-form-field>
 
+
           </div>
           <div>
             <table>
@@ -500,7 +501,6 @@
                   <th>Ganho de ponto</th>
                   <th>Densidade</th>
                   <th>BCM</th>
-                  <th>Editar</th>
                 </tr>
               </thead>
               <tbody>
@@ -515,14 +515,25 @@
                       </div>
                     </div>
                   </td>
-                  <td>{{color.anilox}}</td>
-                  <td>{{color.ganho}}</td>
-                  <td>{{color.densidade}}</td>
-                  <td>{{color.bcm}}</td>
                   <td>
-                    <button mat-button matTooltip="Editar" (click)="onEdit(row._id)">
-                      <mat-icon>edit</mat-icon>
-                    </button>
+                    <mat-form-field>
+                      <input matInput placeholder="" [id]="'anilox' + color._id">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <input matInput placeholder="" [id]="'ganho' + color._id">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <input matInput placeholder="" [id]="'densidade' + color._id">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <input matInput placeholder="" [id]="'bcm' + color._id">
+                    </mat-form-field>
                   </td>
                 </tr>
               </tbody>
