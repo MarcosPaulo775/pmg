@@ -478,6 +478,8 @@ export class OsComponent implements OnInit {
     this.os.horario = this.details.get('horario').value;
     this.os.obs_prova = this.details.get('obs_prova').value;
 
+    console.log(document.getElementById("anilox1"));
+
     this.os.deleted = 'false';
   }
 
