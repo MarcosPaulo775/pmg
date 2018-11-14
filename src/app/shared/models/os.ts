@@ -15,10 +15,12 @@ export class Os {
   tecnologia?: string;
   varicacao?: string;
   material?: string;
+  substrato?: string;
   lineatura?: string;
   espessura?: string;
   camada?: string;
   local?: string;
+  face?: string;
   obs_cliche?: string;
 
   //cores
@@ -60,12 +62,13 @@ export class Os {
 
   //Prova
 
-  tinta?: string;
-  substrato?: string;
+  substrato_prova?: string;
   velocidade?: string;
-  dupla_face?: string;
+  dupla?: string;
   temperatura?: string;
   horario?: string;
+  obs_prova?: string;
+
   error_code?: string;
   error?: string;
 }
@@ -84,4 +87,8 @@ export class Color {
   fotocelula?: boolean;
   unitario?: boolean;
   camerom?: boolean;
+  anilox?: string;
+  ganho?: string;
+  densidade?: string;
+  bcm?: string;
 }

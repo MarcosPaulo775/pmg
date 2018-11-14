@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductionComponent } from '../../production/component/production.component';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { ApiService } from '../../../core/http/api.service';
 import { Os, Color } from '../../../shared/models/os';
 import { Count, Result_OS, Result_Item, Result_Color } from '../../../shared/models/api';
@@ -37,6 +37,7 @@ export class OsComponent implements OnInit {
   face: string[];
   angulo: string[];
   perfil: string[];
+  dupla: string[];
 
   filteredColors: Observable<Color[]>;
 
@@ -77,6 +78,7 @@ export class OsComponent implements OnInit {
       angulo: [null, []],
       jogos: [null, []],
       perfil: [null, []],
+      face: [null, []],
       observacoes_cores: [null, []],
       observacoes_cliche: [null, []],
 
@@ -111,6 +113,13 @@ export class OsComponent implements OnInit {
       altura: [null, []],
       largura_material: [null, []],
       obs_montagem: [null, []],
+
+      substrato_prova: [null, []],
+      velocidade: [null, []],
+      dupla: [null, []],
+      temperatura: [null, []],
+      horario: [null, []],
+      obs_prova: [null, []]
     });
 
     this.filteredColors = this.details.get('color').valueChanges
@@ -301,6 +310,17 @@ export class OsComponent implements OnInit {
       }, (data) => {
       });
 
+    this.apiService.custom_objects_list('lineatura', '', { '': 'name' })
+      .subscribe((data: Result_Item) => {
+        if (data.error_code == null) {
+          this.lineatura = new Array<string>();
+          for (let i = 0; i < data.results.length; i++) {
+            this.lineatura.push(data.results[i].name);
+          }
+        }
+      }, (data) => {
+      });
+
     this.apiService.custom_objects_list('angle', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
         if (data.error_code == null) {
@@ -324,6 +344,18 @@ export class OsComponent implements OnInit {
       }, (data) => {
       });
 
+    this.apiService.custom_objects_list('face', '', { '': 'name' })
+      .subscribe((data: Result_Item) => {
+        if (data.error_code == null) {
+          this.face = new Array<string>();
+          for (let i = 0; i < data.results.length; i++) {
+            this.face.push(data.results[i].name);
+          }
+          this.details.get('face').setValue(this.os.face);
+        }
+      }, (data) => {
+      });
+
     this.apiService.custom_objects_list('pantone', '', null)
       .subscribe((data: Result_Color) => {
         if (data.error_code == null) {
@@ -337,6 +369,18 @@ export class OsComponent implements OnInit {
             data.results[i].Color = 'Pantone ' + data.results[i].Color;
             this.colors.push(data.results[i]);
           }
+        }
+      }, (data) => {
+      });
+
+    this.apiService.custom_objects_list('double', '', { '': 'name' })
+      .subscribe((data: Result_Item) => {
+        if (data.error_code == null) {
+          this.dupla = new Array<string>();
+          for (let i = 0; i < data.results.length; i++) {
+            this.dupla.push(data.results[i].name);
+          }
+          this.details.get('dupla').setValue(this.os.dupla);
         }
       }, (data) => {
       });
@@ -370,6 +414,11 @@ export class OsComponent implements OnInit {
     this.details.get('largura_material').setValue(this.os.largura_material);
     this.details.get('obs_montagem').setValue(this.os.obs_montagem);
 
+    this.details.get('substrato_prova').setValue(this.os.substrato_prova);
+    this.details.get('velocidade').setValue(this.os.velocidade);
+    this.details.get('temperatura').setValue(this.os.temperatura);
+    this.details.get('horario').setValue(this.os.horario);
+    this.details.get('obs_prova').setValue(this.os.obs_prova);
     this.disabled = this.os.fechado;
   }
 
@@ -389,6 +438,7 @@ export class OsComponent implements OnInit {
     this.os.espessura = this.details.get('espessura').value;
     this.os.camada = this.details.get('camada').value;
     this.os.local = this.details.get('local').value;
+    this.os.face = this.details.get('face').value;
     this.os.obs_cliche = this.details.get('observacoes_cliche').value;
 
     this.os.perfil = this.details.get('perfil').value;
@@ -405,7 +455,7 @@ export class OsComponent implements OnInit {
     this.os.manta = this.details.get('manta').value;
     this.os.faca = this.details.get('faca').value;
     this.os.esquerda = this.details.get('esquerda').value;
-    this.os.direita= this.details.get('direita').value;
+    this.os.direita = this.details.get('direita').value;
     this.os.topo = this.details.get('topo').value;
     this.os.base = this.details.get('base').value;
     this.os.esquerda_mm = this.details.get('esquerda_mm').value;
@@ -416,10 +466,19 @@ export class OsComponent implements OnInit {
     this.os.corte = this.details.get('corte').value;
     this.os.cameron = this.details.get('cameron').value;
     this.os.microponto = this.details.get('microponto').value;
-    this.os.largura =  this.details.get('largura').value;
+    this.os.largura = this.details.get('largura').value;
     this.os.altura = this.details.get('altura').value;
     this.os.largura_material = this.details.get('largura_material').value;
     this.os.obs_montagem = this.details.get('obs_montagem').value;
+
+    this.os.substrato_prova = this.details.get('substrato_prova').value;
+    this.os.velocidade = this.details.get('velocidade').value;
+    this.os.dupla = this.details.get('dupla').value;
+    this.os.temperatura = this.details.get('temperatura').value;
+    this.os.horario = this.details.get('horario').value;
+    this.os.obs_prova = this.details.get('obs_prova').value;
+
+    console.log(document.getElementById("anilox1"));
 
     this.os.deleted = 'false';
   }
@@ -441,6 +500,7 @@ export class OsComponent implements OnInit {
         this.update();
       }
     }
+
   }
 
   onAdd() {

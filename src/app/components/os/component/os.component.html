@@ -104,7 +104,7 @@
       </mat-tab-group>
     </div>
 
-    <form [formGroup]="details" fxLayout="column" fxLayoutGap="10px" *ngIf="details_view">
+    <form [formGroup]="details" fxLayout="column" fxLayoutGap="20px" *ngIf="details_view">
 
       <mat-card>
 
@@ -157,7 +157,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div>
+          <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
             <mat-form-field *ngIf="local">
               <mat-select placeholder="Local da Gravação" formControlName="local">
                 <mat-option *ngFor="let value of local" [value]="value">
@@ -165,6 +165,15 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
+            <mat-form-field *ngIf="face">
+              <mat-select placeholder="Dupla Face" formControlName="face">
+                <mat-option *ngFor="let value of face" [value]="value">
+                  {{value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
             <mat-form-field class="full-width">
               <textarea matInput placeholder="Observações do Clichê" formControlName="observacoes_cliche"></textarea>
             </mat-form-field>
@@ -339,7 +348,7 @@
             <mat-card fxFlex="60">
               <div fxLayout="column">
                 <mat-checkbox formControlName="fechado" [(ngModel)]="disabled">Já está no fechamento</mat-checkbox>
-                
+
                 <div fxLayout="row" fxLayoutGap="10px" *ngIf="!disabled">
 
                   <mat-form-field fxFlex="33.3">
@@ -353,7 +362,7 @@
                   </mat-form-field>
 
                 </div>
-                <div fxLayout="row" fxLayoutGap="10px"  *ngIf="!disabled">
+                <div fxLayout="row" fxLayoutGap="10px" *ngIf="!disabled">
                   <mat-form-field fxFlex="50">
                     <input matInput placeholder="Quantidade de Pistas" formControlName="qtpistas">
                   </mat-form-field>
@@ -362,7 +371,7 @@
                   </mat-form-field>
                 </div>
 
-                <div fxLayout="row" fxLayoutGap="10px"  *ngIf="!disabled">
+                <div fxLayout="row" fxLayoutGap="10px" *ngIf="!disabled">
                   <mat-form-field fxFlex="50">
                     <input matInput placeholder="Quantidade Passo" formControlName="qtpasso">
                   </mat-form-field>
@@ -444,6 +453,99 @@
 
         </mat-card-content>
       </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Prova</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content fxLayout="column" fxLayoutGap="10px">
+
+          <div fxLayout="row" fxLayoutGap="10px">
+            <mat-form-field *ngIf="substrato_prova">
+              <mat-select placeholder="Substrato" formControlName="substrato_prova">
+                <mat-option *ngFor="let value of angulo" [value]="value">
+                  {{value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Velocidade" formControlName="velocidade">
+            </mat-form-field>
+
+            <mat-form-field *ngIf="dupla">
+              <mat-select placeholder="Dupla face" formControlName="dupla">
+                <mat-option *ngFor="let value of dupla" [value]="value">
+                  {{value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Temperatura" formControlName="temperatura">
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Horário da impressão" formControlName="horario">
+            </mat-form-field>
+
+
+          </div>
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Cor</th>
+                  <th>Anilox</th>
+                  <th>Ganho de ponto</th>
+                  <th>Densidade</th>
+                  <th>BCM</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let color of os.colors">
+                  <td>
+                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+                      <div>
+                        <mat-icon [style.color]="color.Hex">fiber_manual_record</mat-icon>
+                      </div>
+                      <div>
+                        {{color.Color}}
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <input matInput placeholder="" [id]="'anilox' + color._id">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <input matInput placeholder="" [id]="'ganho' + color._id">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <input matInput placeholder="" [id]="'densidade' + color._id">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <input matInput placeholder="" [id]="'bcm' + color._id">
+                    </mat-form-field>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Observações da prova" formControlName="obs_prova"></textarea>
+          </mat-form-field>
+
+        </mat-card-content>
+      </mat-card>
+
     </form>
   </div>
 </div>
