@@ -1,8 +1,6 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Os, Color, FormColor } from '../../../shared/models/os';
-import { ApiService } from 'src/app/core/http/api.service';
-import { Result_Color } from 'src/app/shared/models/api';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Color, FormColor } from '../../../shared/models/os';
 import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
@@ -46,7 +44,7 @@ export class DialogColorComponent {
     });
 
     this.color = formColor.color;
-    if(!formColor.color._id){
+    if (!formColor.color._id) {
       this.colors = formColor.colors;
     }
     this.lineatura = formColor.lineatura;
@@ -62,8 +60,8 @@ export class DialogColorComponent {
 
   }
 
-  getColor(){
-    
+  getColor() {
+
     this.form.get('color').setValue(this.color.Color);
     this.form.get('lineatura_1').setValue(this.color.lineatura1);
     this.form.get('lineatura_2').setValue(this.color.lineatura2);
@@ -75,7 +73,7 @@ export class DialogColorComponent {
 
   }
 
-  getForm(){
+  getForm() {
     this.color.Color = this.form.get('color').value;
     this.color.lineatura1 = this.form.get('lineatura_1').value;
     this.color.lineatura2 = this.form.get('lineatura_2').value;
@@ -90,7 +88,7 @@ export class DialogColorComponent {
   onAdd(): void {
 
     this.getForm();
-    
+
     this.dialogRef.close(this.color);
   }
 

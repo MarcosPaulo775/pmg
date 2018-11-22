@@ -69,6 +69,14 @@ export class Os {
   horario?: string;
   obs_prova?: string;
 
+  //financeiro
+
+  terceiro?: string;
+  cobranca?: string;
+  compra?: string;
+  cobrar?: string;
+  obs_financeiro?: string;
+
   error_code?: string;
   error?: string;
 }

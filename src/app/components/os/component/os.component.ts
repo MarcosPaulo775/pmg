@@ -127,7 +127,14 @@ export class OsComponent implements OnInit {
       dupla: [null, []],
       temperatura: [null, []],
       horario: [null, []],
-      obs_prova: [null, []]
+      obs_prova: [null, []],
+
+      terceiro: [null, []],
+      cobranca: [null, []],
+      compra: [null, []],
+      cobrar: [null, []],
+      obs_financeiro: [null, []],
+
     });
 
     this.filteredColors = this.details.get('color').valueChanges
@@ -428,6 +435,12 @@ export class OsComponent implements OnInit {
     this.details.get('horario').setValue(this.os.horario);
     this.details.get('obs_prova').setValue(this.os.obs_prova);
     this.disabled = this.os.fechado;
+
+    this.details.get('terceiro').setValue(this.os.terceiro);
+    this.details.get('cobranca').setValue(this.os.cobranca);
+    this.details.get('compra').setValue(this.os.compra);
+    this.details.get('cobrar').setValue(this.os.cobrar);
+    this.details.get('obs_financeiro').setValue(this.os.obs_financeiro);
   }
 
   /** Cria um ordem de serviço com os dados do formulario */
@@ -486,9 +499,13 @@ export class OsComponent implements OnInit {
     this.os.horario = this.details.get('horario').value;
     this.os.obs_prova = this.details.get('obs_prova').value;
 
-    console.log(document.getElementById("anilox1"));
-
     this.os.deleted = 'false';
+
+    this.os.terceiro = this.details.get('terceiro').value;
+    this.os.cobranca = this.details.get('cobranca').value;
+    this.os.compra = this.details.get('compra').value;
+    this.os.cobrar = this.details.get('cobrar').value;
+    this.os.obs_financeiro = this.details.get('obs_financeiro').value;
   }
 
   /** Dispara quando aperta o botão salvar
@@ -664,16 +681,6 @@ export class OsComponent implements OnInit {
 
     this.color = new Color();
 
-    this.color._id = color._id;
-    this.color.lineatura1 = color.lineatura1;
-    this.color.lineatura2 = color.lineatura2;
-    this.color.angulo = color.angulo;
-    this.color.fotocelula = color.fotocelula;
-    this.color.unitario = color.unitario;
-    this.color.camerom = color.camerom;
-    this.color.jogos = color.jogos;
-    this.color.Hex = color.Hex;
-
     for (let i = 0; i < this.os.colors.length; i++) {
 
       if (this.os.colors[i]._id == color._id) {
@@ -691,7 +698,9 @@ export class OsComponent implements OnInit {
       data: color
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.updateColor(result);
+      if(result){
+        this.updateColor(result);
+      }
     });
   }
 

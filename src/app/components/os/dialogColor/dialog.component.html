@@ -13,7 +13,7 @@
     <form [formGroup]="form">
       <div fxLayout="row" fxLayoutGap="10px">
         <div *ngIf="colors">
-          <mat-form-field class="mat-form-color">
+          <mat-form-field >
             <input type="text" placeholder="Adicione uma cor" aria-label="Number" matInput [matAutocomplete]="auto"
               formControlName="color">
             <mat-autocomplete #auto="matAutocomplete">

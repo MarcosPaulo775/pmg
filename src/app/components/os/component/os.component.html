@@ -432,7 +432,7 @@
                   <th>Ganho de ponto</th>
                   <th>Densidade</th>
                   <th>BCM</th>
-                  <th>Opções</th>
+                  <th>Editar</th>
                 </tr>
               </thead>
               <tbody>
@@ -463,9 +463,6 @@
                     <button mat-button matTooltip="Editar" (click)="editProva(color)">
                       <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-button matTooltip="Excluir" (click)="onDeleteColor(color._id)">
-                      <mat-icon>delete</mat-icon>
-                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -476,6 +473,29 @@
           </mat-form-field>
 
         </mat-card-content>
+      </mat-card>
+
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Financeiro</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field>
+            <input matInput placeholder="Cliente terceiro" formControlName="terceiro">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Tipo de cobranca" formControlName="cobranca">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Ordem de compra" formControlName="compra">
+          </mat-form-field>
+          <mat-checkbox formControlName="cobrar">Cobrar Clichês</mat-checkbox>
+        </mat-card-content>
+        <mat-form-field class="full-width">
+          <textarea matInput placeholder="Observações do orçamento" formControlName="obs_financeiro"></textarea>
+        </mat-form-field>
       </mat-card>
 
     </form>
