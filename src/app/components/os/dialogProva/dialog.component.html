@@ -1,0 +1,115 @@
+<style>
+  a,
+  h1,
+  th,
+  td {
+    font-family: "Open Sans";
+  }
+</style>
+<h1 mat-dialog-title>Ordem de serviço {{os.os}} / {{os.status}}</h1>
+<div mat-dialog-content>
+
+  <div fxFlex fxLayout="column" fxLayoutGap="10px">
+    <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
+      <mat-card fxFlex="50">
+
+        <div>
+          <a>Nome do serviço: {{os.nome}}</a>
+          <br>
+          <a> Nome do serviço: {{os.nome}} </a>
+          <br>
+          <a> Cliente: {{os.cliente}} </a>
+          <br>
+          <a> Pedido: {{os.pedido}}</a>
+          <br>
+          <a> Código do produto: {{os.codigo}}</a>
+          <br>
+          <a> Data de Despacho: {{os.data.split('-')[2]}} / {{os.data.split('-')[1]}} /
+            {{os.data.split('-')[0]}}</a>
+          <br>
+          <a> Código Barras: {{os.barra}}</a>
+        </div>
+
+      </mat-card>
+
+      <mat-card fxFlex="50">
+
+        <a> Tecnologia: {{os.tecnologia}} </a>
+        <br>
+        <a> Variação: {{os.variacao}} </a>
+        <br>
+        <a> Material: {{os.material}} </a>
+        <br>
+        <a> Lineatura: {{os.lineatura}} </a>
+        <br>
+        <a> Espessura: {{os.espessura}} </a>
+        <br>
+        <a> Camada: {{os.camada}} </a>
+        <br>
+        <a> Local: {{os.local}} </a>
+        <br>
+        <a> observação: {{os.obs_cliche}} </a>
+
+      </mat-card>
+    </div>
+
+    <div *ngIf="os.colors[0]">
+      <mat-card>
+
+        <div style="position: relative; max-height: 140px; overflow: auto;">
+          <table style="font-family: arial, sans-serif; border-collapse: collapse; width: 100%;">
+            <thead>
+              <tr style="text-align: left;">
+                <th>Cor</th>
+                <th>Lineatura 1</th>
+                <th>Lineatura 2</th>
+                <th>Angulo</th>
+                <th>Jogos</th>
+                <th>Configuração</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let color of os.colors" style="border-top: 1px solid #dddddd;">
+                <td>
+                  <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+                    <div>
+                      <mat-icon [style.color]="color.Hex">fiber_manual_record</mat-icon>
+                    </div>
+                    <div>
+                      {{color.Color}}
+                    </div>
+                  </div>
+                </td>
+                <td>{{color.lineatura1}}</td>
+                <td>{{color.lineatura2}}</td>
+                <td>{{color.angulo}}</td>
+                <td>{{color.jogos}}</td>
+                <td>
+                  <div>
+                    <mat-checkbox disabled="true" [checked]="color.fotocelula">Fotocélula</mat-checkbox>
+                  </div>
+                  <div>
+                    <mat-checkbox disabled="true" [checked]="color.unitario">Unitario</mat-checkbox>
+                  </div>
+                  <div>
+                    <mat-checkbox disabled="true" [checked]="color.camerom">Camerom</mat-checkbox>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <a> Perfil de cor: {{os.perfil}} </a>
+        <br>
+        <a> observação: {{os.obs_color}} </a>
+
+      </mat-card>
+    </div>
+    <p></p>
+  </div>
+
+</div>
+<div mat-dialog-actions align="center">
+  <button mat-button (click)="onNoClick()">Fechar</button>
+</div>

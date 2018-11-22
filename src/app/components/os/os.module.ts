@@ -7,6 +7,8 @@ import { OsComponent } from './component/os.component';
 import { SharedModule } from '../../shared/modules/shared.module';
 import { ApiService } from '../../core/http/api.service';
 import { HttpClientModule } from '@angular/common/http';
+import { DialogColorComponent } from './dialogColor/dialog.component';
+import { DialogProvaComponent } from './dialogProva/dialog.component';
 
 
 @NgModule({
@@ -17,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [ApiService],
-  entryComponents: [],
-  declarations: [OsComponent],
+  entryComponents: [DialogColorComponent, DialogProvaComponent],
+  declarations: [OsComponent, DialogColorComponent, DialogProvaComponent],
 })
 export class OsModule { }

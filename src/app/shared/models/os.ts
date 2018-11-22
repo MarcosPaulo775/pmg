@@ -92,3 +92,12 @@ export class Color {
   densidade?: string;
   bcm?: string;
 }
+
+export class FormColor {
+  color: Color;
+
+  colors: Color[];
+  lineatura: string[];
+  angulo: string[];
+
+}
