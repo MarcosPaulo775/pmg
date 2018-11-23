@@ -9,6 +9,7 @@ import { ApiService } from '../../core/http/api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { DialogColorComponent } from './dialogColor/dialog.component';
 import { DialogProvaComponent } from './dialogProva/dialog.component';
+import { DialogFinanceiroComponent } from './dialogFinanceiro/dialog.component';
 
 
 @NgModule({
@@ -19,7 +20,7 @@ import { DialogProvaComponent } from './dialogProva/dialog.component';
     HttpClientModule
   ],
   providers: [ApiService],
-  entryComponents: [DialogColorComponent, DialogProvaComponent],
-  declarations: [OsComponent, DialogColorComponent, DialogProvaComponent],
+  entryComponents: [DialogColorComponent, DialogProvaComponent, DialogFinanceiroComponent],
+  declarations: [OsComponent, DialogColorComponent, DialogProvaComponent, DialogFinanceiroComponent],
 })
 export class OsModule { }

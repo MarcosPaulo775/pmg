@@ -481,21 +481,69 @@
           <mat-card-title>Financeiro</mat-card-title>
         </mat-card-header>
 
-        <mat-card-content fxLayout="row" fxLayoutGap="10px">
-          <mat-form-field>
-            <input matInput placeholder="Cliente terceiro" formControlName="terceiro">
+        <mat-card-content fxLayout="column" fxLayoutGap="10px">
+
+          <div fxLayout="row" fxLayoutGap="10px">
+            <mat-form-field>
+              <input matInput placeholder="Cliente terceiro" formControlName="terceiro">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Tipo de cobranca" formControlName="cobranca">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Ordem de compra" formControlName="compra">
+            </mat-form-field>
+            <mat-checkbox formControlName="cobrar">Cobrar Clichês</mat-checkbox>
+          </div>
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Cor</th>
+                  <th>Altura</th>
+                  <th>Largura</th>
+                  <th>Editar</th>
+                  <th align="right right" fxLayoutAlign="right right" style="text-align: right">Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let color of os.colors">
+                  <td>
+                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+                      <div>
+                        <mat-icon [style.color]="color.Hex">fiber_manual_record</mat-icon>
+                      </div>
+                      <div>
+                        {{color.Color}}
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    {{color.altura}}
+                  </td>
+                  <td>
+                    {{color.largura}}
+                  </td>
+                  <td>
+                    <button mat-button matTooltip="Editar" (click)="editFinanceiro(color)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </td>
+                  <td fxLayoutAlign="right right" style="text-align: right">
+                    R$ 123,00
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div align="right right">
+            Total: R$ 13456,00
+          </div>
+
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Observações do orçamento" formControlName="obs_financeiro"></textarea>
           </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="Tipo de cobranca" formControlName="cobranca">
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="Ordem de compra" formControlName="compra">
-          </mat-form-field>
-          <mat-checkbox formControlName="cobrar">Cobrar Clichês</mat-checkbox>
         </mat-card-content>
-        <mat-form-field class="full-width">
-          <textarea matInput placeholder="Observações do orçamento" formControlName="obs_financeiro"></textarea>
-        </mat-form-field>
       </mat-card>
 
     </form>

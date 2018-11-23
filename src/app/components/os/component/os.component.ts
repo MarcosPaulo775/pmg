@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DialogProvaComponent } from '../dialogProva/dialog.component';
 import { DialogColorComponent } from '../dialogColor/dialog.component';
+import { DialogFinanceiroComponent } from '../dialogFinanceiro/dialog.component';
 
 @Component({
   selector: 'app-os',
@@ -694,6 +695,18 @@ export class OsComponent implements OnInit {
 
   editProva(color: Color): void {
     const dialogRef = this.dialog.open(DialogProvaComponent, {
+      width: '800px',
+      data: color
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.updateColor(result);
+      }
+    });
+  }
+
+  editFinanceiro(color: Color): void {
+    const dialogRef = this.dialog.open(DialogFinanceiroComponent, {
       width: '800px',
       data: color
     });

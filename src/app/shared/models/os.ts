@@ -99,6 +99,8 @@ export class Color {
   ganho?: string;
   densidade?: string;
   bcm?: string;
+  altura?: string;
+  largura?: string;
 }
 
 export class FormColor {
