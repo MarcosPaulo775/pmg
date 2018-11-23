@@ -1,0 +1,84 @@
+<style>
+  a,
+  h1,
+  th,
+  td {
+    font-family: "Open Sans";
+  }
+</style>
+<h1 mat-dialog-title>Editar Cor</h1>
+<div mat-dialog-content>
+
+    <form [formGroup]="form">
+      <div fxLayout="row" fxLayoutGap="10px">
+        <div *ngIf="colors">
+          <mat-form-field style="width: 300px;">
+            <input type="text" placeholder="Adicione uma cor" aria-label="Number" matInput [matAutocomplete]="auto"
+              formControlName="color">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let color of filteredColors | async" [value]="color.Color">
+                <div fxLayout="row" align="center center">
+                  <div>
+                    <mat-icon [style.color]="color.Hex">fiber_manual_record</mat-icon>
+                  </div>
+                  <div>
+                    {{color.Color}}
+                  </div>
+                </div>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field *ngIf="lineatura">
+            <mat-select placeholder="Lineatura 1" formControlName="lineatura_1">
+              <mat-option *ngFor="let value of lineatura" [value]="value">
+                {{value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field *ngIf="lineatura">
+            <mat-select placeholder="Lineatura 2" formControlName="lineatura_2">
+              <mat-option *ngFor="let value of lineatura" [value]="value">
+                {{value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field *ngIf="angulo">
+            <mat-select placeholder="Angulo" formControlName="angulo">
+              <mat-option *ngFor="let value of angulo" [value]="value">
+                {{value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field>
+          <input matInput placeholder="Jogos" type="number" formControlName="jogos">
+        </mat-form-field>
+
+        <div>
+          <mat-checkbox formControlName="fotocelula">Fotocélula</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox formControlName="unitario">Unitario</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox formControlName="camerom">Camerom</mat-checkbox>
+        </div>
+      </div>
+    </form>
+
+</div>
+<div mat-dialog-actions align="center">
+  <button mat-button (click)="onAdd()">Salvar</button>
+  <button mat-button (click)="onNoClick()">Fechar</button>
+</div>

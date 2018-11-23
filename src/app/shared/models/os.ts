@@ -69,6 +69,14 @@ export class Os {
   horario?: string;
   obs_prova?: string;
 
+  //financeiro
+
+  terceiro?: string;
+  cobranca?: string;
+  compra?: string;
+  cobrar?: string;
+  obs_financeiro?: string;
+
   error_code?: string;
   error?: string;
 }
@@ -91,4 +99,15 @@ export class Color {
   ganho?: string;
   densidade?: string;
   bcm?: string;
+  altura?: string;
+  largura?: string;
+}
+
+export class FormColor {
+  color: Color;
+
+  colors: Color[];
+  lineatura: string[];
+  angulo: string[];
+
 }

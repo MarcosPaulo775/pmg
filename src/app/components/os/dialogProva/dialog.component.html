@@ -1,0 +1,35 @@
+<style>
+  a,
+  h1,
+  th,
+  td {
+    font-family: "Open Sans";
+  }
+</style>
+<h1 mat-dialog-title>Editar Cor</h1>
+<div mat-dialog-content>
+
+
+  <form [formGroup]="form">
+    <div fxLayout="row" fxLayoutGap="10px">
+      <mat-form-field>
+        <input matInput placeholder="Anilox" formControlName="anilox">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Ganho de ponto" formControlName="ganho">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Densidade" formControlName="densidade">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="BCM" formControlName="bcm">
+      </mat-form-field>
+    </div>
+  </form>
+
+
+</div>
+<div mat-dialog-actions align="center">
+  <button mat-button (click)="onAdd()">Salvar</button>
+  <button mat-button (click)="onNoClick()">Fechar</button>
+</div>

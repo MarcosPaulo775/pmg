@@ -2,15 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { ProductionComponent } from '../../production/component/production.component';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { ApiService } from '../../../core/http/api.service';
-import { Os, Color } from '../../../shared/models/os';
+import { Os, Color, FormColor } from '../../../shared/models/os';
 import { Count, Result_OS, Result_Item, Result_Color } from '../../../shared/models/api';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import * as URL from '../../../core/http/url';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { DialogProvaComponent } from '../dialogProva/dialog.component';
+import { DialogColorComponent } from '../dialogColor/dialog.component';
+import { DialogFinanceiroComponent } from '../dialogFinanceiro/dialog.component';
 
 @Component({
   selector: 'app-os',
@@ -52,13 +55,19 @@ export class OsComponent implements OnInit {
     private apiService: ApiService,
     public snackBar: MatSnackBar,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    public dialog: MatDialog
   ) { }
 
   private _filter(value: string): Color[] {
     const filterValue = value.toLowerCase();
 
     return this.colors.filter(color => color.Color.toLowerCase().indexOf(filterValue) === 8);
+  }
+
+  fechado() {
+    this.disabled = !this.details.get('fechado').value;
+
   }
 
   ngOnInit() {
@@ -119,7 +128,14 @@ export class OsComponent implements OnInit {
       dupla: [null, []],
       temperatura: [null, []],
       horario: [null, []],
-      obs_prova: [null, []]
+      obs_prova: [null, []],
+
+      terceiro: [null, []],
+      cobranca: [null, []],
+      compra: [null, []],
+      cobrar: [null, []],
+      obs_financeiro: [null, []],
+
     });
 
     this.filteredColors = this.details.get('color').valueChanges
@@ -388,7 +404,7 @@ export class OsComponent implements OnInit {
     this.details.get('observacoes_cliche').setValue(this.os.obs_cliche);
     this.details.get('observacoes_cores').setValue(this.os.obs_color);
 
-    //this.details.get('fechado').setValue(this.os.fechado);
+    this.details.get('fechado').setValue(this.os.fechado);
     this.details.get('z').setValue(this.os.z);
     this.details.get('desenvolvimento').setValue(this.os.desenvolvimento);
     this.details.get('fechamento').setValue(this.os.fechamento);
@@ -420,6 +436,12 @@ export class OsComponent implements OnInit {
     this.details.get('horario').setValue(this.os.horario);
     this.details.get('obs_prova').setValue(this.os.obs_prova);
     this.disabled = this.os.fechado;
+
+    this.details.get('terceiro').setValue(this.os.terceiro);
+    this.details.get('cobranca').setValue(this.os.cobranca);
+    this.details.get('compra').setValue(this.os.compra);
+    this.details.get('cobrar').setValue(this.os.cobrar);
+    this.details.get('obs_financeiro').setValue(this.os.obs_financeiro);
   }
 
   /** Cria um ordem de serviço com os dados do formulario */
@@ -478,9 +500,13 @@ export class OsComponent implements OnInit {
     this.os.horario = this.details.get('horario').value;
     this.os.obs_prova = this.details.get('obs_prova').value;
 
-    console.log(document.getElementById("anilox1"));
-
     this.os.deleted = 'false';
+
+    this.os.terceiro = this.details.get('terceiro').value;
+    this.os.cobranca = this.details.get('cobranca').value;
+    this.os.compra = this.details.get('compra').value;
+    this.os.cobrar = this.details.get('cobrar').value;
+    this.os.obs_financeiro = this.details.get('obs_financeiro').value;
   }
 
   /** Dispara quando aperta o botão salvar
@@ -503,9 +529,19 @@ export class OsComponent implements OnInit {
 
   }
 
-  onAdd() {
+  addColor(color: Color) {
 
-    this.getColor();
+    this.color = new Color();
+
+    this.color.Color = color.Color;
+    this.color.lineatura1 = color.lineatura1;
+    this.color.lineatura2 = color.lineatura2;
+    this.color.angulo = color.angulo;
+    this.color.fotocelula = color.fotocelula;
+    this.color.unitario = color.unitario;
+    this.color.camerom = color.camerom;
+    this.color.jogos = color.jogos;
+
 
     if (this.color.Color) {
       if (this.os.colors == undefined) {
@@ -527,8 +563,6 @@ export class OsComponent implements OnInit {
       this.os.colors.push(this.color);
 
       this.onSubmit();
-
-      this.clearColor();
     }
   }
 
@@ -559,17 +593,6 @@ export class OsComponent implements OnInit {
     this.color.camerom = this.details.get('camerom').value;
     this.color.jogos = String(this.details.get('jogos').value);
 
-  }
-
-  clearColor() {
-    this.details.get('color').setValue(null);
-    this.details.get('lineatura_1').setValue(null);
-    this.details.get('lineatura_2').setValue(null);
-    this.details.get('angulo').setValue(null);
-    this.details.get('fotocelula').setValue(null);
-    this.details.get('unitario').setValue(null);
-    this.details.get('camerom').setValue(null);
-    this.details.get('jogos').setValue(null);
   }
 
   /** Salva uma Ordem de serviço nova no banco de dados*/
@@ -655,6 +678,80 @@ export class OsComponent implements OnInit {
       });
   }
 
+  updateColor(color: Color) {
+
+    this.color = new Color();
+
+    for (let i = 0; i < this.os.colors.length; i++) {
+
+      if (this.os.colors[i]._id == color._id) {
+        this.os.colors[i] = color;
+      }
+    }
+
+    this.onSubmit();
+
+  }
+
+  editProva(color: Color): void {
+    const dialogRef = this.dialog.open(DialogProvaComponent, {
+      width: '800px',
+      data: color
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.updateColor(result);
+      }
+    });
+  }
+
+  editFinanceiro(color: Color): void {
+    const dialogRef = this.dialog.open(DialogFinanceiroComponent, {
+      width: '800px',
+      data: color
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.updateColor(result);
+      }
+    });
+  }
+
+  editColor(color: Color): void {
+    let formColor = new FormColor();
+    formColor.color = color;
+    formColor.colors = this.colors;
+    formColor.angulo = this.angulo;
+    formColor.lineatura = this.lineatura;
+    const dialogRef = this.dialog.open(DialogColorComponent, {
+      width: '800px',
+      data: formColor
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.updateColor(result);
+      }
+    });
+  }
+
+  onAdd(): void {
+    let formColor = new FormColor();
+    formColor.color = new Color();
+    formColor.colors = this.colors;
+    formColor.angulo = this.angulo;
+    formColor.lineatura = this.lineatura;
+    const dialogRef = this.dialog.open(DialogColorComponent, {
+      width: '1000px',
+      data: formColor
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.addColor(result);
+      }
+    });
+  }
+
   /** Dispara quando aperta o botao de criar uma nova versao */
   onVersion() {
     this.os.versao++;
@@ -679,4 +776,5 @@ export class OsComponent implements OnInit {
       } this.router.navigate(['/login']);
     }
   }
+
 }
