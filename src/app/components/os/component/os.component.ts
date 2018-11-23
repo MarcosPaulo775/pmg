@@ -741,7 +741,7 @@ export class OsComponent implements OnInit {
     formColor.angulo = this.angulo;
     formColor.lineatura = this.lineatura;
     const dialogRef = this.dialog.open(DialogColorComponent, {
-      width: '800px',
+      width: '1000px',
       data: formColor
     });
 

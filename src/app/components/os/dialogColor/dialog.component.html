@@ -9,11 +9,10 @@
 <h1 mat-dialog-title>Editar Cor</h1>
 <div mat-dialog-content>
 
-
     <form [formGroup]="form">
       <div fxLayout="row" fxLayoutGap="10px">
         <div *ngIf="colors">
-          <mat-form-field >
+          <mat-form-field style="width: 300px;">
             <input type="text" placeholder="Adicione uma cor" aria-label="Number" matInput [matAutocomplete]="auto"
               formControlName="color">
             <mat-autocomplete #auto="matAutocomplete">
@@ -77,7 +76,6 @@
         </div>
       </div>
     </form>
-
 
 </div>
 <div mat-dialog-actions align="center">
