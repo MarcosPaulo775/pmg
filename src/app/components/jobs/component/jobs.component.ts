@@ -66,7 +66,7 @@ export class JobsComponent implements OnInit {
   /** Abre caixa de dialogo com as informações da ordem de serviço */
   openDialog(os: Os): void {
     const dialogRef = this.dialog.open(DialogComponent, {
-      width: '800px',
+      width: '100vw',
       data: os
     });
     dialogRef.afterClosed().subscribe(result => {
