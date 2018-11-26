@@ -142,6 +142,8 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
             <mat-form-field *ngIf="espessura">
               <mat-select placeholder="Espessura" formControlName="espessura">
                 <mat-option *ngFor="let value of espessura" [value]="value">
@@ -156,8 +158,6 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </div>
-          <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
             <mat-form-field *ngIf="local">
               <mat-select placeholder="Local da Gravação" formControlName="local">
                 <mat-option *ngFor="let value of local" [value]="value">
@@ -275,7 +275,7 @@
 
         <mat-card-content fxLayout="column" fxLayoutGap="10px">
 
-          <div fxLayout="row" fxLayoutGap="10px">
+          <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
             <mat-card fxFlex="60">
               <div fxLayout="column">
                 <mat-checkbox formControlName="fechado" (click)="fechado()">Já está no fechamento</mat-checkbox>
@@ -395,7 +395,7 @@
           <div fxLayout="row" fxLayoutGap="10px">
             <mat-form-field *ngIf="substrato_prova">
               <mat-select placeholder="Substrato" formControlName="substrato_prova">
-                <mat-option *ngFor="let value of angulo" [value]="value">
+                <mat-option *ngFor="let value of substrato_prova" [value]="value">
                   {{value}}
                 </mat-option>
               </mat-select>
@@ -488,10 +488,10 @@
               <input matInput placeholder="Cliente terceiro" formControlName="terceiro">
             </mat-form-field>
             <mat-form-field>
-              <input matInput placeholder="Tipo de cobranca" formControlName="cobranca">
+              <input matInput placeholder="Tipo de cobranca" formControlName="velocidade">
             </mat-form-field>
             <mat-form-field>
-              <input matInput placeholder="Ordem de compra" formControlName="compra">
+              <input matInput placeholder="Ordem de compra" formControlName="dupla">
             </mat-form-field>
             <mat-checkbox formControlName="cobrar">Cobrar Clichês</mat-checkbox>
           </div>
@@ -503,7 +503,7 @@
                   <th>Altura</th>
                   <th>Largura</th>
                   <th>Editar</th>
-                  <th align="right right" fxLayoutAlign="right right" style="text-align: right">Valor</th>
+                  <th>Valor</th>
                 </tr>
               </thead>
               <tbody>

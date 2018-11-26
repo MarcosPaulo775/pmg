@@ -42,6 +42,8 @@ export class OsComponent implements OnInit {
   perfil: string[];
   dupla: string[];
 
+  substrato_prova: string[];
+
   filteredColors: Observable<Color[]>;
 
   color: Color;
@@ -282,10 +284,13 @@ export class OsComponent implements OnInit {
       .subscribe((data: Result_Item) => {
         if (data.error_code == null) {
           this.substrato = new Array<string>();
+          this.substrato_prova = new Array<string>();
           for (let i = 0; i < data.results.length; i++) {
             this.substrato.push(data.results[i].name);
+            this.substrato_prova.push(data.results[i].name);
           }
           this.details.get('substrato').setValue(this.os.substrato);
+          this.details.get('substrato_prova').setValue(this.os.substrato_prova);
         }
       }, (data) => {
       });
