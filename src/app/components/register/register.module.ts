@@ -6,12 +6,14 @@ import { RegisterComponent } from './component/register.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
 import { ApiService } from 'src/app/core/http/api.service';
+import {NgxMaskModule} from 'ngx-mask'
 
 @NgModule({
   imports: [
     CommonModule,
     RegisterRoutingModule,
-    SharedModule
+    SharedModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [ApiService],
   entryComponents: [],

@@ -59,11 +59,12 @@ export class RegisterComponent implements OnInit {
       nf: [null, []],
       boleto: [null, []],
       prazo: [null, []],
+      obs: [null, []]
     });
 
     this.preco = this.formBuilder.group({
-      digital_114: [null, []],
-      digital_170: [null, []],
+      top_flat_114: [null, []],
+      top_flat_170: [null, []],
       digital_284: [null, []],
       kodak_114: [null, []],
       kodak_170: [null, []],
@@ -73,11 +74,7 @@ export class RegisterComponent implements OnInit {
     this.outros = this.formBuilder.group({
       email_nf: [null, []],
       email_materiais: [null, []],
-      email_pedido: [null, []],
-      serasa: [null, []],
-      cartao_cnpj: [null, []],
-      obs_financeiro: [null, []],
-      obs_diretoria: [null, []],
+      email_pedido: [null, []]
     });
 
     if (localStorage.getItem('_id_company')) {
@@ -122,9 +119,10 @@ export class RegisterComponent implements OnInit {
     this.company.nf = this.pagamento.get('nf').value;
     this.company.boleto = this.pagamento.get('boleto').value;
     this.company.prazo = this.pagamento.get('prazo').value;
+    this.company.obs = this.pagamento.get('obs').value;
 
-    this.company.digital_114 = this.preco.get('digital_114').value;
-    this.company.digital_170 = this.preco.get('digital_170').value;
+    this.company.top_flat_114 = this.preco.get('top_flat_114').value;
+    this.company.top_flat_170 = this.preco.get('top_flat_170').value;
     this.company.digital_284 = this.preco.get('digital_284').value;
     this.company.kodak_114 = this.preco.get('kodak_114').value;
     this.company.kodak_170 = this.preco.get('kodak_170').value;
@@ -133,10 +131,6 @@ export class RegisterComponent implements OnInit {
     this.company.email_nf = this.outros.get('email_nf').value;
     this.company.email_materiais = this.outros.get('email_materiais').value;
     this.company.email_pedido = this.outros.get('email_pedido').value;
-    this.company.serasa = this.outros.get('serasa').value;
-    this.company.cartao_cnpj = this.outros.get('cartao_cnpj').value;
-    this.company.obs_financeiro = this.outros.get('obs_financeiro').value;
-    this.company.obs_diretoria = this.outros.get('obs_diretoria').value;
 
     this.company.deleted = false;
 
@@ -176,9 +170,10 @@ export class RegisterComponent implements OnInit {
           this.pagamento.get('nf').setValue(this.company.nf);
           this.pagamento.get('boleto').setValue(this.company.boleto);
           this.pagamento.get('prazo').setValue(this.company.prazo);
+          this.pagamento.get('obs').setValue(this.company.obs);
 
-          this.preco.get('digital_114').setValue(this.company.digital_114);
-          this.preco.get('digital_170').setValue(this.company.digital_170);
+          this.preco.get('top_flat_114').setValue(this.company.top_flat_114);
+          this.preco.get('top_flat_170').setValue(this.company.top_flat_170);
           this.preco.get('digital_284').setValue(this.company.digital_284);
           this.preco.get('kodak_114').setValue(this.company.kodak_114);
           this.preco.get('kodak_170').setValue(this.company.kodak_170);
@@ -187,10 +182,6 @@ export class RegisterComponent implements OnInit {
           this.outros.get('email_nf').setValue(this.company.email_nf);
           this.outros.get('email_materiais').setValue(this.company.email_materiais);
           this.outros.get('email_pedido').setValue(this.company.email_pedido);
-          this.outros.get('serasa').setValue(this.company.serasa);
-          this.outros.get('cartao_cnpj').setValue(this.company.cartao_cnpj);
-          this.outros.get('obs_financeiro').setValue(this.company.obs_financeiro);
-          this.outros.get('obs_diretoria').setValue(this.company.obs_diretoria);
         } else {
         }
       }, (data) => {

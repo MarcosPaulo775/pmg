@@ -29,9 +29,10 @@ export class Company {
     nf?: string;
     boleto?: string;
     prazo?: string;
+    obs?: string;
 
-    digital_114?: string;
-    digital_170?: string;
+    top_flat_114?: string;
+    top_flat_170?: string;
     digital_284?: string;
     kodak_114?: string;
     kodak_170?: string;
@@ -40,10 +41,6 @@ export class Company {
     email_nf?: string;
     email_materiais?: string;
     email_pedido?: string;
-    serasa?: boolean;
-    cartao_cnpj?: boolean;
-    obs_financeiro?: string;
-    obs_diretoria?: string;
 
     deleted?: boolean;
 

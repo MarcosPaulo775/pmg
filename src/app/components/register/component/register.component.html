@@ -163,13 +163,17 @@
                 <mat-form-field>
                   <input matInput placeholder="NF" formControlName="nf">
                 </mat-form-field>
-  
+
                 <mat-form-field>
                   <input matInput placeholder="Boleto" formControlName="boleto">
                 </mat-form-field>
-  
+
                 <mat-form-field>
                   <input matInput placeholder="Prazo" formControlName="prazo">
+                </mat-form-field>
+
+                <mat-form-field>
+                  <textarea matInput placeholder="Observação" formControlName="obs" style="height: 130px;"></textarea>
                 </mat-form-field>
               </form>
 
@@ -185,27 +189,27 @@
 
               <form [formGroup]="preco">
                 <mat-form-field>
-                  <input matInput placeholder="Digital 1,14" formControlName="digital_114">
+                  <input matInput placeholder="Top Flat 1,14" type='text' prefix="US$ " mask="00,00" formControlName="top_flat_114">
                 </mat-form-field>
-  
+
                 <mat-form-field>
-                  <input matInput placeholder="Digital 1,70" formControlName="digital_170">
+                  <input matInput placeholder="Top Flat 1,70" type='text' prefix="US$ " mask="00,00" formControlName="top_flat_170">
                 </mat-form-field>
-  
+
                 <mat-form-field>
-                  <input matInput placeholder="Digital 2,84" formControlName="digital_284">
+                  <input matInput placeholder="Digital 2,84" type='text' prefix="US$ " mask="00,00" formControlName="digital_284">
                 </mat-form-field>
-  
+
                 <mat-form-field>
-                  <input matInput placeholder="Kodak NX 1,14" formControlName="kodak_114">
+                  <input matInput placeholder="Kodak NX 1,14" type='text' prefix="US$ " mask="00,00" formControlName="kodak_114">
                 </mat-form-field>
-  
+
                 <mat-form-field>
-                  <input matInput placeholder="Kodak NX 1,7" formControlName="kodak_170">
+                  <input matInput placeholder="Kodak NX 1,7" type='text' prefix="US$ " mask="00,00" formControlName="kodak_170">
                 </mat-form-field>
-  
+
                 <mat-form-field>
-                  <input matInput placeholder="Margem" formControlName="margem">
+                  <input matInput placeholder="Margem" type='text' prefix="US$ " mask="00,00" formControlName="margem">
                 </mat-form-field>
               </form>
 
@@ -223,28 +227,15 @@
               <mat-form-field>
                 <input matInput placeholder="E-mail para NF’e" formControlName="email_nf">
               </mat-form-field>
-  
+
               <mat-form-field>
                 <input matInput placeholder="E-mail para envio de materiais" formControlName="email_materiais">
               </mat-form-field>
-  
+
               <mat-form-field>
                 <input matInput placeholder="E-mail de Pedido / Valores" formControlName="email_pedido">
               </mat-form-field>
-  
-              <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
-                <mat-checkbox formControlName="serasa">Consulta Serasa</mat-checkbox>
-                <mat-checkbox formControlName="cartao_cnpj">Cartão CNPJ e Insc. Estadual</mat-checkbox>
-              </div>
-  
-              <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
-                <mat-form-field>
-                  <textarea matInput placeholder="Financeiro" formControlName="obs_financeiro"></textarea>
-                </mat-form-field>
-                <mat-form-field>
-                  <textarea matInput placeholder="Diretoria" formControlName="obs_diretoria"></textarea>
-                </mat-form-field>
-              </div>
+
             </form>
 
           </mat-card-content>
