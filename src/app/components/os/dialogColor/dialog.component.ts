@@ -21,7 +21,7 @@ export class DialogColorComponent {
   private _filter(value: string): Color[] {
     const filterValue = value.toLowerCase();
 
-    return this.colors.filter(color => color.Color.toLowerCase().indexOf(filterValue) === 8);
+    return this.colors.filter(color => color.color.toLowerCase().indexOf(filterValue) === 8);
   }
 
   constructor(
@@ -62,7 +62,7 @@ export class DialogColorComponent {
 
   getColor() {
 
-    this.form.get('color').setValue(this.color.Color);
+    this.form.get('color').setValue(this.color.color);
     this.form.get('lineatura_1').setValue(this.color.lineatura1);
     this.form.get('lineatura_2').setValue(this.color.lineatura2);
     this.form.get('angulo').setValue(this.color.angulo);
@@ -74,7 +74,7 @@ export class DialogColorComponent {
   }
 
   getForm() {
-    this.color.Color = this.form.get('color').value;
+    this.color.color = this.form.get('color').value;
     this.color.lineatura1 = this.form.get('lineatura_1').value;
     this.color.lineatura2 = this.form.get('lineatura_2').value;
     this.color.angulo = this.form.get('angulo').value;

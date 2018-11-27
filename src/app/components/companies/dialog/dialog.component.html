@@ -1,17 +1,84 @@
 <h1 mat-dialog-title>Ordem de serviço</h1>
-<div mat-dialog-content fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
-  
-  <div>
-    <p> <strong>Nome do serviço:</strong> </p>
-    <p> <strong>Cliente:</strong> </p>
-    <p> <strong>Ordem de serviço:</strong> </p>
-    <p> <strong>Data de Despacho:</strong> </p>
-    <p> <strong>Status:</strong> </p>
-  </div>
-  <div>
-    <p> <strong>Pedido: </strong> 1</p>
-    <p> <strong>Código Barras:</strong> </p>
-    <p> <strong>Versão: </strong>1</p>
+<div mat-dialog-content fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px" class="mat-typography">
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <div>
+      <a>Solicitante / Vendas: {{company.Solicitante}}</a>
+      <br>
+      <a> Cliente principal: {{company.principal}} </a>
+    </div>
+
+    <div>
+      <a> Razão Social: {{company.razao}}</a>
+      <br>
+      <a> Nome Fantasia: {{company.fantasia}}</a>
+      <br>
+      <a> Endereço: {{company.endereco}}</a>
+      <br>
+      <a> Bairro: {{company.bairro}}</a>
+      <br>
+      <a> Cidade: {{company.cidade}}</a>
+      <br>
+      <a> UF: {{company.uf}}</a>
+      <br>
+      <a> CEP: {{company.cep}}</a>
+      <br>
+      <a> Tel.: {{company.tel}}</a>
+      <br>
+      <a> Fax: {{company.fax}}</a>
+      <br>
+      <a> CNPJ / CPF: {{company.cnpj_cpf}}</a>
+      <br>
+      <a> I.E. / RG: {{company.ie_rg}}</a>
+      <br>
+      <a> Contato Comercial: {{company.comercial}}</a>
+      <br>
+      <a> Tel. Comercial: {{company.tel_comercial}}</a>
+      <br>
+      <a> e-mail Comercial: {{company.email_comercial}}</a>
+      <br>
+      <a> Contato Financeiro: {{company.financeiro}}</a>
+      <br>
+      <a> Tel. Financeiro: {{company.tel_financeiro}}</a>
+      <br>
+      <a> e-mail Financeiro: {{company.email_financeiro}}</a>
+      <br>
+      <a> End. de Cobrança: {{company.endereco_cobranca}}</a>
+
+    </div>
+
+    <div>
+      <a>NF: {{company.nf}}</a>
+      <br>
+      <a> Boleto: {{company.boleto}} </a>
+      <br>
+      <a> Prazo: {{company.prazo}} </a>
+      <br>
+      <a> Observação: {{company.obs}} </a>
+    </div>
+
+    <div>
+      <a>Top Flat 1,14: {{company.top_flat_114}}</a>
+      <br>
+      <a> Top Flat 1,70: {{company.top_flat_170}} </a>
+      <br>
+      <a> Digital 2,84: {{company.digital_284}} </a>
+      <br>
+      <a> Kodak NX 1,14: {{company.kodak_114}} </a>
+      <br>
+      <a> Kodak NX 1,7: {{company.kodak_170}} </a>
+      <br>
+      <a> Margem: {{company.margem}} </a>
+    </div>
+
+    <div>
+      <a>E-mail para NF’e: {{company.email_nf}}</a>
+      <br>
+      <a> E-mail para envio de materiais: {{company.email_materiais}} </a>
+      <br>
+      <a> E-mail de Pedido / Valores: {{company.email_pedido}} </a>
+    </div>
+
   </div>
 </div>
 <div mat-dialog-actions align="center">

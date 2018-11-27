@@ -1,4 +1,4 @@
-export class Os {
+export class OS {
   _id?: string;
   os?: string;
   versao?: number;
@@ -8,7 +8,7 @@ export class Os {
   data?: string;
   codigo?: string;
   barra?: string;
-  deleted?: string;
+  deleted?: boolean;
   status?: string;
 
   //cliche
@@ -77,17 +77,19 @@ export class Os {
   cobrar?: string;
   obs_financeiro?: string;
 
+  valor?: number;
+
   error_code?: string;
   error?: string;
 }
 
 export class Color {
   _id?: number;
-  Color?: string;
-  Hex?: string;
-  Blue?: string;
-  Green?: string;
-  Red?: string;
+  color?: string;
+  hex?: string;
+  blue?: string;
+  green?: string;
+  red?: string;
   lineatura1?: string;
   lineatura2?: string;
   angulo?: string;
@@ -101,6 +103,7 @@ export class Color {
   bcm?: string;
   altura?: string;
   largura?: string;
+  valor?: number;
 }
 
 export class FormColor {

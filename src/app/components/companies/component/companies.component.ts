@@ -4,7 +4,7 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { ApiService } from 'src/app/core/http/api.service';
 import { Result_Company } from 'src/app/shared/models/api';
 import { Company } from 'src/app/shared/models/company';
-import {MatTableDataSource} from '@angular/material';
+import { MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { CrmComponent } from '../../crm/component/crm.component';
 
@@ -32,36 +32,45 @@ export class CompaniesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.list();
+    this.list(['deleted', 'equal to', false]);
     this.crmComponent.title = 'Empresas';
     this.crmComponent.company = 'rgb(0, 90, 176)';
     this.crmComponent.dashboard = '';
   }
 
-  onEdit() {
+  onEdit(id: string) {
+    if (id != null) {
+      localStorage.setItem('_id_company', id);
+      this.router.navigate(['/crm/register']);
+    }
 
   }
 
-  onDelete() {
-
+  onDelete(id: string) {
+    this.apiService.custom_objects_set_keys('company', id, { 'deleted': 'true' })
+      .subscribe((data: Result_Company) => {
+        this.session(data.error_code);
+        this.list(['deleted', 'equal to', false]);
+      }, (data) => {
+      });
   }
 
-  openDialog(): void {
+  openDialog(company: Company): void {
     const dialogRef = this.dialog.open(DialogComponent, {
-      width: '800px',
-      data: null
+      width: '100vw',
+      data: company
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
   }
 
-  list() {
-    this.apiService.custom_objects_list('company', ['deleted', 'equal to', false], ' ')
+  list(query) {
+    this.apiService.custom_objects_list('company', query, ' ')
       .subscribe((data: Result_Company) => {
         if (data.error == null) {
           //inserção de dados na tabela
-          this.dataSource = new MatTableDataSource(data.results.reverse());
+          this.dataSource = new MatTableDataSource(data.results);
           this.dataSource.paginator = this.paginator;
         } else {
         }
@@ -74,6 +83,15 @@ export class CompaniesComponent implements OnInit {
       localStorage.removeItem('_id_company');
     }
     this.router.navigate(['/crm/register']);
+  }
+
+   /** Verifica se a sessão e válida */
+   session(error_code: string) {
+    if (error_code == 'invalid_session') {
+      if (localStorage.getItem('session')) {
+        localStorage.removeItem('session');
+      } this.router.navigate(['/login']);
+    }
   }
 
 }

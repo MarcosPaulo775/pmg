@@ -179,7 +179,7 @@
                     <th mat-header-cell *matHeaderCellDef style="width:100px"> </th>
                     <td mat-cell *matCellDef="let row">
                       <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column">
-                        <button mat-button matTooltip="Visualizar" (click)="openDialog(row)">
+                        <button mat-button matTooltip="Visualizar" (click)="openDialog(row._id)">
                           <mat-icon>visibility</mat-icon>
                         </button>
 

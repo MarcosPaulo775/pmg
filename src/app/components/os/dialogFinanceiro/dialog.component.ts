@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Os, Color } from '../../../shared/models/os';
+import { OS, Color } from '../../../shared/models/os';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -35,6 +35,7 @@ export class DialogFinanceiroComponent {
   getForm() {
     this.color.altura = this.form.get('altura').value;
     this.color.largura = this.form.get('largura').value;
+    //this.color.valor = Number(this.color.altura) * Number(this.color.largura);
   }
 
   onAdd(): void {

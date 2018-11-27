@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductionComponent } from '../../production/component/production.component';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { ApiService } from '../../../core/http/api.service';
-import { Os, Color, FormColor } from '../../../shared/models/os';
-import { Count, Result_OS, Result_Item, Result_Color } from '../../../shared/models/api';
+import { OS, Color, FormColor } from '../../../shared/models/os';
+import { Count, Result_OS, Result_Item, Result_Color, Result_Company } from '../../../shared/models/api';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
@@ -23,11 +23,12 @@ import { DialogFinanceiroComponent } from '../dialogFinanceiro/dialog.component'
 export class OsComponent implements OnInit {
 
   form: FormGroup;
-  os: Os;
+  os: OS;
   details_view: boolean;
   details: FormGroup;
   progress: Subject<number>;
 
+  clientes: string[];
   pedidos: string[];
   tecnologia: string[];
   variacao: string[];
@@ -64,7 +65,7 @@ export class OsComponent implements OnInit {
   private _filter(value: string): Color[] {
     const filterValue = value.toLowerCase();
 
-    return this.colors.filter(color => color.Color.toLowerCase().indexOf(filterValue) === 8);
+    return this.colors.filter(color => color.color.toLowerCase().indexOf(filterValue) === 8);
   }
 
   fechado() {
@@ -73,8 +74,11 @@ export class OsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.os = new Os();
+    this.os = new OS();
     this.production.title = 'Ordem de serviço';
+    this.production.dashboard = '';
+    this.production.print = '';
+    this.production.jobs = '';
 
     this.details = this.formBuilder.group({
       tecnologia: [null, []],
@@ -147,7 +151,7 @@ export class OsComponent implements OnInit {
       );
 
     this.form = this.formBuilder.group({
-      cliente: [null, [Validators.required]],
+      clientes: [null, [Validators.required]],
       nome: [null, [Validators.required]],
       pedidos: [null, [Validators.required]],
       codigo: [null, [Validators.required]],
@@ -166,6 +170,17 @@ export class OsComponent implements OnInit {
             this.pedidos = new Array<string>();
             for (let i = 0; i < data.results.length; i++) {
               this.pedidos.push(data.results[i].name);
+            }
+          }
+        }, (data) => {
+        });
+
+      this.apiService.custom_objects_list('company', ['deleted', 'equal to', false], { '': 'razao' })
+        .subscribe((data: Result_Company) => {
+          if (data.error_code == null) {
+            this.clientes = new Array<string>();
+            for (let i = 0; i < data.results.length; i++) {
+              this.clientes.push(data.results[i].razao);
             }
           }
         }, (data) => {
@@ -210,15 +225,29 @@ export class OsComponent implements OnInit {
 
   /** Busca a ordem de serviço no banco de dados */
   getOs() {
-    this.apiService.custom_objects_get('Os', localStorage.getItem('_id'))
-      .subscribe((data: Os) => {
+    this.apiService.custom_objects_get('os', localStorage.getItem('_id'))
+      .subscribe((data: OS) => {
         if (data.error_code == null) {
           this.os = data;
           this.form.get('nome').setValue(this.os.nome);
-          this.form.get('cliente').setValue(this.os.cliente);
           this.form.get('data').setValue(this.os.data);
           this.form.get('codigo').setValue(this.os.codigo);
           this.form.get('barra').setValue(this.os.barra);
+
+          this.apiService.custom_objects_list('company', ['deleted', 'equal to', false], { '': 'razao' })
+            .subscribe((data: Result_Company) => {
+              if (data.error_code == null) {
+                this.clientes = new Array<string>();
+                for (let i = 0; i < data.results.length; i++) {
+                  this.clientes.push(data.results[i].razao);
+                }
+                if (this.clientes.indexOf(this.os.cliente)) {
+                  this.clientes.push(this.os.cliente);
+                }
+                this.form.get('clientes').setValue(this.os.cliente);
+              }
+            }, (data) => {
+            });
 
           this.apiService.custom_objects_list('request', '', { '': 'name' })
             .subscribe((data: Result_Item) => {
@@ -381,13 +410,13 @@ export class OsComponent implements OnInit {
       .subscribe((data: Result_Color) => {
         if (data.error_code == null) {
           this.colors = new Array<Color>();
-          this.colors.push({ Color: 'Preto', Hex: "#000000" });
-          this.colors.push({ Color: 'Amarelo', Hex: '#ffff00' });
-          this.colors.push({ Color: 'Magenta', Hex: '#ff00ff' });
-          this.colors.push({ Color: 'Ciano', Hex: '#00ffff' });
+          this.colors.push({ color: 'Preto', hex: "#000000" });
+          this.colors.push({ color: 'Amarelo', hex: '#ffff00' });
+          this.colors.push({ color: 'Magenta', hex: '#ff00ff' });
+          this.colors.push({ color: 'Ciano', hex: '#00ffff' });
           for (let i = 0; i < data.results.length; i++) {
-            data.results[i].Hex = '#' + data.results[i].Hex;
-            data.results[i].Color = 'Pantone ' + data.results[i].Color;
+            data.results[i].hex = '#' + data.results[i].hex;
+            data.results[i].color = 'Pantone ' + data.results[i].color;
             this.colors.push(data.results[i]);
           }
         }
@@ -452,7 +481,7 @@ export class OsComponent implements OnInit {
   /** Cria um ordem de serviço com os dados do formulario */
   getForm() {
     this.os.nome = this.form.get('nome').value;
-    this.os.cliente = this.form.get('cliente').value;
+    this.os.cliente = this.form.get('clientes').value;
     this.os.pedido = this.form.get('pedidos').value;
     this.os.data = this.form.get('data').value;
     this.os.codigo = this.form.get('codigo').value;
@@ -505,7 +534,7 @@ export class OsComponent implements OnInit {
     this.os.horario = this.details.get('horario').value;
     this.os.obs_prova = this.details.get('obs_prova').value;
 
-    this.os.deleted = 'false';
+    this.os.deleted = false;
 
     this.os.terceiro = this.details.get('terceiro').value;
     this.os.cobranca = this.details.get('cobranca').value;
@@ -538,7 +567,7 @@ export class OsComponent implements OnInit {
 
     this.color = new Color();
 
-    this.color.Color = color.Color;
+    this.color.color = color.color;
     this.color.lineatura1 = color.lineatura1;
     this.color.lineatura2 = color.lineatura2;
     this.color.angulo = color.angulo;
@@ -548,7 +577,7 @@ export class OsComponent implements OnInit {
     this.color.jogos = color.jogos;
 
 
-    if (this.color.Color) {
+    if (this.color.color) {
       if (this.os.colors == undefined) {
         this.os.colors = new Array<Color>();
         this.color._id = 1;
@@ -560,8 +589,8 @@ export class OsComponent implements OnInit {
         this.color._id = this.os.colors[this.os.colors.length - 1]._id + 1;
       }
       for (let i = 0; i < this.colors.length; i++) {
-        if (this.color.Color === this.colors[i].Color) {
-          this.color.Hex = this.colors[i].Hex;
+        if (this.color.color === this.colors[i].color) {
+          this.color.hex = this.colors[i].hex;
         }
       }
 
@@ -589,7 +618,7 @@ export class OsComponent implements OnInit {
 
     this.color = new Color();
 
-    this.color.Color = this.details.get('color').value;
+    this.color.color = this.details.get('color').value;
     this.color.lineatura1 = this.details.get('lineatura_1').value;
     this.color.lineatura2 = this.details.get('lineatura_2').value;
     this.color.angulo = this.details.get('angulo').value;
@@ -612,12 +641,13 @@ export class OsComponent implements OnInit {
       this.os.versao = versao + 1;
       this.os.os = os[0] + ' - ' + this.os.versao.toString();
 
-      this.apiService.custom_objects_create('Os', this.os)
-        .subscribe((data: Os) => {
+      this.apiService.custom_objects_create('os', this.os)
+        .subscribe((data: OS) => {
           if (data.error == null) {
-            localStorage.setItem('_id', this.os._id);
+            localStorage.setItem('_id', data._id);
             localStorage.setItem('version', 'false');
             this.getOs();
+            this.openSnackBar('Nova Versão criada', 'OK');
           } else {
             this.session(data.error_code);
           }
@@ -628,8 +658,8 @@ export class OsComponent implements OnInit {
 
     // Salva uma totalmente nova
     else {
-      this.apiService.custom_objects_create('Os', this.os)
-        .subscribe((data: Os) => {
+      this.apiService.custom_objects_create('os', this.os)
+        .subscribe((data: OS) => {
           if (data.error == null) {
             this.os = data;
             this.nOs();
@@ -647,7 +677,7 @@ export class OsComponent implements OnInit {
 
   /** Cria um numero para Ordem de servico */
   nOs() {
-    this.apiService.custom_objects_list("Os", ['deleted', 'equal to', 'false'], { '': '_id' })
+    this.apiService.custom_objects_list('os', '', { '_id': '_id' })
       .subscribe((data: Result_OS) => {
         if (data.error == null) {
 
@@ -670,7 +700,7 @@ export class OsComponent implements OnInit {
   /** Atualiza os dados de uma ordem de servico existente */
   update() {
 
-    this.apiService.custom_objects_update('Os', this.os)
+    this.apiService.custom_objects_update('os', this.os)
       .subscribe((data: Count) => {
         if (data.error == null) {
           this.getOs();
@@ -704,7 +734,7 @@ export class OsComponent implements OnInit {
       data: color
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
+      if (result) {
         this.updateColor(result);
       }
     });
@@ -716,7 +746,7 @@ export class OsComponent implements OnInit {
       data: color
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
+      if (result) {
         this.updateColor(result);
       }
     });
@@ -733,10 +763,54 @@ export class OsComponent implements OnInit {
       data: formColor
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
+      if (result) {
         this.updateColor(result);
       }
     });
+  }
+
+  calcular() {
+    let valor = 0;
+    let dolar = 3.9;
+    if (!this.details.get('cobrar').value) {
+      this.apiService.custom_objects_list('company', ['razao', 'equal to', this.os.cliente], { 'kodak_114': 'kodak_114', 'kodak_170': 'kodak_170', 'digital_284': 'digital_284', 'top_flat_170': 'top_flat_170', 'top_flat_114': 'top_flat_114', 'margem': 'margem' })
+        .subscribe((data: Result_Company) => {
+          if (data.error == null) {
+
+            if (this.os.tecnologia === 'Kodak NX' && this.os.espessura === '1.14') {
+              valor = Number(data.results[0].kodak_114);
+            } else if (this.os.tecnologia === 'Kodak NX' && this.os.espessura === '1.7') {
+              valor = Number(data.results[0].kodak_170);
+            } else if (this.os.tecnologia === 'Digital' && this.os.espessura === '2.84') {
+              valor = Number(data.results[0].digital_284);
+            } else if (this.os.tecnologia === 'Top Flat PMG' && this.os.espessura === '1.7') {
+              valor = Number(data.results[0].top_flat_170);
+            } else if (this.os.tecnologia === 'Top Flat PMG' && this.os.espessura === '1.14') {
+              valor = Number(data.results[0].top_flat_114);
+            } else {
+              valor = 0;
+            }
+
+            valor = valor * 0.01;
+
+            this.os.valor = 0;
+
+            for (let i = 0; i < this.os.colors.length; i++) {
+              let area = (Number(this.os.colors[i].altura) + Number(data.results[0].margem)) * 0.1 * (Number(this.os.colors[i].largura) + Number(data.results[0].margem)) * 0.1;
+              this.os.colors[i].valor = valor * dolar * area;
+              this.os.colors[i].valor = Number(this.os.colors[i].valor.toFixed(2));
+              this.os.valor = this.os.valor + this.os.colors[i].valor;
+            }
+          }
+
+        }, (data) => {
+
+        });
+    } else {
+      for (let i = 0; i < this.os.colors.length; i++) {
+        this.os.colors[i].valor = 0;
+      }this.os.valor = 0;
+    }
   }
 
   onAdd(): void {
@@ -751,7 +825,7 @@ export class OsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
+      if (result) {
         this.addColor(result);
       }
     });

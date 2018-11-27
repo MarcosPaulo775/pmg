@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MaterialModule } from './material.module';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
     declarations: [
@@ -13,13 +14,15 @@ import { MaterialModule } from './material.module';
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        HttpClientModule
+        HttpClientModule,
+        NgxMaskModule.forRoot()
     ],
     exports: [
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        HttpClientModule       
+        HttpClientModule,
+        NgxMaskModule 
     ],
     providers: [],
 })

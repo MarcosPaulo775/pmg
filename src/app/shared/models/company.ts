@@ -1,6 +1,6 @@
 export class Company {
     _id?: string;
-    
+
     solicitante?: string;
     novo?: boolean;
     fisica?: boolean;
@@ -37,7 +37,7 @@ export class Company {
     kodak_114?: string;
     kodak_170?: string;
     margem?: string;
-    
+
     email_nf?: string;
     email_materiais?: string;
     email_pedido?: string;
@@ -46,5 +46,19 @@ export class Company {
 
     error_code?: string;
     error?: string;
+}
+
+export class City {
+    _id?: string;
+    ID?: string;
+    name?: string;
+    state?: string;
+}
+
+export class State {
+    _id?: string;
+    ID?: string;
+    name?: string;
+    abbreviation?: string;
 }
 
