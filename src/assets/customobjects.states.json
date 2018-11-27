@@ -1,0 +1,162 @@
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bac"), 
+    "ID" : "1", 
+    "abbreviation" : "AC", 
+    "name" : "Acre"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bad"), 
+    "ID" : "2", 
+    "abbreviation" : "AL", 
+    "name" : "Alagoas"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bae"), 
+    "ID" : "3", 
+    "abbreviation" : "AM", 
+    "name" : "Amazonas"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3baf"), 
+    "ID" : "4", 
+    "abbreviation" : "AP", 
+    "name" : "Amapá"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bb0"), 
+    "ID" : "5", 
+    "abbreviation" : "BA", 
+    "name" : "Bahia"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bb1"), 
+    "ID" : "6", 
+    "abbreviation" : "CE", 
+    "name" : "Ceará"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bb2"), 
+    "ID" : "7", 
+    "abbreviation" : "DF", 
+    "name" : "Distrito Federal"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bb3"), 
+    "ID" : "8", 
+    "abbreviation" : "ES", 
+    "name" : "Espírito Santo"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bb4"), 
+    "ID" : "9", 
+    "abbreviation" : "GO", 
+    "name" : "Goiás"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bb5"), 
+    "ID" : "10", 
+    "abbreviation" : "MA", 
+    "name" : "Maranhão"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bb6"), 
+    "ID" : "11", 
+    "abbreviation" : "MG", 
+    "name" : "Minas Gerais"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bb7"), 
+    "ID" : "12", 
+    "abbreviation" : "MS", 
+    "name" : "Mato Grosso do Sul"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bb8"), 
+    "ID" : "13", 
+    "abbreviation" : "MT", 
+    "name" : "Mato Grosso"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bb9"), 
+    "ID" : "14", 
+    "abbreviation" : "PA", 
+    "name" : "Pará"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bba"), 
+    "ID" : "15", 
+    "abbreviation" : "PB", 
+    "name" : "Paraíba"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bbb"), 
+    "ID" : "16", 
+    "abbreviation" : "PE", 
+    "name" : "Pernambuco"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bbc"), 
+    "ID" : "17", 
+    "abbreviation" : "PI", 
+    "name" : "Piauí"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bbd"), 
+    "ID" : "18", 
+    "abbreviation" : "PR", 
+    "name" : "Paraná"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bbe"), 
+    "ID" : "19", 
+    "abbreviation" : "RJ", 
+    "name" : "Rio de Janeiro"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bbf"), 
+    "ID" : "20", 
+    "abbreviation" : "RN", 
+    "name" : "Rio Grande do Norte"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bc0"), 
+    "ID" : "21", 
+    "abbreviation" : "RO", 
+    "name" : "Rondônia"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bc1"), 
+    "ID" : "22", 
+    "abbreviation" : "RR", 
+    "name" : "Roraima"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bc2"), 
+    "ID" : "23", 
+    "abbreviation" : "RS", 
+    "name" : "Rio Grande do Sul"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bc3"), 
+    "ID" : "24", 
+    "abbreviation" : "SC", 
+    "name" : "Santa Catarina"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bc4"), 
+    "ID" : "25", 
+    "abbreviation" : "SE", 
+    "name" : "Sergipe"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bc5"), 
+    "ID" : "26", 
+    "abbreviation" : "SP", 
+    "name" : "São Paulo"
+}
+{ 
+    "_id" : ObjectId("5bfbf89dfcdb255698be3bc6"), 
+    "ID" : "27", 
+    "abbreviation" : "TO", 
+    "name" : "Tocantins"
+}

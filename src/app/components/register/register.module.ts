@@ -6,7 +6,7 @@ import { RegisterComponent } from './component/register.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
 import { ApiService } from 'src/app/core/http/api.service';
-import {NgxMaskModule} from 'ngx-mask'
+import { NgxMaskModule } from 'ngx-mask'
 
 @NgModule({
   imports: [

@@ -1,5 +1,5 @@
-import { Os, Color } from "./os";
-import { Company } from "./company";
+import { OS, Color } from "./os";
+import { Company, State, City} from "./company";
 
 export interface Session{
     session: string;
@@ -8,7 +8,7 @@ export interface Session{
 }
 
 export interface Result_OS{
-    results: Array<Os>;
+    results: Array<OS>;
     error_code: string;
     error: string;
 }
@@ -32,6 +32,18 @@ export interface Technology{
 }
 export interface Result_Technology{
     results: Technology[];
+    error_code: string;
+    error: string;
+}
+
+export interface Result_States{
+    results: State[];
+    error_code: string;
+    error: string;
+}
+
+export interface Result_Cities{
+    results: City[];
     error_code: string;
     error: string;
 }

@@ -21,8 +21,12 @@
                     <div>
                       <div fxLayout="row" fxLayoutGap="10px">
                         <div>
-                          <mat-form-field class="full-width">
-                            <input matInput placeholder="Cliente" formControlName="cliente">
+                          <mat-form-field *ngIf="clientes">
+                            <mat-select placeholder="Clientes" formControlName="clientes">
+                              <mat-option *ngFor="let cliente of clientes" [value]="cliente">
+                                {{cliente}}
+                              </mat-option>
+                            </mat-select>
                           </mat-form-field>
                         </div>
 
@@ -76,10 +80,10 @@
                       <!--button mat-button type="reset" (click)="onDelete()" class="button_red" matTooltip="Deletar" *ngIf="details">
                         <mat-icon>delete</mat-icon>
                       </button-->
-                      <!--button mat-button type="button" class="button_orange" (click)="onVersion()" matTooltip="Nova Versão"
+                      <button mat-button type="button" class="button_orange" (click)="onVersion()" matTooltip="Nova Versão"
                         *ngIf="details">
                         <mat-icon>toll</mat-icon>
-                      </button-->
+                      </button>
                       <button mat-button type="button" class="button_blue" (click)="onSubmit()" matTooltip="Salvar">
                         <mat-icon>save</mat-icon>
                       </button>
@@ -211,10 +215,10 @@
                     <td>
                       <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
                         <div>
-                          <mat-icon [style.color]="color.Hex">fiber_manual_record</mat-icon>
+                          <mat-icon [style.color]="color.hex">fiber_manual_record</mat-icon>
                         </div>
                         <div>
-                          {{color.Color}}
+                          {{color.color}}
                         </div>
                       </div>
                     </td>
@@ -440,10 +444,10 @@
                   <td>
                     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
                       <div>
-                        <mat-icon [style.color]="color.Hex">fiber_manual_record</mat-icon>
+                        <mat-icon [style.color]="color.hex">fiber_manual_record</mat-icon>
                       </div>
                       <div>
-                        {{color.Color}}
+                        {{color.color}}
                       </div>
                     </div>
                   </td>
@@ -493,7 +497,7 @@
             <mat-form-field>
               <input matInput placeholder="Ordem de compra" formControlName="dupla">
             </mat-form-field>
-            <mat-checkbox formControlName="cobrar">Cobrar Clichês</mat-checkbox>
+            <mat-checkbox formControlName="cobrar" (click)="calcular()">Cobrar Clichês</mat-checkbox>
           </div>
           <div>
             <table>
@@ -511,18 +515,18 @@
                   <td>
                     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
                       <div>
-                        <mat-icon [style.color]="color.Hex">fiber_manual_record</mat-icon>
+                        <mat-icon [style.color]="color.hex">fiber_manual_record</mat-icon>
                       </div>
                       <div>
-                        {{color.Color}}
+                        {{color.color}}
                       </div>
                     </div>
                   </td>
                   <td>
-                    {{color.altura}}
+                    {{color.altura}} mm
                   </td>
                   <td>
-                    {{color.largura}}
+                    {{color.largura}} mm
                   </td>
                   <td>
                     <button mat-button matTooltip="Editar" (click)="editFinanceiro(color)">
@@ -530,14 +534,14 @@
                     </button>
                   </td>
                   <td fxLayoutAlign="right right" style="text-align: right">
-                    R$ 123,00
+                    R$ {{color.valor}}
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div align="right right">
-            Total: R$ 13456,00
+            Total: R$ {{os.valor}}
           </div>
 
           <mat-form-field class="full-width">

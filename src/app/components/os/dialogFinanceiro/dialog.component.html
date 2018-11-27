@@ -13,10 +13,10 @@
   <form [formGroup]="form">
     <div fxLayout="row" fxLayoutGap="10px">
       <mat-form-field>
-        <input matInput placeholder="Altura" formControlName="altura">
+        <input matInput placeholder="Altura" type='text' prefix="mm " mask="0000" formControlName="altura">
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Largura" formControlName="largura">
+        <input matInput placeholder="Largura" type='text' prefix="mm " mask="0000" formControlName="largura">
       </mat-form-field>
     </div>
   </form>

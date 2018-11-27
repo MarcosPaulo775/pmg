@@ -16,30 +16,30 @@
           <!-- Name Column -->
           <ng-container matColumnDef="razao">
             <th mat-header-cell *matHeaderCellDef> Razão Social </th>
-            <td mat-cell *matCellDef="let companie"> {{companie.razao}} </td>
+            <td mat-cell *matCellDef="let company"> {{company.razao}} </td>
           </ng-container>
   
           <!-- Weight Column -->
           <ng-container matColumnDef="cnpj_cpf">
             <th mat-header-cell *matHeaderCellDef> cnpj / cpf </th>
-            <td mat-cell *matCellDef="let companie"> {{companie.cnpj_cpf}} </td>
+            <td mat-cell *matCellDef="let company"> {{company.cnpj_cpf}} </td>
           </ng-container>
   
           <!-- Symbol Column -->
           <ng-container matColumnDef="button">
             <th mat-header-cell *matHeaderCellDef> </th>
-            <td mat-cell *matCellDef="let companie">
+            <td mat-cell *matCellDef="let company">
               <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column">
                 <div style="flex-grow: 1;"></div>
-                <button mat-button matTooltip="Visualizar" (click)="openDialog()">
+                <button mat-button matTooltip="Visualizar" (click)="openDialog(company)">
                   <mat-icon>visibility</mat-icon>
                 </button>
   
-                <button mat-button matTooltip="Editar" (click)="onEdit()">
+                <button mat-button matTooltip="Editar" (click)="onEdit(company._id)">
                   <mat-icon>edit</mat-icon>
                 </button>
   
-                <button mat-button matTooltip="Excluir" (click)="onDelete()">
+                <button mat-button matTooltip="Excluir" (click)="onDelete(company._id)">
                   <mat-icon>delete</mat-icon>
                 </button>
   

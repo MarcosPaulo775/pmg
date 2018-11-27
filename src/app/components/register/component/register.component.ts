@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ApiService } from 'src/app/core/http/api.service';
-import { Company } from 'src/app/shared/models/company';
+import { Company, State, City } from 'src/app/shared/models/company';
+import { Result_Item, Result_States, Result_Cities } from 'src/app/shared/models/api';
+import { EventEmitter } from 'events';
+import { MatSelectChange } from '@angular/material';
 
 @Component({
   selector: 'app-register',
@@ -17,6 +20,9 @@ export class RegisterComponent implements OnInit {
   outros: FormGroup;
 
   company: Company;
+
+  uf: State[];
+  cidades: City[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -80,7 +86,46 @@ export class RegisterComponent implements OnInit {
     if (localStorage.getItem('_id_company')) {
       this.getCompany();
     }
-    else { }
+    else {
+      this.apiService.custom_objects_list('states', '', '')
+        .subscribe((data_1: Result_States) => {
+          if (data_1.error_code == null) {
+            this.uf = new Array<State>();
+            for (let i = 0; i < data_1.results.length; i++) {
+              this.uf.push(data_1.results[i]);             
+            }
+            this.cidades = new Array<City>();
+
+          }
+        }, (data) => {
+        });
+    }
+
+  }
+
+  onCidades(event: MatSelectChange) {
+
+    if (event.value != this.company.uf) {
+      console.log(event);
+
+      for (let i = 0; i < this.uf.length; i++) {
+        if (this.uf[i].name == event.value) {
+
+          this.apiService.custom_objects_list('cities', ['state', 'equal to', this.uf[i].ID], null)
+            .subscribe((data: Result_Cities) => {
+              if (data.error_code == null) {
+                this.cidades = new Array<City>();
+                for (let i = 0; i < data.results.length; i++) {
+                  this.cidades.push(data.results[i]);
+                }
+                this.cidades = this.cidades.sort();
+                this.cadastrais.get('cidade').setValue(this.company.cidade);
+              }
+            }, (data) => {
+            });
+        }
+      }
+    }
   }
 
   users: string[] = [
@@ -142,6 +187,7 @@ export class RegisterComponent implements OnInit {
       .subscribe((data: Company) => {
         if (data.error == null) {
           this.company = data;
+          console.log(data);
           this.basicos.get('solicitante').setValue(this.company.solicitante);
           this.basicos.get('novo').setValue(this.company.novo);
           this.basicos.get('fisica').setValue(this.company.fisica);
@@ -182,6 +228,35 @@ export class RegisterComponent implements OnInit {
           this.outros.get('email_nf').setValue(this.company.email_nf);
           this.outros.get('email_materiais').setValue(this.company.email_materiais);
           this.outros.get('email_pedido').setValue(this.company.email_pedido);
+
+          this.apiService.custom_objects_list('states', '', '')
+            .subscribe((data_1: Result_States) => {
+              if (data_1.error_code == null) {
+                this.uf = new Array<State>();
+                for (let i = 0; i < data_1.results.length; i++) {
+                  this.uf.push(data_1.results[i]);
+
+                  if (data_1.results[i].name === this.company.uf) {
+
+                    this.apiService.custom_objects_list('cities', ['state', 'equal to', data_1.results[i].ID], null)
+                      .subscribe((data: Result_Cities) => {
+                        if (data.error_code == null) {
+                          this.cidades = new Array<City>();
+                          for (let i = 0; i < data.results.length; i++) {
+                            this.cidades.push(data.results[i]);
+                          }
+                          this.cidades = this.cidades.sort();
+                          this.cadastrais.get('cidade').setValue(this.company.cidade);
+                        }
+                      }, (data) => {
+                      });
+                  }
+                }
+                this.cadastrais.get('uf').setValue(this.company.uf);
+
+              }
+            }, (data) => {
+            });
         } else {
         }
       }, (data) => {

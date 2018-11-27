@@ -16,13 +16,13 @@
             <input type="text" placeholder="Adicione uma cor" aria-label="Number" matInput [matAutocomplete]="auto"
               formControlName="color">
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let color of filteredColors | async" [value]="color.Color">
+              <mat-option *ngFor="let color of filteredColors | async" [value]="color.color">
                 <div fxLayout="row" align="center center">
                   <div>
-                    <mat-icon [style.color]="color.Hex">fiber_manual_record</mat-icon>
+                    <mat-icon [style.color]="color.hex">fiber_manual_record</mat-icon>
                   </div>
                   <div>
-                    {{color.Color}}
+                    {{color.color}}
                   </div>
                 </div>
               </mat-option>

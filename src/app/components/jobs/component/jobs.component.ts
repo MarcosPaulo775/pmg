@@ -4,7 +4,7 @@ import { ProductionComponent } from '../../production/component/production.compo
 import { SelectionModel } from '@angular/cdk/collections';
 import { ApiService } from '../../../core/http/api.service';
 import { Result_OS, Count } from '../../../shared/models/api';
-import { Os } from '../../../shared/models/os';
+import { OS } from '../../../shared/models/os';
 import { MatDialog } from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Router } from '@angular/router';
@@ -42,8 +42,8 @@ export class JobsComponent implements OnInit {
   status: string;
 
   /** Variaveis da tabela */
-  dataSource: MatTableDataSource<Os>;
-  selection = new SelectionModel<Os>(true, []);
+  dataSource: MatTableDataSource<OS>;
+  selection = new SelectionModel<OS>(true, []);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -56,7 +56,7 @@ export class JobsComponent implements OnInit {
 
   ngOnInit() {
     //lista todas as ordens de serviço ao iniciar
-    this.list(['deleted', 'equal to', 'false']);
+    this.list(['deleted', 'equal to', false]);
     this.production.title = 'Trabalhos';
     this.production.dashboard = '';
     this.production.print = '';
@@ -64,23 +64,63 @@ export class JobsComponent implements OnInit {
   }
 
   /** Abre caixa de dialogo com as informações da ordem de serviço */
-  openDialog(os: Os): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '100vw',
-      data: os
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+  openDialog(id: string): void {
+    this.apiService.custom_objects_get('os', id)
+      .subscribe((data: OS) => {
+        if (data.error == null) {
+          const dialogRef = this.dialog.open(DialogComponent, {
+            width: '100vw',
+            data: data
+          });
+          dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+          });
+        }
+
+      }, () => { })
   }
 
   /**busca no banco de dados as ordens de serviço */
   list(query) {
     this.count();
-    this.apiService.custom_objects_list('Os', query, ' ')
+    this.apiService.custom_objects_list('os', query, { 'nome': 'nome', 'os': 'os', 'cliente': 'cliente', 'status': 'status' })
       .subscribe((data: Result_OS) => {
         if (data.error == null) {
           //inserção de dados na tabela
+
+          this.atendimento = 0;
+          this.desenvolvimento = 0;
+          this.aprovacao = 0;
+          this.editoracao = 0;
+          this.conferencia = 0;
+          this.gravacao = 0;
+          this.expedicao = 0;
+
+          for (let i = 0; i < data.results.length; i++) {
+            switch (data.results[i].status) {
+              case ('Atendimento'):
+                this.atendimento++;
+                break;
+              case ('Desenvolvimento'):
+                this.desenvolvimento++;
+                break;
+              case ('Aprovação'):
+                this.aprovacao++;
+                break;
+              case ('Editoração'):
+                this.editoracao++;
+                break;
+              case ('Conferência'):
+                this.conferencia++;
+                break;
+              case ('Gravação'):
+                this.gravacao++;
+                break;
+              case ('Expedição'):
+                this.expedicao++;
+                break;
+            }
+          }
           this.dataSource = new MatTableDataSource(data.results.reverse());
           this.dataSource.paginator = this.paginator;
           this.selection.clear();
@@ -94,87 +134,17 @@ export class JobsComponent implements OnInit {
   /** Muda a busca caso queira buscar todos */
   onFlow(query: string) {
     if (query == 'all') {
-      this.list(['deleted', 'equal to', 'false']);
+      this.list(['deleted', 'equal to', false]);
     } else {
-      this.list(['status', 'equal to', query]);
+      this.list(['status', 'equal to', query, 'and', 'deleted', 'equal to', false]);
     }
   }
 
   count() {
-    this.apiService.custom_objects_count('Os', ['deleted', 'equal to', 'false'])
+    this.apiService.custom_objects_count('os', ['deleted', 'equal to', false])
       .subscribe((data: Count) => {
         if (data.error == null) {
           this.all = data.count;
-        } else {
-          this.session(data.error_code);
-        }
-      }, (data) => {
-      });
-
-    this.apiService.custom_objects_count('Os', ['status', 'equal to', 'Atendimento'])
-      .subscribe((data: Count) => {
-        if (data.error == null) {
-          this.atendimento = data.count;
-        } else {
-          this.session(data.error_code);
-        }
-      }, (data) => {
-      });
-
-    this.apiService.custom_objects_count('Os', ['status', 'equal to', 'Desenvolvimento'])
-      .subscribe((data: Count) => {
-        if (data.error == null) {
-          this.desenvolvimento = data.count;
-        } else {
-          this.session(data.error_code);
-        }
-      }, (data) => {
-      });
-
-    this.apiService.custom_objects_count('Os', ['status', 'equal to', 'Aprovação'])
-      .subscribe((data: Count) => {
-        if (data.error == null) {
-          this.aprovacao = data.count;
-        } else {
-          this.session(data.error_code);
-        }
-      }, (data) => {
-      });
-
-    this.apiService.custom_objects_count('Os', ['status', 'equal to', 'Editoração'])
-      .subscribe((data: Count) => {
-        if (data.error == null) {
-          this.editoracao = data.count;
-        } else {
-          this.session(data.error_code);
-        }
-      }, (data) => {
-      });
-
-    this.apiService.custom_objects_count('Os', ['status', 'equal to', 'Conferência'])
-      .subscribe((data: Count) => {
-        if (data.error == null) {
-          this.conferencia = data.count;
-        } else {
-          this.session(data.error_code);
-        }
-      }, (data) => {
-      });
-
-    this.apiService.custom_objects_count('Os', ['status', 'equal to', 'Gravação'])
-      .subscribe((data: Count) => {
-        if (data.error == null) {
-          this.gravacao = data.count;
-        } else {
-          this.session(data.error_code);
-        }
-      }, (data) => {
-      });
-
-    this.apiService.custom_objects_count('Os', ['status', 'equal to', 'Expedição'])
-      .subscribe((data: Count) => {
-        if (data.error == null) {
-          this.expedicao = data.count;
         } else {
           this.session(data.error_code);
         }
@@ -187,10 +157,10 @@ export class JobsComponent implements OnInit {
   flow(status: string) {
     let selected = this.selection.selected;
     for (let i = 0; i < selected.length; i++) {
-      this.apiService.custom_objects_set_keys('Os', selected[i]._id, { 'status': status })
+      this.apiService.custom_objects_set_keys('os', selected[i]._id, { 'status': status })
         .subscribe((data) => {
           if (i == (selected.length - 1)) {
-            this.list(['deleted', 'equal to', 'false']);
+            this.list(['deleted', 'equal to', false]);
           }
         }, (data) => {
         });
@@ -207,10 +177,10 @@ export class JobsComponent implements OnInit {
 
   /** Marca a ordem de serviço como deletada */
   onDelete(id: string) {
-    this.apiService.custom_objects_set_keys('Os', id, { 'deleted': 'true' })
+    this.apiService.custom_objects_set_keys('os', id, { 'deleted': 'true' })
       .subscribe((data: Result_OS) => {
         this.session(data.error_code);
-        this.list(['deleted', 'equal to', 'false']);
+        this.list(['deleted', 'equal to', false]);
       }, (data) => {
       });
   }
