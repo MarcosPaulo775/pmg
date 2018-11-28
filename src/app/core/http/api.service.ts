@@ -105,13 +105,4 @@ export class ApiService {
         )
     }
 
-    public auth_get_current_user() {
-        return this.http.post(
-            URL.server,
-            {
-                'session': localStorage.getItem('session'),
-                'method': 'auth.get_current_user'
-            }
-        )
-    }
 }

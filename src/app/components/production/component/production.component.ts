@@ -1,4 +1,5 @@
 import { Component, OnInit, Input  } from '@angular/core';
+import { AuthService } from 'src/app/core/authentication/auth.service';
 
 @Component({
   selector: 'app-production',
@@ -32,7 +33,15 @@ export class ProductionComponent implements OnInit {
     this.title = title;
   }
 
-  constructor() {
+  constructor(
+    private authService: AuthService
+  ) { }
+
+  
+  logout(){
+    
+    this.authService.logout();
+    
   }
 
   ngOnInit() {

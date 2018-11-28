@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { AuthService } from 'src/app/core/authentication/auth.service';
 
 @Component({
   selector: 'app-crm',
@@ -26,7 +27,15 @@ export class CrmComponent implements OnInit {
     this.company = color;
   }
 
-  constructor() {
+  constructor(
+    private authService: AuthService
+  ) { }
+
+  
+  logout(){
+    
+    this.authService.logout();
+    
   }
 
   ngOnInit() {
