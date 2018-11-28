@@ -21,7 +21,7 @@ export class ApiService {
 
     }
 
-    public custom_objects_count(collection, query){
+    public custom_objects_count(collection, query) {
 
         return this.http.post(
             URL.server,
@@ -34,20 +34,20 @@ export class ApiService {
         )
 
     }
-    
-     public custom_objects_delete(id: string) {
- 
-         return this.http.post(
-             URL.server,
-             {
-                 'session': localStorage.getItem('session'),
-                 'method': 'custom_objects.delete',
-                 'collection': 'Os',
-                 'id': id
-             }
-         )
- 
-     } 
+
+    public custom_objects_delete(id: string) {
+
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'custom_objects.delete',
+                'collection': 'Os',
+                'id': id
+            }
+        )
+
+    }
 
     public custom_objects_list(collection, query, field) {
 
@@ -63,7 +63,7 @@ export class ApiService {
         )
     }
 
-    public custom_objects_update(collection ,data) {
+    public custom_objects_update(collection, data) {
 
         return this.http.post(
             URL.server,
@@ -77,13 +77,13 @@ export class ApiService {
 
     }
 
-    public custom_objects_set_keys(collection, id, data){
+    public custom_objects_set_keys(collection, id, data) {
 
         return this.http.post(
             URL.server,
             {
                 'session': localStorage.getItem('session'),
-                'method' : 'custom_objects.set_keys',
+                'method': 'custom_objects.set_keys',
                 'collection': collection,
                 'id': id,
                 'key_data': data
@@ -93,14 +93,24 @@ export class ApiService {
     }
 
     public custom_objects_get(collection, id) {
-        
+
         return this.http.post(
             URL.server,
             {
                 'session': localStorage.getItem('session'),
-                'method' : 'custom_objects.get',
+                'method': 'custom_objects.get',
                 'collection': collection,
                 'id': id
+            }
+        )
+    }
+
+    public auth_get_current_user() {
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'auth.get_current_user'
             }
         )
     }
