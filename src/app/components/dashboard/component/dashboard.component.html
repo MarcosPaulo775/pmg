@@ -4,16 +4,16 @@
       <p class="title">Dashboard</p>
       <div style="flex-grow: 1;"></div>
 
-      <div>
-        Olá {{user.username}}
+      <div *ngIf="user.fullname">
+        Olá {{user.fullname}}
       </div>
 
       <div>
         <button mat-icon-button [matMenuTriggerFor]="menu">
-          <img class="circle" [src]="'assets/logo.svg'" alt="image">
+          <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
+          <button mat-menu-item routerLink="/config/user">
             <mat-icon>account_circle</mat-icon> Minha Conta
           </button>
           <button mat-menu-item routerLink="/config">

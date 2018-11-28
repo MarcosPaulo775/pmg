@@ -1,0 +1,103 @@
+<div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
+
+  <mat-card fxFlex="35">
+    <mat-card-header>
+      <mat-card-title>{{user.fullname}}</mat-card-title>
+      <mat-card-subtitle>Email: {{user.email}}</mat-card-subtitle>
+    </mat-card-header>
+    <div align="center" style="width: 100%;">
+      <img mat-card-image [src]="'assets/logo.svg'" alt="image" class="circle">
+    </div>
+
+    <mat-card-content>
+
+      <a> Usuário: {{user.username}}</a>
+      <br>
+      <a> Nome: {{user.fullname}}</a>
+      <br>
+      <a>Email: {{user.email}}</a>
+      <br>
+      <br>
+      <a>Permissões:</a>
+      <br>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <div fxLayout="column" fxFlex="50">
+          <mat-checkbox disabled="true" [checked]="permissoes.Admin_User">Admin User</mat-checkbox>
+          <mat-checkbox disabled="true" [checked]="permissoes.Patchplanner">Patchplanner</mat-checkbox>
+          <mat-checkbox disabled="true" [checked]="permissoes.Manage_Chains">Manage Chains</mat-checkbox>
+          <mat-checkbox disabled="true" [checked]="permissoes.Manage_Users">Manage Users</mat-checkbox>
+          <mat-checkbox disabled="true" [checked]="permissoes.Manage_Scopes">Manage Scopes</mat-checkbox>
+          <mat-checkbox disabled="true" [checked]="permissoes.Manage_Templates">Manage Templates</mat-checkbox>
+          <mat-checkbox disabled="true" [checked]="permissoes.Manage_Whitepapers">Manage Whitepapers</mat-checkbox>
+        </div>
+        <div fxLayout="column" fxFlex="50">
+          <mat-checkbox disabled="true" [checked]="permissoes.Manage_Share">Manage Share</mat-checkbox>
+          <mat-checkbox disabled="true" [checked]="permissoes.Manage_Assets">Manage Assets</mat-checkbox>
+          <mat-checkbox disabled="true" [checked]="permissoes.External_project_user">External project user</mat-checkbox>
+          <mat-checkbox disabled="true" [checked]="permissoes.Manage_Jobs">Manage Jobs</mat-checkbox>
+          <mat-checkbox disabled="true" [checked]="permissoes.May_Upload">May Upload</mat-checkbox>
+          <mat-checkbox disabled="true" [checked]="permissoes.May_Delete_Jackets_In_Kiosk">May Delete Jackets In Kiosk</mat-checkbox>
+        </div>
+      </div>
+
+    </mat-card-content>
+    <mat-card-actions>
+
+      <div style="width: 100%;" align="center">
+        <button mat-button class="button_blue">
+          Mudar Foto do Perfil
+        </button>
+
+        <input type="file" accept="image/png, image/jpeg" (change)="inputFileChange($event)" />
+
+        <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress | async"></mat-progress-bar>
+        <p>
+          {{percentDone}}
+        </p>
+      </div>
+
+    </mat-card-actions>
+
+  </mat-card>
+
+  <mat-card fxFlex="65">
+    <mat-card-header>
+      <mat-card-title>Alterar conta</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Nome" autocomplete="off">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Nome de usuário" autocomplete="off">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Email" autocomplete="off">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Senha (deixe em branco se não quiser mudar)" autocomplete="off">
+      </mat-form-field>
+
+
+
+    </mat-card-content>
+    <mat-card-actions align="justify">
+      <div style="flex-wrap: 1; align-self: baseline"></div>
+
+      <div style="width: 100%;" align="center">
+        <button mat-button class="button_blue">
+          Salvar
+        </button>
+        <button mat-button class="button_blue">
+          Cancelar
+        </button>
+      </div>
+
+    </mat-card-actions>
+  </mat-card>
+</div>

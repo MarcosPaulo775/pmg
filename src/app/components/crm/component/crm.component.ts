@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from 'src/app/core/authentication/auth.service';
+import { User } from 'src/app/shared/models/user';
 
 @Component({
   selector: 'app-crm',
@@ -38,8 +39,21 @@ export class CrmComponent implements OnInit {
     
   }
 
+  user: User;
+
   ngOnInit() {
     this.title = '';
+
+    this.user = new User();
+
+    this.authService.get_current_user()
+      .subscribe((data: User) => { 
+        if (data.error == null) {
+          this.user = data;
+        }
+      }, (data) => { 
+
+      })
   }
 
 }

@@ -12,12 +12,12 @@
           Dashboard
         </a>
 
-        <a mat-button href="#" routerLink="/crm" [style.background-color]="company">
+        <a mat-button href="#" routerLink="/config/user" [style.background-color]="user_color">
           <mat-icon>person</mat-icon>
           Usuário
         </a>
 
-        <a mat-button href="#" routerLink="/crm" [style.background-color]="company">
+        <a mat-button href="#" routerLink="/config/users" [style.background-color]="users_color">
           <mat-icon>people</mat-icon>
           Usuários
         </a>
@@ -35,16 +35,16 @@
 
       <div style="flex-grow: 1;"></div>
 
-      <div>
-        Olá Leonardo
+      <div *ngIf="user.fullname">
+        Olá {{user.fullname}}
       </div>
 
       <div>
         <button mat-icon-button [matMenuTriggerFor]="menu">
-          <img class="circle" [src]="'assets/logo.svg'" alt="image">
+          <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
+          <button mat-menu-item routerLink="/config/user">
             <mat-icon>account_circle</mat-icon> Minha Conta
           </button>
           <button mat-menu-item routerLink="/config">

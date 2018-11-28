@@ -77,3 +77,8 @@ img{
   transition-duration: 0.4s;
   cursor: pointer;
 }
+
+.mat-icon-button{
+  margin-left: -20px;
+  margin-right: -10px
+}
