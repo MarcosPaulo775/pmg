@@ -5,7 +5,7 @@ export class User {
   fullname?: string;
   email?: string;
   createdby?: string;
-  createOs?: number;
   permissions?: string[];
-  attributes?: string[];
+  error_code?: string;
+  error?: string;
 }

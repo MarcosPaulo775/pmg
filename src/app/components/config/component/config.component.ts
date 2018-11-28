@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { AuthService } from 'src/app/core/authentication/auth.service';
 
 @Component({
   selector: 'app-config',
@@ -7,9 +8,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfigComponent implements OnInit {
 
-  constructor() { }
+  title: string;
+  dashboard: string;
+  company: string;
+
+  @Input()
+  set setTitle(title: string) {
+    this.title = title;
+  }
+
+  @Input()
+  set setDashboard(color: string) {
+    this.dashboard = color;
+  }
+
+  @Input()
+  set setCompany(color: string) {
+    this.company = color;
+  }
+
+  constructor(
+    private authService: AuthService
+  ) { }
+
+  
+  logout(){
+    
+    this.authService.logout();
+    
+  }
 
   ngOnInit() {
+    this.title = '';
   }
 
 }

@@ -12,7 +12,7 @@ export class AuthService {
         private router: Router
     ) { }
     /** Autenticação */
-    create_session(user: string, pass: string) {
+    public create_session(user: string, pass: string) {
 
         return this.http.post(
             URL.server,
@@ -33,17 +33,55 @@ export class AuthService {
 
     }
 
-     get_current_user() {
- 
-         return this.http.post(
-             URL.server,
-             {
-                 'session': localStorage.getItem('session'),
-                 'method': 'auth.get_current_user'
-             }
- 
-         )
- 
-     } 
-    
+    public get_current_user() {
+
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'auth.get_current_user'
+            }
+
+        )
+
+    }
+
+    public users_list_users(){
+
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'users.list_users'
+            }
+
+        )
+
+    }
+
+    public users_is_admin(){
+
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'users.is_admin'
+            }
+        )
+    }
+
+    public portal_get_active_users() {
+        
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'api.portal.get_active_users'
+            }
+
+        )
+    }
+
+
+
 }
