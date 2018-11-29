@@ -3,7 +3,7 @@
     <!--opened-->
     <div align="center">
       <p></p>
-      <img mat-card-avatar [src]="'assets/logo.svg'" alt="image">
+      <img mat-card-avatar *ngIf="data" [src]="data" alt="image">
       <p></p>
       <div fxLayout="column" fxLayoutGap="5px">
 

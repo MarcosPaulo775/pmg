@@ -1,6 +1,8 @@
 import { Component, OnInit, Input  } from '@angular/core';
 import { AuthService } from 'src/app/core/authentication/auth.service';
 import { User } from 'src/app/shared/models/user';
+import { ApiService } from 'src/app/core/http/api.service';
+import { Result_Avatar } from 'src/app/shared/models/api';
 
 @Component({
   selector: 'app-production',
@@ -35,7 +37,8 @@ export class ProductionComponent implements OnInit {
   }
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private apiService: ApiService
   ) { }
 
   
@@ -48,6 +51,7 @@ export class ProductionComponent implements OnInit {
   user: User;
 
   ngOnInit() {
+    this.data = localStorage.getItem('avatar');
     this.title = '';
 
     this.user = new User();
@@ -56,10 +60,37 @@ export class ProductionComponent implements OnInit {
       .subscribe((data: User) => { 
         if (data.error == null) {
           this.user = data;
+          this.preview();
         }
       }, (data) => { 
 
       })
+  }
+
+  data: string;
+
+  preview() {
+
+    this.apiService.custom_objects_list('avatar', ['id', 'equal to', this.user._id], ' ')
+      .subscribe(
+        (data: Result_Avatar) => {
+
+          if (data.error == null && data.results.length != 0) {
+
+            this.data = data.results[0].data;
+
+            localStorage.setItem('avatar', this.data);
+
+          }else{
+
+            this.data = 'assets/logo.svg';
+            localStorage.setItem('avatar', this.data);
+
+          }
+
+        }, () => { }
+      )
+
   }
 
 }

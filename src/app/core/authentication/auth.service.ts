@@ -29,6 +29,9 @@ export class AuthService {
         if (localStorage.getItem('session')) {
             localStorage.removeItem('session');
         }
+        if (localStorage.getItem('avatar')){
+            localStorage.removeItem('avatar');
+        }
         this.router.navigate(['/login']);
 
     }

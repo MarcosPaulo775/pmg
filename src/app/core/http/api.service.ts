@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as URL from './url';
 
-@Injectable()
+@Injectable({
+    providedIn: "root",
+})
 export class ApiService {
 
     constructor(private http: HttpClient) { }
@@ -35,14 +37,14 @@ export class ApiService {
 
     }
 
-    public custom_objects_delete(id: string) {
+    public custom_objects_delete(collection, id) {
 
         return this.http.post(
             URL.server,
             {
                 'session': localStorage.getItem('session'),
                 'method': 'custom_objects.delete',
-                'collection': 'Os',
+                'collection': collection,
                 'id': id
             }
         )
@@ -101,6 +103,17 @@ export class ApiService {
                 'method': 'custom_objects.get',
                 'collection': collection,
                 'id': id
+            }
+        )
+    }
+
+    public metadata_get_preview(file, page, size) {
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'metadata.get_preview',
+                'file': file
             }
         )
     }

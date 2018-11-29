@@ -9,3 +9,11 @@ export class User {
   error_code?: string;
   error?: string;
 }
+
+export class Avatar {
+  _id?: string;
+  data?: string;
+  id?: string;
+  error_code?: string;
+  error?: string;
+}

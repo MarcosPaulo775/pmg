@@ -14,3 +14,8 @@
 .full-width {
   width: 100%;
 }
+
+.mat-card-avatar{
+  width: 300px;
+  height: 300px;
+}

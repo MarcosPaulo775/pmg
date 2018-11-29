@@ -6,7 +6,7 @@
       <mat-card-subtitle>Email: {{user.email}}</mat-card-subtitle>
     </mat-card-header>
     <div align="center" style="width: 100%;">
-      <img mat-card-image [src]="'assets/logo.svg'" alt="image" class="circle">
+      <img mat-card-avatar *ngIf="data" [src]="data" alt="image">
     </div>
 
     <mat-card-content>
@@ -44,16 +44,12 @@
     <mat-card-actions>
 
       <div style="width: 100%;" align="center">
-        <button mat-button class="button_blue">
+        <button mat-button class="button_blue" (click)="upload()">
           Mudar Foto do Perfil
         </button>
-
-        <input type="file" accept="image/png, image/jpeg" (change)="inputFileChange($event)" />
-
-        <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress | async"></mat-progress-bar>
-        <p>
-          {{percentDone}}
-        </p>
+        <button mat-button class="button_blue" (click)="deletePreview()">
+          Remover Foto
+        </button>
       </div>
 
     </mat-card-actions>
@@ -82,7 +78,6 @@
       <mat-form-field class="full-width">
         <input matInput placeholder="Senha (deixe em branco se não quiser mudar)" autocomplete="off">
       </mat-form-field>
-
 
 
     </mat-card-content>

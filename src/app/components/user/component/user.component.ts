@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigComponent } from '../../config/component/config.component';
-import { User } from 'src/app/shared/models/user';
+import { User, Avatar } from 'src/app/shared/models/user';
 import { AuthService } from 'src/app/core/authentication/auth.service';
-import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
-import { Subject } from 'rxjs';
-import * as URL from '../../../core/http/url';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { DialogAvatarComponent } from '../dialogAvatar/dialog.component';
+import { MatDialog } from '@angular/material';
+import { ApiService } from 'src/app/core/http/api.service';
+import { Data } from '@angular/router';
+import { Result_Avatar, Result_Delete } from 'src/app/shared/models/api';
 
 export class Permissoes {
   Admin_User?: boolean;
@@ -35,14 +35,19 @@ export class UserComponent implements OnInit {
   constructor(
     public configComponent: ConfigComponent,
     public authService: AuthService,
-    private http: HttpClient
+    public apiService: ApiService,
+    public dialog: MatDialog
   ) { }
 
   user: User;
 
   permissoes: Permissoes;
 
+  data: string;
+
   ngOnInit() {
+
+    this.data = localStorage.getItem('avatar');
     this.permissoes = new Permissoes;
 
     this.configComponent.title = 'Configurações do Usuário';
@@ -55,7 +60,7 @@ export class UserComponent implements OnInit {
       .subscribe((data: User) => {
         if (data.error == null) {
           this.user = data;
-
+          this.preview();
 
           for (let i = 0; i < this.user.permissions.length; i++) {
 
@@ -114,7 +119,6 @@ export class UserComponent implements OnInit {
                 this.permissoes.Manage_Whitepapers = true;
                 this.permissoes.Manage_Jobs = true;
                 break;
-
             }
 
           }
@@ -124,40 +128,111 @@ export class UserComponent implements OnInit {
       })
   }
 
+  upload(): void {
+    const dialogRef = this.dialog.open(DialogAvatarComponent, {
+      width: '800px',
+      data: this.user
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.getPreview(result);
+      }
+    });
+  }
 
-  progress: Subject<number>;
-  /** Upload de arquivo */
-  inputFileChange(event) {
-    console.log('Passou');
+  preview() {
 
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const formData = new FormData;
-      formData.append('file', file, file.name);
+    this.apiService.custom_objects_list('avatar', ['id', 'equal to', this.user._id], ' ')
+      .subscribe(
+        (data: Result_Avatar) => {
 
-      const req = new HttpRequest('POST', URL.server + '/upload/avatar', formData, {
-        reportProgress: true
-      });
+          if (data.error == null && data.results.length != 0) {
 
-      this.progress = new Subject<number>();
+            this.data = data.results[0].data;
 
-      this.http.request(req).subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress) {
+            localStorage.setItem('avatar', this.data);
 
-          // calculate the progress percentage
-          const percentDone = Math.round(100 * event.loaded / event.total);
+          } else {
 
-          // pass the percentage into the progress-stream
-          this.progress.next(percentDone);
-        } else if (event instanceof HttpResponse) {
+            this.data = 'assets/logo.svg';
+            localStorage.setItem('avatar', this.data);
 
-          // Close the progress-stream if we get an answer form the API
-          // The upload is complete
-          this.progress.complete();
-          console.log(event.body);
+          }
+
+        }, () => { }
+      )
+
+  }
+
+  deletePreview() {
+
+    this.apiService.custom_objects_list('avatar', ['id', 'equal to', this.user._id], ' ')
+      .subscribe(
+        (data: Result_Avatar) => {
+
+          if (data.error == null && data.results.length != 0) {
+
+            this.apiService.custom_objects_delete('avatar', data.results[0]._id)
+              .subscribe((data: Result_Delete) => {
+                if (data.error == null) {
+                  this.data = 'assets/logo.svg';
+                  localStorage.setItem('avatar', this.data);
+                }
+              });
+
+          }
+
+        }, () => { }
+      )
+
+  }
+
+  getPreview(filename: string) {
+    this.apiService.metadata_get_preview('cloudflow://PP_FILE_STORE/Avatar/' + filename, null, null)
+      .subscribe((data: Data) => {
+
+        if (data.error == null) {
+          this.data = data.data;
+          localStorage.setItem('avatar', this.data);
+          this.apiService.custom_objects_list('avatar', ['id', 'equal to', this.user._id], ' ')
+            .subscribe(
+              (data: Result_Avatar) => {
+                if (data.error == null && data.results.length == 0) {
+
+                  let avatar = new Avatar();
+                  avatar.data = this.data;
+                  avatar.id = this.user._id;
+
+                  this.apiService.custom_objects_create('avatar', avatar)
+                    .subscribe(
+                      (data) => {
+
+                      }, () => { }
+                    )
+
+                } else if (data.error == null) {
+                  let avatar = data.results[0];
+                  avatar.data = this.data;
+
+                  this.apiService.custom_objects_update('avatar', avatar)
+                    .subscribe(
+                      (data) => {
+
+                      }, () => { }
+                    )
+                }
+
+              }, () => {
+
+              }
+            )
+
+        } else {
+          this.data = 'assets/logo.svg';
+          localStorage.setItem('avatar', this.data);
         }
+      }, (data) => {
       });
-    }
   }
 
 }
