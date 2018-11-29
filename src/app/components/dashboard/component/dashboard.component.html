@@ -1,14 +1,38 @@
 <div fxFlex fxLayout="column" fxLayoutGap="10px">
   <div>
     <mat-toolbar fxLayoutGap="20px">
-      <p>Dashboard</p>
+      <p class="title">Dashboard</p>
+      <div style="flex-grow: 1;"></div>
+
+      <div *ngIf="user.fullname">
+        Olá {{user.fullname}}
+      </div>
+
+      <div>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/config/user">
+            <mat-icon>account_circle</mat-icon> Minha Conta
+          </button>
+          <button mat-menu-item routerLink="/config">
+            <mat-icon>settings</mat-icon> Configurações
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon> Logout
+          </button>
+        </mat-menu>
+      </div>
+
+
     </mat-toolbar>
   </div>
   <div>
     <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
       <div>
         <button mat-button class="mat-button-blue-light" routerLink="/production/jobs">
-          <i class="material-icons">
+          <i class="material-icons dashboard">
             color_lens
           </i>
           <div>
@@ -18,7 +42,7 @@
       </div>
       <div>
         <button mat-button class="mat-button-green" routerLink="/crm">
-          <i class="material-icons">
+          <i class="material-icons dashboard">
             contacts
           </i>
           <div>
@@ -28,7 +52,7 @@
       </div>
       <div>
         <button mat-button class="mat-button-red" routerLink="/config">
-          <i class="material-icons">
+          <i class="material-icons dashboard">
             settings
           </i>
           <div>

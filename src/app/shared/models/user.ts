@@ -5,7 +5,15 @@ export class User {
   fullname?: string;
   email?: string;
   createdby?: string;
-  createOs?: number;
   permissions?: string[];
-  attributes?: string[];
+  error_code?: string;
+  error?: string;
+}
+
+export class Avatar {
+  _id?: string;
+  data?: string;
+  id?: string;
+  error_code?: string;
+  error?: string;
 }

@@ -1,36 +1,60 @@
 <mat-drawer-container class="container" autosize>
-    <mat-drawer #drawer class="sidenav" [mode]="'side'" opened>
-      <!--opened-->
-      <div align="center">
-        <p></p>
-        <img mat-card-avatar [src]="'assets/logo.svg'" alt="image">
-        <p></p>
-        <div fxLayout="column" fxLayoutGap="5px">
-  
-          <a mat-button href="#" routerLink="/dashboard" [style.background-color]="dashboard">
-            <mat-icon>dashboard</mat-icon>
-            Dashboard
-          </a>
-  
-          <a mat-button href="#" routerLink="/crm" [style.background-color]="company">
-            <mat-icon>location_city</mat-icon>
-            Empresas
-          </a>
-  
-        </div>
-      </div>
-    </mat-drawer>
-  
-    <div class="sidenav-content">
-      <mat-toolbar fxLayoutGap="20px">
-        <button type="button" mat-button (click)="drawer.toggle()">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <p>{{title}}</p>
-      </mat-toolbar>
-      <div class="contend">
-        <router-outlet></router-outlet>
+  <mat-drawer #drawer class="sidenav" [mode]="'side'" opened>
+    <!--opened-->
+    <div align="center">
+      <p></p>
+      <img mat-card-avatar *ngIf="data" [src]="data" alt="image">
+      <p></p>
+      <div fxLayout="column" fxLayoutGap="5px">
+
+        <a mat-button href="#" routerLink="/dashboard" [style.background-color]="dashboard">
+          <mat-icon>dashboard</mat-icon>
+          Dashboard
+        </a>
+
+        <a mat-button href="#" routerLink="/crm" [style.background-color]="company">
+          <mat-icon>location_city</mat-icon>
+          Empresas
+        </a>
+
       </div>
     </div>
-  
-  </mat-drawer-container>
+  </mat-drawer>
+
+  <div class="sidenav-content">
+    <mat-toolbar fxLayoutGap="20px">
+      <button type="button" mat-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <p>{{title}}</p>
+
+      <div style="flex-grow: 1;"></div>
+
+      <div *ngIf="user.fullname">
+        Olá {{user.fullname}}
+      </div>
+
+      <div>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/config/user">
+            <mat-icon>account_circle</mat-icon> Minha Conta
+          </button>
+          <button mat-menu-item routerLink="/config">
+            <mat-icon>settings</mat-icon> Configurações
+          </button>
+          <button mat-menu-item (click)="logout();">
+            <mat-icon>exit_to_app</mat-icon> Logout
+          </button>
+        </mat-menu>
+      </div>
+
+    </mat-toolbar>
+    <div class="contend">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</mat-drawer-container>

@@ -7,7 +7,18 @@ import { ConfigComponent } from './component/config.component';
 const routes: Routes = [
   {
     path: '',
-    component: ConfigComponent
+    component: ConfigComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'user',
+        pathMatch: 'full'
+      },
+      {
+        path: 'user',
+        loadChildren: '../user/user.module#UserModule'
+      }
+    ]
   }
 ];
 
