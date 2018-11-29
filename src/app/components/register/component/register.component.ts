@@ -5,6 +5,7 @@ import { Company, State, City } from 'src/app/shared/models/company';
 import { Result_Item, Result_States, Result_Cities } from 'src/app/shared/models/api';
 import { EventEmitter } from 'events';
 import { MatSelectChange } from '@angular/material';
+import { CrmComponent } from '../../crm/component/crm.component';
 
 @Component({
   selector: 'app-register',
@@ -27,9 +28,15 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
+    private crmComponent: CrmComponent
   ) { }
 
   ngOnInit() {
+
+    this.crmComponent.title = 'Cadastrar Empresa';
+    this.crmComponent.company = '';
+    this.crmComponent.dashboard = '';
+
     this.company = new Company();
 
     this.basicos = this.formBuilder.group({
@@ -200,7 +207,6 @@ export class RegisterComponent implements OnInit {
       .subscribe((data: Company) => {
         if (data.error == null) {
           this.company = data;
-          console.log(data);
           this.basicos.get('solicitante').setValue(this.company.solicitante);
           this.basicos.get('novo').setValue(this.company.novo);
           this.basicos.get('fisica').setValue(this.company.fisica);
