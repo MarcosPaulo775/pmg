@@ -134,7 +134,8 @@
             <div>
 
               <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                <mat-icon matPrefix>search</mat-icon>
+                <input matInput (keyup)="applyFilter($event.target.value)">
               </mat-form-field>
 
               <div class="mat-elevation-z8">
