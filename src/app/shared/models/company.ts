@@ -12,6 +12,7 @@ export class Company {
     endereco?: string;
     bairro?: string;
     cidade?: string;
+    n?: string;
     uf?: string;
     cep?: string;
     tel?: string;

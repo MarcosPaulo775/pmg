@@ -46,6 +46,7 @@ export class RegisterComponent implements OnInit {
       endereco: [null, []],
       bairro: [null, []],
       cidade: [null, []],
+      n: [null, []],
       uf: [null, []],
       cep: [null, []],
       tel: [null, []],
@@ -147,6 +148,7 @@ export class RegisterComponent implements OnInit {
     this.company.endereco = this.cadastrais.get('endereco').value;
     this.company.bairro = this.cadastrais.get('bairro').value;
     this.company.cidade = this.cadastrais.get('cidade').value;
+    this.company.n = this.cadastrais.get('n').value;
     this.company.uf = this.cadastrais.get('uf').value;
     this.company.cep = this.cadastrais.get('cep').value;
     this.company.tel = this.cadastrais.get('tel').value;
@@ -199,6 +201,7 @@ export class RegisterComponent implements OnInit {
           this.cadastrais.get('endereco').setValue(this.company.endereco);
           this.cadastrais.get('bairro').setValue(this.company.bairro);
           this.cadastrais.get('cidade').setValue(this.company.cidade);
+          this.cadastrais.get('n').setValue(this.company.n);
           this.cadastrais.get('uf').setValue(this.company.uf);
           this.cadastrais.get('cep').setValue(this.company.cep);
           this.cadastrais.get('tel').setValue(this.company.tel);

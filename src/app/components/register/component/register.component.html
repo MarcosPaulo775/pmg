@@ -65,17 +65,29 @@
           <input matInput placeholder="Nome Fantasia" formControlName="fantasia">
         </mat-form-field>
 
-        <mat-form-field>
-          <input matInput placeholder="Endereço" formControlName="endereco">
-        </mat-form-field>
-
+        <div fxLayout="row" fxLayoutGap="10px">
+          <div fxFlex="75">
+            <mat-form-field >
+              <input matInput placeholder="Endereço" formControlName="endereco">
+            </mat-form-field>
+          </div>
+          <div fxFlex="25">
+            <mat-form-field>
+              <input matInput placeholder="Número" formControlName="n">
+            </mat-form-field>
+          </div>
+  
+        </div>
 
         <div fxLayout="row" fxLayoutGap="10px">
-          <mat-form-field>
-            <input matInput placeholder="Bairro" formControlName="bairro">
-          </mat-form-field>
 
-          <div>
+          <div fxFlex="50">
+            <mat-form-field>
+              <input matInput placeholder="Bairro" formControlName="bairro">
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="25">
             <mat-form-field *ngIf="cidades">
               <mat-select placeholder="Cidade" formControlName="cidade">
                 <mat-option *ngFor="let cidade of cidades" [value]="cidade.name">
@@ -85,7 +97,7 @@
             </mat-form-field>
           </div>
 
-          <div>
+          <div fxFlex="25">
             <mat-form-field *ngIf="uf">
               <mat-select placeholder="UF" formControlName="uf" (selectionChange)="onCidades($event)">
                 <mat-option *ngFor="let uf of uf" [value]="uf.name">
