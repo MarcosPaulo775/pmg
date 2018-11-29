@@ -135,6 +135,17 @@ export class RegisterComponent implements OnInit {
     'Lorival'
   ];
 
+  copy(){
+
+    this.company.financeiro = this.company.email_comercial;
+    this.company.tel_financeiro = this.company.tel_comercial;
+    this.company.email_financeiro = this.company.comercial;
+    this.cadastrais.get('financeiro').setValue(this.cadastrais.get('comercial').value);
+    this.cadastrais.get('tel_financeiro').setValue(this.cadastrais.get('tel_comercial').value);
+    this.cadastrais.get('email_financeiro').setValue(this.cadastrais.get('email_comercial').value);
+
+  }
+
   getForm() {
 
     this.company.solicitante = this.basicos.get('solicitante').value;

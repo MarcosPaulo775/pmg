@@ -67,7 +67,7 @@
 
         <div fxLayout="row" fxLayoutGap="10px">
           <div fxFlex="75">
-            <mat-form-field >
+            <mat-form-field>
               <input matInput placeholder="Endereço" formControlName="endereco">
             </mat-form-field>
           </div>
@@ -76,7 +76,7 @@
               <input matInput placeholder="Número" formControlName="n">
             </mat-form-field>
           </div>
-  
+
         </div>
 
         <div fxLayout="row" fxLayoutGap="10px">
@@ -134,31 +134,49 @@
         </div>
 
         <div fxLayout="row" fxLayoutGap="10px">
-          <mat-form-field>
-            <input matInput placeholder="Contato Comercial" formControlName="comercial">
-          </mat-form-field>
+          <div fxFlex="31">
+            <mat-form-field>
+              <input matInput placeholder="Contato Comercial" formControlName="comercial">
+            </mat-form-field>
+          </div>
 
-          <mat-form-field>
-            <input matInput placeholder="Tel." type='text' prefix="+55 " mask="(00) 0 0000 0000" formControlName="tel_comercial">
-          </mat-form-field>
+          <div fxFlex="31">
+            <mat-form-field>
+              <input matInput placeholder="Tel." type='text' prefix="+55 " mask="(00) 0 0000 0000" formControlName="tel_comercial">
+            </mat-form-field>
+          </div>
 
-          <mat-form-field>
-            <input matInput placeholder="e-mail" formControlName="email_comercial">
-          </mat-form-field>
+          <div fxFlex="31">
+            <mat-form-field>
+              <input matInput placeholder="e-mail" formControlName="email_comercial">
+            </mat-form-field>
+          </div>
         </div>
 
         <div fxLayout="row" fxLayoutGap="10px">
-          <mat-form-field>
-            <input matInput placeholder="Contato Financeiro" formControlName="financeiro">
-          </mat-form-field>
+          <div fxFlex="31">
+            <mat-form-field>
+              <input matInput placeholder="Contato Financeiro" formControlName="financeiro">
+            </mat-form-field>
+          </div>
 
-          <mat-form-field>
-            <input matInput placeholder="Tel." type='text' prefix="+55 " mask="(00) 0 0000 0000" formControlName="tel_financeiro">
-          </mat-form-field>
+          <div fxFlex="31">
+            <mat-form-field>
+              <input matInput placeholder="Tel." type='text' prefix="+55 " mask="(00) 0 0000 0000" formControlName="tel_financeiro">
+            </mat-form-field>
+          </div>
 
-          <mat-form-field>
-            <input matInput placeholder="e-mail" formControlName="email_financeiro">
-          </mat-form-field>
+          <div fxFlex="31">
+            <mat-form-field>
+              <input matInput placeholder="e-mail" formControlName="email_financeiro">
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="5">
+            <button mat-stroked-button color="primary" (click)="copy()">
+              Copiar
+            </button>
+          </div>
         </div>
 
         <mat-form-field>
