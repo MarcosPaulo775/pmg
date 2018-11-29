@@ -215,6 +215,14 @@
                   <input matInput placeholder="Prazo" formControlName="prazo">
                 </mat-form-field>
 
+                <mat-form-field *ngIf="faturamento">
+                  <mat-select placeholder="Faturamento" formControlName="faturamento">
+                    <mat-option *ngFor="let value of faturamento" [value]="value">
+                      {{value}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
                 <mat-form-field>
                   <textarea matInput placeholder="Observação" formControlName="obs" style="height: 130px;"></textarea>
                 </mat-form-field>

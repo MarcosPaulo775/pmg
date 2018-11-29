@@ -176,6 +176,7 @@ export class UserComponent implements OnInit {
               .subscribe((data: Result_Delete) => {
                 if (data.error == null) {
                   this.data = 'assets/logo.svg';
+                  this.configComponent.setData = this.data;
                   localStorage.setItem('avatar', this.data);
                 }
               });
@@ -193,6 +194,7 @@ export class UserComponent implements OnInit {
 
         if (data.error == null) {
           this.data = data.data;
+          this.configComponent.setData = this.data;
           localStorage.setItem('avatar', this.data);
           this.apiService.custom_objects_list('avatar', ['id', 'equal to', this.user._id], ' ')
             .subscribe(

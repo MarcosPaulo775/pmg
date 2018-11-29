@@ -30,6 +30,7 @@ export class Company {
     nf?: string;
     boleto?: string;
     prazo?: string;
+    faturamento?: string;
     obs?: string;
 
     top_flat_114?: string;

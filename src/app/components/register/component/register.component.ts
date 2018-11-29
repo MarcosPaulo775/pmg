@@ -24,6 +24,7 @@ export class RegisterComponent implements OnInit {
 
   uf: State[];
   cidades: City[];
+  faturamento: string[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -73,6 +74,7 @@ export class RegisterComponent implements OnInit {
       nf: [null, []],
       boleto: [null, []],
       prazo: [null, []],
+      faturamento: [null, []],
       obs: [null, []]
     });
 
@@ -100,10 +102,21 @@ export class RegisterComponent implements OnInit {
           if (data_1.error_code == null) {
             this.uf = new Array<State>();
             for (let i = 0; i < data_1.results.length; i++) {
-              this.uf.push(data_1.results[i]);             
+              this.uf.push(data_1.results[i]);
             }
             this.cidades = new Array<City>();
 
+          }
+        }, (data) => {
+        });
+
+      this.apiService.custom_objects_list('revenues', '', '')
+        .subscribe((data: Result_Item) => {
+          if (data.error_code == null) {
+            this.faturamento = new Array<string>();
+            for (let i = 0; i < data.results.length; i++) {
+              this.faturamento.push(data.results[i].name);
+            }
           }
         }, (data) => {
         });
@@ -114,7 +127,6 @@ export class RegisterComponent implements OnInit {
   onCidades(event: MatSelectChange) {
 
     if (event.value != this.company.uf) {
-      console.log(event);
 
       for (let i = 0; i < this.uf.length; i++) {
         if (this.uf[i].name == event.value) {
@@ -142,7 +154,7 @@ export class RegisterComponent implements OnInit {
     'Lorival'
   ];
 
-  copy(){
+  copy() {
 
     this.company.financeiro = this.company.email_comercial;
     this.company.tel_financeiro = this.company.tel_comercial;
@@ -184,6 +196,7 @@ export class RegisterComponent implements OnInit {
     this.company.nf = this.pagamento.get('nf').value;
     this.company.boleto = this.pagamento.get('boleto').value;
     this.company.prazo = this.pagamento.get('prazo').value;
+    this.company.faturamento = this.pagamento.get('faturamento').value;
     this.company.obs = this.pagamento.get('obs').value;
 
     this.company.top_flat_114 = this.preco.get('top_flat_114').value;
@@ -249,6 +262,18 @@ export class RegisterComponent implements OnInit {
           this.outros.get('email_materiais').setValue(this.company.email_materiais);
           this.outros.get('email_pedido').setValue(this.company.email_pedido);
 
+          this.apiService.custom_objects_list('revenues', '', '')
+            .subscribe((data: Result_Item) => {
+              if (data.error_code == null) {
+                this.faturamento = new Array<string>();
+                for (let i = 0; i < data.results.length; i++) {
+                  this.faturamento.push(data.results[i].name);
+                }
+                this.pagamento.get('faturamento').setValue(this.company.faturamento);
+              }
+            }, (data) => {
+            });
+
           this.apiService.custom_objects_list('states', '', '')
             .subscribe((data_1: Result_States) => {
               if (data_1.error_code == null) {
@@ -304,7 +329,6 @@ export class RegisterComponent implements OnInit {
       .subscribe((data: Company) => {
         if (data.error == null) {
           this.company = data;
-          console.log(this.company);
           localStorage.setItem('_id_company', this.company._id);
         } else {
         }
@@ -316,7 +340,6 @@ export class RegisterComponent implements OnInit {
     this.apiService.custom_objects_update('company', this.company)
       .subscribe((data: Company) => {
         if (data.error == null) {
-          console.log(data);
         } else {
         }
       }, (data) => {
