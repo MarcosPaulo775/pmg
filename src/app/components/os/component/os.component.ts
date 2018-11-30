@@ -12,6 +12,7 @@ import { map, startWith } from 'rxjs/operators';
 import { DialogProvaComponent } from '../dialogProva/dialog.component';
 import { DialogColorComponent } from '../dialogColor/dialog.component';
 import { DialogFinanceiroComponent } from '../dialogFinanceiro/dialog.component';
+import { DialogMedidasComponent } from '../dialogMedidas/dialog.component';
 
 @Component({
   selector: 'app-os',
@@ -730,6 +731,24 @@ export class OsComponent implements OnInit {
         this.updateColor(result);
       }
     });
+  }
+
+  upload(): void {
+    const dialogRef = this.dialog.open(DialogMedidasComponent, {
+      width: '800px',
+      data: this.os.os
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.dimensionColor(result);
+      }
+    });
+  }
+
+  dimensionColor(file: string){
+
+    
+
   }
 
   calcular() {
