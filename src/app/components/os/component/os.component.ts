@@ -6,9 +6,7 @@ import { OS, Color, FormColor } from '../../../shared/models/os';
 import { Count, Result_OS, Result_Item, Result_Color, Result_Company } from '../../../shared/models/api';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import * as URL from '../../../core/http/url';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DialogProvaComponent } from '../dialogProva/dialog.component';
@@ -58,7 +56,6 @@ export class OsComponent implements OnInit {
     private apiService: ApiService,
     public snackBar: MatSnackBar,
     private router: Router,
-    private http: HttpClient,
     public dialog: MatDialog
   ) { }
 
@@ -187,40 +184,6 @@ export class OsComponent implements OnInit {
         });
     }
 
-  }
-
-  /** Upload de arquivo */
-  inputFileChange(event) {
-    console.log('Passou');
-
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const formData = new FormData;
-      formData.append('session', 'session', 'session');
-      formData.append('file', file, file.name);
-
-      const req = new HttpRequest('POST', URL.server + '/upload', formData, {
-        reportProgress: true
-      });
-
-      this.progress = new Subject<number>();
-
-      this.http.request(req).subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress) {
-
-          // calculate the progress percentage
-          const percentDone = Math.round(100 * event.loaded / event.total);
-
-          // pass the percentage into the progress-stream
-          this.progress.next(percentDone);
-        } else if (event instanceof HttpResponse) {
-
-          // Close the progress-stream if we get an answer form the API
-          // The upload is complete
-          this.progress.complete();
-        }
-      });
-    }
   }
 
   /** Busca a ordem de serviço no banco de dados */

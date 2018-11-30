@@ -189,7 +189,7 @@ export class UserComponent implements OnInit {
   }
 
   getPreview(filename: string) {
-    this.apiService.metadata_get_preview('cloudflow://PP_FILE_STORE/Avatar/' + filename, null, null)
+    this.apiService.metadata_get_preview('cloudflow://PP_FILE_STORE/Avatar/' + filename, 0, 300)
       .subscribe((data: Data) => {
 
         if (data.error == null) {

@@ -48,7 +48,7 @@ export class DialogAvatarComponent {
           const percentDone = Math.round(100 * event.loaded / event.total);
 
           // pass the percentage into the progress-stream
-          const rest = percentDone % 10;
+          const rest = percentDone % 2;
           if (!rest) {
             this.percentDone = String(percentDone) + '%';
             this.progress.next(percentDone);
