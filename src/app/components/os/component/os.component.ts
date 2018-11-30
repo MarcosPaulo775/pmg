@@ -3,16 +3,17 @@ import { ProductionComponent } from '../../production/component/production.compo
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { ApiService } from '../../../core/http/api.service';
 import { OS, Color, FormColor } from '../../../shared/models/os';
-import { Count, Result_OS, Result_Item, Result_Color, Result_Company } from '../../../shared/models/api';
+import { Count, Result_OS, Result_Item, Result_Color, Result_Company, Flow, Workable, Result_DimensionColor } from '../../../shared/models/api';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, delay } from 'rxjs/operators';
 import { DialogProvaComponent } from '../dialogProva/dialog.component';
 import { DialogColorComponent } from '../dialogColor/dialog.component';
 import { DialogFinanceiroComponent } from '../dialogFinanceiro/dialog.component';
 import { DialogMedidasComponent } from '../dialogMedidas/dialog.component';
+import { pipe } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-os',
@@ -26,6 +27,8 @@ export class OsComponent implements OnInit {
   details_view: boolean;
   details: FormGroup;
   progress: Subject<number>;
+
+  spinner: boolean;
 
   clientes: string[];
   pedidos: string[];
@@ -739,17 +742,75 @@ export class OsComponent implements OnInit {
       data: this.os.os
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
+      if (result) {
         this.dimensionColor(result);
       }
     });
   }
 
-  dimensionColor(file: string){
+  dimensionColor(file: string) {
 
-    
+    this.spinner = true;
 
+    this.apiService.hub_start_from_whitepaper_with_files_and_variables('medidas_os', 'input', ['cloudflow://PP_FILE_STORE/dimensionColor/' + file])
+      .subscribe((data: Flow) => {
+
+        console.log(data);
+
+        if (data.error == null) {
+
+          this.workable(data.workable_id);
+
+        }
+      }, () => { })
   }
+
+  workable(workable_id) {
+    this.apiService.hub_get_waiting_room_of_workable(workable_id)
+      .pipe(delay(5 * 1000)).subscribe((data: Workable) => {
+
+        if (data.collar === 'com.nixps.quantum.conductor.0' || data.error == null) {
+          this.getDimension();
+        } else if (data.connector === 'success') {
+          this.workable(workable_id);
+        }
+      }, () => { })
+  }
+
+  getDimension() {
+    let temp = this.os.os.split(' ');
+
+    let os = temp[0] + temp[1] + temp[2];
+    this.apiService.custom_objects_list('dimensionColor', ['os', 'equal to', os], ' ')
+      .subscribe((data: Result_DimensionColor) => {
+        if (data.error == null) {
+          this.os.colors = new Array<Color>();
+          this.os.colors = data.results[data.results.length - 1].color;
+
+          for(let i = 0; i < this.os.colors.length; i++ ){
+            this.os.colors[i].hex = '#' + String(this.fullColorHex(this.os.colors[i].red, this.os.colors[i].green, this.os.colors[i].blue));
+          }
+
+          console.log(this.os.colors);
+          this.spinner = false;
+        }
+      }, () => { });
+  }
+
+  rgbToHex(rgb) { 
+    var hex = Number(rgb).toString(16);
+    if (hex.length < 2) {
+         hex = "0" + hex;
+    }
+    return hex;
+  };
+
+  fullColorHex(r,g,b) {   
+    var red = this.rgbToHex(r);
+    var green = this.rgbToHex(g);
+    var blue = this.rgbToHex(b);
+    return red+green+blue;
+  };
 
   calcular() {
     let valor = 0;
@@ -791,7 +852,7 @@ export class OsComponent implements OnInit {
     } else {
       for (let i = 0; i < this.os.colors.length; i++) {
         this.os.colors[i].valor = 0;
-      }this.os.valor = 0;
+      } this.os.valor = 0;
     }
   }
 

@@ -73,18 +73,51 @@ export interface Data {
     error: string;
 }
 
-export interface Result_Avatar{
+export interface Result_Avatar {
     results: Avatar[];
     error_code: string;
     error: string;
 }
 
-export interface Result_Delete{
+export interface Result_Delete {
     results: Delete[];
     error_code: string;
     error: string;
 }
 
-export class Delete{
+export interface Result_DimensionColor {
+    results: DimensionColor[];
+    error_code: string;
+    error: string;
+}
+
+export class DimensionColor {
+    color?: Color[];
+    os?: string;
+    error_code?: string;
+    error?: string;
+}
+
+
+export class Delete {
     ok?: number;
+    error_code?: string;
+    error?: string;
+}
+
+export class Flow {
+    workable_id?: string;
+    workable_name?: string;
+    jacket_name?: string;
+    jacket_id?: string;
+    error_code?: string;
+    error?: string;
+}
+
+export class Workable{
+    collar?: string;
+    connector?: string;
+    node?: string;
+    error_code?: string;
+    error?: string;
 }

@@ -120,7 +120,7 @@ export class ApiService {
         )
     }
 
-    public hub_start_from_whitepaper_with_files_and_variables(whitepaper_name, input_name, files, variables) {
+    public hub_start_from_whitepaper_with_files_and_variables(whitepaper_name, input_name, files) {
         return this.http.post(
             URL.server,
             {
@@ -128,8 +128,7 @@ export class ApiService {
                 'method': 'hub.start_from_whitepaper_with_files_and_variables',
                 'whitepaper_name': whitepaper_name,
                 'input_name': input_name,
-                'files': files,
-                'variables': variables
+                'files': files
             }
         )
     }
