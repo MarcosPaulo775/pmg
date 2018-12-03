@@ -91,7 +91,8 @@ export interface Result_DimensionColor {
     error: string;
 }
 
-export class DimensionColor {
+export interface DimensionColor {
+    _id?: string,
     color?: Color[];
     os?: string;
     error_code?: string;

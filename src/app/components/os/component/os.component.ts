@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from
 import { ApiService } from '../../../core/http/api.service';
 import { OS, Color, FormColor } from '../../../shared/models/os';
 import { Count, Result_OS, Result_Item, Result_Color, Result_Company, Flow, Workable, Result_DimensionColor } from '../../../shared/models/api';
-import { MatSnackBar, MatDialog } from '@angular/material';
+import { MatSnackBar, MatDialog, MatCheckboxChange, ThemePalette } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs';
@@ -21,6 +21,8 @@ import { pipe } from '@angular/core/src/render3';
   styleUrls: ['./os.component.css']
 })
 export class OsComponent implements OnInit {
+
+  checkbox: ThemePalette = 'primary';
 
   form: FormGroup;
   os: OS;
@@ -377,10 +379,11 @@ export class OsComponent implements OnInit {
       .subscribe((data: Result_Color) => {
         if (data.error_code == null) {
           this.colors = new Array<Color>();
-          this.colors.push({ color: 'Preto', hex: "#000000" });
-          this.colors.push({ color: 'Amarelo', hex: '#ffff00' });
-          this.colors.push({ color: 'Magenta', hex: '#ff00ff' });
-          this.colors.push({ color: 'Ciano', hex: '#00ffff' });
+          this.colors.push({ color: 'Cyan', hex: '#00aeef' });
+          this.colors.push({ color: 'Magenta', hex: '#ec008c' });
+          this.colors.push({ color: 'Yellow', hex: '#fff200' });
+          this.colors.push({ color: 'Black', hex: "#231f20" });
+          this.colors.push({ color: 'White', hex: '#ffffff' });
           for (let i = 0; i < data.results.length; i++) {
             data.results[i].hex = '#' + data.results[i].hex;
             data.results[i].color = 'Pantone ' + data.results[i].color;
@@ -401,6 +404,7 @@ export class OsComponent implements OnInit {
         }
       }, (data) => {
       });
+
 
     this.details.get('observacoes_cliche').setValue(this.os.obs_cliche);
     this.details.get('observacoes_cores').setValue(this.os.obs_color);
@@ -443,6 +447,16 @@ export class OsComponent implements OnInit {
     this.details.get('compra').setValue(this.os.compra);
     this.details.get('cobrar').setValue(this.os.cobrar);
     this.details.get('obs_financeiro').setValue(this.os.obs_financeiro);
+  }
+
+  onAddCMYK() {
+
+    this.addColor({ color: 'Cyan', hex: '#00aeef' });
+    this.addColor({ color: 'Magenta', hex: '#ec008c' });
+    this.addColor({ color: 'Yellow', hex: '#fff200' });
+    this.addColor({ color: 'Black', hex: "#000000" });
+    this.addColor({ color: 'White', hex: '#ffffff' });
+
   }
 
   /** Cria um ordem de serviço com os dados do formulario */
@@ -534,17 +548,14 @@ export class OsComponent implements OnInit {
 
     this.color = new Color();
 
-    this.color.color = color.color;
-    this.color.lineatura1 = color.lineatura1;
-    this.color.lineatura2 = color.lineatura2;
-    this.color.angulo = color.angulo;
-    this.color.fotocelula = color.fotocelula;
-    this.color.unitario = color.unitario;
-    this.color.camerom = color.camerom;
-    this.color.jogos = color.jogos;
-
+    this.color = color;
 
     if (this.color.color) {
+      if (this.color.jogos == undefined || this.color.jogos == null || this.color.jogos == "undefined") {
+        this.color.jogos = '0';
+      } else {
+        this.color.jogos = color.jogos;
+      }
       if (this.os.colors == undefined) {
         this.os.colors = new Array<Color>();
         this.color._id = 1;
@@ -555,15 +566,17 @@ export class OsComponent implements OnInit {
       } else {
         this.color._id = this.os.colors[this.os.colors.length - 1]._id + 1;
       }
-      for (let i = 0; i < this.colors.length; i++) {
-        if (this.color.color === this.colors[i].color) {
-          this.color.hex = this.colors[i].hex;
+      if (!this.color.hex) {
+        for (let i = 0; i < this.colors.length; i++) {
+          if (this.color.color === this.colors[i].color) {
+            this.color.hex = this.colors[i].hex;
+          }
         }
       }
 
       this.os.colors.push(this.color);
 
-      this.onSubmit();
+      //this.onSubmit();
     }
   }
 
@@ -690,9 +703,7 @@ export class OsComponent implements OnInit {
         this.os.colors[i] = color;
       }
     }
-
     this.onSubmit();
-
   }
 
   editProva(color: Color): void {
@@ -755,25 +766,26 @@ export class OsComponent implements OnInit {
     this.apiService.hub_start_from_whitepaper_with_files_and_variables('medidas_os', 'input', ['cloudflow://PP_FILE_STORE/dimensionColor/' + file])
       .subscribe((data: Flow) => {
 
-        console.log(data);
-
         if (data.error == null) {
 
           this.workable(data.workable_id);
-
         }
       }, () => { })
   }
 
   workable(workable_id) {
     this.apiService.hub_get_waiting_room_of_workable(workable_id)
-      .pipe(delay(5 * 1000)).subscribe((data: Workable) => {
+      .pipe(delay(2 * 1000)).subscribe((data: Workable) => {
 
-        if (data.collar === 'com.nixps.quantum.conductor.0' || data.error == null) {
-          this.getDimension();
-        } else if (data.connector === 'success') {
-          this.workable(workable_id);
+        if (data.error == null) {
+          if (data.collar == 'com.nixps.quantum.end.0') {
+            this.getDimension();
+          } else {
+            this.workable(workable_id);
+          }
+
         }
+
       }, () => { })
   }
 
@@ -783,76 +795,69 @@ export class OsComponent implements OnInit {
     let os = temp[0] + temp[1] + temp[2];
     this.apiService.custom_objects_list('dimensionColor', ['os', 'equal to', os], ' ')
       .subscribe((data: Result_DimensionColor) => {
-        if (data.error == null) {
-          this.os.colors = new Array<Color>();
-          this.os.colors = data.results[data.results.length - 1].color;
+        if (data.error == null && data.results.length != 0) {
 
-          for(let i = 0; i < this.os.colors.length; i++ ){
-            this.os.colors[i].hex = '#' + String(this.fullColorHex(this.os.colors[i].red, this.os.colors[i].green, this.os.colors[i].blue));
+          let colors = data.results[data.results.length - 1].color;
+
+          for (let i = 0; i < colors.length; i++) {
+            this.addColor(colors[i]);
           }
 
-          console.log(this.os.colors);
+          this.calcular(this.details.get('cobrar').value);
+
+          this.apiService.custom_objects_delete('dimensionColor', data.results[data.results.length - 1]._id)
+            .subscribe((data) => {
+              
+            }, (data) => {
+
+            });
+
           this.spinner = false;
         }
       }, () => { });
   }
 
-  rgbToHex(rgb) { 
-    var hex = Number(rgb).toString(16);
-    if (hex.length < 2) {
-         hex = "0" + hex;
-    }
-    return hex;
-  };
-
-  fullColorHex(r,g,b) {   
-    var red = this.rgbToHex(r);
-    var green = this.rgbToHex(g);
-    var blue = this.rgbToHex(b);
-    return red+green+blue;
-  };
-
-  calcular() {
+  calcular(checked: boolean) {
     let valor = 0;
-    let dolar = 3.9;
-    if (!this.details.get('cobrar').value) {
-      this.apiService.custom_objects_list('company', ['razao', 'equal to', this.os.cliente], { 'kodak_114': 'kodak_114', 'kodak_170': 'kodak_170', 'digital_284': 'digital_284', 'top_flat_170': 'top_flat_170', 'top_flat_114': 'top_flat_114', 'margem': 'margem' })
-        .subscribe((data: Result_Company) => {
-          if (data.error == null) {
+    if (this.os.colors != null && this.os.colors != undefined) {
+      if (checked) {
+        this.apiService.custom_objects_list('company', ['razao', 'equal to', this.os.cliente], { 'kodak_114': 'kodak_114', 'kodak_170': 'kodak_170', 'digital_284': 'digital_284', 'top_flat_170': 'top_flat_170', 'top_flat_114': 'top_flat_114', 'margem': 'margem' })
+          .subscribe((data: Result_Company) => {
+            if (data.error == null) {
 
-            if (this.os.tecnologia === 'Kodak NX' && this.os.espessura === '1.14') {
-              valor = Number(data.results[0].kodak_114);
-            } else if (this.os.tecnologia === 'Kodak NX' && this.os.espessura === '1.7') {
-              valor = Number(data.results[0].kodak_170);
-            } else if (this.os.tecnologia === 'Digital' && this.os.espessura === '2.84') {
-              valor = Number(data.results[0].digital_284);
-            } else if (this.os.tecnologia === 'Top Flat PMG' && this.os.espessura === '1.7') {
-              valor = Number(data.results[0].top_flat_170);
-            } else if (this.os.tecnologia === 'Top Flat PMG' && this.os.espessura === '1.14') {
-              valor = Number(data.results[0].top_flat_114);
-            } else {
-              valor = 0;
+              if (this.os.tecnologia === 'Kodak NX' && this.os.espessura === '1.14') {
+                valor = Number(data.results[0].kodak_114);
+              } else if (this.os.tecnologia === 'Kodak NX' && this.os.espessura === '1.7') {
+                valor = Number(data.results[0].kodak_170);
+              } else if (this.os.tecnologia === 'Digital' && this.os.espessura === '2.84') {
+                valor = Number(data.results[0].digital_284);
+              } else if (this.os.tecnologia === 'Top Flat PMG' && this.os.espessura === '1.7') {
+                valor = Number(data.results[0].top_flat_170);
+              } else if (this.os.tecnologia === 'Top Flat PMG' && this.os.espessura === '1.14') {
+                valor = Number(data.results[0].top_flat_114);
+              } else {
+                valor = 0;
+                this.openSnackBar('Falta cadastrar a tecnologia e espessura e salvar', 'ok');
+              }
+
+              valor = valor * 0.01;
+
+              for (let i = 0; i < this.os.colors.length; i++) {
+                let area = (Number(this.os.colors[i].altura) + Number(data.results[0].margem)) * 0.1 * (Number(this.os.colors[i].largura) + Number(data.results[0].margem)) * 0.1;
+                this.os.colors[i].valor = valor * area;
+                this.os.colors[i].valor = Number(this.os.colors[i].valor.toFixed(2));
+                this.os.valor = this.os.valor + this.os.colors[i].valor;
+              }
             }
 
-            valor = valor * 0.01;
+          }, (data) => {
 
-            this.os.valor = 0;
-
-            for (let i = 0; i < this.os.colors.length; i++) {
-              let area = (Number(this.os.colors[i].altura) + Number(data.results[0].margem)) * 0.1 * (Number(this.os.colors[i].largura) + Number(data.results[0].margem)) * 0.1;
-              this.os.colors[i].valor = valor * dolar * area;
-              this.os.colors[i].valor = Number(this.os.colors[i].valor.toFixed(2));
-              this.os.valor = this.os.valor + this.os.colors[i].valor;
-            }
-          }
-
-        }, (data) => {
-
-        });
-    } else {
-      for (let i = 0; i < this.os.colors.length; i++) {
-        this.os.colors[i].valor = 0;
-      } this.os.valor = 0;
+          });
+      } else {
+        for (let i = 0; i < this.os.colors.length; i++) {
+          this.os.colors[i].valor = 0;
+        } this.os.valor = 0;
+      }
     }
   }
 

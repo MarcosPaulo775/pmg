@@ -8,9 +8,9 @@
 }
 
 .button_blue_light {
-  background-color: rgb(0, 161, 255);
+  background-color: rgb(0, 122, 204);
   color: white;
-  width: 200px;
+  width: 250px;
 }
 
 .button_orange {
@@ -28,7 +28,7 @@
   color: black;
 }
 
-textarea{
+textarea {
   height: 100px;
 }
 
@@ -36,8 +36,7 @@ textarea{
   max-width: 1920px;
 }
 
-.headers-align .mat-expansion-panel-header-title, 
-.headers-align .mat-expansion-panel-header-description {
+.headers-align .mat-expansion-panel-header-title, .headers-align .mat-expansion-panel-header-description {
   flex-basis: 0;
 }
 
@@ -46,12 +45,12 @@ textarea{
   align-items: center;
 }
 
-.mat-accordion{
+.mat-accordion {
   width: 100%;
-  box-shadow: 0 3px 30px -1px rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+  box-shadow: 0 3px 30px -1px rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
 }
 
-.mat-toolbar{
+.mat-toolbar {
   background-color: rgb(0, 122, 204);
   color: white;
 }
@@ -60,11 +59,11 @@ textarea{
   background: lightblue;
 }
 
-.input-width{
+.input-width {
   max-width: 200px;
 }
 
-.checkbox{
+.checkbox {
   max-width: 100px;
   min-width: 100px;
 }
@@ -73,12 +72,12 @@ table {
   width: 100%;
 }
 
-.divTable{
+.divTable {
   border: 10px;
   padding: 10px;
 }
 
-.mat-form-color{
+.mat-form-color {
   width: 300px;
 }
 
@@ -94,10 +93,16 @@ td, th {
   font-family: "Open Sans";
 }
 
-td{
+td {
   border-top: 1px solid #dddddd;
 }
 
-thead{
+thead {
   background-color: rgb(242, 242, 242);
+}
+
+.mat-card {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #cccccc;
 }

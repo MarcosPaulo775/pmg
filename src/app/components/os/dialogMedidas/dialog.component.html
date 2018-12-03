@@ -2,14 +2,13 @@
 <div mat-dialog-content>
 
   <div style="width: 100%;" align="center">
-    <button mat-button class="button_blue">
+    <button mat-button class="button_blue" (click)="fileInput.click()">
 
-      <label for="upload">Upload PDF</label>
+      <mat-icon>cloud_upload</mat-icon> Upload PDF
+      <input hidden type="file" accept="application/pdf" (change)="inputFileChange($event)" #fileInput>
 
     </button>
   </div>
-
-  <input id="upload" type="file" accept="application/pdf" (change)="inputFileChange($event)" style="display:none;" />
 
   <p></p>
   <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress | async"></mat-progress-bar>

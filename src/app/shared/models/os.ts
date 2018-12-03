@@ -108,7 +108,6 @@ export class Color {
 
 export class FormColor {
   color: Color;
-
   colors: Color[];
   lineatura: string[];
   angulo: string[];

@@ -5,6 +5,10 @@
   td {
     font-family: "Open Sans";
   }
+
+  .full-width {
+  width: 100%;
+}
 </style>
 <h1 mat-dialog-title>Editar Cor</h1>
 <div mat-dialog-content>
@@ -13,10 +17,12 @@
   <form [formGroup]="form">
     <div fxLayout="row" fxLayoutGap="10px">
       <mat-form-field>
-        <input matInput placeholder="Altura" type='text' prefix="mm " mask="0000" formControlName="altura">
+        <input matInput placeholder="Altura" type='text' mask="0000" formControlName="altura">
+        <a matSuffix>mm</a>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Largura" type='text' prefix="mm " mask="0000" formControlName="largura">
+        <input matInput placeholder="Largura" type='text' mask="0000" formControlName="largura">
+        <a matSuffix>mm</a>
       </mat-form-field>
     </div>
   </form>

@@ -22,6 +22,8 @@ export class DialogMedidasComponent {
   percentDone: string;
   filename: string;
   /** Upload de arquivo */
+
+
   inputFileChange(event) {
 
     if (event.target.files && event.target.files[0] && event.target.files[0].type === 'application/pdf') {

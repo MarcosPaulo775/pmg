@@ -176,9 +176,16 @@
         <mat-card-content>
           <div fxLayout="column" fxLayoutGap="10px">
 
-            <button mat-button class="button_blue_light" matTooltip="Adiciona a cor do formulario" (click)="onAdd()">
-              <mat-icon>add</mat-icon> Adicionar Cor
-            </button>
+            <div fxLayout="row" fxLayoutGap="10px">
+              <button mat-flat-button class="button_blue_light" matTooltip="Adiciona a cor do formulario" (click)="onAdd()">
+                <mat-icon>add</mat-icon> Adicionar Cor
+              </button>
+
+              <button mat-flat-button class="button_blue_light" matTooltip="Adiciona a cor do formulario" (click)="onAddCMYK()">
+                <mat-icon>add</mat-icon> Adicionar CMYK + Branco
+              </button>
+            </div>
+
 
             <div>
               <table>
@@ -197,8 +204,10 @@
                   <tr *ngFor="let color of os.colors">
                     <td>
                       <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
-                        <div>
-                          <mat-icon [style.color]="color.hex">fiber_manual_record</mat-icon>
+                        <div style="width: 24px;
+                        height: 24px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: #cccccc">
+                          <div [style.background-color]="color.hex" style="width: 20px;
+                          height: 20px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: white;"></div>
                         </div>
                         <div>
                           {{color.color}}
@@ -211,13 +220,13 @@
                     <td>{{color.jogos}}</td>
                     <td>
                       <div>
-                        <mat-checkbox disabled="true" [checked]="color.fotocelula">Fotocélula</mat-checkbox>
+                        <mat-checkbox disabled="true" [checked]="color.fotocelula" *ngIf="color.fotocelula">Fotocélula</mat-checkbox>
                       </div>
                       <div>
-                        <mat-checkbox disabled="true" [checked]="color.unitario">Unitario</mat-checkbox>
+                        <mat-checkbox disabled="true" [checked]="color.unitario" *ngIf="color.unitario">Unitario</mat-checkbox>
                       </div>
                       <div>
-                        <mat-checkbox disabled="true" [checked]="color.camerom">Camerom</mat-checkbox>
+                        <mat-checkbox disabled="true" [checked]="color.camerom" *ngIf="color.camerom">Camerom</mat-checkbox>
                       </div>
                     </td>
                     <td>
@@ -426,8 +435,10 @@
                 <tr *ngFor="let color of os.colors">
                   <td>
                     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
-                      <div>
-                        <mat-icon [style.color]="color.hex">fiber_manual_record</mat-icon>
+                      <div style="width: 24px;
+                        height: 24px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: #cccccc">
+                        <div [style.background-color]="color.hex" style="width: 20px;
+                          height: 20px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: white;"></div>
                       </div>
                       <div>
                         {{color.color}}
@@ -480,29 +491,37 @@
             <mat-form-field>
               <input matInput placeholder="Ordem de compra" formControlName="dupla">
             </mat-form-field>
-            <mat-checkbox formControlName="cobrar" (click)="calcular()">Cobrar Clichês</mat-checkbox>
-            <button mat-button type="button" class="button_blue" (click)="upload()">
-              Enviar
+            <mat-checkbox formControlName="cobrar" color="primary" (change)="calcular($event.checked)">Cobrar Clichês</mat-checkbox>
+
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="10px">
+            <button mat-flat-button class="button_blue_light" (click)="upload()">
+              <mat-icon>attach_file</mat-icon> Medir arquivo
             </button>
-            <mat-spinner *ngIf="spinner"></mat-spinner>
+
+            <mat-spinner *ngIf="spinner" [diameter]="25"></mat-spinner>
+
           </div>
           <div>
-            <table>
+            <table style="font-family: arial, sans-serif; width: 100%;">
               <thead>
-                <tr>
+                <tr style="text-align: left;">
                   <th>Cor</th>
                   <th>Altura</th>
                   <th>Largura</th>
                   <th>Editar</th>
-                  <th>Valor</th>
+                  <th fxLayoutAlign="end" style="text-align: end">Valor</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let color of os.colors">
+                <tr *ngFor="let color of os.colors" style="border-top: 1px solid #dddddd;">
                   <td>
                     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
-                      <div>
-                        <mat-icon [style.color]="color.hex">fiber_manual_record</mat-icon>
+                      <div style="width: 24px;
+                        height: 24px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: #cccccc">
+                        <div [style.background-color]="color.hex" style="width: 20px;
+                          height: 20px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: white;"></div>
                       </div>
                       <div>
                         {{color.color}}
@@ -515,20 +534,20 @@
                   <td>
                     {{color.largura}} mm
                   </td>
-                  <td>
+                  <th>
                     <button mat-button matTooltip="Editar" (click)="editFinanceiro(color)">
                       <mat-icon>edit</mat-icon>
                     </button>
-                  </td>
-                  <td fxLayoutAlign="right right" style="text-align: right">
+                  </th>
+                  <td fxLayoutAlign="end" style="text-align: end">
                     R$ {{color.valor}}
                   </td>
                 </tr>
               </tbody>
             </table>
-          </div>
-          <div align="right right">
-            Total: R$ {{os.valor}}
+            <td fxLayoutAlign="end" style="text-align: end">
+              Total: R$ {{os.valor}}
+            </td>
           </div>
 
           <mat-form-field class="full-width">
