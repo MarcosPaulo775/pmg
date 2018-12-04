@@ -77,7 +77,7 @@ export class OS {
   cobrar?: string;
   obs_financeiro?: string;
 
-  valor?: number;
+  valor?: string;
 
   error_code?: string;
   error?: string;
@@ -103,7 +103,7 @@ export class Color {
   bcm?: string;
   altura?: string;
   largura?: string;
-  valor?: number;
+  valor?: string;
 }
 
 export class FormColor {

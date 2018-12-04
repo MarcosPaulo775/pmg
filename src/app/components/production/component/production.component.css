@@ -80,3 +80,7 @@ img{
   cursor: pointer;
 }
 
+.mat-icon-button{
+  margin: -10px;
+}
+

@@ -1,40 +1,10 @@
 <mat-drawer-container class="container" autosize>
-  <mat-drawer #drawer class="sidenav" [mode]="'side'" opened>
+  <mat-drawer #drawer class="sidenav" mode="side" opened>
     <!--opened-->
     <div align="center">
       <p></p>
       <img mat-card-avatar *ngIf="data" [src]="data" alt="image">
-      <p></p>
-      <div fxLayout="column">
-        <a href="#" mat-button routerLink="/dashboard" [style.background-color]="dashboard">
-          <mat-icon>dashboard</mat-icon>
-          Dashboard
-        </a>
-
-        <a href="#" mat-button routerLink="/production/jobs" [style.background-color]="jobs">
-          <mat-icon>business_center</mat-icon>
-          Trabalhos
-        </a>
-
-        <a href="#" mat-button routerLink="/production/print" [style.background-color]="print">
-          <mat-icon>color_lens</mat-icon>
-          Seguencia de impressão
-        </a>
-      </div>
-    </div>
-  </mat-drawer>
-
-  <div class="sidenav-content">
-    <mat-toolbar></mat-toolbar>
-    <div class="contend">
-      <router-outlet></router-outlet>
-    </div>
-    <mat-toolbar class="fixed" fxLayoutGap="20px">
-      <button type="button" mat-button (click)="drawer.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <p>{{title}}</p>
-      <div *ngIf="user.fullname" style="position: fixed; right: 20px;" align="center center">
+      <div *ngIf="user.fullname" style="color: rgba(255, 255, 255, .60); font-family: Open sans">
         <div>
           Olá {{user.fullname}}
           <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -53,7 +23,36 @@
           </mat-menu>
         </div>
       </div>
+      <p></p>
+      <div fxLayout="column">
+        <a mat-button routerLink="/dashboard" [style.background-color]="dashboard">
+          <mat-icon>dashboard</mat-icon>
+          Dashboard
+        </a>
 
+        <a mat-button routerLink="/production/jobs" [style.background-color]="jobs">
+          <mat-icon>business_center</mat-icon>
+          Trabalhos
+        </a>
+
+        <a mat-button routerLink="/production/print" [style.background-color]="print">
+          <mat-icon>color_lens</mat-icon>
+          Seguencia de impressão
+        </a>
+      </div>
+    </div>
+  </mat-drawer>
+
+  <div class="sidenav-content">
+    <mat-toolbar></mat-toolbar>
+    <div class="contend">
+      <router-outlet></router-outlet>
+    </div>
+    <mat-toolbar class="fixed">
+      <button type="button" mat-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <h4>{{title}}</h4>
     </mat-toolbar>
   </div>
 

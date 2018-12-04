@@ -82,6 +82,7 @@ export class DialogColorComponent {
     this.color.unitario = this.form.get('unitario').value;
     this.color.camerom = this.form.get('camerom').value;
     this.color.jogos = String(this.form.get('jogos').value);
+    this.color.valor = '0.00';
 
   }
 
