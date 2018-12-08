@@ -1,4 +1,4 @@
-export const server = 'http://192.168.1.224:3000';
+export const server = 'http://ts.pmgflexo.com.br:3000';
 
 //chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
 //corsproxy

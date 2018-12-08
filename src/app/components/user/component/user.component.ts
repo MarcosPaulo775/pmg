@@ -176,6 +176,7 @@ export class UserComponent implements OnInit {
               .subscribe((data: Result_Delete) => {
                 if (data.error == null) {
                   this.data = 'assets/logo.svg';
+                  this.configComponent.setData = this.data;
                   localStorage.setItem('avatar', this.data);
                 }
               });
@@ -188,11 +189,12 @@ export class UserComponent implements OnInit {
   }
 
   getPreview(filename: string) {
-    this.apiService.metadata_get_preview('cloudflow://PP_FILE_STORE/Avatar/' + filename, null, null)
+    this.apiService.metadata_get_preview('cloudflow://PP_FILE_STORE/Avatar/' + filename, 0, 300)
       .subscribe((data: Data) => {
 
         if (data.error == null) {
           this.data = data.data;
+          this.configComponent.setData = this.data;
           localStorage.setItem('avatar', this.data);
           this.apiService.custom_objects_list('avatar', ['id', 'equal to', this.user._id], ' ')
             .subscribe(

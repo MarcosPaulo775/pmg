@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductionComponent } from '../../production/component/production.component';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../../../core/http/api.service';
 import { OS, Color, FormColor } from '../../../shared/models/os';
-import { Count, Result_OS, Result_Item, Result_Color, Result_Company } from '../../../shared/models/api';
+import { Count, Result_OS, Result_Item, Result_Color, Result_Company, Flow, Workable, Result_DimensionColor } from '../../../shared/models/api';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import * as URL from '../../../core/http/url';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, delay } from 'rxjs/operators';
 import { DialogProvaComponent } from '../dialogProva/dialog.component';
 import { DialogColorComponent } from '../dialogColor/dialog.component';
 import { DialogFinanceiroComponent } from '../dialogFinanceiro/dialog.component';
+import { DialogMedidasComponent } from '../dialogMedidas/dialog.component';
+import * as jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-os',
@@ -27,6 +27,8 @@ export class OsComponent implements OnInit {
   details_view: boolean;
   details: FormGroup;
   progress: Subject<number>;
+
+  spinner: boolean;
 
   clientes: string[];
   pedidos: string[];
@@ -58,7 +60,6 @@ export class OsComponent implements OnInit {
     private apiService: ApiService,
     public snackBar: MatSnackBar,
     private router: Router,
-    private http: HttpClient,
     public dialog: MatDialog
   ) { }
 
@@ -154,9 +155,9 @@ export class OsComponent implements OnInit {
       clientes: [null, [Validators.required]],
       nome: [null, [Validators.required]],
       pedidos: [null, [Validators.required]],
-      codigo: [null, [Validators.required]],
-      data: [null, [Validators.required]],
-      barra: [null, [Validators.required]]
+      codigo: [null, []],
+      data: [null, []],
+      barra: [null, []]
     });
 
     if (localStorage.getItem('_id')) {
@@ -187,40 +188,6 @@ export class OsComponent implements OnInit {
         });
     }
 
-  }
-
-  /** Upload de arquivo */
-  inputFileChange(event) {
-    console.log('Passou');
-
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const formData = new FormData;
-      formData.append('session', 'session', 'session');
-      formData.append('file', file, file.name);
-
-      const req = new HttpRequest('POST', URL.server + '/upload', formData, {
-        reportProgress: true
-      });
-
-      this.progress = new Subject<number>();
-
-      this.http.request(req).subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress) {
-
-          // calculate the progress percentage
-          const percentDone = Math.round(100 * event.loaded / event.total);
-
-          // pass the percentage into the progress-stream
-          this.progress.next(percentDone);
-        } else if (event instanceof HttpResponse) {
-
-          // Close the progress-stream if we get an answer form the API
-          // The upload is complete
-          this.progress.complete();
-        }
-      });
-    }
   }
 
   /** Busca a ordem de serviço no banco de dados */
@@ -410,15 +377,12 @@ export class OsComponent implements OnInit {
       .subscribe((data: Result_Color) => {
         if (data.error_code == null) {
           this.colors = new Array<Color>();
-          this.colors.push({ color: 'Preto', hex: "#000000" });
-          this.colors.push({ color: 'Amarelo', hex: '#ffff00' });
-          this.colors.push({ color: 'Magenta', hex: '#ff00ff' });
-          this.colors.push({ color: 'Ciano', hex: '#00ffff' });
-          for (let i = 0; i < data.results.length; i++) {
-            data.results[i].hex = '#' + data.results[i].hex;
-            data.results[i].color = 'Pantone ' + data.results[i].color;
-            this.colors.push(data.results[i]);
-          }
+          this.colors.push({ color: 'Cyan', hex: '00aeef' });
+          this.colors.push({ color: 'Magenta', hex: 'ec008c' });
+          this.colors.push({ color: 'Yellow', hex: 'fff200' });
+          this.colors.push({ color: 'Black', hex: "231f20" });
+          this.colors.push({ color: 'White', hex: 'ffffff' });
+          this.colors = this.colors.concat(data.results);
         }
       }, (data) => {
       });
@@ -434,6 +398,7 @@ export class OsComponent implements OnInit {
         }
       }, (data) => {
       });
+
 
     this.details.get('observacoes_cliche').setValue(this.os.obs_cliche);
     this.details.get('observacoes_cores').setValue(this.os.obs_color);
@@ -476,6 +441,16 @@ export class OsComponent implements OnInit {
     this.details.get('compra').setValue(this.os.compra);
     this.details.get('cobrar').setValue(this.os.cobrar);
     this.details.get('obs_financeiro').setValue(this.os.obs_financeiro);
+  }
+
+  onAddCMYK() {
+
+    this.addColor({ color: 'Cyan', hex: '00aeef' });
+    this.addColor({ color: 'Magenta', hex: 'ec008c' });
+    this.addColor({ color: 'Yellow', hex: 'fff200' });
+    this.addColor({ color: 'Black', hex: "000000" });
+    this.addColor({ color: 'White', hex: 'ffffff' });
+
   }
 
   /** Cria um ordem de serviço com os dados do formulario */
@@ -567,17 +542,14 @@ export class OsComponent implements OnInit {
 
     this.color = new Color();
 
-    this.color.color = color.color;
-    this.color.lineatura1 = color.lineatura1;
-    this.color.lineatura2 = color.lineatura2;
-    this.color.angulo = color.angulo;
-    this.color.fotocelula = color.fotocelula;
-    this.color.unitario = color.unitario;
-    this.color.camerom = color.camerom;
-    this.color.jogos = color.jogos;
-
+    this.color = color;
 
     if (this.color.color) {
+      if (this.color.jogos == undefined || this.color.jogos == null || this.color.jogos == "undefined") {
+        this.color.jogos = '0';
+      } else {
+        this.color.jogos = color.jogos;
+      }
       if (this.os.colors == undefined) {
         this.os.colors = new Array<Color>();
         this.color._id = 1;
@@ -588,15 +560,18 @@ export class OsComponent implements OnInit {
       } else {
         this.color._id = this.os.colors[this.os.colors.length - 1]._id + 1;
       }
-      for (let i = 0; i < this.colors.length; i++) {
-        if (this.color.color === this.colors[i].color) {
-          this.color.hex = this.colors[i].hex;
+
+      if (!this.color.hex) {
+        for (let i = 0; i < this.colors.length; i++) {
+          if (this.color.color === this.colors[i].color) {
+            this.color.hex = this.colors[i].hex;
+          }
         }
       }
 
       this.os.colors.push(this.color);
 
-      this.onSubmit();
+      //this.onSubmit();
     }
   }
 
@@ -723,9 +698,7 @@ export class OsComponent implements OnInit {
         this.os.colors[i] = color;
       }
     }
-
     this.onSubmit();
-
   }
 
   editProva(color: Color): void {
@@ -769,47 +742,139 @@ export class OsComponent implements OnInit {
     });
   }
 
-  calcular() {
-    let valor = 0;
-    let dolar = 3.9;
-    if (!this.details.get('cobrar').value) {
-      this.apiService.custom_objects_list('company', ['razao', 'equal to', this.os.cliente], { 'kodak_114': 'kodak_114', 'kodak_170': 'kodak_170', 'digital_284': 'digital_284', 'top_flat_170': 'top_flat_170', 'top_flat_114': 'top_flat_114', 'margem': 'margem' })
-        .subscribe((data: Result_Company) => {
-          if (data.error == null) {
+  upload(): void {
+    const dialogRef = this.dialog.open(DialogMedidasComponent, {
+      width: '800px',
+      data: this.os.os
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dimensionColor(result);
+      }
+    });
+  }
 
-            if (this.os.tecnologia === 'Kodak NX' && this.os.espessura === '1.14') {
-              valor = Number(data.results[0].kodak_114);
-            } else if (this.os.tecnologia === 'Kodak NX' && this.os.espessura === '1.7') {
-              valor = Number(data.results[0].kodak_170);
-            } else if (this.os.tecnologia === 'Digital' && this.os.espessura === '2.84') {
-              valor = Number(data.results[0].digital_284);
-            } else if (this.os.tecnologia === 'Top Flat PMG' && this.os.espessura === '1.7') {
-              valor = Number(data.results[0].top_flat_170);
-            } else if (this.os.tecnologia === 'Top Flat PMG' && this.os.espessura === '1.14') {
-              valor = Number(data.results[0].top_flat_114);
-            } else {
-              valor = 0;
-            }
+  dimensionColor(file: string) {
 
-            valor = valor * 0.01;
+    this.spinner = true;
 
-            this.os.valor = 0;
+    this.apiService.hub_start_from_whitepaper_with_files_and_variables('medidas_os', 'input', ['cloudflow://PP_FILE_STORE/dimensionColor/' + file])
+      .subscribe((data: Flow) => {
 
-            for (let i = 0; i < this.os.colors.length; i++) {
-              let area = (Number(this.os.colors[i].altura) + Number(data.results[0].margem)) * 0.1 * (Number(this.os.colors[i].largura) + Number(data.results[0].margem)) * 0.1;
-              this.os.colors[i].valor = valor * dolar * area;
-              this.os.colors[i].valor = Number(this.os.colors[i].valor.toFixed(2));
-              this.os.valor = this.os.valor + this.os.colors[i].valor;
-            }
+        if (data.error == null) {
+
+          this.workable(data.workable_id);
+        }
+      }, () => { })
+  }
+
+  workable(workable_id) {
+    this.apiService.hub_get_waiting_room_of_workable(workable_id)
+      .pipe(delay(2 * 1000)).subscribe((data: Workable) => {
+
+        console.log(data);
+
+        if (data.error == null) {
+          if (data.collar == 'com.nixps.quantum.end.0') {
+            this.getDimension();
+          } else {
+            this.workable(workable_id);
           }
 
-        }, (data) => {
+        }
 
-        });
-    } else {
-      for (let i = 0; i < this.os.colors.length; i++) {
-        this.os.colors[i].valor = 0;
-      }this.os.valor = 0;
+      }, () => { })
+  }
+
+  getDimension() {
+    let temp = this.os.os.split(' ');
+
+    let os = temp[0] + temp[1] + temp[2];
+    this.apiService.custom_objects_list('dimensionColor', ['os', 'equal to', os], ' ')
+      .subscribe((data: Result_DimensionColor) => {
+        if (data.error == null && data.results.length != 0) {
+
+          let colors = data.results[data.results.length - 1].color;
+
+          for (let i = 0; i < colors.length; i++) {
+            colors[i].valor = '0.00';
+            this.addColor(colors[i]);
+          }
+
+          this.calcular(this.details.get('cobrar').value);
+
+          this.apiService.custom_objects_delete('dimensionColor', data.results[data.results.length - 1]._id)
+            .subscribe((data) => {
+
+            }, (data) => {
+
+            });
+
+          this.spinner = false;
+        }
+      }, () => { });
+  }
+
+  calcular(checked: boolean) {
+    let moeda = 0;
+    if (this.os.colors != null && this.os.colors != undefined) {
+      if (checked) {
+        this.apiService.custom_objects_list('company', ['razao', 'equal to', this.os.cliente],
+          {
+            'kodak_114': 'kodak_114',
+            'kodak_170': 'kodak_170',
+            'digital_284': 'digital_284',
+            'top_flat_170': 'top_flat_170',
+            'top_flat_114': 'top_flat_114',
+            'margem_u': 'margem_u',
+            'margem_d': 'margem_d',
+            'margem_l': 'margem_l',
+            'margem_r': 'margem_r'
+          })
+          .subscribe((data: Result_Company) => {
+            if (data.error == null) {
+
+              if (this.os.tecnologia === 'Kodak NX' && this.os.espessura === '1.14') {
+                moeda = Number(data.results[0].kodak_114);
+              } else if (this.os.tecnologia === 'Kodak NX' && this.os.espessura === '1.7') {
+                moeda = Number(data.results[0].kodak_170);
+              } else if (this.os.tecnologia === 'Digital' && this.os.espessura === '2.84') {
+                moeda = Number(data.results[0].digital_284);
+              } else if (this.os.tecnologia === 'Top Flat PMG' && this.os.espessura === '1.7') {
+                moeda = Number(data.results[0].top_flat_170);
+              } else if (this.os.tecnologia === 'Top Flat PMG' && this.os.espessura === '1.14') {
+                moeda = Number(data.results[0].top_flat_114);
+              } else {
+                moeda = 0;
+                this.openSnackBar('Falta cadastrar a tecnologia e espessura e salvar', 'ok');
+              }
+
+              moeda = moeda * 0.001;
+              let total = 0;
+
+              for (let i = 0; i < this.os.colors.length; i++) {
+                let altura = (Number(this.os.colors[i].altura) * 0.1) + Number(data.results[0].margem_u) + Number(data.results[0].margem_d);
+                let largura = (Number(this.os.colors[i].largura) * 0.1) + Number(data.results[0].margem_l) + Number(data.results[0].margem_r);
+                let area = altura * largura;
+                let valor = moeda * area;
+                if (valor) {
+                  this.os.colors[i].valor = valor.toFixed(2);
+                  total = total + valor;
+                } else {
+                  this.os.colors[i].valor = '0.00';
+                }
+              }
+              this.os.valor = total.toFixed(2);
+            }
+
+          }, (data) => {
+
+          });
+      } else {
+        for (let i = 0; i < this.os.colors.length; i++) {
+          this.os.colors[i].valor = '0.00';
+        } this.os.valor = '0.00';
+      }
     }
   }
 
@@ -854,6 +919,44 @@ export class OsComponent implements OnInit {
         localStorage.removeItem('session');
       } this.router.navigate(['/login']);
     }
+  }
+
+  layout(): jsPDF{
+    let doc = new jsPDF();
+
+    let border = 15;
+    let logo = 20;
+    let width = 210;
+    let imgData = 'assets/logo.png';
+    doc.addImage(imgData, 'PNG', width - logo - border, border, logo, logo);
+    
+    doc.setFontType('bold');
+    doc.text(border, border, 'Ordem de serviço: ' + this.os.os);
+    doc.setFontType('normal');
+    doc.text(border, 20, 'test');
+    
+    return doc
+  }
+  
+  downloadPDF() {
+    let doc = this.layout();
+    
+    let temp = this.os.os.split(' ');
+    let fileName = temp[0] + temp[1] + temp[2];
+
+    doc.save(fileName + '.pdf');
+  }
+
+  print() {
+    let doc = this.layout();
+    doc.autoPrint();
+
+    let string = doc.output('datauristring');
+    let iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>";
+    let print = window.open();
+    print.document.open();
+    print.document.write(iframe);
+    print.document.close();
   }
 
 }

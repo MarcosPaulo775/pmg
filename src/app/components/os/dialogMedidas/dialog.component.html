@@ -1,14 +1,14 @@
-<h1 mat-dialog-title>Enviar imagem</h1>
+<h1 mat-dialog-title>Enviar PDF</h1>
 <div mat-dialog-content>
 
   <div style="width: 100%;" align="center">
-
     <button mat-button class="button_blue" (click)="fileInput.click()">
 
-      <mat-icon>cloud_upload</mat-icon> Upload JPG ou PNG
-      <input hidden type="file" accept="image/png, image/jpeg" (change)="inputFileChange($event)" #fileInput>
+      <mat-icon>cloud_upload</mat-icon> Upload PDF
+      <input hidden type="file" accept="application/pdf" (change)="inputFileChange($event)" #fileInput>
 
     </button>
+    <p>OBS: O PDF deve estar em CMYK ou haverá erro.</p>
   </div>
 
   <p></p>

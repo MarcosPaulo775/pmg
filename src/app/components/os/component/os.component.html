@@ -1,114 +1,94 @@
 <div fxFlex fxLayout="column" fxLayoutGap="20px">
 
-  <div fxFlex fxLayout="column" fxLayoutGap="20px">
+  <div fxFlex fxLayout="column" fxLayoutGap="10px">
+
     <div>
-      <mat-tab-group>
 
-        <mat-tab label="Ordem de serviço">
-          <div style="margin: 16px">
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Dados Ordem de Serviço: {{os.os}}</mat-card-title>
+        </mat-card-header>
 
-            <mat-card class="card">
-              <mat-card-header>
-                <mat-card-title>Dados Ordem de Serviço: {{os.os}}</mat-card-title>
-              </mat-card-header>
+        <mat-card-content>
 
-              <mat-card-content>
+          <form [formGroup]="form">
 
-                <form [formGroup]="form">
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
 
-                  <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
-
-                    <div>
-                      <div fxLayout="row" fxLayoutGap="10px">
-                        <div>
-                          <mat-form-field *ngIf="clientes">
-                            <mat-select placeholder="Clientes" formControlName="clientes">
-                              <mat-option *ngFor="let cliente of clientes" [value]="cliente">
-                                {{cliente}}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-
-                        <div>
-                          <mat-form-field *ngIf="pedidos">
-                            <mat-select placeholder="Pedido" formControlName="pedidos">
-                              <mat-option *ngFor="let value of pedidos" [value]="value">
-                                {{value}}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                      </div>
-
-                      <div>
-                        <mat-form-field class="full-width">
-                          <input matInput placeholder="Nome do Serviço" formControlName="nome">
-                        </mat-form-field>
-                      </div>
-                    </div>
-
-                    <div fxLayout="column">
-                      <mat-form-field class="full-width">
-                        <input matInput placeholder="Código do produto" formControlName="codigo" autocomplete="off">
-                      </mat-form-field>
-                    </div>
-
-                    <div>
-                      <mat-form-field class="full-width">
-                        <input matInput type="date" placeholder="Data de despacho" formControlName="data" autocomplete="off">
-                      </mat-form-field>
-                    </div>
-
-                    <div>
-                      <mat-form-field class="full-width">
-                        <input matInput placeholder="Código de Barras" formControlName="barra" autocomplete="off">
-                      </mat-form-field>
-                    </div>
+              <div>
+                <div fxLayout="row" fxLayoutGap="10px">
+                  <div>
+                    <mat-form-field *ngIf="clientes">
+                      <mat-select placeholder="Clientes" formControlName="clientes">
+                        <mat-option *ngFor="let cliente of clientes" [value]="cliente">
+                          {{cliente}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </div>
-                  <div align="right">
-                    <div fxLayoutGap="5px">
-                      <button mat-button type="button" class="button_grey" matTooltip="Email" *ngIf="details">
-                        <mat-icon>email</mat-icon>
-                      </button>
-                      <button mat-button type="button" class="button_grey" matTooltip="Gerar PDF" *ngIf="details">
-                        <mat-icon>picture_as_pdf</mat-icon>
-                      </button>
-                      <button mat-button type="button" class="button_grey" matTooltip="Imprimir" *ngIf="details">
-                        <mat-icon>print</mat-icon>
-                      </button>
-                      <!--button mat-button type="reset" (click)="onDelete()" class="button_red" matTooltip="Deletar" *ngIf="details">
-                        <mat-icon>delete</mat-icon>
-                      </button-->
-                      <button mat-button type="button" class="button_orange" (click)="onVersion()" matTooltip="Nova Versão"
-                        *ngIf="details">
-                        <mat-icon>toll</mat-icon>
-                      </button>
-                      <button mat-button type="button" class="button_blue" (click)="onSubmit()" matTooltip="Salvar">
-                        <mat-icon>save</mat-icon>
-                      </button>
-                    </div>
+
+                  <div>
+                    <mat-form-field *ngIf="pedidos">
+                      <mat-select placeholder="Pedido" formControlName="pedidos">
+                        <mat-option *ngFor="let value of pedidos" [value]="value">
+                          {{value}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </div>
-                </form>
-              </mat-card-content>
-            </mat-card>
-          </div>
-        </mat-tab>
+                </div>
 
-        <mat-tab label="Arquivo">
+                <div>
+                  <mat-form-field class="full-width">
+                    <input matInput placeholder="Nome do Serviço" formControlName="nome">
+                  </mat-form-field>
+                </div>
+              </div>
 
-          <input type="file" (change)="inputFileChange($event)" />
+              <div fxLayout="column">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Código do produto" formControlName="codigo" autocomplete="off">
+                </mat-form-field>
+              </div>
 
-          <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress | async"></mat-progress-bar>
-          <p>
-            {{percentDone}}
-          </p>
+              <div>
+                <mat-form-field class="full-width">
+                  <input matInput type="date" placeholder="Data de despacho" formControlName="data" autocomplete="off">
+                </mat-form-field>
+              </div>
 
-        </mat-tab>
-      </mat-tab-group>
+              <div>
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Código de Barras" formControlName="barra" autocomplete="off">
+                </mat-form-field>
+              </div>
+            </div>
+            <div align="right">
+              <div fxLayoutGap="5px">
+                <button mat-stroked-button matTooltip="Email" *ngIf="details">
+                  <mat-icon>email</mat-icon>
+                </button>
+                <button mat-stroked-button (click)="downloadPDF()" matTooltip="Gerar PDF" *ngIf="details">
+                  <mat-icon>picture_as_pdf</mat-icon>
+                </button>
+                <button mat-stroked-button (click)="print()" matTooltip="Imprimir" *ngIf="details">
+                  <mat-icon>print</mat-icon>
+                </button>
+                <button mat-button type="button" class="button_green" (click)="onVersion()" matTooltip="Nova Versão"
+                  *ngIf="details">
+                  <mat-icon>toll</mat-icon>
+                </button>
+                <button mat-button type="button" class="button_blue" (click)="onSubmit()" matTooltip="Salvar">
+                  <mat-icon>save</mat-icon>
+                </button>
+              </div>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
     </div>
 
-    <form [formGroup]="details" fxLayout="column" fxLayoutGap="20px" *ngIf="details_view">
+    <form [formGroup]="details" fxLayout="column" fxLayoutGap="10px" *ngIf="details_view">
 
       <mat-card>
 
@@ -193,9 +173,16 @@
         <mat-card-content>
           <div fxLayout="column" fxLayoutGap="10px">
 
-            <button mat-button class="button_blue_light" matTooltip="Adiciona a cor do formulario" (click)="onAdd()">
-              <mat-icon>add</mat-icon> Adicionar Cor
-            </button>
+            <div fxLayout="row" fxLayoutGap="10px">
+              <button mat-flat-button class="button_blue_light" matTooltip="Adiciona a cor do formulario" (click)="onAdd()">
+                <mat-icon>add</mat-icon> Adicionar Cor
+              </button>
+
+              <button mat-flat-button class="button_green_light" matTooltip="Adiciona a cor do formulario" (click)="onAddCMYK()">
+                <mat-icon>add</mat-icon> Adicionar CMYK + Branco
+              </button>
+            </div>
+
 
             <div>
               <table>
@@ -214,8 +201,10 @@
                   <tr *ngFor="let color of os.colors">
                     <td>
                       <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
-                        <div>
-                          <mat-icon [style.color]="color.hex">fiber_manual_record</mat-icon>
+                        <div style="width: 24px;
+                        height: 24px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: black">
+                          <div [style.background-color]="'#' + color.hex" style="width: 20px;
+                          height: 20px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: white;"></div>
                         </div>
                         <div>
                           {{color.color}}
@@ -228,13 +217,13 @@
                     <td>{{color.jogos}}</td>
                     <td>
                       <div>
-                        <mat-checkbox disabled="true" [checked]="color.fotocelula">Fotocélula</mat-checkbox>
+                        <mat-checkbox disabled="true" [checked]="color.fotocelula" *ngIf="color.fotocelula">Fotocélula</mat-checkbox>
                       </div>
                       <div>
-                        <mat-checkbox disabled="true" [checked]="color.unitario">Unitario</mat-checkbox>
+                        <mat-checkbox disabled="true" [checked]="color.unitario" *ngIf="color.unitario">Unitario</mat-checkbox>
                       </div>
                       <div>
-                        <mat-checkbox disabled="true" [checked]="color.camerom">Camerom</mat-checkbox>
+                        <mat-checkbox disabled="true" [checked]="color.camerom" *ngIf="color.camerom">Camerom</mat-checkbox>
                       </div>
                     </td>
                     <td>
@@ -443,8 +432,10 @@
                 <tr *ngFor="let color of os.colors">
                   <td>
                     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
-                      <div>
-                        <mat-icon [style.color]="color.hex">fiber_manual_record</mat-icon>
+                      <div style="width: 24px;
+                        height: 24px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: black">
+                        <div [style.background-color]="'#' + color.hex" style="width: 20px;
+                          height: 20px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: white;"></div>
                       </div>
                       <div>
                         {{color.color}}
@@ -497,25 +488,37 @@
             <mat-form-field>
               <input matInput placeholder="Ordem de compra" formControlName="dupla">
             </mat-form-field>
-            <mat-checkbox formControlName="cobrar" (click)="calcular()">Cobrar Clichês</mat-checkbox>
+            <mat-checkbox formControlName="cobrar" color="primary" (change)="calcular($event.checked)">Cobrar Clichês</mat-checkbox>
+
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+            <button mat-flat-button class="button_blue_light" (click)="upload()">
+              <mat-icon>attach_file</mat-icon> Medir arquivo
+            </button>
+
+            <mat-spinner *ngIf="spinner" [diameter]="25"></mat-spinner>
+
           </div>
           <div>
-            <table>
+            <table style="font-family: arial, sans-serif; width: 100%;">
               <thead>
-                <tr>
+                <tr style="text-align: left;">
                   <th>Cor</th>
                   <th>Altura</th>
                   <th>Largura</th>
                   <th>Editar</th>
-                  <th>Valor</th>
+                  <th fxLayoutAlign="end" style="text-align: end">Valor</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let color of os.colors">
+                <tr *ngFor="let color of os.colors" style="border-top: 1px solid #dddddd;">
                   <td>
                     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
-                      <div>
-                        <mat-icon [style.color]="color.hex">fiber_manual_record</mat-icon>
+                      <div style="width: 24px;
+                        height: 24px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: black">
+                        <div [style.background-color]="'#' + color.hex" style="width: 20px;
+                          height: 20px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: white;"></div>
                       </div>
                       <div>
                         {{color.color}}
@@ -528,20 +531,20 @@
                   <td>
                     {{color.largura}} mm
                   </td>
-                  <td>
+                  <th>
                     <button mat-button matTooltip="Editar" (click)="editFinanceiro(color)">
                       <mat-icon>edit</mat-icon>
                     </button>
-                  </td>
-                  <td fxLayoutAlign="right right" style="text-align: right">
+                  </th>
+                  <td fxLayoutAlign="end" style="text-align: end">
                     R$ {{color.valor}}
                   </td>
                 </tr>
               </tbody>
             </table>
-          </div>
-          <div align="right right">
-            Total: R$ {{os.valor}}
+            <td fxLayoutAlign="end" style="text-align: end">
+              Total: R$ {{os.valor}}
+            </td>
           </div>
 
           <mat-form-field class="full-width">

@@ -9,12 +9,12 @@ import * as URL from '../../../core/http/url';
   selector: 'app-dialog',
   templateUrl: 'dialog.component.html',
 })
-export class DialogAvatarComponent {
+export class DialogMedidasComponent {
 
   constructor(
     private http: HttpClient,
-    public dialogRef: MatDialogRef<DialogAvatarComponent>,
-    @Inject(MAT_DIALOG_DATA) public user: User) { }
+    public dialogRef: MatDialogRef<DialogMedidasComponent>,
+    @Inject(MAT_DIALOG_DATA) public os: string) { }
 
   ok: boolean;
   invalid: boolean;
@@ -22,20 +22,21 @@ export class DialogAvatarComponent {
   percentDone: string;
   filename: string;
   /** Upload de arquivo */
+
+
   inputFileChange(event) {
 
-    if (event.target.files && event.target.files[0] && (event.target.files[0].type === 'image/png' || event.target.files[0].type === 'image/jpeg')) {
+    if (event.target.files && event.target.files[0] && event.target.files[0].type === 'application/pdf') {
       const file = event.target.files[0];
       const formData = new FormData;
 
-      if (file.type === 'image/png') {
-        this.filename = this.user._id + '.png';
-      } else if (file.type === 'image/jpeg') {
-        this.filename = this.user._id + '.jpg';
-      }
+      let temp = this.os.split(' ');
+
+      this.filename = temp[0] + temp[1] + temp[2] + '.pdf';
+
       formData.append('file', file, this.filename);
 
-      const req = new HttpRequest('POST', URL.server + '/upload/avatar', formData, {
+      const req = new HttpRequest('POST', URL.server + '/upload/dimensionColor', formData, {
         reportProgress: true
       });
 

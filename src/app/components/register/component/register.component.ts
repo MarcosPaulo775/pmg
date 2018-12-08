@@ -4,7 +4,9 @@ import { ApiService } from 'src/app/core/http/api.service';
 import { Company, State, City } from 'src/app/shared/models/company';
 import { Result_Item, Result_States, Result_Cities } from 'src/app/shared/models/api';
 import { EventEmitter } from 'events';
-import { MatSelectChange } from '@angular/material';
+import { MatSelectChange, MatSnackBar } from '@angular/material';
+import { CrmComponent } from '../../crm/component/crm.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -23,13 +25,23 @@ export class RegisterComponent implements OnInit {
 
   uf: State[];
   cidades: City[];
+  faturamento: string[];
+  prazo: string[];
 
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
+    private crmComponent: CrmComponent,
+    public snackBar: MatSnackBar,
+    private router: Router,
   ) { }
 
   ngOnInit() {
+
+    this.crmComponent.title = 'Cadastrar Empresa';
+    this.crmComponent.company = '';
+    this.crmComponent.dashboard = '';
+
     this.company = new Company();
 
     this.basicos = this.formBuilder.group({
@@ -46,6 +58,7 @@ export class RegisterComponent implements OnInit {
       endereco: [null, []],
       bairro: [null, []],
       cidade: [null, []],
+      n: [null, []],
       uf: [null, []],
       cep: [null, []],
       tel: [null, []],
@@ -64,7 +77,9 @@ export class RegisterComponent implements OnInit {
     this.pagamento = this.formBuilder.group({
       nf: [null, []],
       boleto: [null, []],
+      nota: [null, []],
       prazo: [null, []],
+      faturamento: [null, []],
       obs: [null, []]
     });
 
@@ -74,7 +89,10 @@ export class RegisterComponent implements OnInit {
       digital_284: [null, []],
       kodak_114: [null, []],
       kodak_170: [null, []],
-      margem: [null, []],
+      margem_u: [null, []],
+      margem_d: [null, []],
+      margem_l: [null, []],
+      margem_r: [null, []],
     });
 
     this.outros = this.formBuilder.group({
@@ -92,10 +110,32 @@ export class RegisterComponent implements OnInit {
           if (data_1.error_code == null) {
             this.uf = new Array<State>();
             for (let i = 0; i < data_1.results.length; i++) {
-              this.uf.push(data_1.results[i]);             
+              this.uf.push(data_1.results[i]);
             }
             this.cidades = new Array<City>();
 
+          }
+        }, (data) => {
+        });
+
+      this.apiService.custom_objects_list('revenues', '', '')
+        .subscribe((data: Result_Item) => {
+          if (data.error_code == null) {
+            this.faturamento = new Array<string>();
+            for (let i = 0; i < data.results.length; i++) {
+              this.faturamento.push(data.results[i].name);
+            }
+          }
+        }, (data) => {
+        });
+
+      this.apiService.custom_objects_list('term', '', '')
+        .subscribe((data: Result_Item) => {
+          if (data.error_code == null) {
+            this.prazo = new Array<string>();
+            for (let i = 0; i < data.results.length; i++) {
+              this.prazo.push(data.results[i].name);
+            }
           }
         }, (data) => {
         });
@@ -106,7 +146,6 @@ export class RegisterComponent implements OnInit {
   onCidades(event: MatSelectChange) {
 
     if (event.value != this.company.uf) {
-      console.log(event);
 
       for (let i = 0; i < this.uf.length; i++) {
         if (this.uf[i].name == event.value) {
@@ -134,6 +173,17 @@ export class RegisterComponent implements OnInit {
     'Lorival'
   ];
 
+  copy() {
+
+    this.company.financeiro = this.company.email_comercial;
+    this.company.tel_financeiro = this.company.tel_comercial;
+    this.company.email_financeiro = this.company.comercial;
+    this.cadastrais.get('financeiro').setValue(this.cadastrais.get('comercial').value);
+    this.cadastrais.get('tel_financeiro').setValue(this.cadastrais.get('tel_comercial').value);
+    this.cadastrais.get('email_financeiro').setValue(this.cadastrais.get('email_comercial').value);
+
+  }
+
   getForm() {
 
     this.company.solicitante = this.basicos.get('solicitante').value;
@@ -147,6 +197,7 @@ export class RegisterComponent implements OnInit {
     this.company.endereco = this.cadastrais.get('endereco').value;
     this.company.bairro = this.cadastrais.get('bairro').value;
     this.company.cidade = this.cadastrais.get('cidade').value;
+    this.company.n = this.cadastrais.get('n').value;
     this.company.uf = this.cadastrais.get('uf').value;
     this.company.cep = this.cadastrais.get('cep').value;
     this.company.tel = this.cadastrais.get('tel').value;
@@ -163,7 +214,9 @@ export class RegisterComponent implements OnInit {
 
     this.company.nf = this.pagamento.get('nf').value;
     this.company.boleto = this.pagamento.get('boleto').value;
+    this.company.nota = this.pagamento.get('nota').value;
     this.company.prazo = this.pagamento.get('prazo').value;
+    this.company.faturamento = this.pagamento.get('faturamento').value;
     this.company.obs = this.pagamento.get('obs').value;
 
     this.company.top_flat_114 = this.preco.get('top_flat_114').value;
@@ -171,7 +224,10 @@ export class RegisterComponent implements OnInit {
     this.company.digital_284 = this.preco.get('digital_284').value;
     this.company.kodak_114 = this.preco.get('kodak_114').value;
     this.company.kodak_170 = this.preco.get('kodak_170').value;
-    this.company.margem = this.preco.get('margem').value;
+    this.company.margem_u = this.preco.get('margem_u').value;
+    this.company.margem_d = this.preco.get('margem_d').value;
+    this.company.margem_l = this.preco.get('margem_l').value;
+    this.company.margem_r = this.preco.get('margem_r').value;
 
     this.company.email_nf = this.outros.get('email_nf').value;
     this.company.email_materiais = this.outros.get('email_materiais').value;
@@ -187,7 +243,6 @@ export class RegisterComponent implements OnInit {
       .subscribe((data: Company) => {
         if (data.error == null) {
           this.company = data;
-          console.log(data);
           this.basicos.get('solicitante').setValue(this.company.solicitante);
           this.basicos.get('novo').setValue(this.company.novo);
           this.basicos.get('fisica').setValue(this.company.fisica);
@@ -199,6 +254,7 @@ export class RegisterComponent implements OnInit {
           this.cadastrais.get('endereco').setValue(this.company.endereco);
           this.cadastrais.get('bairro').setValue(this.company.bairro);
           this.cadastrais.get('cidade').setValue(this.company.cidade);
+          this.cadastrais.get('n').setValue(this.company.n);
           this.cadastrais.get('uf').setValue(this.company.uf);
           this.cadastrais.get('cep').setValue(this.company.cep);
           this.cadastrais.get('tel').setValue(this.company.tel);
@@ -215,6 +271,7 @@ export class RegisterComponent implements OnInit {
 
           this.pagamento.get('nf').setValue(this.company.nf);
           this.pagamento.get('boleto').setValue(this.company.boleto);
+          this.pagamento.get('nota').setValue(this.company.nota);
           this.pagamento.get('prazo').setValue(this.company.prazo);
           this.pagamento.get('obs').setValue(this.company.obs);
 
@@ -223,11 +280,38 @@ export class RegisterComponent implements OnInit {
           this.preco.get('digital_284').setValue(this.company.digital_284);
           this.preco.get('kodak_114').setValue(this.company.kodak_114);
           this.preco.get('kodak_170').setValue(this.company.kodak_170);
-          this.preco.get('margem').setValue(this.company.margem);
+          this.preco.get('margem_u').setValue(this.company.margem_u);
+          this.preco.get('margem_d').setValue(this.company.margem_u);
+          this.preco.get('margem_l').setValue(this.company.margem_u);
+          this.preco.get('margem_r').setValue(this.company.margem_u);
 
           this.outros.get('email_nf').setValue(this.company.email_nf);
           this.outros.get('email_materiais').setValue(this.company.email_materiais);
           this.outros.get('email_pedido').setValue(this.company.email_pedido);
+
+          this.apiService.custom_objects_list('revenues', '', '')
+            .subscribe((data: Result_Item) => {
+              if (data.error_code == null) {
+                this.faturamento = new Array<string>();
+                for (let i = 0; i < data.results.length; i++) {
+                  this.faturamento.push(data.results[i].name);
+                }
+                this.pagamento.get('faturamento').setValue(this.company.faturamento);
+              }
+            }, (data) => {
+            });
+
+          this.apiService.custom_objects_list('term', '', '')
+            .subscribe((data: Result_Item) => {
+              if (data.error_code == null) {
+                this.prazo = new Array<string>();
+                for (let i = 0; i < data.results.length; i++) {
+                  this.prazo.push(data.results[i].name);
+                }
+                this.pagamento.get('prazo').setValue(this.company.prazo);
+              }
+            }, (data) => {
+            });
 
           this.apiService.custom_objects_list('states', '', '')
             .subscribe((data_1: Result_States) => {
@@ -284,11 +368,13 @@ export class RegisterComponent implements OnInit {
       .subscribe((data: Company) => {
         if (data.error == null) {
           this.company = data;
-          console.log(this.company);
           localStorage.setItem('_id_company', this.company._id);
+          this.openSnackBar('Salvo', 'ok');
         } else {
+          this.openSnackBar('Erro ao salvar', 'ok');
         }
       }, (data) => {
+        this.openSnackBar('Erro ao salvar', 'ok');
       });
   }
 
@@ -296,11 +382,30 @@ export class RegisterComponent implements OnInit {
     this.apiService.custom_objects_update('company', this.company)
       .subscribe((data: Company) => {
         if (data.error == null) {
-          console.log(data);
+          this.openSnackBar('Salvo', 'ok');
         } else {
+          this.openSnackBar('Erro ao salvar', 'ok');
         }
       }, (data) => {
+        this.openSnackBar('Erro ao salvar', 'ok');
       });
+  }
+
+  /**Notificação*/
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 4000,
+    });
+  }
+
+  /** Verifica se a sessão e válida */
+  session(error_code: string) {
+    if (error_code == 'invalid_session') {
+      this.openSnackBar('Sessão expirou', 'OK');
+      if (localStorage.getItem('session')) {
+        localStorage.removeItem('session');
+      } this.router.navigate(['/login']);
+    }
   }
 
 }

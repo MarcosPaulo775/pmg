@@ -17,5 +17,12 @@ table {
 
 .mat-form-field {
     font-size: 14px;
-    width: 100%;
+    width: 30%;
+    min-width: 300px;
 }
+
+.mat-card {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #cccccc;
+  }

@@ -16,6 +16,11 @@ export class ConfigComponent implements OnInit {
   users_color: string;
 
   @Input()
+  set setData(data: string) {
+    this.data = data;
+  }
+
+  @Input()
   set setTitle(title: string) {
     this.title = title;
   }

@@ -19,7 +19,7 @@
               <mat-option *ngFor="let color of filteredColors | async" [value]="color.color">
                 <div fxLayout="row" align="center center">
                   <div>
-                    <mat-icon [style.color]="color.hex">fiber_manual_record</mat-icon>
+                    <mat-icon [style.color]="'#' + color.hex">fiber_manual_record</mat-icon>
                   </div>
                   <div>
                     {{color.color}}

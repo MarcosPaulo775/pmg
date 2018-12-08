@@ -18,15 +18,15 @@
             </mat-form-field>
           </div>
           <div>
-            <mat-checkbox formControlName="novo">Novo cadastro</mat-checkbox>
+            <mat-checkbox formControlName="novo" color="primary">Novo cadastro</mat-checkbox>
           </div>
         </div>
 
         <div fxLayout="row" fxLayoutGap="10px">
           <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
             <p>Tipo de cliente:</p>
-            <mat-checkbox formControlName="fisica">Pessoa física</mat-checkbox>
-            <mat-checkbox formControlName="juridica">Pessoa Juridica</mat-checkbox>
+            <mat-checkbox formControlName="fisica" color="primary">Pessoa física</mat-checkbox>
+            <mat-checkbox formControlName="juridica" color="primary">Pessoa Juridica</mat-checkbox>
           </div>
 
           <div>
@@ -65,17 +65,29 @@
           <input matInput placeholder="Nome Fantasia" formControlName="fantasia">
         </mat-form-field>
 
-        <mat-form-field>
-          <input matInput placeholder="Endereço" formControlName="endereco">
-        </mat-form-field>
+        <div fxLayout="row" fxLayoutGap="10px">
+          <div fxFlex="75">
+            <mat-form-field>
+              <input matInput placeholder="Endereço" formControlName="endereco">
+            </mat-form-field>
+          </div>
+          <div fxFlex="25">
+            <mat-form-field>
+              <input matInput placeholder="Número" formControlName="n">
+            </mat-form-field>
+          </div>
 
+        </div>
 
         <div fxLayout="row" fxLayoutGap="10px">
-          <mat-form-field>
-            <input matInput placeholder="Bairro" formControlName="bairro">
-          </mat-form-field>
 
-          <div>
+          <div fxFlex="50">
+            <mat-form-field>
+              <input matInput placeholder="Bairro" formControlName="bairro">
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="25">
             <mat-form-field *ngIf="cidades">
               <mat-select placeholder="Cidade" formControlName="cidade">
                 <mat-option *ngFor="let cidade of cidades" [value]="cidade.name">
@@ -85,7 +97,7 @@
             </mat-form-field>
           </div>
 
-          <div>
+          <div fxFlex="25">
             <mat-form-field *ngIf="uf">
               <mat-select placeholder="UF" formControlName="uf" (selectionChange)="onCidades($event)">
                 <mat-option *ngFor="let uf of uf" [value]="uf.name">
@@ -122,31 +134,49 @@
         </div>
 
         <div fxLayout="row" fxLayoutGap="10px">
-          <mat-form-field>
-            <input matInput placeholder="Contato Comercial" formControlName="comercial">
-          </mat-form-field>
+          <div fxFlex="31">
+            <mat-form-field>
+              <input matInput placeholder="Contato Comercial" formControlName="comercial">
+            </mat-form-field>
+          </div>
 
-          <mat-form-field>
-            <input matInput placeholder="Tel." type='text' prefix="+55 " mask="(00) 0 0000 0000" formControlName="tel_comercial">
-          </mat-form-field>
+          <div fxFlex="31">
+            <mat-form-field>
+              <input matInput placeholder="Tel." type='text' prefix="+55 " mask="(00) 0 0000 0000" formControlName="tel_comercial">
+            </mat-form-field>
+          </div>
 
-          <mat-form-field>
-            <input matInput placeholder="e-mail" formControlName="email_comercial">
-          </mat-form-field>
+          <div fxFlex="31">
+            <mat-form-field>
+              <input matInput placeholder="e-mail" formControlName="email_comercial">
+            </mat-form-field>
+          </div>
         </div>
 
         <div fxLayout="row" fxLayoutGap="10px">
-          <mat-form-field>
-            <input matInput placeholder="Contato Financeiro" formControlName="financeiro">
-          </mat-form-field>
+          <div fxFlex="31">
+            <mat-form-field>
+              <input matInput placeholder="Contato Financeiro" formControlName="financeiro">
+            </mat-form-field>
+          </div>
 
-          <mat-form-field>
-            <input matInput placeholder="Tel." type='text' prefix="+55 " mask="(00) 0 0000 0000" formControlName="tel_financeiro">
-          </mat-form-field>
+          <div fxFlex="31">
+            <mat-form-field>
+              <input matInput placeholder="Tel." type='text' prefix="+55 " mask="(00) 0 0000 0000" formControlName="tel_financeiro">
+            </mat-form-field>
+          </div>
 
-          <mat-form-field>
-            <input matInput placeholder="e-mail" formControlName="email_financeiro">
-          </mat-form-field>
+          <div fxFlex="31">
+            <mat-form-field>
+              <input matInput placeholder="e-mail" formControlName="email_financeiro">
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="5">
+            <button mat-stroked-button color="primary" (click)="copy()">
+              Copiar
+            </button>
+          </div>
         </div>
 
         <mat-form-field>
@@ -173,17 +203,34 @@
             <mat-card-content>
 
               <form [formGroup]="pagamento">
-                <mat-form-field>
-                  <input matInput placeholder="NF" formControlName="nf">
-                </mat-form-field>
 
+                <div fxLayout="row" fxLayoutGap="10px">
+                  <mat-checkbox formControlName="nf" color="primary">NF</mat-checkbox>
+                  <mat-checkbox formControlName="nota" color="primary">Nota Fiscal</mat-checkbox>
+                  <mat-checkbox formControlName="boleto" color="primary">Boleto</mat-checkbox>
+                </div>
                 <mat-form-field>
                   <input matInput placeholder="Boleto" formControlName="boleto">
                 </mat-form-field>
 
-                <mat-form-field>
-                  <input matInput placeholder="Prazo" formControlName="prazo">
+                <mat-form-field *ngIf="prazo">
+                  <mat-select placeholder="Prazo" formControlName="prazo">
+                    <mat-option *ngFor="let value of prazo" [value]="value">
+                      {{value}} dias
+                    </mat-option>
+                  </mat-select>
                 </mat-form-field>
+
+                <mat-form-field *ngIf="faturamento">
+                  <mat-select placeholder="Faturamento" formControlName="faturamento">
+                    <mat-option *ngFor="let value of faturamento" [value]="value">
+                      {{value}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+
+                <br>
 
                 <mat-form-field>
                   <textarea matInput placeholder="Observação" formControlName="obs" style="height: 130px;"></textarea>
@@ -202,28 +249,50 @@
 
               <form [formGroup]="preco">
                 <mat-form-field>
-                  <input matInput placeholder="Top Flat 1,14" type='text' prefix="US$ " mask="00,000" formControlName="top_flat_114">
+                  <input matInput placeholder="Top Flat 1,14" type='text' prefix="R$ " mask="0,000" formControlName="top_flat_114">
                 </mat-form-field>
 
                 <mat-form-field>
-                  <input matInput placeholder="Top Flat 1,70" type='text' prefix="US$ " mask="00,000" formControlName="top_flat_170">
+                  <input matInput placeholder="Top Flat 1,70" type='text' prefix="R$ " mask="0,000" formControlName="top_flat_170">
                 </mat-form-field>
 
                 <mat-form-field>
-                  <input matInput placeholder="Digital 2,84" type='text' prefix="US$ " mask="00,000" formControlName="digital_284">
+                  <input matInput placeholder="Digital 2,84" type='text' prefix="R$ " mask="0,000" formControlName="digital_284">
                 </mat-form-field>
 
                 <mat-form-field>
-                  <input matInput placeholder="Kodak NX 1,14" type='text' prefix="US$ " mask="00,000" formControlName="kodak_114">
+                  <input matInput placeholder="Kodak NX 1,14" type='text' prefix="R$ " mask="0,000" formControlName="kodak_114">
                 </mat-form-field>
 
                 <mat-form-field>
-                  <input matInput placeholder="Kodak NX 1,7" type='text' prefix="US$ " mask="00,000" formControlName="kodak_170">
+                  <input matInput placeholder="Kodak NX 1,7" type='text' prefix="R$ " mask="0,000" formControlName="kodak_170">
                 </mat-form-field>
 
-                <mat-form-field>
-                  <input matInput placeholder="Margem" type='text' prefix="mm " mask="00" formControlName="margem">
-                </mat-form-field>
+                <div tyle="width: 100%" align="center">
+                  <a>Margens: </a>
+                  <div style="width: 100%" align="center">
+                    <mat-form-field style="width: 50px">
+                      <input matInput type='text' mask="00" formControlName="margem_u">
+                      <a matSuffix>cm</a>
+                    </mat-form-field>
+                  </div>
+                  <div style="width: 100%" align="center" fxLayoutGap="70px">
+                    <mat-form-field style="width: 50px">
+                      <input matInput type='text' mask="00" formControlName="margem_l">
+                      <a matSuffix>cm</a>
+                    </mat-form-field>
+                    <mat-form-field style="width: 50px">
+                      <input matInput type='text' mask="00" formControlName="margem_r">
+                      <a matSuffix>cm</a>
+                    </mat-form-field>
+                  </div>
+                  <div style="width: 100%" align="center">
+                    <mat-form-field style="width: 50px">
+                      <input matInput type='text' mask="00" formControlName="margem_d">
+                      <a matSuffix>cm</a>
+                    </mat-form-field>
+                  </div>
+                </div>
               </form>
 
             </mat-card-content>

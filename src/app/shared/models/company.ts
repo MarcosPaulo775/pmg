@@ -12,6 +12,7 @@ export class Company {
     endereco?: string;
     bairro?: string;
     cidade?: string;
+    n?: string;
     uf?: string;
     cep?: string;
     tel?: string;
@@ -26,9 +27,11 @@ export class Company {
     email_financeiro?: string;
     endereco_cobranca?: string;
 
-    nf?: string;
-    boleto?: string;
+    nf?: boolean;
     prazo?: string;
+    faturamento?: string;
+    nota?: boolean;
+    boleto?: boolean;
     obs?: string;
 
     top_flat_114?: string;
@@ -36,7 +39,10 @@ export class Company {
     digital_284?: string;
     kodak_114?: string;
     kodak_170?: string;
-    margem?: string;
+    margem_u?: string;
+    margem_d?: string;
+    margem_l?: string;
+    margem_r?: string;
 
     email_nf?: string;
     email_materiais?: string;

@@ -113,9 +113,36 @@ export class ApiService {
             {
                 'session': localStorage.getItem('session'),
                 'method': 'metadata.get_preview',
-                'file': file
+                'file': file,
+                'page': page,
+                'size': size,
             }
         )
+    }
+
+    public hub_start_from_whitepaper_with_files_and_variables(whitepaper_name, input_name, files) {
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'hub.start_from_whitepaper_with_files_and_variables',
+                'whitepaper_name': whitepaper_name,
+                'input_name': input_name,
+                'files': files
+            }
+        )
+    }
+
+    public hub_get_waiting_room_of_workable(workable_id) {
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'hub.get_waiting_room_of_workable',
+                'workable_id': workable_id
+            }
+        )
+
     }
 
 }

@@ -4,6 +4,25 @@
     <div align="center">
       <p></p>
       <img mat-card-avatar *ngIf="data" [src]="data" alt="image">
+      <div *ngIf="user.fullname" style="color: rgba(255, 255, 255, .60); font-family: Open sans">
+        <div>
+          Olá {{user.fullname}}
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/config/user">
+              <mat-icon>account_circle</mat-icon> Minha Conta
+            </button>
+            <button mat-menu-item routerLink="/config">
+              <mat-icon>settings</mat-icon> Configurações
+            </button>
+            <button mat-menu-item (click)="logout();">
+              <mat-icon>exit_to_app</mat-icon> Logout
+            </button>
+          </mat-menu>
+        </div>
+      </div>
       <p></p>
       <div fxLayout="column" fxLayoutGap="5px">
 
@@ -32,30 +51,6 @@
         <mat-icon>menu</mat-icon>
       </button>
       <p>{{title}}</p>
-
-      <div style="flex-grow: 1;"></div>
-
-      <div *ngIf="user.fullname">
-        Olá {{user.fullname}}
-      </div>
-
-      <div>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item routerLink="/config/user">
-            <mat-icon>account_circle</mat-icon> Minha Conta
-          </button>
-          <button mat-menu-item routerLink="/config">
-            <mat-icon>settings</mat-icon> Configurações
-          </button>
-          <button mat-menu-item (click)="logout();">
-            <mat-icon>exit_to_app</mat-icon> Logout
-          </button>
-        </mat-menu>
-      </div>
-
     </mat-toolbar>
     <div class="contend">
       <router-outlet></router-outlet>

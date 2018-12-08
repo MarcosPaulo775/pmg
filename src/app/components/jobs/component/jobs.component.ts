@@ -87,7 +87,6 @@ export class JobsComponent implements OnInit {
       .subscribe((data: Result_OS) => {
         if (data.error == null) {
           //inserção de dados na tabela
-
           this.atendimento = 0;
           this.desenvolvimento = 0;
           this.aprovacao = 0;
