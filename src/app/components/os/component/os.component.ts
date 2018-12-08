@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductionComponent } from '../../production/component/production.component';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../../../core/http/api.service';
 import { OS, Color, FormColor } from '../../../shared/models/os';
 import { Count, Result_OS, Result_Item, Result_Color, Result_Company, Flow, Workable, Result_DimensionColor } from '../../../shared/models/api';
-import { MatSnackBar, MatDialog, MatCheckboxChange, ThemePalette } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs';
@@ -13,7 +13,7 @@ import { DialogProvaComponent } from '../dialogProva/dialog.component';
 import { DialogColorComponent } from '../dialogColor/dialog.component';
 import { DialogFinanceiroComponent } from '../dialogFinanceiro/dialog.component';
 import { DialogMedidasComponent } from '../dialogMedidas/dialog.component';
-import { pipe } from '@angular/core/src/render3';
+import * as jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-os',
@@ -21,8 +21,6 @@ import { pipe } from '@angular/core/src/render3';
   styleUrls: ['./os.component.css']
 })
 export class OsComponent implements OnInit {
-
-  checkbox: ThemePalette = 'primary';
 
   form: FormGroup;
   os: OS;
@@ -565,7 +563,7 @@ export class OsComponent implements OnInit {
 
       if (!this.color.hex) {
         for (let i = 0; i < this.colors.length; i++) {
-          if(this.color.color === this.colors[i].color){
+          if (this.color.color === this.colors[i].color) {
             this.color.hex = this.colors[i].hex;
           }
         }
@@ -774,6 +772,8 @@ export class OsComponent implements OnInit {
     this.apiService.hub_get_waiting_room_of_workable(workable_id)
       .pipe(delay(2 * 1000)).subscribe((data: Workable) => {
 
+        console.log(data);
+
         if (data.error == null) {
           if (data.collar == 'com.nixps.quantum.end.0') {
             this.getDimension();
@@ -919,6 +919,44 @@ export class OsComponent implements OnInit {
         localStorage.removeItem('session');
       } this.router.navigate(['/login']);
     }
+  }
+
+  layout(): jsPDF{
+    let doc = new jsPDF();
+
+    let border = 15;
+    let logo = 20;
+    let width = 210;
+    let imgData = 'assets/logo.png';
+    doc.addImage(imgData, 'PNG', width - logo - border, border, logo, logo);
+    
+    doc.setFontType('bold');
+    doc.text(border, border, 'Ordem de serviço: ' + this.os.os);
+    doc.setFontType('normal');
+    doc.text(border, 20, 'test');
+    
+    return doc
+  }
+  
+  downloadPDF() {
+    let doc = this.layout();
+    
+    let temp = this.os.os.split(' ');
+    let fileName = temp[0] + temp[1] + temp[2];
+
+    doc.save(fileName + '.pdf');
+  }
+
+  print() {
+    let doc = this.layout();
+    doc.autoPrint();
+
+    let string = doc.output('datauristring');
+    let iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>";
+    let print = window.open();
+    print.document.open();
+    print.document.write(iframe);
+    print.document.close();
   }
 
 }

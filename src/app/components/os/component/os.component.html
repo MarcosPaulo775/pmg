@@ -65,19 +65,16 @@
             </div>
             <div align="right">
               <div fxLayoutGap="5px">
-                <button mat-button type="button" class="button_grey" matTooltip="Email" *ngIf="details">
+                <button mat-stroked-button matTooltip="Email" *ngIf="details">
                   <mat-icon>email</mat-icon>
                 </button>
-                <button mat-button type="button" class="button_grey" matTooltip="Gerar PDF" *ngIf="details">
+                <button mat-stroked-button (click)="downloadPDF()" matTooltip="Gerar PDF" *ngIf="details">
                   <mat-icon>picture_as_pdf</mat-icon>
                 </button>
-                <button mat-button type="button" class="button_grey" matTooltip="Imprimir" *ngIf="details">
+                <button mat-stroked-button (click)="print()" matTooltip="Imprimir" *ngIf="details">
                   <mat-icon>print</mat-icon>
                 </button>
-                <!--button mat-button type="reset" (click)="onDelete()" class="button_red" matTooltip="Deletar" *ngIf="details">
-                        <mat-icon>delete</mat-icon>
-                      </button-->
-                <button mat-button type="button" class="button_orange" (click)="onVersion()" matTooltip="Nova Versão"
+                <button mat-button type="button" class="button_green" (click)="onVersion()" matTooltip="Nova Versão"
                   *ngIf="details">
                   <mat-icon>toll</mat-icon>
                 </button>
@@ -181,7 +178,7 @@
                 <mat-icon>add</mat-icon> Adicionar Cor
               </button>
 
-              <button mat-flat-button class="button_blue_light" matTooltip="Adiciona a cor do formulario" (click)="onAddCMYK()">
+              <button mat-flat-button class="button_green_light" matTooltip="Adiciona a cor do formulario" (click)="onAddCMYK()">
                 <mat-icon>add</mat-icon> Adicionar CMYK + Branco
               </button>
             </div>
@@ -205,7 +202,7 @@
                     <td>
                       <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
                         <div style="width: 24px;
-                        height: 24px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: #cccccc">
+                        height: 24px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: black">
                           <div [style.background-color]="'#' + color.hex" style="width: 20px;
                           height: 20px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: white;"></div>
                         </div>
@@ -436,7 +433,7 @@
                   <td>
                     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
                       <div style="width: 24px;
-                        height: 24px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: #cccccc">
+                        height: 24px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: black">
                         <div [style.background-color]="'#' + color.hex" style="width: 20px;
                           height: 20px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: white;"></div>
                       </div>
@@ -519,7 +516,7 @@
                   <td>
                     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
                       <div style="width: 24px;
-                        height: 24px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: #cccccc">
+                        height: 24px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: black">
                         <div [style.background-color]="'#' + color.hex" style="width: 20px;
                           height: 20px; border-radius: 50%; border-style: solid; border-width: 2px; border-color: white;"></div>
                       </div>
