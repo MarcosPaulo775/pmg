@@ -921,26 +921,92 @@ export class OsComponent implements OnInit {
     }
   }
 
-  layout(): jsPDF{
+  layout(): jsPDF {
     let doc = new jsPDF();
 
+    let imgData = 'https://i.ibb.co/FY9Q8mg/logo.png';
     let border = 15;
-    let logo = 20;
+    let logo = 13;
     let width = 210;
-    let imgData = 'assets/logo.png';
-    doc.addImage(imgData, 'PNG', width - logo - border, border, logo, logo);
-    
+    doc.addImage(imgData, 'PNG', width - logo - border + 5, border - 5, logo, logo);
     doc.setFontType('bold');
-    doc.text(border, border, 'Ordem de serviço: ' + this.os.os);
+    doc.text(border, border, 'Ordem de serviço: ' + '2-1');
+
     doc.setFontType('normal');
-    doc.text(border, 20, 'test');
-    
+    doc.setFontSize(8);
+    doc.text(border, 24, 'Nome do serviço: Agua Benta da Serra Sem Gás 500ml');
+    doc.text(border, 28, 'Cliente: PMG FLEXO CLICHERIA VINHEDO LTDA');
+    doc.text(border + 85, 24, 'Pedido: Produto novo');
+    doc.text(border + 85, 28, 'Código do produto: 2525');
+    doc.text(border + 85, 32, 'Data de Despacho: 12 / 12 / 2018');
+    doc.text(border, 32, 'Código Barras: 78958523659');
+
+    doc.setFontType('bold');
+    doc.text(border, 38, 'Clichê');
+    doc.setFontType('normal');
+    doc.text(border, 42, 'Tecnologia: Kodak NX');
+    doc.text(border + 85, 42, 'Lineatura:');
+    doc.text(border, 46, 'Variação:');
+    doc.text(border + 85, 46, 'Espessura: 1.14');
+    doc.text(border, 50, 'Material: Kodak NX ');
+    doc.text(border + 85, 50, 'Camada: Externa');
+    doc.text(border, 54, 'Local: São Paulo');
+    doc.text(border + 85, 54, 'observação: ');
+
+    doc.setFontType('bold');
+    doc.text(border, 60, 'Montagem');
+    doc.setFontType('normal');
+    doc.text(border, 64, 'Tamanho arte largura: 500');
+    doc.text(border + 85, 64, 'Manta:');
+    doc.text(border, 68, 'Tamanho Arte Altura: 300');
+    doc.text(border + 85, 68, 'Desenvolvimento: 325,69');
+    doc.text(border, 72, 'Largura Material:');
+    doc.text(border + 85, 72, 'Fechamento: 317,65');
+    doc.text(border, 76, 'Quantidade de Pistas: 2');
+    doc.text(border + 85, 76, 'Entre Pistas:');
+    doc.text(border, 80, 'Quantidade Passo: 1');
+    doc.text(border + 85, 80, 'Entre Passo:');
+    doc.text(border, 84, 'Z:');
+    doc.text(border + 85, 84, 'Num. Faca:');
+    doc.text(border, 88, 'Observações:');
+
+    doc.setLineWidth(6);
+    doc.setDrawColor(179, 179, 179);
+    doc.line(15, 95, 195, 95);
+
+    doc.setLineWidth(0.05);
+    doc.setDrawColor(0, 0, 0);
+    doc.line(15, 92, 195, 92);
+    doc.line(15, 98, 195, 98);
+    doc.line(15, 104, 195, 104);
+    doc.line(15, 110, 195, 110);
+
+    doc.setFontType('bold');
+    doc.setFontSize(10);
+    doc.text(19, 96, 'Cor');
+
+    doc.setFontType('bold');
+    doc.setFontSize(10);
+    doc.text(40, 96, 'Lineatura 1');
+
+    doc.setFontType('bold');
+    doc.setFontSize(10);
+    doc.text(80, 96, 'Lineatura 2');
+
+    doc.setFontType('bold');
+    doc.setFontSize(10);
+    doc.text(120, 96, 'Angulo');
+
+    doc.setFontType('bold');
+    doc.setFontSize(10);
+    doc.text(150, 96, 'Configuração');;
+
     return doc
   }
-  
+
   downloadPDF() {
     let doc = this.layout();
-    
+
     let temp = this.os.os.split(' ');
     let fileName = temp[0] + temp[1] + temp[2];
 
