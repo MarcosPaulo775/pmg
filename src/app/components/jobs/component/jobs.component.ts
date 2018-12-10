@@ -24,6 +24,8 @@ export class JobsComponent implements OnInit {
     'id',
     'Cliente',
     'Nome do trabalho',
+    'Pedido',
+    'Data',
     'Status',
     'Ações'
   ];
@@ -83,7 +85,15 @@ export class JobsComponent implements OnInit {
   /**busca no banco de dados as ordens de serviço */
   list(query) {
     this.count();
-    this.apiService.custom_objects_list('os', query, { 'nome': 'nome', 'os': 'os', 'cliente': 'cliente', 'status': 'status' })
+    this.apiService.custom_objects_list('os', query,
+      {
+        'nome': 'nome',
+        'os': 'os',
+        'cliente': 'cliente',
+        'pedido': 'pedido',
+        'data': 'data',
+        'status': 'status'
+      })
       .subscribe((data: Result_OS) => {
         if (data.error == null) {
           //inserção de dados na tabela
