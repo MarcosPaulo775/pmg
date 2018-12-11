@@ -14,6 +14,7 @@ import { DialogColorComponent } from '../dialogColor/dialog.component';
 import { DialogFinanceiroComponent } from '../dialogFinanceiro/dialog.component';
 import { DialogMedidasComponent } from '../dialogMedidas/dialog.component';
 import * as jsPDF from 'jspdf';
+import * as IMG from '../../../shared/models/img';
 
 @Component({
   selector: 'app-os',
@@ -922,53 +923,52 @@ export class OsComponent implements OnInit {
   }
 
   layout(): jsPDF {
-    let doc = new jsPDF();
+    var doc = new jsPDF();
 
-    let imgData = 'https://i.ibb.co/FY9Q8mg/logo.png';
+    let img = IMG.logo;
     let border = 15;
-    let logo = 13;
+    let logo = 20;
     let width = 210;
-    doc.addImage(imgData, 'PNG', width - logo - border + 5, border - 5, logo, logo);
+    doc.addImage(img, 'JPEG', width - logo - border + 5, border - 5, logo, logo);
     doc.setFontType('bold');
-    doc.text(border, border, 'Ordem de serviço: ' + '2-1');
+    doc.text(border, border, 'Ordem de serviço: ' + this.os.os);
 
     doc.setFontType('normal');
     doc.setFontSize(8);
-    doc.text(border, 24, 'Nome do serviço: Agua Benta da Serra Sem Gás 500ml');
-    doc.text(border, 28, 'Cliente: PMG FLEXO CLICHERIA VINHEDO LTDA');
-    doc.text(border + 85, 24, 'Pedido: Produto novo');
-    doc.text(border + 85, 28, 'Código do produto: 2525');
-    doc.text(border + 85, 32, 'Data de Despacho: 12 / 12 / 2018');
-    doc.text(border, 32, 'Código Barras: 78958523659');
+    doc.text(border, 24, 'Nome do serviço: ' + this.os.nome);
+    doc.text(border, 28, 'Cliente: ' + this.os.cliente);
+    doc.text(border + 85, 24, 'Pedido: ' + this.os.pedido);
+    doc.text(border + 85, 28, 'Código do produto: ' + this.os.codigo);
+    doc.text(border + 85, 32, 'Data de Despacho: ' + this.os.data);
+    doc.text(border, 32, 'Código Barras: ' + this.os.codigo);
 
     doc.setFontType('bold');
     doc.text(border, 38, 'Clichê');
     doc.setFontType('normal');
-    doc.text(border, 42, 'Tecnologia: Kodak NX');
-    doc.text(border + 85, 42, 'Lineatura:');
-    doc.text(border, 46, 'Variação:');
-    doc.text(border + 85, 46, 'Espessura: 1.14');
-    doc.text(border, 50, 'Material: Kodak NX ');
-    doc.text(border + 85, 50, 'Camada: Externa');
-    doc.text(border, 54, 'Local: São Paulo');
-    doc.text(border + 85, 54, 'observação: ');
+    doc.text(border, 42, 'Tecnologia: ' + this.os.tecnologia);
+    doc.text(border, 46, 'Variação: ' + this.os.varicacao);
+    doc.text(border + 85, 46, 'Espessura: ' + this.os.espessura);
+    doc.text(border, 50, 'Material: ' + this.os.material);
+    doc.text(border + 85, 50, 'Camada: ' + this.os.camada);
+    doc.text(border, 54, 'Local: ' + this.os.local);
+    doc.text(border + 85, 54, 'observação: ' + this.os.obs_cliche);
 
     doc.setFontType('bold');
     doc.text(border, 60, 'Montagem');
     doc.setFontType('normal');
-    doc.text(border, 64, 'Tamanho arte largura: 500');
-    doc.text(border + 85, 64, 'Manta:');
-    doc.text(border, 68, 'Tamanho Arte Altura: 300');
-    doc.text(border + 85, 68, 'Desenvolvimento: 325,69');
-    doc.text(border, 72, 'Largura Material:');
-    doc.text(border + 85, 72, 'Fechamento: 317,65');
-    doc.text(border, 76, 'Quantidade de Pistas: 2');
-    doc.text(border + 85, 76, 'Entre Pistas:');
-    doc.text(border, 80, 'Quantidade Passo: 1');
-    doc.text(border + 85, 80, 'Entre Passo:');
-    doc.text(border, 84, 'Z:');
-    doc.text(border + 85, 84, 'Num. Faca:');
-    doc.text(border, 88, 'Observações:');
+    doc.text(border, 64, 'Tamanho arte largura: ' + this.os.largura);
+    doc.text(border + 85, 64, 'Manta: ' + this.os.manta);
+    doc.text(border, 68, 'Tamanho Arte Altura: ' + this.os.altura);
+    doc.text(border + 85, 68, 'Desenvolvimento: ' + this.os.desenvolvimento);
+    doc.text(border, 72, 'Largura Material: ' + this.os.largura_material);
+    doc.text(border + 85, 72, 'Fechamento: ' + this.os.fechamento);
+    doc.text(border, 76, 'Quantidade de Pistas: ' + this.os.qtpistas);
+    doc.text(border + 85, 76, 'Entre Pistas: ' + this.os.entre_pistas);
+    doc.text(border, 80, 'Quantidade Passo: ' + this.os.qtpasso);
+    doc.text(border + 85, 80, 'Entre Passo: ' + this.os.entre_passos);
+    doc.text(border, 84, 'Z: ' + this.os.z);
+    doc.text(border + 85, 84, 'Num. Faca: ' + this.os.faca);
+    doc.text(border, 88, 'Observações: ' + this.os.obs_montagem);
 
     doc.setLineWidth(6);
     doc.setDrawColor(179, 179, 179);
@@ -978,8 +978,6 @@ export class OsComponent implements OnInit {
     doc.setDrawColor(0, 0, 0);
     doc.line(15, 92, 195, 92);
     doc.line(15, 98, 195, 98);
-    doc.line(15, 104, 195, 104);
-    doc.line(15, 110, 195, 110);
 
     doc.setFontType('bold');
     doc.setFontSize(10);
@@ -999,8 +997,23 @@ export class OsComponent implements OnInit {
 
     doc.setFontType('bold');
     doc.setFontSize(10);
-    doc.text(150, 96, 'Configuração');;
+    doc.text(150, 96, 'Configuração');
 
+    doc.setFontType('normal');
+    doc.setFontSize(8);
+    let y , i;
+    for (i = 0, y = 104; i < this.os.colors.length; i++ , y = y + 6) {
+      doc.text(19, y - 2, this.os.colors[i].color);
+      if (this.os.colors[i].lineatura1)
+        doc.text(40, y - 2, this.os.colors[i].lineatura1);
+      if (this.os.colors[i].lineatura2)
+        doc.text(80, y - 2, this.os.colors[i].lineatura2);
+      if (this.os.colors[i].angulo)
+        doc.text(120, y - 2, this.os.colors[i].angulo);
+      if (this.os.colors[i].anilox)
+        doc.text(150, y - 2, this.os.colors[i].anilox);
+      doc.line(15, y, 195, y);
+    }
     return doc
   }
 
@@ -1009,6 +1022,8 @@ export class OsComponent implements OnInit {
 
     let temp = this.os.os.split(' ');
     let fileName = temp[0] + temp[1] + temp[2];
+    //doc.autoPrint();
+
 
     doc.save(fileName + '.pdf');
   }

@@ -75,7 +75,9 @@ export class JobsComponent implements OnInit {
             data: data
           });
           dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
+            if(result == 'load'){
+              this.list(['deleted', 'equal to', false]);
+            }
           });
         }
 

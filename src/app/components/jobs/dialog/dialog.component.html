@@ -5,8 +5,6 @@
     <div fxFlex="33.33">
       <a>Nome do serviço: {{os.nome}}</a>
       <br>
-      <a> Nome do serviço: {{os.nome}} </a>
-      <br>
       <a> Cliente: {{os.cliente}} </a>
     </div>
 
@@ -280,6 +278,20 @@
   </td>
 
 </mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button mat-button (click)="onNoClick()">Fechar</button>
+<mat-dialog-actions fxLayoutGap="10px">
+  <button mat-stroked-button (click)="downloadPDF()" matTooltip="Gerar PDF">
+    <mat-icon>picture_as_pdf</mat-icon>
+  </button>
+  <button mat-stroked-button (click)="print()" matTooltip="Imprimir">
+    <mat-icon>print</mat-icon>
+  </button>
+  <button mat-stroked-button matTooltip="Editar" (click)="onEdit()">
+    <mat-icon>edit</mat-icon>
+  </button>
+
+  <button mat-stroked-button matTooltip="Excluir" (click)="onDelete()">
+    <mat-icon>delete</mat-icon>
+  </button>
+  <div style="flex-grow: 1;"></div>
+  <button mat-stroked-button (click)="onNoClick()" cdkFocusInitial>Fechar</button>
 </mat-dialog-actions>
