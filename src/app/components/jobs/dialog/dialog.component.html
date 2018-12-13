@@ -12,12 +12,11 @@
       <a> Pedido: {{os.pedido}}</a>
       <br>
       <a> Código do produto: {{os.codigo}}</a>
-      <br>
-      <a> Data de Despacho: {{os.data.split('-')[2]}} / {{os.data.split('-')[1]}} /
-        {{os.data.split('-')[0]}}</a>
     </div>
     <div fxFlex="33.33">
       <a> Código Barras: {{os.barra}}</a>
+      <br>
+      <a> Data de Despacho: {{os.data.split('-')[2]}}/{{os.data.split('-')[1]}}/{{os.data.split('-')[0]}}</a>
     </div>
   </div>
 
@@ -29,18 +28,19 @@
     <div fxFlex="33.33">
       <a> Tecnologia: {{os.tecnologia}} </a>
       <br>
-      <a> Variação: {{os.variacao}} </a>
+      <a> Variação: {{os.variacao}}</a>
       <br>
       <a> Material: {{os.material}} </a>
     </div>
     <div fxFlex="33.33">
-      <a> Lineatura: {{os.lineatura}} </a>
+      <a> Substrato: {{os.substrato}}</a>
       <br>
       <a> Espessura: {{os.espessura}} </a>
       <br>
       <a> Camada: {{os.camada}} </a>
     </div>
     <div fxFlex="33.33">
+      <a> Dupla Face: {{os.face}}</a>
       <a> Local: {{os.local}} </a>
       <br>
       <a> observação: {{os.obs_cliche}} </a>

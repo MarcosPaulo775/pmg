@@ -13,8 +13,7 @@ import { DialogProvaComponent } from '../dialogProva/dialog.component';
 import { DialogColorComponent } from '../dialogColor/dialog.component';
 import { DialogFinanceiroComponent } from '../dialogFinanceiro/dialog.component';
 import { DialogMedidasComponent } from '../dialogMedidas/dialog.component';
-import * as jsPDF from 'jspdf';
-import * as IMG from '../../../shared/models/img';
+import { AppService } from 'src/app/shared/Services/app.service';
 
 @Component({
   selector: 'app-os',
@@ -59,6 +58,7 @@ export class OsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private production: ProductionComponent,
     private apiService: ApiService,
+    private appService: AppService,
     public snackBar: MatSnackBar,
     private router: Router,
     public dialog: MatDialog
@@ -77,6 +77,7 @@ export class OsComponent implements OnInit {
 
   ngOnInit() {
     this.os = new OS();
+    this.os.colors = new Array<Color>();
     this.production.title = 'Ordem de serviço';
     this.production.dashboard = '';
     this.production.print = '';
@@ -260,7 +261,7 @@ export class OsComponent implements OnInit {
           for (let i = 0; i < data.results.length; i++) {
             this.variacao.push(data.results[i].name);
           }
-          this.details.get('variacao').setValue(this.os.varicacao);
+          this.details.get('variacao').setValue(this.os.variacao);
         }
       }, (data) => {
       });
@@ -446,9 +447,9 @@ export class OsComponent implements OnInit {
 
   onAddCMYK() {
 
-    this.addColor({ color: 'Cyan', hex: '00aeef' });
-    this.addColor({ color: 'Magenta', hex: 'ec008c' });
-    this.addColor({ color: 'Yellow', hex: 'fff200' });
+    this.addColor({ color: 'Cyan', hex: '00ffff' });
+    this.addColor({ color: 'Magenta', hex: 'ff00ff' });
+    this.addColor({ color: 'Yellow', hex: 'ffff00' });
     this.addColor({ color: 'Black', hex: "000000" });
     this.addColor({ color: 'White', hex: 'ffffff' });
 
@@ -464,7 +465,7 @@ export class OsComponent implements OnInit {
     this.os.barra = this.form.get('barra').value;
 
     this.os.tecnologia = this.details.get('tecnologia').value;
-    this.os.varicacao = this.details.get('variacao').value;
+    this.os.variacao = this.details.get('variacao').value;
     this.os.material = this.details.get('material').value;
     this.os.substrato = this.details.get('substrato').value;
     this.os.espessura = this.details.get('espessura').value;
@@ -769,11 +770,14 @@ export class OsComponent implements OnInit {
       }, () => { })
   }
 
+  t: number = 0;
+
   workable(workable_id) {
     this.apiService.hub_get_waiting_room_of_workable(workable_id)
       .pipe(delay(2 * 1000)).subscribe((data: Workable) => {
-
-        console.log(data);
+        this.t = this.t + 2;
+        
+        console.log(this.t + ' segundos');
 
         if (data.error == null) {
           if (data.collar == 'com.nixps.quantum.end.0') {
@@ -799,7 +803,21 @@ export class OsComponent implements OnInit {
 
           for (let i = 0; i < colors.length; i++) {
             colors[i].valor = '0.00';
-            this.addColor(colors[i]);
+            if(this.os.colors.length != 0){
+              let j;
+              for(j = 0 ; j < this.os.colors.length; j++){
+                if(this.os.colors[j].color == colors[i].color){
+                  this.os.colors[j].altura = colors[i].altura;
+                  this.os.colors[j].largura = colors[i].largura;
+                  break;
+                }
+              }
+              if(j == this.os.colors.length && this.os.colors[j - 1].color != colors[i].color){
+                this.addColor(colors[i]);
+              }
+            }else{
+              this.addColor(colors[i]);
+            }
           }
 
           this.calcular(this.details.get('cobrar').value);
@@ -922,122 +940,14 @@ export class OsComponent implements OnInit {
     }
   }
 
-  layout(): jsPDF {
-    var doc = new jsPDF();
-
-    let img = IMG.logo;
-    let border = 15;
-    let logo = 20;
-    let width = 210;
-    doc.addImage(img, 'JPEG', width - logo - border + 5, border - 5, logo, logo);
-    doc.setFontType('bold');
-    doc.text(border, border, 'Ordem de serviço: ' + this.os.os);
-
-    doc.setFontType('normal');
-    doc.setFontSize(8);
-    doc.text(border, 24, 'Nome do serviço: ' + this.os.nome);
-    doc.text(border, 28, 'Cliente: ' + this.os.cliente);
-    doc.text(border + 85, 24, 'Pedido: ' + this.os.pedido);
-    doc.text(border + 85, 28, 'Código do produto: ' + this.os.codigo);
-    doc.text(border + 85, 32, 'Data de Despacho: ' + this.os.data);
-    doc.text(border, 32, 'Código Barras: ' + this.os.codigo);
-
-    doc.setFontType('bold');
-    doc.text(border, 38, 'Clichê');
-    doc.setFontType('normal');
-    doc.text(border, 42, 'Tecnologia: ' + this.os.tecnologia);
-    doc.text(border, 46, 'Variação: ' + this.os.varicacao);
-    doc.text(border + 85, 46, 'Espessura: ' + this.os.espessura);
-    doc.text(border, 50, 'Material: ' + this.os.material);
-    doc.text(border + 85, 50, 'Camada: ' + this.os.camada);
-    doc.text(border, 54, 'Local: ' + this.os.local);
-    doc.text(border + 85, 54, 'observação: ' + this.os.obs_cliche);
-
-    doc.setFontType('bold');
-    doc.text(border, 60, 'Montagem');
-    doc.setFontType('normal');
-    doc.text(border, 64, 'Tamanho arte largura: ' + this.os.largura);
-    doc.text(border + 85, 64, 'Manta: ' + this.os.manta);
-    doc.text(border, 68, 'Tamanho Arte Altura: ' + this.os.altura);
-    doc.text(border + 85, 68, 'Desenvolvimento: ' + this.os.desenvolvimento);
-    doc.text(border, 72, 'Largura Material: ' + this.os.largura_material);
-    doc.text(border + 85, 72, 'Fechamento: ' + this.os.fechamento);
-    doc.text(border, 76, 'Quantidade de Pistas: ' + this.os.qtpistas);
-    doc.text(border + 85, 76, 'Entre Pistas: ' + this.os.entre_pistas);
-    doc.text(border, 80, 'Quantidade Passo: ' + this.os.qtpasso);
-    doc.text(border + 85, 80, 'Entre Passo: ' + this.os.entre_passos);
-    doc.text(border, 84, 'Z: ' + this.os.z);
-    doc.text(border + 85, 84, 'Num. Faca: ' + this.os.faca);
-    doc.text(border, 88, 'Observações: ' + this.os.obs_montagem);
-
-    doc.setLineWidth(6);
-    doc.setDrawColor(179, 179, 179);
-    doc.line(15, 95, 195, 95);
-
-    doc.setLineWidth(0.05);
-    doc.setDrawColor(0, 0, 0);
-    doc.line(15, 92, 195, 92);
-    doc.line(15, 98, 195, 98);
-
-    doc.setFontType('bold');
-    doc.setFontSize(10);
-    doc.text(19, 96, 'Cor');
-
-    doc.setFontType('bold');
-    doc.setFontSize(10);
-    doc.text(40, 96, 'Lineatura 1');
-
-    doc.setFontType('bold');
-    doc.setFontSize(10);
-    doc.text(80, 96, 'Lineatura 2');
-
-    doc.setFontType('bold');
-    doc.setFontSize(10);
-    doc.text(120, 96, 'Angulo');
-
-    doc.setFontType('bold');
-    doc.setFontSize(10);
-    doc.text(150, 96, 'Configuração');
-
-    doc.setFontType('normal');
-    doc.setFontSize(8);
-    let y , i;
-    for (i = 0, y = 104; i < this.os.colors.length; i++ , y = y + 6) {
-      doc.text(19, y - 2, this.os.colors[i].color);
-      if (this.os.colors[i].lineatura1)
-        doc.text(40, y - 2, this.os.colors[i].lineatura1);
-      if (this.os.colors[i].lineatura2)
-        doc.text(80, y - 2, this.os.colors[i].lineatura2);
-      if (this.os.colors[i].angulo)
-        doc.text(120, y - 2, this.os.colors[i].angulo);
-      if (this.os.colors[i].anilox)
-        doc.text(150, y - 2, this.os.colors[i].anilox);
-      doc.line(15, y, 195, y);
-    }
-    return doc
-  }
+  
 
   downloadPDF() {
-    let doc = this.layout();
-
-    let temp = this.os.os.split(' ');
-    let fileName = temp[0] + temp[1] + temp[2];
-    //doc.autoPrint();
-
-
-    doc.save(fileName + '.pdf');
+    this.appService.downloadOS(this.os);
   }
 
   print() {
-    let doc = this.layout();
-    doc.autoPrint();
-
-    let string = doc.output('datauristring');
-    let iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>";
-    let print = window.open();
-    print.document.open();
-    print.document.write(iframe);
-    print.document.close();
+    this.appService.printOS(this.os);
   }
 
 }

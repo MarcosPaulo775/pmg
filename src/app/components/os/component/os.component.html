@@ -181,6 +181,14 @@
               <button mat-flat-button class="button_green_light" matTooltip="Adiciona a cor do formulario" (click)="onAddCMYK()">
                 <mat-icon>add</mat-icon> Adicionar CMYK + Branco
               </button>
+              <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+                <button mat-flat-button class="button_blue_light" (click)="upload()">
+                  <mat-icon>attachment</mat-icon> Adicionar cores de um arquivo
+                </button>
+
+                <mat-spinner *ngIf="spinner" [diameter]="25"></mat-spinner>
+
+              </div>
             </div>
 
 
@@ -413,7 +421,6 @@
             <mat-form-field>
               <input matInput placeholder="Horário da impressão" formControlName="horario">
             </mat-form-field>
-
 
           </div>
           <div>

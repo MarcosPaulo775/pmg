@@ -5,6 +5,7 @@ import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/st
 import { Router } from '@angular/router';
 import { Result_OS } from 'src/app/shared/models/api';
 import { ApiService } from 'src/app/core/http/api.service';
+import { AppService } from 'src/app/shared/Services/app.service';
 
 @Component({
   selector: 'app-dialog',
@@ -16,6 +17,7 @@ export class DialogComponent {
   constructor(
     private router: Router,
     private apiService: ApiService,
+    private appService: AppService,
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public os: OS) {
 
@@ -45,9 +47,13 @@ export class DialogComponent {
 
   print(){
 
+    this.appService.printOS(this.os);
+
   }
 
   downloadPDF(){
+
+    this.appService.downloadOS(this.os);
     
   }
  

@@ -13,7 +13,7 @@ export class OS {
 
   //cliche
   tecnologia?: string;
-  varicacao?: string;
+  variacao?: string;
   material?: string;
   substrato?: string;
   lineatura?: string;
