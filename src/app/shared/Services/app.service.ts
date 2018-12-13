@@ -405,8 +405,6 @@ export class AppService {
             doc.text(x + 60, y + 4, 'Observações: ');
         }
 
-
-
         return doc
     }
 
@@ -423,7 +421,7 @@ export class AppService {
     printOS(os: OS) {
         this.os = os;
         let doc = this.layoutOS();
-        //doc.autoPrint();
+        doc.autoPrint();
 
         let string = doc.output('datauristring');
         let iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>";
