@@ -13,7 +13,7 @@ import { DialogProvaComponent } from '../dialogProva/dialog.component';
 import { DialogColorComponent } from '../dialogColor/dialog.component';
 import { DialogFinanceiroComponent } from '../dialogFinanceiro/dialog.component';
 import { DialogMedidasComponent } from '../dialogMedidas/dialog.component';
-import * as jsPDF from 'jspdf';
+import { AppService } from 'src/app/shared/Services/app.service';
 
 @Component({
   selector: 'app-os',
@@ -58,6 +58,7 @@ export class OsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private production: ProductionComponent,
     private apiService: ApiService,
+    private appService: AppService,
     public snackBar: MatSnackBar,
     private router: Router,
     public dialog: MatDialog
@@ -76,6 +77,7 @@ export class OsComponent implements OnInit {
 
   ngOnInit() {
     this.os = new OS();
+    this.os.colors = new Array<Color>();
     this.production.title = 'Ordem de serviço';
     this.production.dashboard = '';
     this.production.print = '';
@@ -259,7 +261,7 @@ export class OsComponent implements OnInit {
           for (let i = 0; i < data.results.length; i++) {
             this.variacao.push(data.results[i].name);
           }
-          this.details.get('variacao').setValue(this.os.varicacao);
+          this.details.get('variacao').setValue(this.os.variacao);
         }
       }, (data) => {
       });
@@ -445,9 +447,9 @@ export class OsComponent implements OnInit {
 
   onAddCMYK() {
 
-    this.addColor({ color: 'Cyan', hex: '00aeef' });
-    this.addColor({ color: 'Magenta', hex: 'ec008c' });
-    this.addColor({ color: 'Yellow', hex: 'fff200' });
+    this.addColor({ color: 'Cyan', hex: '00ffff' });
+    this.addColor({ color: 'Magenta', hex: 'ff00ff' });
+    this.addColor({ color: 'Yellow', hex: 'ffff00' });
     this.addColor({ color: 'Black', hex: "000000" });
     this.addColor({ color: 'White', hex: 'ffffff' });
 
@@ -463,7 +465,7 @@ export class OsComponent implements OnInit {
     this.os.barra = this.form.get('barra').value;
 
     this.os.tecnologia = this.details.get('tecnologia').value;
-    this.os.varicacao = this.details.get('variacao').value;
+    this.os.variacao = this.details.get('variacao').value;
     this.os.material = this.details.get('material').value;
     this.os.substrato = this.details.get('substrato').value;
     this.os.espessura = this.details.get('espessura').value;
@@ -768,11 +770,14 @@ export class OsComponent implements OnInit {
       }, () => { })
   }
 
+  t: number = 0;
+
   workable(workable_id) {
     this.apiService.hub_get_waiting_room_of_workable(workable_id)
       .pipe(delay(2 * 1000)).subscribe((data: Workable) => {
-
-        console.log(data);
+        this.t = this.t + 2;
+        
+        console.log(this.t + ' segundos');
 
         if (data.error == null) {
           if (data.collar == 'com.nixps.quantum.end.0') {
@@ -798,7 +803,21 @@ export class OsComponent implements OnInit {
 
           for (let i = 0; i < colors.length; i++) {
             colors[i].valor = '0.00';
-            this.addColor(colors[i]);
+            if(this.os.colors.length != 0){
+              let j;
+              for(j = 0 ; j < this.os.colors.length; j++){
+                if(this.os.colors[j].color == colors[i].color){
+                  this.os.colors[j].altura = colors[i].altura;
+                  this.os.colors[j].largura = colors[i].largura;
+                  break;
+                }
+              }
+              if(j == this.os.colors.length && this.os.colors[j - 1].color != colors[i].color){
+                this.addColor(colors[i]);
+              }
+            }else{
+              this.addColor(colors[i]);
+            }
           }
 
           this.calcular(this.details.get('cobrar').value);
@@ -921,42 +940,14 @@ export class OsComponent implements OnInit {
     }
   }
 
-  layout(): jsPDF{
-    let doc = new jsPDF();
-
-    let border = 15;
-    let logo = 20;
-    let width = 210;
-    let imgData = 'assets/logo.png';
-    doc.addImage(imgData, 'PNG', width - logo - border, border, logo, logo);
-    
-    doc.setFontType('bold');
-    doc.text(border, border, 'Ordem de serviço: ' + this.os.os);
-    doc.setFontType('normal');
-    doc.text(border, 20, 'test');
-    
-    return doc
-  }
   
-  downloadPDF() {
-    let doc = this.layout();
-    
-    let temp = this.os.os.split(' ');
-    let fileName = temp[0] + temp[1] + temp[2];
 
-    doc.save(fileName + '.pdf');
+  downloadPDF() {
+    this.appService.downloadOS(this.os);
   }
 
   print() {
-    let doc = this.layout();
-    doc.autoPrint();
-
-    let string = doc.output('datauristring');
-    let iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>";
-    let print = window.open();
-    print.document.open();
-    print.document.write(iframe);
-    print.document.close();
+    this.appService.printOS(this.os);
   }
 
 }

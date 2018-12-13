@@ -251,8 +251,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="291.37763"
-     inkscape:cy="409.17612"
+     inkscape:cx="-113.51381"
+     inkscape:cy="166.73951"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -276,9 +276,20 @@
      inkscape:label="Camada 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.48137021;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect895"
+       width="170.04805"
+       height="170.04805"
+       x="22.418325"
+       y="62.305046"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
     <g
        id="g1679"
-       transform="matrix(6.4270316,0,0,6.4270316,-870.14277,-454.83799)">
+       transform="matrix(6.4270316,0,0,6.4270316,-870.14277,-454.83799)"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
       <path
          d="m 143.85582,85.282813 c -1.40511,0.518231 -3.09598,0.553861 -3.61703,0.07161 -0.4826,-0.446264 0.29104,-1.128536 1.59879,-1.524 1.21179,-0.366183 2.56681,-0.385939 3.13796,-0.04974 0.6103,0.359834 0.16862,1.027289 -1.11972,1.502128"
          style="fill:#5999d8;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778"

@@ -5,8 +5,6 @@
     <div fxFlex="33.33">
       <a>Nome do serviço: {{os.nome}}</a>
       <br>
-      <a> Nome do serviço: {{os.nome}} </a>
-      <br>
       <a> Cliente: {{os.cliente}} </a>
     </div>
 
@@ -14,12 +12,11 @@
       <a> Pedido: {{os.pedido}}</a>
       <br>
       <a> Código do produto: {{os.codigo}}</a>
-      <br>
-      <a> Data de Despacho: {{os.data.split('-')[2]}} / {{os.data.split('-')[1]}} /
-        {{os.data.split('-')[0]}}</a>
     </div>
     <div fxFlex="33.33">
       <a> Código Barras: {{os.barra}}</a>
+      <br>
+      <a> Data de Despacho: {{os.data.split('-')[2]}}/{{os.data.split('-')[1]}}/{{os.data.split('-')[0]}}</a>
     </div>
   </div>
 
@@ -31,18 +28,19 @@
     <div fxFlex="33.33">
       <a> Tecnologia: {{os.tecnologia}} </a>
       <br>
-      <a> Variação: {{os.variacao}} </a>
+      <a> Variação: {{os.variacao}}</a>
       <br>
       <a> Material: {{os.material}} </a>
     </div>
     <div fxFlex="33.33">
-      <a> Lineatura: {{os.lineatura}} </a>
+      <a> Substrato: {{os.substrato}}</a>
       <br>
       <a> Espessura: {{os.espessura}} </a>
       <br>
       <a> Camada: {{os.camada}} </a>
     </div>
     <div fxFlex="33.33">
+      <a> Dupla Face: {{os.face}}</a>
       <a> Local: {{os.local}} </a>
       <br>
       <a> observação: {{os.obs_cliche}} </a>
@@ -280,6 +278,20 @@
   </td>
 
 </mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button mat-button (click)="onNoClick()">Fechar</button>
+<mat-dialog-actions fxLayoutGap="10px">
+  <button mat-stroked-button (click)="downloadPDF()" matTooltip="Gerar PDF">
+    <mat-icon>picture_as_pdf</mat-icon>
+  </button>
+  <button mat-stroked-button (click)="print()" matTooltip="Imprimir">
+    <mat-icon>print</mat-icon>
+  </button>
+  <button mat-stroked-button matTooltip="Editar" (click)="onEdit()">
+    <mat-icon>edit</mat-icon>
+  </button>
+
+  <button mat-stroked-button matTooltip="Excluir" (click)="onDelete()">
+    <mat-icon>delete</mat-icon>
+  </button>
+  <div style="flex-grow: 1;"></div>
+  <button mat-stroked-button (click)="onNoClick()" cdkFocusInitial>Fechar</button>
 </mat-dialog-actions>
