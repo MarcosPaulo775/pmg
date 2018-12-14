@@ -7,6 +7,7 @@ import { EventEmitter } from 'events';
 import { MatSelectChange, MatSnackBar } from '@angular/material';
 import { CrmComponent } from '../../crm/component/crm.component';
 import { Router } from '@angular/router';
+import { AppService } from 'src/app/shared/Services/app.service';
 
 @Component({
   selector: 'app-register',
@@ -29,6 +30,7 @@ export class RegisterComponent implements OnInit {
   prazo: string[];
 
   constructor(
+    private appService: AppService,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private crmComponent: CrmComponent,
@@ -389,6 +391,18 @@ export class RegisterComponent implements OnInit {
       }, (data) => {
         this.openSnackBar('Erro ao salvar', 'ok');
       });
+  }
+
+  print() {
+
+    this.appService.printCompany(this.company);
+
+  }
+
+  downloadPDF() {
+
+    this.appService.downloadCompany(this.company);
+
   }
 
   /**Notificação*/

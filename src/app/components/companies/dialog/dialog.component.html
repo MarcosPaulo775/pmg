@@ -1,86 +1,107 @@
-<h1 mat-dialog-title>Ordem de serviço</h1>
+<h1 mat-dialog-title>Empresa</h1>
 <div mat-dialog-content fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px" class="mat-typography">
 
-  <div fxLayout="row" fxLayoutGap="10px">
+  <div fxLayout="column" fxLayoutGap="10px">
     <div>
-      <a>Solicitante / Vendas: {{company.Solicitante}}</a>
-      <br>
-      <a> Cliente principal: {{company.principal}} </a>
+      <div fxLayoutGap="10px">
+        <a>Solicitante / Vendas: {{company.solicitante}}</a>
+        <mat-checkbox disabled="true" [checked]="company.novo">Novo cadastro</mat-checkbox>
+      </div>
+      <div fxLayoutGap="10px">
+        <a>Tipo de cadastro: </a>
+        <mat-checkbox disabled="true" [checked]="company.fisica">Pessoa Física</mat-checkbox>
+        <mat-checkbox disabled="true" [checked]="company.juridica">Pessoa Jurídica</mat-checkbox>
+        <a> Cliente principal: {{company.principal}} </a>
+      </div>
     </div>
 
     <div>
+      <h3><strong>Dados Cadastrais</strong></h3>
       <a> Razão Social: {{company.razao}}</a>
       <br>
       <a> Nome Fantasia: {{company.fantasia}}</a>
       <br>
-      <a> Endereço: {{company.endereco}}</a>
-      <br>
-      <a> Bairro: {{company.bairro}}</a>
-      <br>
-      <a> Cidade: {{company.cidade}}</a>
-      <br>
-      <a> UF: {{company.uf}}</a>
-      <br>
-      <a> CEP: {{company.cep}}</a>
-      <br>
-      <a> Tel.: {{company.tel}}</a>
-      <br>
-      <a> Fax: {{company.fax}}</a>
-      <br>
-      <a> CNPJ / CPF: {{company.cnpj_cpf}}</a>
-      <br>
-      <a> I.E. / RG: {{company.ie_rg}}</a>
-      <br>
-      <a> Contato Comercial: {{company.comercial}}</a>
-      <br>
-      <a> Tel. Comercial: {{company.tel_comercial}}</a>
-      <br>
-      <a> e-mail Comercial: {{company.email_comercial}}</a>
-      <br>
-      <a> Contato Financeiro: {{company.financeiro}}</a>
-      <br>
-      <a> Tel. Financeiro: {{company.tel_financeiro}}</a>
-      <br>
-      <a> e-mail Financeiro: {{company.email_financeiro}}</a>
-      <br>
+      <div fxLayoutGap="30px">
+        <a> Endereço: {{company.endereco}}</a>
+        <a> Número: {{company.n}}</a>
+      </div>
+      <div fxLayoutGap="30px">
+        <a> Bairro: {{company.bairro}}</a>
+        <a> Cidade: {{company.cidade}}</a>
+        <a> UF: {{company.uf}}</a>
+      </div>
+      <div fxLayoutGap="30px">
+        <a> CEP: {{company.cep}}</a>
+        <a> Tel.: {{company.tel}}</a>
+        <a> Fax: {{company.fax}}</a>
+      </div>
+      <div fxLayoutGap="30px">
+        <a> CNPJ / CPF: {{company.cnpj_cpf}}</a>
+        <a> I.E. / RG: {{company.ie_rg}}</a>
+      </div>
+      <div fxLayoutGap="30px">
+        <a> Contato Comercial: {{company.comercial}}</a>
+        <a> Tel. Comercial: {{company.tel_comercial}}</a>
+        <a> e-mail Comercial: {{company.email_comercial}}</a>
+      </div>
+      <diV fxLayoutGap="30px">
+        <a> Contato Financeiro: {{company.financeiro}}</a>
+        <a> Tel. Financeiro: {{company.tel_financeiro}}</a>
+        <a> e-mail Financeiro: {{company.email_financeiro}}</a>
+      </diV>
       <a> End. de Cobrança: {{company.endereco_cobranca}}</a>
-
     </div>
 
     <div>
-      <a>NF: {{company.nf}}</a>
-      <br>
-      <a> Boleto: {{company.boleto}} </a>
-      <br>
+      <h3><strong>Condições comerciais</strong></h3>
+      <div fxLayoutGap="30px">
+        <mat-checkbox disabled="true" [checked]="company.nf">NF</mat-checkbox>
+        <mat-checkbox disabled="true" [checked]="company.nota">Nota fiscal</mat-checkbox>
+        <mat-checkbox disabled="true" [checked]="company.boleto">Boleto</mat-checkbox>
+      </div>
       <a> Prazo: {{company.prazo}} </a>
+      <br>
+      <a>Top Flat 1,14: R$ {{company.top_flat_114 | mask: '0.000' }}</a>
+      <br>
+      <a> Top Flat 1,70: R$ {{company.top_flat_170 | mask: '0.000'}} </a>
+      <br>
+      <a> Digital 2,84: R$ {{company.digital_284 | mask: '0.000'}} </a>
+      <br>
+      <a> Kodak NX 1,14: R$ {{company.kodak_114 | mask: '0.000'}} </a>
+      <br>
+      <a> Kodak NX 1,7: R$ {{company.kodak_170 | mask: '0.000'}} </a>
+      <br>
+      <a> Margem esquerda: {{company.margem_l}} mm </a>
+      <a> Margem direita: {{company.margem_r}} mm </a>
+      <a> Margem superior: {{company.margem_u}} mm </a>
+      <a> Margem inferior: {{company.margem_d}} mm </a>
       <br>
       <a> Observação: {{company.obs}} </a>
     </div>
 
-    <div>
-      <a>Top Flat 1,14: {{company.top_flat_114}}</a>
-      <br>
-      <a> Top Flat 1,70: {{company.top_flat_170}} </a>
-      <br>
-      <a> Digital 2,84: {{company.digital_284}} </a>
-      <br>
-      <a> Kodak NX 1,14: {{company.kodak_114}} </a>
-      <br>
-      <a> Kodak NX 1,7: {{company.kodak_170}} </a>
-      <br>
-      <a> Margem: {{company.margem}} </a>
-    </div>
-
-    <div>
-      <a>E-mail para NF’e: {{company.email_nf}}</a>
-      <br>
+    <div fxLayoutGap="30px">
+      <h3><strong>Outros</strong></h3>
+      <a> E-mail para NF’e: {{company.email_nf}}</a>
       <a> E-mail para envio de materiais: {{company.email_materiais}} </a>
-      <br>
       <a> E-mail de Pedido / Valores: {{company.email_pedido}} </a>
     </div>
 
   </div>
 </div>
-<div mat-dialog-actions align="center">
-  <button mat-button (click)="onNoClick()">Fechar</button>
+<div mat-dialog-actions fxLayoutGap="10px">
+  <button mat-stroked-button (click)="downloadPDF()" matTooltip="Gerar PDF">
+    <mat-icon>picture_as_pdf</mat-icon>
+  </button>
+  <button mat-stroked-button (click)="print()" matTooltip="Imprimir">
+    <mat-icon>print</mat-icon>
+  </button>
+  <button mat-stroked-button matTooltip="Editar" (click)="onEdit()">
+    <mat-icon>edit</mat-icon>
+  </button>
+
+  <button mat-stroked-button matTooltip="Excluir" (click)="onDelete()">
+    <mat-icon>delete</mat-icon>
+  </button>
+  <div style="flex-grow: 1;"></div>
+  <button mat-stroked-button (click)="onNoClick()" cdkFocusInitial>Fechar</button>
 </div>
