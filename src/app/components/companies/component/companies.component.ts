@@ -61,7 +61,9 @@ export class CompaniesComponent implements OnInit {
       data: company
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      if (result == 'load') {
+        this.list(['deleted', 'equal to', false]);
+      }
     });
   }
 
@@ -85,8 +87,8 @@ export class CompaniesComponent implements OnInit {
     this.router.navigate(['/crm/register']);
   }
 
-   /** Verifica se a sessão e válida */
-   session(error_code: string) {
+  /** Verifica se a sessão e válida */
+  session(error_code: string) {
     if (error_code == 'invalid_session') {
       if (localStorage.getItem('session')) {
         localStorage.removeItem('session');

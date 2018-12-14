@@ -4,7 +4,7 @@
   <div fxLayout="column" fxLayoutGap="10px">
     <div>
       <div fxLayoutGap="10px">
-        <a>Solicitante / Vendas: {{company.Solicitante}}</a>
+        <a>Solicitante / Vendas: {{company.solicitante}}</a>
         <mat-checkbox disabled="true" [checked]="company.novo">Novo cadastro</mat-checkbox>
       </div>
       <div fxLayoutGap="10px">
@@ -71,14 +71,17 @@
       <br>
       <a> Kodak NX 1,7: R$ {{company.kodak_170 | mask: '0.000'}} </a>
       <br>
-      <a> Margem: {{company.margem}} mm </a>
+      <a> Margem esquerda: {{company.margem_l}} mm </a>
+      <a> Margem direita: {{company.margem_r}} mm </a>
+      <a> Margem superior: {{company.margem_u}} mm </a>
+      <a> Margem inferior: {{company.margem_d}} mm </a>
       <br>
       <a> Observação: {{company.obs}} </a>
     </div>
 
     <div fxLayoutGap="30px">
       <h3><strong>Outros</strong></h3>
-      <a>E-mail para NF’e: {{company.email_nf}}</a>
+      <a> E-mail para NF’e: {{company.email_nf}}</a>
       <a> E-mail para envio de materiais: {{company.email_materiais}} </a>
       <a> E-mail de Pedido / Valores: {{company.email_pedido}} </a>
     </div>

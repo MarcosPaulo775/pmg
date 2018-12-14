@@ -37,7 +37,16 @@
 
           <div style="flex-grow: 1;"></div>
 
-          <div>
+          <div fxLayoutGap="5px">
+            <button mat-stroked-button matTooltip="Email">
+              <mat-icon>email</mat-icon>
+            </button>
+            <button mat-stroked-button (click)="downloadPDF()" matTooltip="Gerar PDF">
+              <mat-icon>picture_as_pdf</mat-icon>
+            </button>
+            <button mat-stroked-button (click)="print()" matTooltip="Imprimir">
+              <mat-icon>print</mat-icon>
+            </button>
             <button mat-button type="button" class="button_blue" (click)="onSubmit()" matTooltip="Salvar">
               <mat-icon>save</mat-icon>
             </button>
