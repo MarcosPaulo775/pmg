@@ -1,3 +1,33 @@
-<p>
-  users works!
-</p>
+<mat-card>
+  <div fxLayoutAlign="center" style="width: 100%;">
+    <mat-spinner *ngIf="!users"></mat-spinner>
+  </div>
+  <table *ngIf="users" style="font-family: arial, sans-serif; width: 100%;">
+    <thead>
+      <tr style="text-align: left;">
+        <th>Nome de usuário</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th fxLayoutAlign="end" style="text-align: end">Editar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users" style="border-top: 1px solid #dddddd;">
+        <td>
+          {{user.username}}
+        </td>
+        <td>
+          {{user.fullname}}
+        </td>
+        <td>
+          {{user.email}}
+        </td>
+        <th fxLayoutAlign="end" style="text-align: end">
+          <button mat-button matTooltip="Editar">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</mat-card>
