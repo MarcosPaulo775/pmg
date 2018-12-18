@@ -115,10 +115,30 @@ export class Flow {
     error?: string;
 }
 
-export class Workable{
+export class Workable {
     collar?: string;
     connector?: string;
     node?: string;
     error_code?: string;
     error?: string;
 }
+
+export interface is_admin {
+    user_id?: string;
+    is_admin?: number;
+    error_code?: string;
+    error?: string;
+}
+
+export interface User_id {
+    user_id?: string;
+    error_code?: string;
+    error?: string;
+}
+
+export interface _id {
+    _id?: string;
+    error_code?: string;
+    error?: string;
+}
+

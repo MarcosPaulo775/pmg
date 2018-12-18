@@ -4,7 +4,7 @@
     <div align="center">
       <p></p>
       <img mat-card-avatar *ngIf="data" [src]="data" alt="image">
-      <div *ngIf="user.fullname" style="color: rgba(255, 255, 255, .60); font-family: Open sans">
+      <div *ngIf="user" style="color: rgba(255, 255, 255, .60); font-family: Open sans">
         <div>
           Olá {{user.fullname}}
           <button mat-icon-button [matMenuTriggerFor]="menu">

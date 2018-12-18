@@ -8,7 +8,10 @@
         <th>Nome de usuário</th>
         <th>Nome</th>
         <th>Email</th>
-        <th fxLayoutAlign="end" style="text-align: end">Editar</th>
+        <th>Administrador</th>
+        <th>Tipo</th>
+        <th>Senha</th>
+        <th fxLayoutAlign="end">Editar</th>
       </tr>
     </thead>
     <tbody>
@@ -22,8 +25,19 @@
         <td>
           {{user.email}}
         </td>
-        <th fxLayoutAlign="end" style="text-align: end">
-          <button mat-button matTooltip="Editar">
+        <td>
+          <mat-checkbox disabled="true" [checked]="user.permissions[1] == 'ADMIN_USER' || user.permissions[1] == 'ADMIN' "></mat-checkbox>
+        </td>
+        <td>
+
+        </td>
+        <td>
+          <button mat-button matTooltip="Editar" (click)="onPass(user)">
+            <mat-icon>vpn_key</mat-icon>
+          </button>
+        </td>
+        <th fxLayoutAlign="end">
+          <button mat-button matTooltip="Editar" (click)="onEdit(user)">
             <mat-icon>edit</mat-icon>
           </button>
         </th>

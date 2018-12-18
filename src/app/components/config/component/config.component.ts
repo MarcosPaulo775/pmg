@@ -53,13 +53,13 @@ export class ConfigComponent implements OnInit {
     this.data = localStorage.getItem('avatar');
     this.title = '';
 
-    this.user = new User();
+    //this.user = new User();
 
     this.authService.get_current_user()
       .subscribe((data: User) => { 
         if (data.error == null) {
           this.user = data;
-
+          localStorage.setItem('userid', this.user._id);
           this.preview();
         }
       }, (data) => { 

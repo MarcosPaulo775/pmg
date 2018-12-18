@@ -7,6 +7,8 @@ import { UsersComponent } from './component/users.component';
 import { SharedModule } from '../../shared/modules/shared.module';
 import { ApiService } from 'src/app/core/http/api.service';
 import { NgxMaskModule } from 'ngx-mask';
+import { DialogComponent } from './dialog/dialog.component';
+import { DialogPassComponent } from './dialogPass/dialog.component';
 
 @NgModule({
   imports: [
@@ -16,7 +18,7 @@ import { NgxMaskModule } from 'ngx-mask';
     NgxMaskModule.forRoot()
   ],
   providers: [ApiService],
-  entryComponents: [],
-  declarations: [UsersComponent],
+  entryComponents: [DialogComponent, DialogPassComponent],
+  declarations: [UsersComponent, DialogComponent, DialogPassComponent],
 })
 export class UsersModule { }

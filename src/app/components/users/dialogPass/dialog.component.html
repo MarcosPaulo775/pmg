@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Editar Usuário</h1>
+<div mat-dialog-content>
+
+  <form [formGroup]="form">
+    <div fxLayoutGap="10px" fxLayout="column">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Senha Atual" autocomplete="off" type="password" formControlName="old_password">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Nova senha" autocomplete="off" type="password" formControlName="new_password">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Confirmar nova senha" autocomplete="off" type="password" formControlName="new_password2">
+      </mat-form-field>
+
+    </div>
+  </form>
+
+</div>
+<div mat-dialog-actions align="center">
+  <div style="width: 100%;" align="center">
+    <button mat-button class="button_blue" (click)="onSave()">
+      Salvar
+    </button>
+    <button mat-button class="button_blue" (click)="onNoClick()">
+      Cancelar
+    </button>
+  </div>
+</div>

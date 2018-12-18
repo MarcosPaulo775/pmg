@@ -29,7 +29,7 @@ export class AuthService {
         if (localStorage.getItem('session')) {
             localStorage.removeItem('session');
         }
-        if (localStorage.getItem('avatar')){
+        if (localStorage.getItem('avatar')) {
             localStorage.removeItem('avatar');
         }
         this.router.navigate(['/login']);
@@ -49,7 +49,7 @@ export class AuthService {
 
     }
 
-    public users_list_users(){
+    public users_list_users() {
 
         return this.http.post(
             URL.server,
@@ -62,29 +62,67 @@ export class AuthService {
 
     }
 
-    public users_is_admin(){
+    public users_is_admin(user_id) {
 
         return this.http.post(
             URL.server,
             {
                 'session': localStorage.getItem('session'),
-                'method': 'users.is_admin'
+                'method': 'users.is_admin',
+                'user_id': user_id
             }
         )
     }
 
     public portal_get_active_users() {
-        
+
         return this.http.post(
             URL.server,
             {
                 'session': localStorage.getItem('session'),
-                'method': 'api.portal.get_active_users'
+                'method': 'portal.get_active_users'
             }
 
         )
     }
 
+    public users_set_keys(id, key_data) {
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'users.set_keys',
+                'id': id,
+                'key_data': key_data
+            }
 
+        )
+    }
+
+    public users_change_password(user_id, old_password, new_password) {
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'users.change_password',
+                'user_id': user_id,
+                'old_password': old_password,
+                'new_password': new_password
+            }
+
+        )
+    }
+
+    public users_get_user_id(username){
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'users.get_user_id',
+                'username': username
+            }
+
+        )
+    }
 
 }

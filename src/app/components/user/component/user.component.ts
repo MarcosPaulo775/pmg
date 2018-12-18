@@ -3,10 +3,11 @@ import { ConfigComponent } from '../../config/component/config.component';
 import { User, Avatar } from 'src/app/shared/models/user';
 import { AuthService } from 'src/app/core/authentication/auth.service';
 import { DialogAvatarComponent } from '../dialogAvatar/dialog.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { ApiService } from 'src/app/core/http/api.service';
 import { Data } from '@angular/router';
-import { Result_Avatar, Result_Delete } from 'src/app/shared/models/api';
+import { Result_Avatar, Result_Delete, User_id } from 'src/app/shared/models/api';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export class Permissoes {
   Admin_User?: boolean;
@@ -31,12 +32,16 @@ export class Permissoes {
 })
 
 export class UserComponent implements OnInit {
+  form: FormGroup;
+  password: FormGroup;
 
   constructor(
+    private formBuilder: FormBuilder,
     public configComponent: ConfigComponent,
     public authService: AuthService,
     public apiService: ApiService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar,
   ) { }
 
   user: User;
@@ -54,7 +59,17 @@ export class UserComponent implements OnInit {
     this.configComponent.user_color = 'rgb(0, 90, 176)';
     this.configComponent.users_color = '';
 
-    this.user = new User();
+    this.form = this.formBuilder.group({
+      name: [null, [Validators.required]],
+      username: [null, [Validators.required]],
+      email: [null, [Validators.required]]
+    });
+
+    this.password = this.formBuilder.group({
+      old_password: [null, [Validators.required]],
+      new_password: [null, [Validators.required]],
+      new_password2: [null, [Validators.required]]
+    });
 
     this.authService.get_current_user()
       .subscribe((data: User) => {
@@ -122,10 +137,65 @@ export class UserComponent implements OnInit {
             }
 
           }
+          this.getUser();
         }
       }, (data) => {
 
       })
+  }
+
+  onSave() {
+    if (this.form.valid) {
+      this.getForm();
+      this.authService.users_set_keys(this.user._id,
+        {
+          'username': this.user.username,
+          'fullname': this.user.fullname,
+          'email': this.user.email
+        }
+      ).subscribe((data) => {
+      }, (data) => {
+
+      })
+    } else {
+      this.openSnackBar('Cadastre todos os campos', 'ok');
+    }
+  }
+
+  onSavePassword() {
+    if (this.form.valid) {
+      if (this.form.get('new_password').value == this.form.get('new_password2').value) {
+
+        this.authService.users_get_user_id(this.user.username)
+          .subscribe((data: User_id) => {
+            console.log(data);
+            if (data.error == null) {
+              this.authService.users_change_password(data.user_id, this.form.get('old_password').value, this.form.get('new_password').value)
+                .subscribe((data) => {
+                  console.log(data);
+                }, () => { });
+            }
+          }, () => { })
+      } else {
+        this.openSnackBar('Senhas não coincidem', 'ok');
+      }
+    } else {
+      this.openSnackBar('Cadastre todos os campos', 'ok');
+    }
+
+  }
+
+  getUser() {
+    this.form.get('name').setValue(this.user.fullname);
+    this.form.get('username').setValue(this.user.username);
+    this.form.get('email').setValue(this.user.email);
+  }
+
+  getForm() {
+
+    this.user.fullname = this.form.get('name').value;
+    this.user.username = this.form.get('username').value;
+    this.user.email = this.form.get('email').value;
   }
 
   upload(): void {
@@ -134,7 +204,7 @@ export class UserComponent implements OnInit {
       data: this.user
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
+      if (result) {
         this.getPreview(result);
       }
     });
@@ -235,6 +305,13 @@ export class UserComponent implements OnInit {
         }
       }, (data) => {
       });
+  }
+
+  /**Notificação*/
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 4000,
+    });
   }
 
 }
