@@ -25,4 +25,16 @@ table {
     border-style: solid;
     border-width: 1px;
     border-color: #cccccc;
-  }
+}
+
+th {
+    background-color: rgb(242, 242, 242);
+    font-weight: bold;
+    color: black;
+}
+
+td, th {
+    text-align: left;
+    padding: 8px;
+    font-family: "Open Sans";
+}
