@@ -82,6 +82,7 @@ export class OsComponent implements OnInit {
     this.production.dashboard = '';
     this.production.print = '';
     this.production.jobs = '';
+    this.production.storage = '';
 
     this.details = this.formBuilder.group({
       tecnologia: [null, []],

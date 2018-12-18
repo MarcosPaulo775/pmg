@@ -25,6 +25,10 @@ const routes: Routes = [
       {
         path: 'print',
         loadChildren: '../print/print.module#PrintModule'
+      },
+      {
+        path: 'storage',
+        loadChildren: '../storage/storage.module#StorageModule'
       }
     ]
   }

@@ -17,7 +17,8 @@ export class PrintComponent implements OnInit {
     this.production.title = 'Seguência de impressão';
     this.production.dashboard = '';
     this.production.print = 'rgb(0, 90, 176)';
-    this.production.jobs = ''
+    this.production.jobs = '';
+    this.production.storage = '';
   }
 
   downloadPDF() {

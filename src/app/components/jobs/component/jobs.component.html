@@ -8,53 +8,62 @@
           <mat-card-title>Etapas</mat-card-title>
         </mat-card-header>
         <mat-card-content>
+
           <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px" align="center">
             <div class="full-width" fxLayout="column" fxFlex="12.5">
-              <button mat-button class="button_blue" (click)="onFlow('all')">
-                <p>Todos</p>
-                <p>{{all}}</p>
+              <button mat-button class="button_blue" (click)="onFlow('all')" [style.background-color]="all_s">
+                Todos
+                <br>
+                {{all}}
               </button>
             </div>
             <div class="full-width" fxLayout="column" fxFlex="12.5">
-              <button mat-button class="button_blue" (click)="onFlow('Atendimento')">
-                <p>Atendimento</p>
-                <p>{{atendimento}}</p>
+              <button mat-button class="button_blue" (click)="onFlow('Atendimento')" [style.background-color]="atendimento_s">
+                Atendimento
+                <br>
+                {{atendimento}}
               </button>
             </div>
             <div class="full-width" fxLayout="column" fxFlex="12.5">
-              <button mat-button class="button_blue" (click)="onFlow('Desenvolvimento')">
-                <p>Desenvolvimento</p>
-                <p>{{desenvolvimento}}</p>
+              <button mat-button class="button_blue" (click)="onFlow('Desenvolvimento')" [style.background-color]="desenvolvimento_s">
+                Desenvolvimento
+                <br>
+                {{desenvolvimento}}
               </button>
             </div>
             <div class="full-width" fxLayout="column" fxFlex="12.5">
-              <button mat-button class="button_blue" (click)="onFlow('Aprovação')">
-                <p>Aprovação</p>
-                <p>{{aprovacao}}</p>
+              <button mat-button class="button_blue" (click)="onFlow('Aprovação')" [style.background-color]="aprovacao_s">
+                Aprovação
+                <br>
+                {{aprovacao}}
               </button>
             </div>
             <div class="full-width" fxLayout="column" fxFlex="12.5">
-              <button mat-button class="button_blue" (click)="onFlow('Editoração')">
-                <p>Editoração</p>
-                <p>{{editoracao}}</p>
+              <button mat-button class="button_blue" (click)="onFlow('Editoração')" [style.background-color]="editoracao_s">
+                Editoração
+                <br>
+                {{editoracao}}
               </button>
             </div>
             <div class="full-width" fxLayout="column" fxFlex="12.5">
-              <button mat-button class="button_blue" (click)="onFlow('Conferência')">
-                <p>Conferência</p>
-                <p>{{conferencia}}</p>
+              <button mat-button class="button_blue" (click)="onFlow('Conferência')" [style.background-color]="conferencia_s">
+                Conferência
+                <br>
+                {{conferencia}}
               </button>
             </div>
             <div class="full-width" fxLayout="column" fxFlex="12.5">
-              <button mat-button class="button_blue" (click)="onFlow('Gravação')">
-                <p>Gravação</p>
-                <p>{{gravacao}}</p>
+              <button mat-button class="button_blue" (click)="onFlow('Gravação')" [style.background-color]="gravacao_s">
+                Gravação
+                <br>
+                {{gravacao}}
               </button>
             </div>
             <div class="full-width" fxLayout="column" fxFlex="12.5">
-              <button mat-button class="button_blue" (click)="onFlow('Expedição')">
-                <p>Expedição</p>
-                <p>{{expedicao}}</p>
+              <button mat-button class="button_blue" (click)="onFlow('Expedição')" [style.background-color]="expedicao_s">
+                Expedição
+                <br>
+                {{expedicao}}
               </button>
             </div>
           </div>
@@ -195,6 +204,10 @@
                     <th mat-header-cell *matHeaderCellDef style="width:100px"> </th>
                     <td mat-cell *matCellDef="let row">
                       <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column">
+                        <button mat-icon-button matTooltip="Finalizar OS" *ngIf="expedicao_s && check" (click)="storage(row._id)">
+                          <mat-icon>done</mat-icon>
+                        </button>
+
                         <button mat-icon-button matTooltip="Visualizar" (click)="openDialog(row._id)">
                           <mat-icon>visibility</mat-icon>
                         </button>

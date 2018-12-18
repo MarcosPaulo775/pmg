@@ -6,16 +6,14 @@ import { ApiService } from '../../../core/http/api.service';
 import { Result_OS, Count } from '../../../shared/models/api';
 import { OS } from '../../../shared/models/os';
 import { MatDialog } from '@angular/material';
-import { DialogComponent } from '../dialog/dialog.component';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-jobs',
-  templateUrl: './jobs.component.html',
-  styleUrls: ['./jobs.component.css']
+  selector: 'app-storage',
+  templateUrl: './storage.component.html',
+  styleUrls: ['./storage.component.css']
 })
-
-export class JobsComponent implements OnInit {
+export class StorageComponent implements OnInit {
 
   /** Colunas na tabela */
   displayedColumns: string[] = [
@@ -68,12 +66,12 @@ export class JobsComponent implements OnInit {
 
   ngOnInit() {
     //lista todas as ordens de serviço ao iniciar
-    this.list(['deleted', 'equal to', false, 'and', 'status', 'not equal to', 'Arquivado']);
+    this.list(['deleted', 'equal to', false, 'and', 'status', 'equal to', 'Arquivado']);
     this.production.title = 'Trabalhos';
     this.production.dashboard = '';
     this.production.print = '';
-    this.production.jobs = 'rgb(0, 90, 176)';
-    this.production.storage = '';
+    this.production.jobs = '';
+    this.production.storage = 'rgb(0, 90, 176)';
 
     this.atendimento_s = '';
     this.desenvolvimento_s = '';
@@ -83,25 +81,6 @@ export class JobsComponent implements OnInit {
     this.gravacao_s = '';
     this.expedicao_s = '';
     this.all_s = 'rgb(0, 90, 176)';
-  }
-
-  /** Abre caixa de dialogo com as informações da ordem de serviço */
-  openDialog(id: string): void {
-    this.apiService.custom_objects_get('os', id)
-      .subscribe((data: OS) => {
-        if (data.error == null) {
-          const dialogRef = this.dialog.open(DialogComponent, {
-            width: '100vw',
-            data: data
-          });
-          dialogRef.afterClosed().subscribe(result => {
-            if (result == 'load') {
-              this.list(['deleted', 'equal to', false]);
-            }
-          });
-        }
-
-      }, () => { })
   }
 
   /**busca no banco de dados as ordens de serviço */
@@ -163,99 +142,8 @@ export class JobsComponent implements OnInit {
       });
   }
 
-  /** Muda a busca caso queira buscar todos */
-  onFlow(query: string) {
-    this.check = false;
-    if (query == 'all') {
-      this.list(['deleted', 'equal to', false, 'and', 'status', 'not equal to', 'Arquivado']);
-      this.atendimento_s = '';
-      this.desenvolvimento_s = '';
-      this.aprovacao_s = '';
-      this.editoracao_s = '';
-      this.conferencia_s = '';
-      this.gravacao_s = '';
-      this.expedicao_s = '';
-      this.all_s = 'rgb(0, 90, 176)';
-    } else {
-      this.list(['status', 'equal to', query, 'and', 'deleted', 'equal to', false]);
-
-      switch (query) {
-        case ('Atendimento'):
-          this.atendimento_s = 'rgb(0, 90, 176)';
-          this.desenvolvimento_s = '';
-          this.aprovacao_s = '';
-          this.editoracao_s = '';
-          this.conferencia_s = '';
-          this.gravacao_s = '';
-          this.expedicao_s = '';
-          this.all_s = '';
-          break;
-        case ('Desenvolvimento'):
-          this.desenvolvimento_s = 'rgb(0, 90, 176)';
-          this.atendimento_s = '';
-          this.aprovacao_s = '';
-          this.editoracao_s = '';
-          this.conferencia_s = '';
-          this.gravacao_s = '';
-          this.expedicao_s = '';
-          this.all_s = '';
-          break;
-        case ('Aprovação'):
-          this.aprovacao_s = 'rgb(0, 90, 176)';
-          this.atendimento_s = '';
-          this.desenvolvimento_s = '';
-          this.editoracao_s = '';
-          this.conferencia_s = '';
-          this.gravacao_s = '';
-          this.expedicao_s = '';
-          this.all_s = '';
-          break;
-        case ('Editoração'):
-          this.editoracao_s = 'rgb(0, 90, 176)';
-          this.atendimento_s = '';
-          this.desenvolvimento_s = '';
-          this.aprovacao_s = '';
-          this.conferencia_s = '';
-          this.gravacao_s = '';
-          this.expedicao_s = '';
-          this.all_s = '';
-          break;
-        case ('Conferência'):
-          this.conferencia_s = 'rgb(0, 90, 176)';
-          this.atendimento_s = '';
-          this.desenvolvimento_s = '';
-          this.aprovacao_s = '';
-          this.editoracao_s = '';
-          this.gravacao_s = '';
-          this.expedicao_s = '';
-          this.all_s = '';
-          break;
-        case ('Gravação'):
-          this.gravacao_s = 'rgb(0, 90, 176)';
-          this.atendimento_s = '';
-          this.desenvolvimento_s = '';
-          this.aprovacao_s = '';
-          this.editoracao_s = '';
-          this.conferencia_s = '';
-          this.expedicao_s = '';
-          this.all_s = '';
-          break;
-        case ('Expedição'):
-          this.expedicao_s = 'rgb(0, 90, 176)';
-          this.atendimento_s = '';
-          this.desenvolvimento_s = '';
-          this.aprovacao_s = '';
-          this.editoracao_s = '';
-          this.conferencia_s = '';
-          this.gravacao_s = '';
-          this.all_s = '';
-          break;
-      }
-    }
-  }
-
   count() {
-    this.apiService.custom_objects_count('os', ['deleted', 'equal to', false, 'and', 'status', 'not equal to', 'Arquivado'])
+    this.apiService.custom_objects_count('os', ['deleted', 'equal to', false])
       .subscribe((data: Count) => {
         if (data.error == null) {
           this.all = data.count;
@@ -347,5 +235,3 @@ export class JobsComponent implements OnInit {
   }
 
 }
-
-

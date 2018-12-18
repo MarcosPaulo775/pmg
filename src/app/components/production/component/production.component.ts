@@ -15,6 +15,7 @@ export class ProductionComponent implements OnInit {
   dashboard: string;
   jobs: string;
   print: string;
+  storage: string;
 
   @Input()
   set setDashboard(color: string) {
@@ -34,6 +35,11 @@ export class ProductionComponent implements OnInit {
   @Input()
   set setTitle(title: string) {
     this.title = title;
+  }
+
+  @Input()
+  set setStorage(color: string) {
+    this.storage = color;
   }
 
   constructor(
