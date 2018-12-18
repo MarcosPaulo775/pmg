@@ -6,6 +6,8 @@ export class User {
   email?: string;
   createdby?: string;
   permissions?: string[];
+  login_time?: number;
+  user_id?: string; 
   error_code?: string;
   error?: string;
 }

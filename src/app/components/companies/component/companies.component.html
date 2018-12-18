@@ -11,7 +11,11 @@
         <input matInput (keyup)="applyFilter($event.target.value)">
       </mat-form-field>
 
-      <div class="mat-elevation-z8">
+      <div fxLayoutAlign="center" style="width: 100%;">
+        <mat-spinner *ngIf="!dataSource"></mat-spinner>
+      </div>
+
+      <div *ngIf="dataSource">
         <table mat-table [dataSource]="dataSource">
 
           <!-- Name Column -->

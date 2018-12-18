@@ -1,0 +1,25 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    text-align: left;
+    padding: 8px;
+    font-family: "Open Sans";
+}
+
+td {
+    border-top: 1px solid #dddddd;
+}
+
+thead {
+    background-color: rgb(242, 242, 242);
+}
+
+.mat-card {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #cccccc;
+}
