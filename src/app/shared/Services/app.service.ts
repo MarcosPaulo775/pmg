@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { OS } from '../models/os';
 import * as jsPDF from 'jspdf';
 import * as IMG from '../../shared/models/img';
@@ -11,7 +10,7 @@ import { Company } from '../models/company';
 })
 export class AppService {
 
-    constructor(private http: HttpClient) { }
+    constructor() { }
 
     os: OS;
     company: Company;

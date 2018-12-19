@@ -1,8 +1,12 @@
-import { Component, OnInit, Input  } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { MatSnackBar } from '@angular/material';
+
 import { AuthService } from 'src/app/core/authentication/auth.service';
-import { User } from 'src/app/shared/models/user';
 import { ApiService } from 'src/app/core/http/api.service';
 import { Result_Avatar } from 'src/app/shared/models/api';
+import { User } from 'src/app/shared/models/user';
 
 @Component({
   selector: 'app-production',
@@ -16,6 +20,80 @@ export class ProductionComponent implements OnInit {
   jobs: string;
   print: string;
   storage: string;
+  user: User;
+  data: string;
+
+  constructor(
+    private router: Router,
+
+    public snackBar: MatSnackBar,
+
+    private authService: AuthService,
+    private apiService: ApiService
+  ) { }
+
+  ngOnInit() {
+    this.data = localStorage.getItem('avatar');
+    this.title = '';
+
+    this.getUser();
+  }
+
+  /** Realiza o logout */
+  logout() {
+    this.authService.logout();
+  }
+
+  /** Busca informações do usuário logado */
+  getUser() {
+    this.authService.get_current_user()
+      .subscribe((data: User) => {
+        if (!data.error) {
+          this.user = data;
+          localStorage.setItem('userid', this.user._id);
+          this.preview();
+        } else {
+          this.session(data.error_code);
+        }
+      }, (data) => {
+        console.log(data);
+      })
+  }
+
+  /** Busca avatar do usuário, caso não tenha usa o padrão */
+  preview() {
+    this.apiService.custom_objects_list('avatar', ['id', 'equal to', this.user._id], ' ')
+      .subscribe(
+        (data: Result_Avatar) => {
+          if (!data.error && data.results.length != 0) {
+            this.data = data.results[0].data;
+            localStorage.setItem('avatar', this.data);
+          } else {
+            this.session(data.error_code);
+            this.data = 'assets/logo.svg';
+            localStorage.setItem('avatar', this.data);
+          }
+        }, (data) => {
+          console.log(data);
+        }
+      )
+  }
+
+  /** Verifica se a sessão e válida */
+  session(error_code: string) {
+    if (error_code == 'invalid_session') {
+      if (localStorage.getItem('session')) {
+        localStorage.removeItem('session');
+      } this.router.navigate(['/login']);
+    }
+  }
+
+  /**Notificação*/
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 4000,
+    });
+  }
 
   @Input()
   set setDashboard(color: string) {
@@ -40,64 +118,6 @@ export class ProductionComponent implements OnInit {
   @Input()
   set setStorage(color: string) {
     this.storage = color;
-  }
-
-  constructor(
-    private authService: AuthService,
-    private apiService: ApiService
-  ) { }
-
-  
-  logout(){
-    
-    this.authService.logout();
-    
-  }
-
-  user: User;
-
-  ngOnInit() {
-    this.data = localStorage.getItem('avatar');
-    this.title = '';
-
-    //this.user = new User();
-
-    this.authService.get_current_user()
-      .subscribe((data: User) => { 
-        if (data.error == null) {
-          this.user = data;
-          localStorage.setItem('userid', this.user._id);
-          this.preview();
-        }
-      }, (data) => { 
-
-      })
-  }
-
-  data: string;
-
-  preview() {
-
-    this.apiService.custom_objects_list('avatar', ['id', 'equal to', this.user._id], ' ')
-      .subscribe(
-        (data: Result_Avatar) => {
-
-          if (data.error == null && data.results.length != 0) {
-
-            this.data = data.results[0].data;
-
-            localStorage.setItem('avatar', this.data);
-
-          }else{
-
-            this.data = 'assets/logo.svg';
-            localStorage.setItem('avatar', this.data);
-
-          }
-
-        }, () => { }
-      )
-
   }
 
 }

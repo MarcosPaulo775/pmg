@@ -1,19 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductionComponent } from '../../production/component/production.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ApiService } from '../../../core/http/api.service';
-import { OS, Color, FormColor } from '../../../shared/models/os';
-import { Count, Result_OS, Result_Item, Result_Color, Result_Company, Flow, Workable, Result_DimensionColor } from '../../../shared/models/api';
-import { MatSnackBar, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { Observable } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { map, startWith, delay } from 'rxjs/operators';
+
+import { MatSnackBar, MatDialog } from '@angular/material';
+
+import { ApiService } from '../../../core/http/api.service';
+import { AppService } from 'src/app/shared/Services/app.service';
+import { ProductionComponent } from '../../production/component/production.component';
 import { DialogProvaComponent } from '../dialogProva/dialog.component';
 import { DialogColorComponent } from '../dialogColor/dialog.component';
-import { DialogFinanceiroComponent } from '../dialogFinanceiro/dialog.component';
 import { DialogMedidasComponent } from '../dialogMedidas/dialog.component';
-import { AppService } from 'src/app/shared/Services/app.service';
+import { DialogFinanceiroComponent } from '../dialogFinanceiro/dialog.component';
+import { OS, Color, FormColor } from '../../../shared/models/os';
+import {
+  Count,
+  Result_OS,
+  Result_Item,
+  Result_Color,
+  Result_Company,
+  Flow,
+  Workable,
+  Result_DimensionColor
+} from '../../../shared/models/api';
 
 @Component({
   selector: 'app-os',
@@ -53,27 +63,19 @@ export class OsComponent implements OnInit {
 
   colors: Color[];
   disabled = true;
+  t: number = 0;
 
   constructor(
+    private router: Router,
     private formBuilder: FormBuilder,
+
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar,
+
     private production: ProductionComponent,
     private apiService: ApiService,
-    private appService: AppService,
-    public snackBar: MatSnackBar,
-    private router: Router,
-    public dialog: MatDialog
+    private appService: AppService
   ) { }
-
-  private _filter(value: string): Color[] {
-    const filterValue = value.toLowerCase();
-
-    return this.colors.filter(color => color.color.toLowerCase().indexOf(filterValue) === 8);
-  }
-
-  fechado() {
-    this.disabled = !this.details.get('fechado').value;
-
-  }
 
   ngOnInit() {
     this.os = new OS();
@@ -84,6 +86,11 @@ export class OsComponent implements OnInit {
     this.production.jobs = '';
     this.production.storage = '';
 
+    this.initForms();
+  }
+
+  /** Inicializa os formularios */
+  initForms() {
     this.details = this.formBuilder.group({
       tecnologia: [null, []],
       variacao: [null, []],
@@ -148,12 +155,6 @@ export class OsComponent implements OnInit {
 
     });
 
-    this.filteredColors = this.details.get('color').valueChanges
-      .pipe(
-        startWith(''),
-        map(color => color ? this._filter(color) : this.colors.slice())
-      );
-
     this.form = this.formBuilder.group({
       clientes: [null, [Validators.required]],
       nome: [null, [Validators.required]],
@@ -170,34 +171,40 @@ export class OsComponent implements OnInit {
 
       this.apiService.custom_objects_list('request', '', { '': 'name' })
         .subscribe((data: Result_Item) => {
-          if (data.error_code == null) {
+          if (!data.error_code) {
             this.pedidos = new Array<string>();
             for (let i = 0; i < data.results.length; i++) {
               this.pedidos.push(data.results[i].name);
             }
           }
         }, (data) => {
+          console.log(data);
         });
 
       this.apiService.custom_objects_list('company', ['deleted', 'equal to', false], { '': 'razao' })
         .subscribe((data: Result_Company) => {
-          if (data.error_code == null) {
+          if (!data.error_code) {
             this.clientes = new Array<string>();
             for (let i = 0; i < data.results.length; i++) {
               this.clientes.push(data.results[i].razao);
             }
           }
         }, (data) => {
+          console.log(data);
         });
     }
+  }
 
+  /** Desabilita alguns itens do formulario */
+  fechado() {
+    this.disabled = !this.details.get('fechado').value;
   }
 
   /** Busca a ordem de serviço no banco de dados */
   getOs() {
     this.apiService.custom_objects_get('os', localStorage.getItem('_id'))
       .subscribe((data: OS) => {
-        if (data.error_code == null) {
+        if (!data.error_code) {
           this.os = data;
           this.form.get('nome').setValue(this.os.nome);
           this.form.get('data').setValue(this.os.data);
@@ -206,7 +213,7 @@ export class OsComponent implements OnInit {
 
           this.apiService.custom_objects_list('company', ['deleted', 'equal to', false], { '': 'razao' })
             .subscribe((data: Result_Company) => {
-              if (data.error_code == null) {
+              if (!data.error_code) {
                 this.clientes = new Array<string>();
                 for (let i = 0; i < data.results.length; i++) {
                   this.clientes.push(data.results[i].razao);
@@ -217,11 +224,12 @@ export class OsComponent implements OnInit {
                 this.form.get('clientes').setValue(this.os.cliente);
               }
             }, (data) => {
+              console.log(data);
             });
 
           this.apiService.custom_objects_list('request', '', { '': 'name' })
             .subscribe((data: Result_Item) => {
-              if (data.error_code == null) {
+              if (!data.error_code) {
                 this.pedidos = new Array<string>();
                 for (let i = 0; i < data.results.length; i++) {
                   this.pedidos.push(data.results[i].name);
@@ -229,6 +237,7 @@ export class OsComponent implements OnInit {
                 this.form.get('pedidos').setValue(this.os.pedido);
               }
             }, (data) => {
+              console.log(data);
             });
 
           this.getDetail();
@@ -241,11 +250,11 @@ export class OsComponent implements OnInit {
       });
   }
 
-  /**Busca o id do detalhes da ordem de serviço no banco de dados */
+  /**Busca os detalhes da ordem de serviço no banco de dados */
   getDetail() {
     this.apiService.custom_objects_list('technology', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
-        if (data.error_code == null) {
+        if (!data.error_code) {
           this.tecnologia = new Array<string>();
           for (let i = 0; i < data.results.length; i++) {
             this.tecnologia.push(data.results[i].name);
@@ -253,11 +262,12 @@ export class OsComponent implements OnInit {
           this.details.get('tecnologia').setValue(this.os.tecnologia);
         }
       }, (data) => {
+        console.log(data);
       });
 
     this.apiService.custom_objects_list('variation', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
-        if (data.error_code == null) {
+        if (!data.error_code) {
           this.variacao = new Array<string>();
           for (let i = 0; i < data.results.length; i++) {
             this.variacao.push(data.results[i].name);
@@ -265,11 +275,12 @@ export class OsComponent implements OnInit {
           this.details.get('variacao').setValue(this.os.variacao);
         }
       }, (data) => {
+        console.log(data);
       });
 
     this.apiService.custom_objects_list('material', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
-        if (data.error_code == null) {
+        if (!data.error_code) {
           this.material = new Array<string>();
           for (let i = 0; i < data.results.length; i++) {
             this.material.push(data.results[i].name);
@@ -277,11 +288,12 @@ export class OsComponent implements OnInit {
           this.details.get('material').setValue(this.os.material);
         }
       }, (data) => {
+        console.log(data);
       });
 
     this.apiService.custom_objects_list('substrate', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
-        if (data.error_code == null) {
+        if (!data.error_code) {
           this.substrato = new Array<string>();
           this.substrato_prova = new Array<string>();
           for (let i = 0; i < data.results.length; i++) {
@@ -292,11 +304,12 @@ export class OsComponent implements OnInit {
           this.details.get('substrato_prova').setValue(this.os.substrato_prova);
         }
       }, (data) => {
+        console.log(data);
       });
 
     this.apiService.custom_objects_list('thickness', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
-        if (data.error_code == null) {
+        if (!data.error_code) {
           this.espessura = new Array<string>();
           for (let i = 0; i < data.results.length; i++) {
             this.espessura.push(data.results[i].name);
@@ -304,11 +317,12 @@ export class OsComponent implements OnInit {
           this.details.get('espessura').setValue(this.os.espessura);
         }
       }, (data) => {
+        console.log(data);
       });
 
     this.apiService.custom_objects_list('layer', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
-        if (data.error_code == null) {
+        if (!data.error_code) {
           this.camada = new Array<string>();
           for (let i = 0; i < data.results.length; i++) {
             this.camada.push(data.results[i].name);
@@ -316,11 +330,12 @@ export class OsComponent implements OnInit {
           this.details.get('camada').setValue(this.os.camada);
         }
       }, (data) => {
+        console.log(data);
       });
 
     this.apiService.custom_objects_list('local', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
-        if (data.error_code == null) {
+        if (!data.error_code) {
           this.local = new Array<string>();
           for (let i = 0; i < data.results.length; i++) {
             this.local.push(data.results[i].name);
@@ -328,33 +343,36 @@ export class OsComponent implements OnInit {
           this.details.get('local').setValue(this.os.local);
         }
       }, (data) => {
+        console.log(data);
       });
 
     this.apiService.custom_objects_list('lineatura', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
-        if (data.error_code == null) {
+        if (!data.error_code) {
           this.lineatura = new Array<string>();
           for (let i = 0; i < data.results.length; i++) {
             this.lineatura.push(data.results[i].name);
           }
         }
       }, (data) => {
+        console.log(data);
       });
 
     this.apiService.custom_objects_list('angle', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
-        if (data.error_code == null) {
+        if (!data.error_code) {
           this.angulo = new Array<string>();
           for (let i = 0; i < data.results.length; i++) {
             this.angulo.push(data.results[i].name);
           }
         }
       }, (data) => {
+        console.log(data);
       });
 
     this.apiService.custom_objects_list('profile', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
-        if (data.error_code == null) {
+        if (!data.error_code) {
           this.perfil = new Array<string>();
           for (let i = 0; i < data.results.length; i++) {
             this.perfil.push(data.results[i].name);
@@ -362,11 +380,12 @@ export class OsComponent implements OnInit {
           this.details.get('perfil').setValue(this.os.perfil);
         }
       }, (data) => {
+        console.log(data);
       });
 
     this.apiService.custom_objects_list('face', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
-        if (data.error_code == null) {
+        if (!data.error_code) {
           this.face = new Array<string>();
           for (let i = 0; i < data.results.length; i++) {
             this.face.push(data.results[i].name);
@@ -374,11 +393,12 @@ export class OsComponent implements OnInit {
           this.details.get('face').setValue(this.os.face);
         }
       }, (data) => {
+        console.log(data);
       });
 
     this.apiService.custom_objects_list('pantone', '', null)
       .subscribe((data: Result_Color) => {
-        if (data.error_code == null) {
+        if (!data.error_code) {
           this.colors = new Array<Color>();
           this.colors.push({ color: 'Cyan', hex: '00aeef' });
           this.colors.push({ color: 'Magenta', hex: 'ec008c' });
@@ -388,11 +408,12 @@ export class OsComponent implements OnInit {
           this.colors = this.colors.concat(data.results);
         }
       }, (data) => {
+        console.log(data);
       });
 
     this.apiService.custom_objects_list('double', '', { '': 'name' })
       .subscribe((data: Result_Item) => {
-        if (data.error_code == null) {
+        if (!data.error_code) {
           this.dupla = new Array<string>();
           for (let i = 0; i < data.results.length; i++) {
             this.dupla.push(data.results[i].name);
@@ -400,8 +421,8 @@ export class OsComponent implements OnInit {
           this.details.get('dupla').setValue(this.os.dupla);
         }
       }, (data) => {
+        console.log(data);
       });
-
 
     this.details.get('observacoes_cliche').setValue(this.os.obs_cliche);
     this.details.get('observacoes_cores').setValue(this.os.obs_color);
@@ -446,14 +467,13 @@ export class OsComponent implements OnInit {
     this.details.get('obs_financeiro').setValue(this.os.obs_financeiro);
   }
 
+  /** Adiciona as cores padrão */
   onAddCMYK() {
-
     this.addColor({ color: 'Cyan', hex: '00ffff' });
     this.addColor({ color: 'Magenta', hex: 'ff00ff' });
     this.addColor({ color: 'Yellow', hex: 'ffff00' });
     this.addColor({ color: 'Black', hex: "000000" });
     this.addColor({ color: 'White', hex: 'ffffff' });
-
   }
 
   /** Cria um ordem de serviço com os dados do formulario */
@@ -541,10 +561,10 @@ export class OsComponent implements OnInit {
 
   }
 
+  /** Adiciona um cor */
   addColor(color: Color) {
 
     this.color = new Color();
-
     this.color = color;
 
     if (this.color.color) {
@@ -571,13 +591,11 @@ export class OsComponent implements OnInit {
           }
         }
       }
-
       this.os.colors.push(this.color);
-
-      //this.onSubmit();
     }
   }
 
+  /** Deleta uma cor */
   onDeleteColor(_id) {
 
     let temp = new Array<Color>();
@@ -587,24 +605,8 @@ export class OsComponent implements OnInit {
         temp.push(this.os.colors[i]);
       }
     }
-
     this.os.colors = temp;
     this.update();
-  }
-
-  getColor() {
-
-    this.color = new Color();
-
-    this.color.color = this.details.get('color').value;
-    this.color.lineatura1 = this.details.get('lineatura_1').value;
-    this.color.lineatura2 = this.details.get('lineatura_2').value;
-    this.color.angulo = this.details.get('angulo').value;
-    this.color.fotocelula = this.details.get('fotocelula').value;
-    this.color.unitario = this.details.get('unitario').value;
-    this.color.camerom = this.details.get('camerom').value;
-    this.color.jogos = String(this.details.get('jogos').value);
-
   }
 
   /** Salva uma Ordem de serviço nova no banco de dados*/
@@ -621,7 +623,7 @@ export class OsComponent implements OnInit {
 
       this.apiService.custom_objects_create('os', this.os)
         .subscribe((data: OS) => {
-          if (data.error == null) {
+          if (!data.error) {
             localStorage.setItem('_id', data._id);
             localStorage.setItem('version', 'false');
             this.getOs();
@@ -630,6 +632,7 @@ export class OsComponent implements OnInit {
             this.session(data.error_code);
           }
         }, (data) => {
+          console.log(data);
           this.openSnackBar('Erro ao salvar', 'OK');
         });
     }
@@ -638,7 +641,7 @@ export class OsComponent implements OnInit {
     else {
       this.apiService.custom_objects_create('os', this.os)
         .subscribe((data: OS) => {
-          if (data.error == null) {
+          if (!data.error) {
             this.os = data;
             this.nOs();
             localStorage.setItem('_id', this.os._id);
@@ -648,6 +651,7 @@ export class OsComponent implements OnInit {
             this.session(data.error_code);
           }
         }, (data) => {
+          console.log(data);
           this.openSnackBar('Erro ao salvar', 'OK');
         });
     }
@@ -657,7 +661,7 @@ export class OsComponent implements OnInit {
   nOs() {
     this.apiService.custom_objects_list('os', '', { '_id': '_id' })
       .subscribe((data: Result_OS) => {
-        if (data.error == null) {
+        if (!data.error) {
 
           for (let i = 0; i < data.results.length; i++) {
             if (this.os._id == data.results[i]._id) {
@@ -671,32 +675,31 @@ export class OsComponent implements OnInit {
           this.session(data.error_code);
         }
       }, (data) => {
+        console.log(data);
         this.openSnackBar('Erro ao salvar', 'OK');
       });
   }
 
   /** Atualiza os dados de uma ordem de servico existente */
   update() {
-
     this.apiService.custom_objects_update('os', this.os)
       .subscribe((data: Count) => {
-        if (data.error == null) {
+        if (!data.error) {
           this.getOs();
           this.openSnackBar('Salvo', 'OK');
         } else {
           this.session(data.error_code);
         }
       }, (data) => {
+        console.log(data);
         this.openSnackBar('Erro ao salvar', 'OK');
       });
   }
 
+  /** Atualiza dados de uma cor */
   updateColor(color: Color) {
-
     this.color = new Color();
-
     for (let i = 0; i < this.os.colors.length; i++) {
-
       if (this.os.colors[i]._id == color._id) {
         this.os.colors[i] = color;
       }
@@ -704,6 +707,7 @@ export class OsComponent implements OnInit {
     this.onSubmit();
   }
 
+  /** Janela de dialogo para editar cores da prova */
   editProva(color: Color): void {
     const dialogRef = this.dialog.open(DialogProvaComponent, {
       width: '800px',
@@ -716,6 +720,7 @@ export class OsComponent implements OnInit {
     });
   }
 
+  /** janela de dialogo para editar tamanho das cores */
   editFinanceiro(color: Color): void {
     const dialogRef = this.dialog.open(DialogFinanceiroComponent, {
       width: '800px',
@@ -728,6 +733,26 @@ export class OsComponent implements OnInit {
     });
   }
 
+  /** Abre janela de dialogo para adicionar cor */
+  onAdd(): void {
+    let formColor = new FormColor();
+    formColor.color = new Color();
+    formColor.colors = this.colors;
+    formColor.angulo = this.angulo;
+    formColor.lineatura = this.lineatura;
+    const dialogRef = this.dialog.open(DialogColorComponent, {
+      width: '1000px',
+      data: formColor
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addColor(result);
+      }
+    });
+  }
+
+  /** janela de dialogo para editar cor */
   editColor(color: Color): void {
     let formColor = new FormColor();
     formColor.color = color;
@@ -745,6 +770,7 @@ export class OsComponent implements OnInit {
     });
   }
 
+  /** janela de Upload de arquivo */
   upload(): void {
     const dialogRef = this.dialog.open(DialogMedidasComponent, {
       width: '800px',
@@ -757,66 +783,67 @@ export class OsComponent implements OnInit {
     });
   }
 
+  /** Inicia Fluxo do servidor para medir cores do PDF */
   dimensionColor(file: string) {
-
     this.spinner = true;
-
     this.apiService.hub_start_from_whitepaper_with_files_and_variables('medidas_os', 'input', ['cloudflow://PP_FILE_STORE/dimensionColor/' + file])
       .subscribe((data: Flow) => {
 
-        if (data.error == null) {
+        if (!data.error) {
 
           this.workable(data.workable_id);
         }
-      }, () => { })
+      }, (data) => {
+        console.log(data);
+      })
   }
 
-  t: number = 0;
-
+  /** Verifica a cada 2 segundos se o fluxo de medidas do servidor terminou*/
   workable(workable_id) {
     this.apiService.hub_get_waiting_room_of_workable(workable_id)
       .pipe(delay(2 * 1000)).subscribe((data: Workable) => {
         this.t = this.t + 2;
-        
+
         console.log(this.t + ' segundos');
 
-        if (data.error == null) {
+        if (!data.error) {
           if (data.collar == 'com.nixps.quantum.end.0') {
             this.getDimension();
           } else {
             this.workable(workable_id);
           }
-
         }
-
-      }, () => { })
+      }, (data) => {
+        console.log(data);
+      })
   }
 
+  /** Busca no banco de dados as medidas geras pelo Fluxo de medidas */
   getDimension() {
     let temp = this.os.os.split(' ');
 
     let os = temp[0] + temp[1] + temp[2];
     this.apiService.custom_objects_list('dimensionColor', ['os', 'equal to', os], ' ')
       .subscribe((data: Result_DimensionColor) => {
-        if (data.error == null && data.results.length != 0) {
+        if (!data.error && data.results.length != 0) {
 
           let colors = data.results[data.results.length - 1].color;
 
           for (let i = 0; i < colors.length; i++) {
             colors[i].valor = '0.00';
-            if(this.os.colors.length != 0){
+            if (this.os.colors.length != 0) {
               let j;
-              for(j = 0 ; j < this.os.colors.length; j++){
-                if(this.os.colors[j].color == colors[i].color){
+              for (j = 0; j < this.os.colors.length; j++) {
+                if (this.os.colors[j].color == colors[i].color) {
                   this.os.colors[j].altura = colors[i].altura;
                   this.os.colors[j].largura = colors[i].largura;
                   break;
                 }
               }
-              if(j == this.os.colors.length && this.os.colors[j - 1].color != colors[i].color){
+              if (j == this.os.colors.length && this.os.colors[j - 1].color != colors[i].color) {
                 this.addColor(colors[i]);
               }
-            }else{
+            } else {
               this.addColor(colors[i]);
             }
           }
@@ -825,16 +852,19 @@ export class OsComponent implements OnInit {
 
           this.apiService.custom_objects_delete('dimensionColor', data.results[data.results.length - 1]._id)
             .subscribe((data) => {
-
             }, (data) => {
-
+              console.log(data);
             });
 
           this.spinner = false;
         }
-      }, () => { });
+      }, (data) => {
+        console.log(data);
+      });
   }
 
+
+  /** Faz um busca no preço no cadastro do cliente e calcula o valor do material com o tamnhanho das cores */
   calcular(checked: boolean) {
     let moeda = 0;
     if (this.os.colors != null && this.os.colors != undefined) {
@@ -852,7 +882,7 @@ export class OsComponent implements OnInit {
             'margem_r': 'margem_r'
           })
           .subscribe((data: Result_Company) => {
-            if (data.error == null) {
+            if (!data.error) {
 
               if (this.os.tecnologia === 'Kodak NX' && this.os.espessura === '1.14') {
                 moeda = Number(data.results[0].kodak_114);
@@ -888,7 +918,7 @@ export class OsComponent implements OnInit {
             }
 
           }, (data) => {
-
+            console.log(data);
           });
       } else {
         for (let i = 0; i < this.os.colors.length; i++) {
@@ -896,24 +926,6 @@ export class OsComponent implements OnInit {
         } this.os.valor = '0.00';
       }
     }
-  }
-
-  onAdd(): void {
-    let formColor = new FormColor();
-    formColor.color = new Color();
-    formColor.colors = this.colors;
-    formColor.angulo = this.angulo;
-    formColor.lineatura = this.lineatura;
-    const dialogRef = this.dialog.open(DialogColorComponent, {
-      width: '1000px',
-      data: formColor
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.addColor(result);
-      }
-    });
   }
 
   /** Dispara quando aperta o botao de criar uma nova versao */
@@ -941,12 +953,12 @@ export class OsComponent implements OnInit {
     }
   }
 
-  
-
+  /** Download do Layout */
   downloadPDF() {
     this.appService.downloadOS(this.os);
   }
 
+  /** Imprime Layout */
   print() {
     this.appService.printOS(this.os);
   }

@@ -1,8 +1,11 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
-import { User } from 'src/app/shared/models/user';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+
 import { AuthService } from 'src/app/core/authentication/auth.service';
+import { User } from 'src/app/shared/models/user';
 import { User_id } from 'src/app/shared/models/api';
 
 @Component({
@@ -15,11 +18,15 @@ export class DialogPassComponent {
   form: FormGroup;
 
   constructor(
+    private router: Router,
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<DialogPassComponent>,
-    @Inject(MAT_DIALOG_DATA) public user: User) { }
+    @Inject(MAT_DIALOG_DATA) public user: User,
+
+    private authService: AuthService,
+  ) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -30,7 +37,6 @@ export class DialogPassComponent {
   }
 
   onSave() {
-
     if (this.form.valid) {
       if (this.form.get('new_password').value == this.form.get('new_password2').value) {
 
@@ -44,13 +50,19 @@ export class DialogPassComponent {
 
                 if (data.error_code == 'Incorrect password') {
                   this.openSnackBar('Senha incorreta', 'ok');
-                } else if (data.error_code == null) {
+                } else if (!data.error_code) {
                   this.openSnackBar('Senha alterada', 'ok');
                   this.dialogRef.close();
+                } else {
+                  this.session(data.error_code);
                 }
-              }, () => { });
+              }, (data) => {
+                console.log(data);
+              });
             }
-          }, () => { })
+          }, (data) => {
+            console.log(data);
+          })
       } else {
         this.openSnackBar('Senhas não coincidem', 'ok');
       }
@@ -66,6 +78,16 @@ export class DialogPassComponent {
     });
   }
 
+  /** Verifica se a sessão e válida */
+  session(error_code: string) {
+    if (error_code == 'invalid_session') {
+      if (localStorage.getItem('session')) {
+        localStorage.removeItem('session');
+      } this.router.navigate(['/login']);
+    }
+  }
+
+  /** Fecha janela */
   onNoClick(): void {
     this.dialogRef.close();
   }

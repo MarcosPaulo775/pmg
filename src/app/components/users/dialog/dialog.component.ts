@@ -1,8 +1,11 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
-import { User } from 'src/app/shared/models/user';
+import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+
 import { AuthService } from 'src/app/core/authentication/auth.service';
+import { User } from 'src/app/shared/models/user';
 import { _id } from 'src/app/shared/models/api';
 
 @Component({
@@ -16,12 +19,21 @@ export class DialogComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    private router: Router,
+
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<DialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public user: User) { }
+    @Inject(MAT_DIALOG_DATA) public user: User,
+
+    private authService: AuthService,
+  ) { }
 
   ngOnInit() {
+    this.initForm();
+  }
+
+  /** Inicializa formulario */
+  initForm() {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required]],
       username: [null, [Validators.required]],
@@ -31,6 +43,7 @@ export class DialogComponent {
     this.getUser();
   }
 
+  /** Salva alterações nos dados do usuario */
   onSave() {
     if (this.form.valid) {
       this.getForm();
@@ -42,12 +55,14 @@ export class DialogComponent {
         }
       ).subscribe((data: _id) => {
 
-        if (data.error == null) {
+        if (!data.error) {
           this.openSnackBar('Salvo', 'ok');
           this.dialogRef.close();
+        } else {
+          this.session(data.error_code);
         }
       }, (data) => {
-
+        console.log(data);
       })
     } else {
       this.openSnackBar('Cadastre todos os campos', 'ok');
@@ -55,12 +70,14 @@ export class DialogComponent {
 
   }
 
+  /** Busca dados do formulario */
   getForm() {
     this.user.fullname = this.form.get('name').value;
     this.user.username = this.form.get('username').value;
     this.user.email = this.form.get('email').value;
   }
 
+  /** Preeche o formulario */
   getUser() {
     this.form.get('name').setValue(this.user.fullname);
     this.form.get('username').setValue(this.user.username);
@@ -74,7 +91,16 @@ export class DialogComponent {
     });
   }
 
+  /** Verifica se a sessão e válida */
+  session(error_code: string) {
+    if (error_code == 'invalid_session') {
+      if (localStorage.getItem('session')) {
+        localStorage.removeItem('session');
+      } this.router.navigate(['/login']);
+    }
+  }
 
+  /** Fecha janela */
   onNoClick(): void {
     this.dialogRef.close();
   }

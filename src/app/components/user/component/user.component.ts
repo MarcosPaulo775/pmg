@@ -1,29 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigComponent } from '../../config/component/config.component';
-import { User, Avatar } from 'src/app/shared/models/user';
-import { AuthService } from 'src/app/core/authentication/auth.service';
-import { DialogAvatarComponent } from '../dialogAvatar/dialog.component';
-import { MatDialog, MatSnackBar } from '@angular/material';
-import { ApiService } from 'src/app/core/http/api.service';
-import { Data } from '@angular/router';
-import { Result_Avatar, Result_Delete, User_id } from 'src/app/shared/models/api';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
-export class Permissoes {
-  Admin_User?: boolean;
-  Patchplanner?: boolean;
-  Manage_Chains?: boolean;
-  Manage_Users?: boolean;
-  Manage_Scopes?: boolean;
-  Manage_Templates?: boolean;
-  Manage_Whitepapers?: boolean;
-  Manage_Share?: boolean;
-  Manage_Assets?: boolean;
-  External_project_user?: boolean;
-  Manage_Jobs?: boolean;
-  May_Upload?: boolean;
-  May_Delete_Jackets_In_Kiosk?: boolean;
-}
+import { MatDialog, MatSnackBar } from '@angular/material';
+
+import { AuthService } from 'src/app/core/authentication/auth.service';
+import { ApiService } from 'src/app/core/http/api.service';
+import { ConfigComponent } from '../../config/component/config.component';
+import { DialogAvatarComponent } from '../dialogAvatar/dialog.component';
+import { User, Avatar, Permissoes } from 'src/app/shared/models/user';
+import { Result_Avatar, Result_Delete, User_id, Data, _id } from 'src/app/shared/models/api';
 
 @Component({
   selector: 'app-user',
@@ -32,26 +18,26 @@ export class Permissoes {
 })
 
 export class UserComponent implements OnInit {
+
   form: FormGroup;
   password: FormGroup;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    public configComponent: ConfigComponent,
-    public authService: AuthService,
-    public apiService: ApiService,
-    public dialog: MatDialog,
-    public snackBar: MatSnackBar,
-  ) { }
-
   user: User;
-
   permissoes: Permissoes;
-
   data: string;
 
-  ngOnInit() {
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
 
+    public snackBar: MatSnackBar,
+    public dialog: MatDialog,
+    
+    public authService: AuthService,
+    public apiService: ApiService,
+    public configComponent: ConfigComponent
+  ) { }
+
+  ngOnInit() {
     this.data = localStorage.getItem('avatar');
     this.permissoes = new Permissoes;
 
@@ -59,6 +45,11 @@ export class UserComponent implements OnInit {
     this.configComponent.user_color = 'rgb(0, 90, 176)';
     this.configComponent.users_color = '';
 
+    this.initForm();
+  }
+
+  /** inicializa formulario */
+  initForm() {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required]],
       username: [null, [Validators.required]],
@@ -73,7 +64,7 @@ export class UserComponent implements OnInit {
 
     this.authService.get_current_user()
       .subscribe((data: User) => {
-        if (data.error == null) {
+        if (data.error!) {
           this.user = data;
           this.preview();
 
@@ -135,15 +126,17 @@ export class UserComponent implements OnInit {
                 this.permissoes.Manage_Jobs = true;
                 break;
             }
-
           }
           this.getUser();
+        } else {
+          this.session(data.error_code);
         }
       }, (data) => {
-
+        console.log(data);
       })
   }
 
+  /** Salva dados do usuário */
   onSave() {
     if (this.form.valid) {
       this.getForm();
@@ -153,51 +146,65 @@ export class UserComponent implements OnInit {
           'fullname': this.user.fullname,
           'email': this.user.email
         }
-      ).subscribe((data) => {
+      ).subscribe((data: _id) => {
+        if (!data.error) {
+          this.openSnackBar('Dados do usuario salvo', 'ok');
+        } else {
+          this.session(data.error_code);
+        }
       }, (data) => {
-
+        console.log(data);
       })
     } else {
       this.openSnackBar('Cadastre todos os campos', 'ok');
     }
   }
 
+  /** altera a senha do usuario */
   onSavePassword() {
-    if (this.form.valid) {
-      if (this.form.get('new_password').value == this.form.get('new_password2').value) {
+    if (this.password.valid) {
+      if (this.password.get('new_password').value == this.password.get('new_password2').value) {
 
         this.authService.users_get_user_id(this.user.username)
           .subscribe((data: User_id) => {
-            console.log(data);
             if (data.error == null) {
-              this.authService.users_change_password(data.user_id, this.form.get('old_password').value, this.form.get('new_password').value)
-                .subscribe((data) => {
+              this.authService.users_change_password(data.user_id, this.password.get('old_password').value, this.password.get('new_password').value)
+                .subscribe((data: User_id) => {
+                  if (!data.error) {
+                    this.openSnackBar('Senha alterada', 'ok');
+                  } else {
+                    this.session(data.error_code);
+                  }
+                }, (data) => {
                   console.log(data);
-                }, () => { });
+                });
             }
-          }, () => { })
+          }, (data) => {
+            console.log(data);
+          })
       } else {
         this.openSnackBar('Senhas não coincidem', 'ok');
       }
     } else {
       this.openSnackBar('Cadastre todos os campos', 'ok');
     }
-
   }
 
+  /** preenche informações do formulario */
   getUser() {
     this.form.get('name').setValue(this.user.fullname);
     this.form.get('username').setValue(this.user.username);
     this.form.get('email').setValue(this.user.email);
   }
 
+  /** Busca informaçãoes do formuário */
   getForm() {
-
     this.user.fullname = this.form.get('name').value;
     this.user.username = this.form.get('username').value;
     this.user.email = this.form.get('email').value;
   }
 
+  /** Abre janela de Upload */
   upload(): void {
     const dialogRef = this.dialog.open(DialogAvatarComponent, {
       width: '800px',
@@ -210,66 +217,62 @@ export class UserComponent implements OnInit {
     });
   }
 
+  /** Busca avatar do usuario no banco de dados */
   preview() {
-
     this.apiService.custom_objects_list('avatar', ['id', 'equal to', this.user._id], ' ')
       .subscribe(
         (data: Result_Avatar) => {
-
-          if (data.error == null && data.results.length != 0) {
-
+          if (!data.error && data.results.length != 0) {
             this.data = data.results[0].data;
-
             localStorage.setItem('avatar', this.data);
-
           } else {
-
+            this.session(data.error_code);
             this.data = 'assets/logo.svg';
             localStorage.setItem('avatar', this.data);
-
           }
-
-        }, () => { }
+        }, (data) => {
+          console.log(data);
+        }
       )
-
   }
 
+  /** Deleta o avatar do usuario e coloca o Padrão */
   deletePreview() {
-
     this.apiService.custom_objects_list('avatar', ['id', 'equal to', this.user._id], ' ')
       .subscribe(
         (data: Result_Avatar) => {
-
-          if (data.error == null && data.results.length != 0) {
-
+          if (!data.error && data.results.length != 0) {
             this.apiService.custom_objects_delete('avatar', data.results[0]._id)
               .subscribe((data: Result_Delete) => {
-                if (data.error == null) {
+                if (!data.error) {
                   this.data = 'assets/logo.svg';
                   this.configComponent.setData = this.data;
                   localStorage.setItem('avatar', this.data);
+                } else {
+                  this.session(data.error_code);
                 }
               });
-
+          } else {
+            this.session(data.error_code);
           }
-
-        }, () => { }
+        }, (data) => {
+          console.log(data);
+        }
       )
-
   }
 
+  /** Gera string do avatar do usuario */
   getPreview(filename: string) {
     this.apiService.metadata_get_preview('cloudflow://PP_FILE_STORE/Avatar/' + filename, 0, 300)
       .subscribe((data: Data) => {
-
-        if (data.error == null) {
+        if (!data.error) {
           this.data = data.data;
           this.configComponent.setData = this.data;
           localStorage.setItem('avatar', this.data);
           this.apiService.custom_objects_list('avatar', ['id', 'equal to', this.user._id], ' ')
             .subscribe(
               (data: Result_Avatar) => {
-                if (data.error == null && data.results.length == 0) {
+                if (!data.error && data.results.length == 0) {
 
                   let avatar = new Avatar();
                   avatar.data = this.data;
@@ -277,33 +280,44 @@ export class UserComponent implements OnInit {
 
                   this.apiService.custom_objects_create('avatar', avatar)
                     .subscribe(
-                      (data) => {
-
-                      }, () => { }
+                      (data: Avatar) => {
+                        if (!data.error) {
+                          this.openSnackBar('Avatar salvo', 'ok')
+                        } else {
+                          this.session(data.error_code);
+                        }
+                      }, (data) => {
+                        console.log(data);
+                      }
                     )
-
-                } else if (data.error == null) {
+                } else if (!data.error) {
                   let avatar = data.results[0];
                   avatar.data = this.data;
 
                   this.apiService.custom_objects_update('avatar', avatar)
                     .subscribe(
-                      (data) => {
-
-                      }, () => { }
+                      (data: Avatar) => {
+                        if (!data.error) {
+                          this.openSnackBar('Avatar salvo', 'ok')
+                        } else {
+                          this.session(data.error_code);
+                        }
+                      }, (data) => {
+                        console.log(data);
+                      }
                     )
                 }
-
-              }, () => {
-
+              }, (data) => {
+                console.log(data);
               }
             )
-
         } else {
+          this.session(data.error_code);
           this.data = 'assets/logo.svg';
           localStorage.setItem('avatar', this.data);
         }
       }, (data) => {
+        console.log(data);
       });
   }
 
@@ -312,6 +326,15 @@ export class UserComponent implements OnInit {
     this.snackBar.open(message, action, {
       duration: 4000,
     });
+  }
+
+  /** Verifica se a sessão e válida */
+  session(error_code: string) {
+    if (error_code == 'invalid_session') {
+      if (localStorage.getItem('session')) {
+        localStorage.removeItem('session');
+      } this.router.navigate(['/login']);
+    }
   }
 
 }

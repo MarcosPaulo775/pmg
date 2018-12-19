@@ -5,7 +5,8 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 
 import { ApiService } from 'src/app/core/http/api.service';
 import { AppService } from 'src/app/shared/Services/app.service';
-import { Company } from 'src/app/shared/models/company';
+import { Result_OS } from 'src/app/shared/models/api';
+import { OS } from '../../../shared/models/os';
 
 @Component({
   selector: 'app-dialog',
@@ -14,63 +15,51 @@ import { Company } from 'src/app/shared/models/company';
 })
 export class DialogComponent {
 
+  total: number;
+
   constructor(
     private router: Router,
-    
-    @Inject(MAT_DIALOG_DATA) public company: Company,
-    public dialogRef: MatDialogRef<DialogComponent>,
+
     public snackBar: MatSnackBar,
-    
+    public dialogRef: MatDialogRef<DialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public os: OS,
+
     private apiService: ApiService,
     private appService: AppService,
-    ) { }
+  ) { }
 
-  /**Fecha a janela de diálogo */
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  /** Guarda o id da da empresa e muda para a janela de edição */
+  /** Edita a ordem de serviço */
   onEdit() {
-    localStorage.setItem('_id_company', this.company._id);
-    this.router.navigate(['/crm/register']);
-    this.dialogRef.close();
+    if (this.os._id) {
+      localStorage.setItem('_id', this.os._id);
+      this.router.navigate(['/production/os']);
+      this.dialogRef.close();
+    }
   }
 
-  /** Marca o arquivo como deletado */
+  /** Marca a ordem de serviço como deletada */
   onDelete() {
-    this.apiService.custom_objects_set_keys('company', this.company._id, { 'deleted': true })
-      .subscribe((data: Company) => {
+    this.apiService.custom_objects_set_keys('os', this.os._id, { 'deleted': 'true' })
+      .subscribe((data: Result_OS) => {
         if (!data.error) {
-          this.openSnackBar('Empresa deletada', 'ok');
+          this.openSnackBar('Ordem de serviço foi excluida', 'ok');
           this.dialogRef.close('load');
         } else {
           this.session(data.error_code);
         }
       }, (data) => {
-        this.openSnackBar('Erro comunicar com o servidor', 'ok');
         console.log(data);
       });
   }
 
-  /** Imprime o layout */
+  /** Imprime Layout */
   print() {
-    this.appService.printCompany(this.company);
+    this.appService.printOS(this.os);
   }
 
-  /** Realiza o Download de um PDF do Layout */
+  /** Faz download do layout */
   downloadPDF() {
-    this.appService.downloadCompany(this.company);
-  }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
-      this.dialogRef.close();
-    }
+    this.appService.downloadOS(this.os);
   }
 
   /**Notificação*/
@@ -80,4 +69,17 @@ export class DialogComponent {
     });
   }
 
+  /** Verifica se a sessão e válida */
+  session(error_code: string) {
+    if (error_code == 'invalid_session') {
+      if (localStorage.getItem('session')) {
+        localStorage.removeItem('session');
+      } this.router.navigate(['/login']);
+    }
+  }
+
+  /** Fecha a caixa de dialogo */
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }

@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatPaginator } from '@angular/material';
-import { DialogComponent } from '../dialog/dialog.component';
+import { Router } from '@angular/router';
+
+import { MatDialog, MatPaginator, MatSnackBar, MatTableDataSource } from '@angular/material';
+
 import { ApiService } from 'src/app/core/http/api.service';
+import { DialogComponent } from '../dialog/dialog.component';
+import { CrmComponent } from '../../crm/component/crm.component';
 import { Result_Company } from 'src/app/shared/models/api';
 import { Company } from 'src/app/shared/models/company';
-import { MatTableDataSource } from '@angular/material';
-import { Router } from '@angular/router';
-import { CrmComponent } from '../../crm/component/crm.component';
 
 @Component({
   selector: 'app-companies',
@@ -16,45 +17,66 @@ import { CrmComponent } from '../../crm/component/crm.component';
 export class CompaniesComponent implements OnInit {
 
   constructor(
-    public dialog: MatDialog,
-    private apiService: ApiService,
     private router: Router,
-    private crmComponent: CrmComponent
+
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar,
+
+    private apiService: ApiService,
+    private crmComponent: CrmComponent,
   ) { }
 
+  /** Define as colunas da tabela*/
   displayedColumns: string[] = ['razao', 'cnpj_cpf', 'button'];
+
+  /** Define os tipo de dado da tabela */
   dataSource: MatTableDataSource<Company>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  /** Filtro da tabela */
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   ngOnInit() {
+
+    //Lista todos os itens menos os que estão marcados como deletados
     this.list(['deleted', 'equal to', false]);
+
+    //Muda o Título do component pai
     this.crmComponent.title = 'Empresas';
+
+    //muda a cor dos botoes do component pai
     this.crmComponent.company = 'rgb(0, 90, 176)';
     this.crmComponent.dashboard = '';
   }
 
+  /** Guarda o id da empresa no localstorage e muda a pagina para a de edição */
   onEdit(id: string) {
-    if (id != null) {
+    if (id) {
       localStorage.setItem('_id_company', id);
       this.router.navigate(['/crm/register']);
     }
-
   }
 
+  /** Marca a empresa como deletada */
   onDelete(id: string) {
-    this.apiService.custom_objects_set_keys('company', id, { 'deleted': 'true' })
+    this.apiService.custom_objects_set_keys('company', id, { 'deleted': true })
       .subscribe((data: Result_Company) => {
-        this.session(data.error_code);
-        this.list(['deleted', 'equal to', false]);
+        if (!data.error) {
+          this.list(['deleted', 'equal to', false]);
+          this.openSnackBar('Empresa deletada', 'ok');
+        } else {
+          this.session(data.error_code);
+        }
       }, (data) => {
+        this.openSnackBar('Erro comunicar com o servidor', 'ok');
+        console.log(data);
       });
   }
 
+  /** Abre a caixa de diálogo para visualizar os detalhes */
   openDialog(company: Company): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '100vw',
@@ -67,19 +89,24 @@ export class CompaniesComponent implements OnInit {
     });
   }
 
+  /** Busca os itens para preencher a tabela */
   list(query) {
     this.apiService.custom_objects_list('company', query, ' ')
       .subscribe((data: Result_Company) => {
-        if (data.error == null) {
+        if (!data.error) {
           //inserção de dados na tabela
           this.dataSource = new MatTableDataSource(data.results);
           this.dataSource.paginator = this.paginator;
         } else {
+          this.session(data.error_code);
         }
       }, (data) => {
+        this.openSnackBar('Erro comunicar com o servidor', 'ok');
+        console.log(data);
       });
   }
 
+  /** Remove o id da empresa e muda a página para adicionar empresa */
   onAdd() {
     if (localStorage.getItem('_id_company')) {
       localStorage.removeItem('_id_company');
@@ -94,6 +121,13 @@ export class CompaniesComponent implements OnInit {
         localStorage.removeItem('session');
       } this.router.navigate(['/login']);
     }
+  }
+
+  /**Notificação*/
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 4000,
+    });
   }
 
 }

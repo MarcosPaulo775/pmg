@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { ProductionComponent } from '../../production/component/production.component';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Router } from '@angular/router';
+
+import { MatPaginator, MatTableDataSource, MatSnackBar, MatDialog } from '@angular/material';
+
 import { ApiService } from '../../../core/http/api.service';
+import { ProductionComponent } from '../../production/component/production.component';
+import { DialogComponent } from '../../storage/dialog/dialog.component';
 import { Result_OS, Count } from '../../../shared/models/api';
 import { OS } from '../../../shared/models/os';
-import { MatDialog } from '@angular/material';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-storage',
@@ -27,29 +29,7 @@ export class StorageComponent implements OnInit {
     'Ações'
   ];
 
-  /** Etapas da ordem de serviço
-   * Irei mudar para o banco de dados futuramente
-   */
   all: number;
-  atendimento: number;
-  desenvolvimento: number;
-  aprovacao: number;
-  editoracao: number;
-  conferencia: number;
-  gravacao: number;
-  expedicao: number;
-  status: string;
-
-  all_s: string;
-  atendimento_s: string;
-  desenvolvimento_s: string;
-  aprovacao_s: string;
-  editoracao_s: string;
-  conferencia_s: string;
-  gravacao_s: string;
-  expedicao_s: string;
-
-  check: boolean;
 
   /** Variaveis da tabela */
   dataSource: MatTableDataSource<OS>;
@@ -58,29 +38,43 @@ export class StorageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
-    private production: ProductionComponent,
-    private apiService: ApiService,
-    public dialog: MatDialog,
     private router: Router,
+
+    public snackBar: MatSnackBar,
+    public dialog: MatDialog,
+
+    private apiService: ApiService,
+    private production: ProductionComponent
   ) { }
 
   ngOnInit() {
     //lista todas as ordens de serviço ao iniciar
     this.list(['deleted', 'equal to', false, 'and', 'status', 'equal to', 'Arquivado']);
-    this.production.title = 'Trabalhos';
+    this.production.title = 'Arquivados';
     this.production.dashboard = '';
     this.production.print = '';
     this.production.jobs = '';
     this.production.storage = 'rgb(0, 90, 176)';
+  }
 
-    this.atendimento_s = '';
-    this.desenvolvimento_s = '';
-    this.aprovacao_s = '';
-    this.editoracao_s = '';
-    this.conferencia_s = '';
-    this.gravacao_s = '';
-    this.expedicao_s = '';
-    this.all_s = 'rgb(0, 90, 176)';
+  /** Abre caixa de dialogo com as informações da ordem de serviço */
+  openDialog(id: string): void {
+    this.apiService.custom_objects_get('os', id)
+      .subscribe((data: OS) => {
+        if (!data.error) {
+          const dialogRef = this.dialog.open(DialogComponent, {
+            width: '100vw',
+            data: data
+          });
+          dialogRef.afterClosed().subscribe(result => {
+            if (result == 'load') {
+              this.list(['deleted', 'equal to', false]);
+            }
+          });
+        }
+      }, (data) => { 
+        console.log(data);
+      })
   }
 
   /**busca no banco de dados as ordens de serviço */
@@ -96,111 +90,61 @@ export class StorageComponent implements OnInit {
         'status': 'status'
       })
       .subscribe((data: Result_OS) => {
-        if (data.error == null) {
+        if (!data.error) {
           //inserção de dados na tabela
-          this.atendimento = 0;
-          this.desenvolvimento = 0;
-          this.aprovacao = 0;
-          this.editoracao = 0;
-          this.conferencia = 0;
-          this.gravacao = 0;
-          this.expedicao = 0;
-
-          for (let i = 0; i < data.results.length; i++) {
-            switch (data.results[i].status) {
-              case ('Atendimento'):
-                this.atendimento++;
-                break;
-              case ('Desenvolvimento'):
-                this.desenvolvimento++;
-                break;
-              case ('Aprovação'):
-                this.aprovacao++;
-                break;
-              case ('Editoração'):
-                this.editoracao++;
-                break;
-              case ('Conferência'):
-                this.conferencia++;
-                break;
-              case ('Gravação'):
-                this.gravacao++;
-                break;
-              case ('Expedição'):
-                this.expedicao++;
-                break;
-            }
-          }
           this.dataSource = new MatTableDataSource(data.results.reverse());
           this.dataSource.paginator = this.paginator;
           this.selection.clear();
-          this.check = true;
         } else {
           this.session(data.error_code);
         }
       }, (data) => {
+        console.log(data);
       });
   }
 
+  /** Conta o numero de OS arquivadas */
   count() {
-    this.apiService.custom_objects_count('os', ['deleted', 'equal to', false])
+    this.apiService.custom_objects_count('os', ['deleted', 'equal to', false, 'and', 'status', 'equal to', 'Arquivado'])
       .subscribe((data: Count) => {
-        if (data.error == null) {
+        if (!data.error) {
           this.all = data.count;
         } else {
           this.session(data.error_code);
         }
       }, (data) => {
+        console.log(data);
       });
-
   }
 
-  /** Muda o status dos itens selecionados na tabela */
-  flow(status: string) {
-    let selected = this.selection.selected;
-    for (let i = 0; i < selected.length; i++) {
-      this.apiService.custom_objects_set_keys('os', selected[i]._id, { 'status': status })
-        .subscribe((data) => {
-          if (i == (selected.length - 1)) {
-            this.list(['deleted', 'equal to', false]);
-          }
-        }, (data) => {
-        });
-    }
-  }
-
+  /** Retorna a OS aquivada para Expedição */
   storage(id) {
-    this.apiService.custom_objects_set_keys('os', id, { 'status': 'Arquivado' })
-      .subscribe((data) => {
-        this.list(['status', 'equal to', 'Expedição']);
+    this.apiService.custom_objects_set_keys('os', id, { 'status': 'Expedição' })
+      .subscribe((data: OS) => {
+        if(!data.error){
+          this.list(['deleted', 'equal to', false, 'and', 'status', 'equal to', 'Arquivado']);
+          this.openSnackBar('Ordem de serviço retornou para Expedição', 'ok');
+        }else{
+          this.session(data.error_code);
+        }
       }, (data) => {
+        console.log(data);
       });
-  }
-
-  /** Entra na pagina de cadastro de ordem de servico */
-  onAdd() {
-    if (localStorage.getItem('_id')) {
-      localStorage.removeItem('_id');
-    }
-    this.router.navigate(['/production/os']);
   }
 
   /** Marca a ordem de serviço como deletada */
   onDelete(id: string) {
     this.apiService.custom_objects_set_keys('os', id, { 'deleted': 'true' })
       .subscribe((data: Result_OS) => {
-        this.session(data.error_code);
-        this.list(['deleted', 'equal to', false]);
+        if(!data.error){
+          this.list(['deleted', 'equal to', false]);
+          this.openSnackBar('Ordem de serviço foi excluida', 'ok');
+        }else{
+          this.session(data.error_code);
+        }
       }, (data) => {
+        console.log(data);
       });
-  }
-
-  /** Edita a ordem de serviço */
-  onEdit(id: string) {
-    if (id != null) {
-      localStorage.setItem('_id', id);
-      this.router.navigate(['/production/os']);
-    }
   }
 
   /** Aplica um filtro na tabela */
@@ -223,6 +167,13 @@ export class StorageComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  /**Notificação*/
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 4000,
+    });
   }
 
   /** Verifica se a sessão e válida */
