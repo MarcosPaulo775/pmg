@@ -5,9 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MaterialModule } from './material.module';
 import { NgxMaskModule } from 'ngx-mask';
+import { DialogConfirmComponent } from 'src/app/components/confirm/confirm.component';
 
 @NgModule({
     declarations: [
+        DialogConfirmComponent
     ],
     imports: [
         CommonModule,
@@ -22,8 +24,9 @@ import { NgxMaskModule } from 'ngx-mask';
         ReactiveFormsModule,
         MaterialModule,
         HttpClientModule,
-        NgxMaskModule 
+        NgxMaskModule
     ],
     providers: [],
+    entryComponents: [DialogConfirmComponent],
 })
 export class SharedModule { }

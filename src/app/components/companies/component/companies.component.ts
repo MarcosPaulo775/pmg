@@ -5,6 +5,7 @@ import { MatDialog, MatPaginator, MatSnackBar, MatTableDataSource } from '@angul
 
 import { ApiService } from 'src/app/core/http/api.service';
 import { DialogComponent } from '../dialog/dialog.component';
+import { DialogConfirmComponent } from '../../confirm/confirm.component';
 import { CrmComponent } from '../../crm/component/crm.component';
 import { Result_Company } from 'src/app/shared/models/api';
 import { Company } from 'src/app/shared/models/company';
@@ -62,18 +63,25 @@ export class CompaniesComponent implements OnInit {
 
   /** Marca a empresa como deletada */
   onDelete(id: string) {
-    this.apiService.custom_objects_set_keys('company', id, { 'deleted': true })
-      .subscribe((data: Result_Company) => {
-        if (!data.error) {
-          this.list(['deleted', 'equal to', false]);
-          this.openSnackBar('Empresa deletada', 'ok');
-        } else {
-          this.session(data.error_code);
-        }
-      }, (data) => {
-        this.openSnackBar('Erro comunicar com o servidor', 'ok');
-        console.log(data);
-      });
+
+    const dialogRef = this.dialog.open(DialogConfirmComponent, { data: 'Deseja realmente excluir?' });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.apiService.custom_objects_set_keys('company', id, { 'deleted': true })
+          .subscribe((data: Result_Company) => {
+            if (!data.error) {
+              this.list(['deleted', 'equal to', false]);
+              this.openSnackBar('Empresa deletada', 'ok');
+            } else {
+              this.session(data.error_code);
+            }
+          }, (data) => {
+            this.openSnackBar('Erro comunicar com o servidor', 'ok');
+            console.log(data);
+          });
+      }
+    })
   }
 
   /** Abre a caixa de diálogo para visualizar os detalhes */

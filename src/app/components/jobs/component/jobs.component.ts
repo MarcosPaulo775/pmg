@@ -9,6 +9,7 @@ import { ProductionComponent } from '../../production/component/production.compo
 import { DialogComponent } from '../dialog/dialog.component';
 import { Result_OS, Count } from '../../../shared/models/api';
 import { OS } from '../../../shared/models/os';
+import { DialogConfirmComponent } from '../../confirm/confirm.component';
 
 @Component({
   selector: 'app-jobs',
@@ -101,7 +102,7 @@ export class JobsComponent implements OnInit {
           });
           dialogRef.afterClosed().subscribe(result => {
             if (result == 'load') {
-              this.list(['deleted', 'equal to', false]);
+              this.list(['deleted', 'equal to', false, 'and', 'status', 'not equal to', 'Arquivado']);
             }
           });
         }
@@ -299,7 +300,7 @@ export class JobsComponent implements OnInit {
       this.apiService.custom_objects_set_keys('os', selected[i]._id, { 'status': status })
         .subscribe((data) => {
           if (i == (selected.length - 1)) {
-            this.list(['deleted', 'equal to', false]);
+            this.list(['deleted', 'equal to', false, 'and', 'status', 'not equal to', 'Arquivado']);
           }
         }, (data) => {
           console.log(data);
@@ -333,18 +334,25 @@ export class JobsComponent implements OnInit {
 
   /** Marca a ordem de serviço como deletada */
   onDelete(id: string) {
-    this.apiService.custom_objects_set_keys('os', id, { 'deleted': 'true' })
-      .subscribe((data: Result_OS) => {
-        if (!data.error) {
-          this.list(['deleted', 'equal to', false]);
-          this.openSnackBar('Ordem de serviço deletada', 'ok');
-        } else {
-          this.session(data.error_code);
-        }
-      }, (data) => {
-        this.openSnackBar('Erro ao comunicar com servidor', 'ok');
-        console.log(data);
-      });
+
+    const dialogRef = this.dialog.open(DialogConfirmComponent, {data: 'Deseja realmente excluir?'});
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.apiService.custom_objects_set_keys('os', id, { 'deleted': 'true' })
+          .subscribe((data: Result_OS) => {
+            if (!data.error) {
+              this.list(['deleted', 'equal to', false, 'and', 'status', 'not equal to', 'Arquivado']);
+              this.openSnackBar('Ordem de serviço deletada', 'ok');
+            } else {
+              this.session(data.error_code);
+            }
+          }, (data) => {
+            this.openSnackBar('Erro ao comunicar com servidor', 'ok');
+            console.log(data);
+          });
+      }
+    })
   }
 
   /** Edita a ordem de serviço */

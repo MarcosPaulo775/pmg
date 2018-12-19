@@ -1,10 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar, MatDialog } from '@angular/material';
 
 import { ApiService } from 'src/app/core/http/api.service';
 import { AppService } from 'src/app/shared/Services/app.service';
+import { DialogConfirmComponent } from '../../confirm/confirm.component';
 import { Company } from 'src/app/shared/models/company';
 
 @Component({
@@ -16,14 +17,15 @@ export class DialogComponent {
 
   constructor(
     private router: Router,
-    
+
     @Inject(MAT_DIALOG_DATA) public company: Company,
     public dialogRef: MatDialogRef<DialogComponent>,
     public snackBar: MatSnackBar,
-    
+    public dialog: MatDialog,
+
     private apiService: ApiService,
     private appService: AppService,
-    ) { }
+  ) { }
 
   /**Fecha a janela de diálogo */
   onNoClick(): void {
@@ -39,18 +41,24 @@ export class DialogComponent {
 
   /** Marca o arquivo como deletado */
   onDelete() {
-    this.apiService.custom_objects_set_keys('company', this.company._id, { 'deleted': true })
-      .subscribe((data: Company) => {
-        if (!data.error) {
-          this.openSnackBar('Empresa deletada', 'ok');
-          this.dialogRef.close('load');
-        } else {
-          this.session(data.error_code);
-        }
-      }, (data) => {
-        this.openSnackBar('Erro comunicar com o servidor', 'ok');
-        console.log(data);
-      });
+    const dialogRef = this.dialog.open(DialogConfirmComponent, { data: 'Deseja realmente excluir?' });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.apiService.custom_objects_set_keys('company', this.company._id, { 'deleted': true })
+          .subscribe((data: Company) => {
+            if (!data.error) {
+              this.openSnackBar('Empresa deletada', 'ok');
+              this.dialogRef.close('load');
+            } else {
+              this.session(data.error_code);
+            }
+          }, (data) => {
+            this.openSnackBar('Erro comunicar com o servidor', 'ok');
+            console.log(data);
+          });
+      }
+    })
   }
 
   /** Imprime o layout */

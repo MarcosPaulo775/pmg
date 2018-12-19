@@ -1,12 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar, MatDialog } from '@angular/material';
 
 import { OS } from '../../../shared/models/os';
 import { Result_OS } from 'src/app/shared/models/api';
 import { ApiService } from 'src/app/core/http/api.service';
 import { AppService } from 'src/app/shared/Services/app.service';
+import { DialogConfirmComponent } from '../../confirm/confirm.component';
 
 @Component({
   selector: 'app-dialog',
@@ -21,6 +22,7 @@ export class DialogComponent {
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public os: OS,
     public snackBar: MatSnackBar,
+    public dialog: MatDialog,
 
     private apiService: ApiService,
     private appService: AppService
@@ -37,18 +39,24 @@ export class DialogComponent {
 
   /** Marca a OS como deletada */
   onDelete() {
-    this.apiService.custom_objects_set_keys('os', this.os._id, { 'deleted': true })
-      .subscribe((data: Result_OS) => {
-        if (!data.error) {
-          this.openSnackBar('Ordem de serviço deletada', 'ok');
-          this.dialogRef.close('load');
-        } else {
-          this.session(data.error_code);
-        }
-      }, (data) => {
-        this.openSnackBar('Erro ao comunicar com servidor', 'ok');
-        console.log(data);
-      });
+    const dialogRef = this.dialog.open(DialogConfirmComponent, {data: 'Deseja realmente excluir?'});
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.apiService.custom_objects_set_keys('os', this.os._id, { 'deleted': true })
+          .subscribe((data: Result_OS) => {
+            if (!data.error) {
+              this.openSnackBar('Ordem de serviço deletada', 'ok');
+              this.dialogRef.close('load');
+            } else {
+              this.session(data.error_code);
+            }
+          }, (data) => {
+            this.openSnackBar('Erro ao comunicar com servidor', 'ok');
+            console.log(data);
+          });
+      }
+    })
   }
 
   /** Imprime Layout */

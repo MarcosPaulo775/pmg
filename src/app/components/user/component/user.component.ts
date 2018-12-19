@@ -64,7 +64,7 @@ export class UserComponent implements OnInit {
 
     this.authService.get_current_user()
       .subscribe((data: User) => {
-        if (data.error!) {
+        if (!data.error) {
           this.user = data;
           this.preview();
 
