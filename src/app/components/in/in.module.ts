@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { RegisterRoutingModule } from './register-routing.module';
-import { RegisterComponent } from './component/register.component';
+import { InRoutingModule } from './in-routing.module';
+import { InComponent } from './component/in.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    RegisterRoutingModule,
+    InRoutingModule,
     SharedModule
   ],
   providers: [],
   entryComponents: [],
-  declarations: [RegisterComponent],
+  declarations: [InComponent],
 })
-export class RegisterModule { }
+export class InModule { }

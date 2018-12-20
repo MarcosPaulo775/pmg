@@ -5,8 +5,6 @@ import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './component/users.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
-import { ApiService } from 'src/app/core/http/api.service';
-import { NgxMaskModule } from 'ngx-mask';
 import { DialogComponent } from './dialog/dialog.component';
 import { DialogPassComponent } from './dialogPass/dialog.component';
 
@@ -14,10 +12,9 @@ import { DialogPassComponent } from './dialogPass/dialog.component';
   imports: [
     CommonModule,
     UsersRoutingModule,
-    SharedModule,
-    NgxMaskModule.forRoot()
+    SharedModule
   ],
-  providers: [ApiService],
+  providers: [],
   entryComponents: [DialogComponent, DialogPassComponent],
   declarations: [UsersComponent, DialogComponent, DialogPassComponent],
 })

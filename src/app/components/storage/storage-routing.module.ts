@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { StorageComponent } from './component/storage.component';
 
-
 const routes: Routes = [
   {
     path: '',

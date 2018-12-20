@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { JobsComponent } from './component/jobs.component';
 
-
 const routes: Routes = [
   {
     path: '',
