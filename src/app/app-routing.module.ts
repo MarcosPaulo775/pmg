@@ -33,6 +33,11 @@ const routes: Routes = [
     loadChildren: './components/crm/crm.module#CrmModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'stock',
+    loadChildren: './components/stock/stock.module#StockModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

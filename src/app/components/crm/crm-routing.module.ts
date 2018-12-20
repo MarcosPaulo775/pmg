@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { CrmComponent } from './component/crm.component';
 
-
 const routes: Routes = [
   {
     path: '',

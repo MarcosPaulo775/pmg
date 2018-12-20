@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { OsComponent } from './component/os.component';
 
-
 const routes: Routes = [
   {
     path: '',

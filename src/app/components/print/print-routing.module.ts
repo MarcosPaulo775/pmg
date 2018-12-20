@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PrintComponent } from './component/print.component';
 
-
 const routes: Routes = [
   {
     path: '',
