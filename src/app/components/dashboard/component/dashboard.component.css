@@ -88,11 +88,14 @@
   cursor: pointer;
 }
 
-.mat-icon-button{
+.mat-icon-button {
   margin-left: -20px;
   margin-right: -10px
 }
 
-.grafico{
-  width: 500px;
+.graphic {
+  width: 50vw;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #cccccc;
 }
