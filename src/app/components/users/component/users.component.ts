@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigComponent } from '../../config/component/config.component';
-import { AuthService } from 'src/app/core/authentication/auth.service';
-import { User } from 'src/app/shared/models/user';
+
 import { MatDialog, MatSnackBar } from '@angular/material';
+
+import { AppService } from 'src/app/shared/Services/app.service';
+import { AuthService } from 'src/app/core/authentication/auth.service';
 import { DialogComponent } from '../dialog/dialog.component';
-import { is_admin } from 'src/app/shared/models/api';
+import { ConfigComponent } from '../../config/component/config.component';
 import { DialogPassComponent } from '../dialogPass/dialog.component';
+import { User } from 'src/app/shared/models/user';
 
 @Component({
   selector: 'app-users',
@@ -15,14 +17,15 @@ import { DialogPassComponent } from '../dialogPass/dialog.component';
 export class UsersComponent implements OnInit {
 
   constructor(
-    public configComponent: ConfigComponent,
-    public authService: AuthService,
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
+
+    public authService: AuthService,
+    public appService: AppService,
+    public configComponent: ConfigComponent,
   ) { }
 
   users: User[];
-
   edit: boolean;
 
   ngOnInit() {
@@ -33,6 +36,7 @@ export class UsersComponent implements OnInit {
     this.getUser();
   }
 
+  /** Busca informações */
   getUser() {
     this.authService.users_list_users()
       .subscribe((data: User[]) => {
@@ -40,19 +44,25 @@ export class UsersComponent implements OnInit {
           this.users = data;
         }
       }, (data) => {
+        console.log(data);
       })
   }
 
+  /** Verifica se o usuario e admin */
   getAdmin() {
     this.authService.get_current_user()
       .subscribe((data: User) => {
-        if (data.error == null) {
+        if (!data.error) {
+        } else {
+          this.appService.session(data.error_code);
         }
-      }, () => { });
+      }, (data) => {
+        console.log(data);
+      });
   }
 
+  /** Abre janela para editar usuario */
   onEdit(user: User): void {
-
     this.authService.get_current_user()
       .subscribe((data: User) => {
         if (data.error == null) {
@@ -63,21 +73,18 @@ export class UsersComponent implements OnInit {
               data: user
             });
             dialogRef.afterClosed().subscribe(result => {
-              if (result) {
-
-              }
             });
           } else {
-            this.openSnackBar('Sem Permissão', 'ok');
+            this.appService.openSnackBar('Sem Permissão', 'ok');
           }
-
         }
       },
         (data) => {
-
+          console.log(data);
         });
   }
 
+  /** Abre janela para editar usuario */
   onPass(user: User): void {
     this.authService.get_current_user()
       .subscribe((data: User) => {
@@ -89,27 +96,15 @@ export class UsersComponent implements OnInit {
               data: user
             });
             dialogRef.afterClosed().subscribe(result => {
-              if (result) {
-
-              }
             });
           } else {
-            this.openSnackBar('Sem Permissão', 'ok');
+            this.appService.openSnackBar('Sem Permissão', 'ok');
           }
-
         }
       },
         (data) => {
-
+          console.log(data);
         });
-
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
   }
 
 }

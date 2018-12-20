@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { MatSelectChange, MatSnackBar } from '@angular/material';
+
 import { ApiService } from 'src/app/core/http/api.service';
+import { AppService } from 'src/app/shared/Services/app.service';
+import { CrmComponent } from '../../crm/component/crm.component';
 import { Company, State, City } from 'src/app/shared/models/company';
 import { Result_Item, Result_States, Result_Cities } from 'src/app/shared/models/api';
-import { EventEmitter } from 'events';
-import { MatSelectChange, MatSnackBar } from '@angular/material';
-import { CrmComponent } from '../../crm/component/crm.component';
-import { Router } from '@angular/router';
-import { AppService } from 'src/app/shared/Services/app.service';
+import { AuthService } from 'src/app/core/authentication/auth.service';
+import { User } from 'src/app/shared/models/user';
 
 @Component({
   selector: 'app-register',
@@ -28,24 +31,32 @@ export class RegisterComponent implements OnInit {
   cidades: City[];
   faturamento: string[];
   prazo: string[];
+  users: string[] = [];
 
   constructor(
-    private appService: AppService,
+    private router: Router,
     private formBuilder: FormBuilder,
+
+    public snackBar: MatSnackBar,
+
+    private appService: AppService,
+    private authService: AuthService,
     private apiService: ApiService,
     private crmComponent: CrmComponent,
-    public snackBar: MatSnackBar,
-    private router: Router,
   ) { }
 
   ngOnInit() {
-
     this.crmComponent.title = 'Cadastrar Empresa';
     this.crmComponent.company = '';
     this.crmComponent.dashboard = '';
 
     this.company = new Company();
 
+    this.initForm();
+  }
+
+  /** inicializa formulario */
+  initForm() {
     this.basicos = this.formBuilder.group({
       solicitante: [null, []],
       novo: [null, []],
@@ -107,44 +118,57 @@ export class RegisterComponent implements OnInit {
       this.getCompany();
     }
     else {
+      this.authService.users_list_users()
+        .subscribe((data: User[]) => {
+          if (data[0]) {
+            for (let i = 0; i < data.length; i++) {
+              this.users.push(data[i].fullname);
+            }
+          }
+        }, (data) => {
+          console.log(data);
+        })
+
       this.apiService.custom_objects_list('states', '', '')
         .subscribe((data_1: Result_States) => {
-          if (data_1.error_code == null) {
+          if (!data_1.error_code) {
             this.uf = new Array<State>();
             for (let i = 0; i < data_1.results.length; i++) {
               this.uf.push(data_1.results[i]);
             }
             this.cidades = new Array<City>();
-
           }
         }, (data) => {
+          console.log(data);
         });
 
       this.apiService.custom_objects_list('revenues', '', '')
         .subscribe((data: Result_Item) => {
-          if (data.error_code == null) {
+          if (!data.error_code) {
             this.faturamento = new Array<string>();
             for (let i = 0; i < data.results.length; i++) {
               this.faturamento.push(data.results[i].name);
             }
           }
         }, (data) => {
+          console.log(data);
         });
 
       this.apiService.custom_objects_list('term', '', '')
         .subscribe((data: Result_Item) => {
-          if (data.error_code == null) {
+          if (!data.error_code) {
             this.prazo = new Array<string>();
             for (let i = 0; i < data.results.length; i++) {
               this.prazo.push(data.results[i].name);
             }
           }
         }, (data) => {
+          console.log(data);
         });
     }
-
   }
 
+  /** Busca as cidades de acordo com o estado */
   onCidades(event: MatSelectChange) {
 
     if (event.value != this.company.uf) {
@@ -154,7 +178,7 @@ export class RegisterComponent implements OnInit {
 
           this.apiService.custom_objects_list('cities', ['state', 'equal to', this.uf[i].ID], null)
             .subscribe((data: Result_Cities) => {
-              if (data.error_code == null) {
+              if (!data.error_code) {
                 this.cidades = new Array<City>();
                 for (let i = 0; i < data.results.length; i++) {
                   this.cidades.push(data.results[i]);
@@ -163,31 +187,25 @@ export class RegisterComponent implements OnInit {
                 this.cadastrais.get('cidade').setValue(this.company.cidade);
               }
             }, (data) => {
+              console.log(data);
             });
         }
       }
     }
   }
 
-  users: string[] = [
-    'Leo',
-    'Sidnei',
-    'Lorival'
-  ];
-
+  /** Copia parte do formulario -- OBS: Nível de Preguiça e de mais de 8000 */
   copy() {
-
     this.company.financeiro = this.company.email_comercial;
     this.company.tel_financeiro = this.company.tel_comercial;
     this.company.email_financeiro = this.company.comercial;
     this.cadastrais.get('financeiro').setValue(this.cadastrais.get('comercial').value);
     this.cadastrais.get('tel_financeiro').setValue(this.cadastrais.get('tel_comercial').value);
     this.cadastrais.get('email_financeiro').setValue(this.cadastrais.get('email_comercial').value);
-
   }
 
+  /** Busca dados do formulario */
   getForm() {
-
     this.company.solicitante = this.basicos.get('solicitante').value;
     this.company.novo = this.basicos.get('novo').value;
     this.company.fisica = this.basicos.get('fisica').value;
@@ -236,16 +254,14 @@ export class RegisterComponent implements OnInit {
     this.company.email_pedido = this.outros.get('email_pedido').value;
 
     this.company.deleted = false;
-
   }
 
+  /** Preenche dados do formulario */
   getCompany() {
-
     this.apiService.custom_objects_get('company', localStorage.getItem('_id_company'))
       .subscribe((data: Company) => {
-        if (data.error == null) {
+        if (!data.error) {
           this.company = data;
-          this.basicos.get('solicitante').setValue(this.company.solicitante);
           this.basicos.get('novo').setValue(this.company.novo);
           this.basicos.get('fisica').setValue(this.company.fisica);
           this.basicos.get('juridica').setValue(this.company.juridica);
@@ -291,9 +307,24 @@ export class RegisterComponent implements OnInit {
           this.outros.get('email_materiais').setValue(this.company.email_materiais);
           this.outros.get('email_pedido').setValue(this.company.email_pedido);
 
+          this.authService.users_list_users()
+            .subscribe((data: User[]) => {
+              if (data[0]) {
+                for (let i = 0; i < data.length; i++) {
+                  this.users.push(data[i].fullname);
+                }
+                if (this.users.indexOf(this.company.solicitante)) {
+                  this.users.push(this.company.solicitante);
+                }
+                this.basicos.get('solicitante').setValue(this.company.solicitante);
+              }
+            }, (data) => {
+              console.log(data);
+            })
+
           this.apiService.custom_objects_list('revenues', '', '')
             .subscribe((data: Result_Item) => {
-              if (data.error_code == null) {
+              if (!data.error_code) {
                 this.faturamento = new Array<string>();
                 for (let i = 0; i < data.results.length; i++) {
                   this.faturamento.push(data.results[i].name);
@@ -301,11 +332,12 @@ export class RegisterComponent implements OnInit {
                 this.pagamento.get('faturamento').setValue(this.company.faturamento);
               }
             }, (data) => {
+              console.log(data);
             });
 
           this.apiService.custom_objects_list('term', '', '')
             .subscribe((data: Result_Item) => {
-              if (data.error_code == null) {
+              if (!data.error_code) {
                 this.prazo = new Array<string>();
                 for (let i = 0; i < data.results.length; i++) {
                   this.prazo.push(data.results[i].name);
@@ -313,11 +345,12 @@ export class RegisterComponent implements OnInit {
                 this.pagamento.get('prazo').setValue(this.company.prazo);
               }
             }, (data) => {
+              console.log(data);
             });
 
           this.apiService.custom_objects_list('states', '', '')
             .subscribe((data_1: Result_States) => {
-              if (data_1.error_code == null) {
+              if (!data_1.error_code) {
                 this.uf = new Array<State>();
                 for (let i = 0; i < data_1.results.length; i++) {
                   this.uf.push(data_1.results[i]);
@@ -335,28 +368,27 @@ export class RegisterComponent implements OnInit {
                           this.cadastrais.get('cidade').setValue(this.company.cidade);
                         }
                       }, (data) => {
+                        console.log(data);
                       });
                   }
                 }
                 this.cadastrais.get('uf').setValue(this.company.uf);
-
               }
             }, (data) => {
+              console.log(data);
             });
         } else {
+          this.appService.session(data.error_code);
         }
       }, (data) => {
-
+        console.log(data);
       });
-
-
   }
 
+  /** Verifica se vai salvar ou atualizar */
   onSubmit() {
-
     if (this.basicos.valid && this.cadastrais.valid && this.pagamento.valid && this.preco.valid && this.outros.valid) {
       this.getForm();
-
       if (!localStorage.getItem("_id_company")) {
         this.save();
       } else {
@@ -365,61 +397,44 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  /** salva dados */
   save() {
     this.apiService.custom_objects_create('company', this.company)
       .subscribe((data: Company) => {
-        if (data.error == null) {
+        if (!data.error) {
           this.company = data;
           localStorage.setItem('_id_company', this.company._id);
-          this.openSnackBar('Salvo', 'ok');
+          this.appService.openSnackBar('Salvo', 'ok');
         } else {
-          this.openSnackBar('Erro ao salvar', 'ok');
+          this.appService.openSnackBar('Erro ao salvar', 'ok');
         }
       }, (data) => {
-        this.openSnackBar('Erro ao salvar', 'ok');
+        this.appService.openSnackBar('Erro ao salvar', 'ok');
       });
   }
 
+  /** atualiza dados */
   update() {
     this.apiService.custom_objects_update('company', this.company)
       .subscribe((data: Company) => {
-        if (data.error == null) {
-          this.openSnackBar('Salvo', 'ok');
+        if (!data.error) {
+          this.appService.openSnackBar('Salvo', 'ok');
         } else {
-          this.openSnackBar('Erro ao salvar', 'ok');
+          this.appService.openSnackBar('Erro ao salvar', 'ok');
         }
       }, (data) => {
-        this.openSnackBar('Erro ao salvar', 'ok');
+        this.appService.openSnackBar('Erro ao salvar', 'ok');
       });
   }
 
+  /** Imprime Layout */
   print() {
-
     this.appService.printCompany(this.company);
-
   }
 
+  /** download do layout */
   downloadPDF() {
-
     this.appService.downloadCompany(this.company);
-
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
-  }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      this.openSnackBar('Sessão expirou', 'OK');
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
-    }
   }
 
 }

@@ -11,7 +11,8 @@ export class AuthService {
         private http: HttpClient,
         private router: Router
     ) { }
-    /** Autenticação */
+
+    /** Login */
     public create_session(user: string, pass: string) {
 
         return this.http.post(
@@ -24,6 +25,7 @@ export class AuthService {
         )
     }
 
+    /** logout */
     public logout() {
 
         if (localStorage.getItem('session')) {
@@ -33,9 +35,9 @@ export class AuthService {
             localStorage.removeItem('avatar');
         }
         this.router.navigate(['/login']);
-
     }
 
+    /** Busca dados do usuario ativo*/
     public get_current_user() {
 
         return this.http.post(
@@ -44,11 +46,10 @@ export class AuthService {
                 'session': localStorage.getItem('session'),
                 'method': 'auth.get_current_user'
             }
-
         )
-
     }
 
+    /** Busca todos os usuarios */
     public users_list_users() {
 
         return this.http.post(
@@ -57,11 +58,10 @@ export class AuthService {
                 'session': localStorage.getItem('session'),
                 'method': 'users.list_users'
             }
-
         )
-
     }
 
+    /** Verifica se o usuarip e admin*/
     public users_is_admin(user_id) {
 
         return this.http.post(
@@ -74,6 +74,7 @@ export class AuthService {
         )
     }
 
+    /** Busca os usuarios ativos */
     public portal_get_active_users() {
 
         return this.http.post(
@@ -82,10 +83,10 @@ export class AuthService {
                 'session': localStorage.getItem('session'),
                 'method': 'portal.get_active_users'
             }
-
         )
     }
 
+    /** Altera dados do usuario */
     public users_set_keys(id, key_data) {
         return this.http.post(
             URL.server,
@@ -95,10 +96,10 @@ export class AuthService {
                 'id': id,
                 'key_data': key_data
             }
-
         )
     }
 
+    /** Altera senha do usuario */
     public users_change_password(user_id, old_password, new_password) {
         return this.http.post(
             URL.server,
@@ -113,7 +114,8 @@ export class AuthService {
         )
     }
 
-    public users_get_user_id(username){
+    /** Busca ID do usuario pelo seu nome */
+    public users_get_user_id(username) {
         return this.http.post(
             URL.server,
             {

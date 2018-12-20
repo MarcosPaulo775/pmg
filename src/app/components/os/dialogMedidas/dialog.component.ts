@@ -13,17 +13,18 @@ export class DialogMedidasComponent {
 
   constructor(
     private http: HttpClient,
+
     public dialogRef: MatDialogRef<DialogMedidasComponent>,
-    @Inject(MAT_DIALOG_DATA) public os: string) { }
+    @Inject(MAT_DIALOG_DATA) public os: string
+  ) { }
 
   ok: boolean;
   invalid: boolean;
   progress: Subject<number>;
   percentDone: string;
   filename: string;
+
   /** Upload de arquivo */
-
-
   inputFileChange(event) {
 
     if (event.target.files && event.target.files[0] && event.target.files[0].type === 'application/pdf') {
@@ -68,6 +69,7 @@ export class DialogMedidasComponent {
     }
   }
 
+  /** Fecha a janela */
   onNoClick(): void {
     this.dialogRef.close(this.filename);
   }

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { MatSnackBar } from '@angular/material';
+
 import { AuthService } from '../../../core/authentication/auth.service';
 import { User } from '../../../shared/models/user';
 import { Session } from '../../../shared/models/api';
-import { MatSnackBar } from '@angular/material';
-
 
 @Component({
   selector: 'app-login',
@@ -19,10 +20,12 @@ export class LoginComponent implements OnInit {
   loading: boolean;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
     private router: Router,
-    public snackBar: MatSnackBar
+    private formBuilder: FormBuilder,
+
+    public snackBar: MatSnackBar,
+
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -51,8 +54,8 @@ export class LoginComponent implements OnInit {
             this.loading = false;
           }
         }, (data) => {
-            this.openSnackBar("Erro de conexão", "OK");
-            this.loading = false;
+          this.openSnackBar("Erro de conexão", "OK");
+          this.loading = false;
         });
     }
   }

@@ -1,8 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { User } from 'src/app/shared/models/user';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
+
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+import { User } from 'src/app/shared/models/user';
 import * as URL from '../../../core/http/url';
 
 @Component({

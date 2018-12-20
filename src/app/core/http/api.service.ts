@@ -9,6 +9,7 @@ export class ApiService {
 
     constructor(private http: HttpClient) { }
 
+    /** Salva um novo objeto */
     public custom_objects_create(collection, data) {
 
         return this.http.post(
@@ -20,9 +21,9 @@ export class ApiService {
                 'data': data
             }
         )
-
     }
 
+    /** Busca a quantidade de item em uma collection */
     public custom_objects_count(collection, query) {
 
         return this.http.post(
@@ -34,9 +35,9 @@ export class ApiService {
                 'query': query
             }
         )
-
     }
 
+    /** Deleta um objeto */
     public custom_objects_delete(collection, id) {
 
         return this.http.post(
@@ -48,9 +49,9 @@ export class ApiService {
                 'id': id
             }
         )
-
     }
 
+    /** Busca itens de uma collection */
     public custom_objects_list(collection, query, field) {
 
         return this.http.post(
@@ -65,6 +66,7 @@ export class ApiService {
         )
     }
 
+    /** atualiza dados de um item */
     public custom_objects_update(collection, data) {
 
         return this.http.post(
@@ -76,9 +78,9 @@ export class ApiService {
                 'data': data
             }
         )
-
     }
 
+    /** atualiza apenas os campos especificados de um item */
     public custom_objects_set_keys(collection, id, data) {
 
         return this.http.post(
@@ -91,9 +93,9 @@ export class ApiService {
                 'key_data': data
             }
         )
-
     }
 
+    /** Busca um objeto pelo seu ID */
     public custom_objects_get(collection, id) {
 
         return this.http.post(
@@ -107,6 +109,7 @@ export class ApiService {
         )
     }
 
+    /** Gera um string de uma imagem*/
     public metadata_get_preview(file, page, size) {
         return this.http.post(
             URL.server,
@@ -120,6 +123,7 @@ export class ApiService {
         )
     }
 
+    /** Inicia um fluxo do servidor */
     public hub_start_from_whitepaper_with_files_and_variables(whitepaper_name, input_name, files) {
         return this.http.post(
             URL.server,
@@ -133,6 +137,7 @@ export class ApiService {
         )
     }
 
+    /** Verifica status de um fluxo no servidor */
     public hub_get_waiting_room_of_workable(workable_id) {
         return this.http.post(
             URL.server,
@@ -142,7 +147,5 @@ export class ApiService {
                 'workable_id': workable_id
             }
         )
-
     }
-
 }

@@ -99,7 +99,6 @@ export interface DimensionColor {
     error?: string;
 }
 
-
 export class Delete {
     ok?: number;
     error_code?: string;

@@ -1,9 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
-import { User } from 'src/app/shared/models/user';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+
 import { AuthService } from 'src/app/core/authentication/auth.service';
+import { User } from 'src/app/shared/models/user';
 import { User_id } from 'src/app/shared/models/api';
+import { AppService } from 'src/app/shared/Services/app.service';
 
 @Component({
   selector: 'app-dialog',
@@ -16,10 +19,15 @@ export class DialogPassComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<DialogPassComponent>,
-    @Inject(MAT_DIALOG_DATA) public user: User) { }
+    @Inject(MAT_DIALOG_DATA) public user: User,
+
+    private authService: AuthService,
+    private appService: AppService
+
+  ) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -30,7 +38,6 @@ export class DialogPassComponent {
   }
 
   onSave() {
-
     if (this.form.valid) {
       if (this.form.get('new_password').value == this.form.get('new_password2').value) {
 
@@ -43,29 +50,29 @@ export class DialogPassComponent {
               ).subscribe((data: User_id) => {
 
                 if (data.error_code == 'Incorrect password') {
-                  this.openSnackBar('Senha incorreta', 'ok');
-                } else if (data.error_code == null) {
-                  this.openSnackBar('Senha alterada', 'ok');
+                  this.appService.openSnackBar('Senha incorreta', 'ok');
+                } else if (!data.error_code) {
+                  this.appService.openSnackBar('Senha alterada', 'ok');
                   this.dialogRef.close();
+                } else {
+                  this.appService.session(data.error_code);
                 }
-              }, () => { });
+              }, (data) => {
+                console.log(data);
+              });
             }
-          }, () => { })
+          }, (data) => {
+            console.log(data);
+          })
       } else {
-        this.openSnackBar('Senhas não coincidem', 'ok');
+        this.appService.openSnackBar('Senhas não coincidem', 'ok');
       }
     } else {
-      this.openSnackBar('Cadastre todos os campos', 'ok');
+      this.appService.openSnackBar('Cadastre todos os campos', 'ok');
     }
   }
 
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
-  }
-
+  /** Fecha janela */
   onNoClick(): void {
     this.dialogRef.close();
   }
