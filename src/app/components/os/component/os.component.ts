@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, Observable } from 'rxjs';
-import { map, startWith, delay } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
 
 import { MatSnackBar, MatDialog } from '@angular/material';
 
@@ -243,10 +243,10 @@ export class OsComponent implements OnInit {
           this.getDetail();
           this.details_view = true;
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
-        this.openSnackBar('Erro ao salvar', 'OK');
+        this.appService.openSnackBar('Erro ao salvar', 'OK');
       });
   }
 
@@ -627,13 +627,13 @@ export class OsComponent implements OnInit {
             localStorage.setItem('_id', data._id);
             localStorage.setItem('version', 'false');
             this.getOs();
-            this.openSnackBar('Nova Versão criada', 'OK');
+            this.appService.openSnackBar('Nova Versão criada', 'OK');
           } else {
-            this.session(data.error_code);
+            this.appService.session(data.error_code);
           }
         }, (data) => {
           console.log(data);
-          this.openSnackBar('Erro ao salvar', 'OK');
+          this.appService.openSnackBar('Erro ao salvar', 'OK');
         });
     }
 
@@ -648,11 +648,11 @@ export class OsComponent implements OnInit {
             localStorage.setItem('version', 'false');
             //this.openSnackBar('Salvo', 'OK');
           } else {
-            this.session(data.error_code);
+            this.appService.session(data.error_code);
           }
         }, (data) => {
           console.log(data);
-          this.openSnackBar('Erro ao salvar', 'OK');
+          this.appService.openSnackBar('Erro ao salvar', 'OK');
         });
     }
   }
@@ -672,11 +672,11 @@ export class OsComponent implements OnInit {
             }
           }
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
         console.log(data);
-        this.openSnackBar('Erro ao salvar', 'OK');
+        this.appService.openSnackBar('Erro ao salvar', 'OK');
       });
   }
 
@@ -686,13 +686,13 @@ export class OsComponent implements OnInit {
       .subscribe((data: Count) => {
         if (!data.error) {
           this.getOs();
-          this.openSnackBar('Salvo', 'OK');
+          this.appService.openSnackBar('Salvo', 'OK');
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
         console.log(data);
-        this.openSnackBar('Erro ao salvar', 'OK');
+        this.appService.openSnackBar('Erro ao salvar', 'OK');
       });
   }
 
@@ -896,7 +896,7 @@ export class OsComponent implements OnInit {
                 moeda = Number(data.results[0].top_flat_114);
               } else {
                 moeda = 0;
-                this.openSnackBar('Falta cadastrar a tecnologia e espessura e salvar', 'ok');
+                this.appService.openSnackBar('Falta cadastrar a tecnologia e espessura e salvar', 'ok');
               }
 
               moeda = moeda * 0.001;
@@ -934,23 +934,6 @@ export class OsComponent implements OnInit {
     localStorage.removeItem('_id');
     localStorage.setItem('version', 'true');
     this.save();
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
-  }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      this.openSnackBar('Sessão expirou', 'OK');
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
-    }
   }
 
   /** Download do Layout */

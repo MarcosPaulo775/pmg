@@ -378,7 +378,7 @@ export class RegisterComponent implements OnInit {
               console.log(data);
             });
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
         console.log(data);
@@ -404,12 +404,12 @@ export class RegisterComponent implements OnInit {
         if (!data.error) {
           this.company = data;
           localStorage.setItem('_id_company', this.company._id);
-          this.openSnackBar('Salvo', 'ok');
+          this.appService.openSnackBar('Salvo', 'ok');
         } else {
-          this.openSnackBar('Erro ao salvar', 'ok');
+          this.appService.openSnackBar('Erro ao salvar', 'ok');
         }
       }, (data) => {
-        this.openSnackBar('Erro ao salvar', 'ok');
+        this.appService.openSnackBar('Erro ao salvar', 'ok');
       });
   }
 
@@ -418,12 +418,12 @@ export class RegisterComponent implements OnInit {
     this.apiService.custom_objects_update('company', this.company)
       .subscribe((data: Company) => {
         if (!data.error) {
-          this.openSnackBar('Salvo', 'ok');
+          this.appService.openSnackBar('Salvo', 'ok');
         } else {
-          this.openSnackBar('Erro ao salvar', 'ok');
+          this.appService.openSnackBar('Erro ao salvar', 'ok');
         }
       }, (data) => {
-        this.openSnackBar('Erro ao salvar', 'ok');
+        this.appService.openSnackBar('Erro ao salvar', 'ok');
       });
   }
 
@@ -435,23 +435,6 @@ export class RegisterComponent implements OnInit {
   /** download do layout */
   downloadPDF() {
     this.appService.downloadCompany(this.company);
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
-  }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      this.openSnackBar('Sessão expirou', 'OK');
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
-    }
   }
 
 }

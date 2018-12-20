@@ -10,6 +10,7 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { Result_OS, Count } from '../../../shared/models/api';
 import { OS } from '../../../shared/models/os';
 import { DialogConfirmComponent } from '../../confirm/confirm.component';
+import { AppService } from 'src/app/shared/Services/app.service';
 
 @Component({
   selector: 'app-jobs',
@@ -70,6 +71,7 @@ export class JobsComponent implements OnInit {
     public snackBar: MatSnackBar,
 
     private apiService: ApiService,
+    private appService: AppService,
     private production: ProductionComponent
   ) { }
 
@@ -107,7 +109,7 @@ export class JobsComponent implements OnInit {
           });
         }
       }, (data) => {
-        this.openSnackBar('Erro ao comunicar com servidor', 'ok');
+        this.appService.openSnackBar('Erro ao comunicar com servidor', 'ok');
         console.log(data);
       })
   }
@@ -170,10 +172,10 @@ export class JobsComponent implements OnInit {
           this.selection.clear();
           this.check = true;
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
-        this.openSnackBar('Erro ao comunicar com servidor', 'ok');
+        this.appService.openSnackBar('Erro ao comunicar com servidor', 'ok');
         console.log(data);
       });
   }
@@ -284,10 +286,10 @@ export class JobsComponent implements OnInit {
         if (!data.error) {
           this.all = data.count;
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
-        this.openSnackBar('Erro ao comunicar com servidor', 'ok');
+        this.appService.openSnackBar('Erro ao comunicar com servidor', 'ok');
         console.log(data);
       });
 
@@ -314,12 +316,12 @@ export class JobsComponent implements OnInit {
       .subscribe((data: OS) => {
         if (!data.error) {
           this.list(['status', 'equal to', 'Expedição']);
-          this.openSnackBar('Ordem de serviço arquivada', 'ok');
+          this.appService.openSnackBar('Ordem de serviço arquivada', 'ok');
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
-        this.openSnackBar('Erro ao comunicar com servidor', 'ok');
+        this.appService.openSnackBar('Erro ao comunicar com servidor', 'ok');
         console.log(data);
       });
   }
@@ -343,12 +345,12 @@ export class JobsComponent implements OnInit {
           .subscribe((data: Result_OS) => {
             if (!data.error) {
               this.list(['deleted', 'equal to', false, 'and', 'status', 'not equal to', 'Arquivado']);
-              this.openSnackBar('Ordem de serviço deletada', 'ok');
+              this.appService.openSnackBar('Ordem de serviço deletada', 'ok');
             } else {
-              this.session(data.error_code);
+              this.appService.session(data.error_code);
             }
           }, (data) => {
-            this.openSnackBar('Erro ao comunicar com servidor', 'ok');
+            this.appService.openSnackBar('Erro ao comunicar com servidor', 'ok');
             console.log(data);
           });
       }
@@ -383,22 +385,6 @@ export class JobsComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
-    }
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
   }
 
 }

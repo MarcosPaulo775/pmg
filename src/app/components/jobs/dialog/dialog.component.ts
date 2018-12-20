@@ -46,13 +46,13 @@ export class DialogComponent {
         this.apiService.custom_objects_set_keys('os', this.os._id, { 'deleted': true })
           .subscribe((data: Result_OS) => {
             if (!data.error) {
-              this.openSnackBar('Ordem de serviço deletada', 'ok');
+              this.appService.openSnackBar('Ordem de serviço deletada', 'ok');
               this.dialogRef.close('load');
             } else {
-              this.session(data.error_code);
+              this.appService.session(data.error_code);
             }
           }, (data) => {
-            this.openSnackBar('Erro ao comunicar com servidor', 'ok');
+            this.appService.openSnackBar('Erro ao comunicar com servidor', 'ok');
             console.log(data);
           });
       }
@@ -67,22 +67,6 @@ export class DialogComponent {
   /** Faz download do layout */
   downloadPDF() {
     this.appService.downloadOS(this.os);
-  }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
-    }
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
   }
 
   /** Fecha a caixa de dialogo */

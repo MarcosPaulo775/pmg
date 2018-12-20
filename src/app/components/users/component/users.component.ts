@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { MatDialog, MatSnackBar } from '@angular/material';
 
+import { AppService } from 'src/app/shared/Services/app.service';
 import { AuthService } from 'src/app/core/authentication/auth.service';
 import { DialogComponent } from '../dialog/dialog.component';
 import { ConfigComponent } from '../../config/component/config.component';
@@ -17,12 +17,11 @@ import { User } from 'src/app/shared/models/user';
 export class UsersComponent implements OnInit {
 
   constructor(
-    private router: Router,
-
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
 
     public authService: AuthService,
+    public appService: AppService,
     public configComponent: ConfigComponent,
   ) { }
 
@@ -55,7 +54,7 @@ export class UsersComponent implements OnInit {
       .subscribe((data: User) => {
         if (!data.error) {
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
         console.log(data);
@@ -76,7 +75,7 @@ export class UsersComponent implements OnInit {
             dialogRef.afterClosed().subscribe(result => {
             });
           } else {
-            this.openSnackBar('Sem Permissão', 'ok');
+            this.appService.openSnackBar('Sem Permissão', 'ok');
           }
         }
       },
@@ -99,29 +98,13 @@ export class UsersComponent implements OnInit {
             dialogRef.afterClosed().subscribe(result => {
             });
           } else {
-            this.openSnackBar('Sem Permissão', 'ok');
+            this.appService.openSnackBar('Sem Permissão', 'ok');
           }
         }
       },
         (data) => {
           console.log(data);
         });
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
-  }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
-    }
   }
 
 }

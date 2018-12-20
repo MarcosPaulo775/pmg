@@ -1,9 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 
+import { AppService } from 'src/app/shared/Services/app.service';
 import { AuthService } from 'src/app/core/authentication/auth.service';
 import { User } from 'src/app/shared/models/user';
 import { _id } from 'src/app/shared/models/api';
@@ -19,13 +19,13 @@ export class DialogComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
 
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public user: User,
 
     private authService: AuthService,
+    private appService: AppService,
   ) { }
 
   ngOnInit() {
@@ -56,16 +56,16 @@ export class DialogComponent {
       ).subscribe((data: _id) => {
 
         if (!data.error) {
-          this.openSnackBar('Salvo', 'ok');
+          this.appService.openSnackBar('Salvo', 'ok');
           this.dialogRef.close();
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
         console.log(data);
       })
     } else {
-      this.openSnackBar('Cadastre todos os campos', 'ok');
+      this.appService.openSnackBar('Cadastre todos os campos', 'ok');
     }
 
   }
@@ -82,22 +82,6 @@ export class DialogComponent {
     this.form.get('name').setValue(this.user.fullname);
     this.form.get('username').setValue(this.user.username);
     this.form.get('email').setValue(this.user.email);
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
-  }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
-    }
   }
 
   /** Fecha janela */

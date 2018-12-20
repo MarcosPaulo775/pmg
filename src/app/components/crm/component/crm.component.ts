@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { MatSnackBar } from '@angular/material';
 
@@ -7,6 +6,7 @@ import { AuthService } from 'src/app/core/authentication/auth.service';
 import { ApiService } from 'src/app/core/http/api.service';
 import { User } from 'src/app/shared/models/user';
 import { Result_Avatar } from 'src/app/shared/models/api';
+import { AppService } from 'src/app/shared/Services/app.service';
 
 @Component({
   selector: 'app-crm',
@@ -22,12 +22,11 @@ export class CrmComponent implements OnInit {
   data: string;
 
   constructor(
-    private router: Router,
-
     public snackBar: MatSnackBar,
 
     private authService: AuthService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private appService: AppService
   ) { }
 
   ngOnInit() {
@@ -50,10 +49,10 @@ export class CrmComponent implements OnInit {
           localStorage.setItem('userid', this.user._id);
           this.preview();
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
-        this.openSnackBar('Erro ao comunicar com servidor', 'ok');
+        this.appService.openSnackBar('Erro ao comunicar com servidor', 'ok');
         console.log(data);
       })
   }
@@ -67,31 +66,15 @@ export class CrmComponent implements OnInit {
             this.data = data.results[0].data;
             localStorage.setItem('avatar', this.data);
           } else {
-            this.session(data.error_code);
+            this.appService.session(data.error_code);
             this.data = 'assets/logo.svg';
             localStorage.setItem('avatar', this.data);
           }
         }, (data) => {
-          this.openSnackBar('Erro ao comunicar com servidor', 'ok');
+          this.appService.openSnackBar('Erro ao comunicar com servidor', 'ok');
           console.log(data);
         }
       )
-  }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
-    }
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
   }
 
   @Input()

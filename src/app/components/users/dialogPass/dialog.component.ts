@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 
 import { AuthService } from 'src/app/core/authentication/auth.service';
 import { User } from 'src/app/shared/models/user';
 import { User_id } from 'src/app/shared/models/api';
+import { AppService } from 'src/app/shared/Services/app.service';
 
 @Component({
   selector: 'app-dialog',
@@ -18,7 +18,6 @@ export class DialogPassComponent {
   form: FormGroup;
 
   constructor(
-    private router: Router,
     private formBuilder: FormBuilder,
 
     public snackBar: MatSnackBar,
@@ -26,6 +25,8 @@ export class DialogPassComponent {
     @Inject(MAT_DIALOG_DATA) public user: User,
 
     private authService: AuthService,
+    private appService: AppService
+
   ) { }
 
   ngOnInit() {
@@ -49,12 +50,12 @@ export class DialogPassComponent {
               ).subscribe((data: User_id) => {
 
                 if (data.error_code == 'Incorrect password') {
-                  this.openSnackBar('Senha incorreta', 'ok');
+                  this.appService.openSnackBar('Senha incorreta', 'ok');
                 } else if (!data.error_code) {
-                  this.openSnackBar('Senha alterada', 'ok');
+                  this.appService.openSnackBar('Senha alterada', 'ok');
                   this.dialogRef.close();
                 } else {
-                  this.session(data.error_code);
+                  this.appService.session(data.error_code);
                 }
               }, (data) => {
                 console.log(data);
@@ -64,26 +65,10 @@ export class DialogPassComponent {
             console.log(data);
           })
       } else {
-        this.openSnackBar('Senhas não coincidem', 'ok');
+        this.appService.openSnackBar('Senhas não coincidem', 'ok');
       }
     } else {
-      this.openSnackBar('Cadastre todos os campos', 'ok');
-    }
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
-  }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
+      this.appService.openSnackBar('Cadastre todos os campos', 'ok');
     }
   }
 

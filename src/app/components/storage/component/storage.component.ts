@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Router } from '@angular/router';
 
 import { MatPaginator, MatTableDataSource, MatSnackBar, MatDialog } from '@angular/material';
 
@@ -9,6 +8,7 @@ import { ProductionComponent } from '../../production/component/production.compo
 import { DialogComponent } from '../../storage/dialog/dialog.component';
 import { Result_OS, Count } from '../../../shared/models/api';
 import { OS } from '../../../shared/models/os';
+import { AppService } from 'src/app/shared/Services/app.service';
 
 @Component({
   selector: 'app-storage',
@@ -38,12 +38,11 @@ export class StorageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
-    private router: Router,
-
     public snackBar: MatSnackBar,
     public dialog: MatDialog,
 
     private apiService: ApiService,
+    private appService: AppService,
     private production: ProductionComponent
   ) { }
 
@@ -96,7 +95,7 @@ export class StorageComponent implements OnInit {
           this.dataSource.paginator = this.paginator;
           this.selection.clear();
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
         console.log(data);
@@ -110,7 +109,7 @@ export class StorageComponent implements OnInit {
         if (!data.error) {
           this.all = data.count;
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
         console.log(data);
@@ -123,9 +122,9 @@ export class StorageComponent implements OnInit {
       .subscribe((data: OS) => {
         if(!data.error){
           this.list(['deleted', 'equal to', false, 'and', 'status', 'equal to', 'Arquivado']);
-          this.openSnackBar('Ordem de serviço retornou para Expedição', 'ok');
+          this.appService.openSnackBar('Ordem de serviço retornou para Expedição', 'ok');
         }else{
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
         console.log(data);
@@ -138,9 +137,9 @@ export class StorageComponent implements OnInit {
       .subscribe((data: Result_OS) => {
         if(!data.error){
           this.list(['deleted', 'equal to', false]);
-          this.openSnackBar('Ordem de serviço foi excluida', 'ok');
+          this.appService.openSnackBar('Ordem de serviço foi excluida', 'ok');
         }else{
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
         console.log(data);
@@ -167,22 +166,6 @@ export class StorageComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
-  }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
-    }
   }
 
 }

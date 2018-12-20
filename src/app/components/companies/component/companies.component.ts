@@ -9,6 +9,7 @@ import { DialogConfirmComponent } from '../../confirm/confirm.component';
 import { CrmComponent } from '../../crm/component/crm.component';
 import { Result_Company } from 'src/app/shared/models/api';
 import { Company } from 'src/app/shared/models/company';
+import { AppService } from 'src/app/shared/Services/app.service';
 
 @Component({
   selector: 'app-companies',
@@ -24,6 +25,7 @@ export class CompaniesComponent implements OnInit {
     public snackBar: MatSnackBar,
 
     private apiService: ApiService,
+    private appService: AppService,
     private crmComponent: CrmComponent,
   ) { }
 
@@ -72,12 +74,12 @@ export class CompaniesComponent implements OnInit {
           .subscribe((data: Result_Company) => {
             if (!data.error) {
               this.list(['deleted', 'equal to', false]);
-              this.openSnackBar('Empresa deletada', 'ok');
+              this.appService.openSnackBar('Empresa deletada', 'ok');
             } else {
-              this.session(data.error_code);
+              this.appService.session(data.error_code);
             }
           }, (data) => {
-            this.openSnackBar('Erro comunicar com o servidor', 'ok');
+            this.appService.openSnackBar('Erro comunicar com o servidor', 'ok');
             console.log(data);
           });
       }
@@ -106,10 +108,10 @@ export class CompaniesComponent implements OnInit {
           this.dataSource = new MatTableDataSource(data.results);
           this.dataSource.paginator = this.paginator;
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
-        this.openSnackBar('Erro comunicar com o servidor', 'ok');
+        this.appService.openSnackBar('Erro comunicar com o servidor', 'ok');
         console.log(data);
       });
   }
@@ -120,22 +122,6 @@ export class CompaniesComponent implements OnInit {
       localStorage.removeItem('_id_company');
     }
     this.router.navigate(['/crm/register']);
-  }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
-    }
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
   }
 
 }

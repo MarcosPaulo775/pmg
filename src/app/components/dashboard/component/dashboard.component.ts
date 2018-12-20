@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material';
 
 import { AuthService } from 'src/app/core/authentication/auth.service';
 import { User } from 'src/app/shared/models/user';
+import { AppService } from 'src/app/shared/Services/app.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,11 +17,10 @@ export class DashboardComponent implements OnInit {
   user: User;
 
   constructor(
-    private router: Router,
-
     public snackBar: MatSnackBar,
 
-    private authService: AuthService
+    private authService: AuthService,
+    private appService: AppService
   ) { }
 
   ngOnInit() {
@@ -40,27 +40,11 @@ export class DashboardComponent implements OnInit {
           this.user = data;
           localStorage.setItem('userid', this.user._id);
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
-        this.openSnackBar('Erro ao comunicar com servidor', 'ok');
+        this.appService.openSnackBar('Erro ao comunicar com servidor', 'ok');
         console.log(data);
       })
-  }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
-    }
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
   }
 }

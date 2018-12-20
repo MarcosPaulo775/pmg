@@ -3,6 +3,8 @@ import { OS } from '../models/os';
 import * as jsPDF from 'jspdf';
 import * as IMG from '../../shared/models/img';
 import { Company } from '../models/company';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 
 @Injectable({
@@ -10,7 +12,26 @@ import { Company } from '../models/company';
 })
 export class AppService {
 
-    constructor() { }
+    constructor(
+        private router: Router,
+        public snackBar: MatSnackBar,
+    ) { }
+
+    /**Notificação*/
+    openSnackBar(message: string, action: string) {
+        this.snackBar.open(message, action, {
+            duration: 4000,
+        });
+    }
+
+    /** Verifica se a sessão e válida */
+    session(error_code: string) {
+        if (error_code == 'invalid_session') {
+            if (localStorage.getItem('session')) {
+                localStorage.removeItem('session');
+            } this.router.navigate(['/login']);
+        }
+    }
 
     os: OS;
     company: Company;

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { MatDialog, MatSnackBar } from '@angular/material';
 
@@ -10,6 +9,7 @@ import { ConfigComponent } from '../../config/component/config.component';
 import { DialogAvatarComponent } from '../dialogAvatar/dialog.component';
 import { User, Avatar, Permissoes } from 'src/app/shared/models/user';
 import { Result_Avatar, Result_Delete, User_id, Data, _id } from 'src/app/shared/models/api';
+import { AppService } from 'src/app/shared/Services/app.service';
 
 @Component({
   selector: 'app-user',
@@ -26,15 +26,15 @@ export class UserComponent implements OnInit {
   data: string;
 
   constructor(
-    private router: Router,
     private formBuilder: FormBuilder,
 
     public snackBar: MatSnackBar,
     public dialog: MatDialog,
     
-    public authService: AuthService,
-    public apiService: ApiService,
-    public configComponent: ConfigComponent
+    private authService: AuthService,
+    private apiService: ApiService,
+    private appService: AppService,
+    private configComponent: ConfigComponent
   ) { }
 
   ngOnInit() {
@@ -129,7 +129,7 @@ export class UserComponent implements OnInit {
           }
           this.getUser();
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
         console.log(data);
@@ -148,15 +148,15 @@ export class UserComponent implements OnInit {
         }
       ).subscribe((data: _id) => {
         if (!data.error) {
-          this.openSnackBar('Dados do usuario salvo', 'ok');
+          this.appService.openSnackBar('Dados do usuario salvo', 'ok');
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
         }
       }, (data) => {
         console.log(data);
       })
     } else {
-      this.openSnackBar('Cadastre todos os campos', 'ok');
+      this.appService.openSnackBar('Cadastre todos os campos', 'ok');
     }
   }
 
@@ -171,9 +171,9 @@ export class UserComponent implements OnInit {
               this.authService.users_change_password(data.user_id, this.password.get('old_password').value, this.password.get('new_password').value)
                 .subscribe((data: User_id) => {
                   if (!data.error) {
-                    this.openSnackBar('Senha alterada', 'ok');
+                    this.appService.openSnackBar('Senha alterada', 'ok');
                   } else {
-                    this.session(data.error_code);
+                    this.appService.session(data.error_code);
                   }
                 }, (data) => {
                   console.log(data);
@@ -183,10 +183,10 @@ export class UserComponent implements OnInit {
             console.log(data);
           })
       } else {
-        this.openSnackBar('Senhas não coincidem', 'ok');
+        this.appService.openSnackBar('Senhas não coincidem', 'ok');
       }
     } else {
-      this.openSnackBar('Cadastre todos os campos', 'ok');
+      this.appService.openSnackBar('Cadastre todos os campos', 'ok');
     }
   }
 
@@ -226,7 +226,7 @@ export class UserComponent implements OnInit {
             this.data = data.results[0].data;
             localStorage.setItem('avatar', this.data);
           } else {
-            this.session(data.error_code);
+            this.appService.session(data.error_code);
             this.data = 'assets/logo.svg';
             localStorage.setItem('avatar', this.data);
           }
@@ -249,11 +249,11 @@ export class UserComponent implements OnInit {
                   this.configComponent.setData = this.data;
                   localStorage.setItem('avatar', this.data);
                 } else {
-                  this.session(data.error_code);
+                  this.appService.session(data.error_code);
                 }
               });
           } else {
-            this.session(data.error_code);
+            this.appService.session(data.error_code);
           }
         }, (data) => {
           console.log(data);
@@ -282,9 +282,9 @@ export class UserComponent implements OnInit {
                     .subscribe(
                       (data: Avatar) => {
                         if (!data.error) {
-                          this.openSnackBar('Avatar salvo', 'ok')
+                          this.appService.openSnackBar('Avatar salvo', 'ok')
                         } else {
-                          this.session(data.error_code);
+                          this.appService.session(data.error_code);
                         }
                       }, (data) => {
                         console.log(data);
@@ -298,9 +298,9 @@ export class UserComponent implements OnInit {
                     .subscribe(
                       (data: Avatar) => {
                         if (!data.error) {
-                          this.openSnackBar('Avatar salvo', 'ok')
+                          this.appService.openSnackBar('Avatar salvo', 'ok')
                         } else {
-                          this.session(data.error_code);
+                          this.appService.session(data.error_code);
                         }
                       }, (data) => {
                         console.log(data);
@@ -312,29 +312,13 @@ export class UserComponent implements OnInit {
               }
             )
         } else {
-          this.session(data.error_code);
+          this.appService.session(data.error_code);
           this.data = 'assets/logo.svg';
           localStorage.setItem('avatar', this.data);
         }
       }, (data) => {
         console.log(data);
       });
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
-  }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
-    }
   }
 
 }

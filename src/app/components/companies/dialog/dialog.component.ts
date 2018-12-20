@@ -48,13 +48,13 @@ export class DialogComponent {
         this.apiService.custom_objects_set_keys('company', this.company._id, { 'deleted': true })
           .subscribe((data: Company) => {
             if (!data.error) {
-              this.openSnackBar('Empresa deletada', 'ok');
+              this.appService.openSnackBar('Empresa deletada', 'ok');
               this.dialogRef.close('load');
             } else {
-              this.session(data.error_code);
+              this.appService.session(data.error_code);
             }
           }, (data) => {
-            this.openSnackBar('Erro comunicar com o servidor', 'ok');
+            this.appService.openSnackBar('Erro comunicar com o servidor', 'ok');
             console.log(data);
           });
       }
@@ -70,22 +70,4 @@ export class DialogComponent {
   downloadPDF() {
     this.appService.downloadCompany(this.company);
   }
-
-  /** Verifica se a sessão e válida */
-  session(error_code: string) {
-    if (error_code == 'invalid_session') {
-      if (localStorage.getItem('session')) {
-        localStorage.removeItem('session');
-      } this.router.navigate(['/login']);
-      this.dialogRef.close();
-    }
-  }
-
-  /**Notificação*/
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 4000,
-    });
-  }
-
 }
