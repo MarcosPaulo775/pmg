@@ -7,6 +7,9 @@ import { MaterialModule } from './material.module';
 import { NgxMaskModule } from 'ngx-mask';
 import { DialogConfirmComponent } from 'src/app/components/confirm/confirm.component';
 
+/** Modulo com a biblioteca dos graficos */
+import { PrimeNgModule } from './prime-ng.module';
+
 @NgModule({
     declarations: [
         DialogConfirmComponent
@@ -17,14 +20,16 @@ import { DialogConfirmComponent } from 'src/app/components/confirm/confirm.compo
         ReactiveFormsModule,
         MaterialModule,
         HttpClientModule,
-        NgxMaskModule.forRoot()
+        NgxMaskModule.forRoot(),
+        PrimeNgModule
     ],
     exports: [
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
         HttpClientModule,
-        NgxMaskModule
+        NgxMaskModule,
+        PrimeNgModule
     ],
     providers: [],
     entryComponents: [DialogConfirmComponent],
