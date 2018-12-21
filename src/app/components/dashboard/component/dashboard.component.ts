@@ -5,6 +5,8 @@ import { MatSnackBar } from '@angular/material';
 import { AuthService } from 'src/app/core/authentication/auth.service';
 import { User } from 'src/app/shared/models/user';
 import { AppService } from 'src/app/shared/Services/app.service';
+import { ApiService } from 'src/app/core/http/api.service';
+import { Result_OS } from 'src/app/shared/models/api';
 
 
 @Component({
@@ -15,19 +17,38 @@ import { AppService } from 'src/app/shared/Services/app.service';
 export class DashboardComponent implements OnInit {
 
   user: User;
-  month = 'Janeiro';
   data: any;
   options: any;
-
+  date: Date;
+  day: string[];
+  goal: number[];
+  replacement: number[];
+  month = [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro'
+  ];
+  view: boolean;
+  sum = 0;
   constructor(
     public snackBar: MatSnackBar,
     private authService: AuthService,
-    private appService: AppService
+    private appService: AppService,
+    private apiService: ApiService
   ) { }
 
   ngOnInit() {
     this.getUser();
-    this.setGrafic();
+    this.getReplacement();
   }
 
   /** Realiza o logout */
@@ -51,21 +72,63 @@ export class DashboardComponent implements OnInit {
       })
   }
 
+  /** Faz a busca de OS de reposição do mes */
+  getReplacement() {
+    this.date = new Date();
+    this.day = new Array<string>();
+    this.goal = new Array<number>();
+    this.replacement = new Array<number>();
+
+    const query = [
+      'deleted', 'equal to', false,
+      'and',
+      'status', 'equal to', 'Arquivado',
+      'and',
+      'pedido', 'equal to', 'Retrabalho',
+      'and',
+      'data', 'contains', String(this.date.getFullYear()) + '-' + String(this.date.getMonth() + 1)
+    ];
+
+    this.apiService.custom_objects_list('os', query, { 'data': 'data' })
+      .subscribe((data: Result_OS) => {
+        if (!data.error) {
+          for (let i = 0; i < this.date.getDate(); i++) {
+            this.goal.push(20);
+            this.day.push('Dia ' + String(i + 1));
+            this.replacement.push(0);
+          }
+          for (let j = 0; j < data.results.length; j++) {
+            let day = Number(data.results[j].data.split('-')[2]);
+            this.replacement[day - 1]++;
+          }
+          for (let k = 0; k < this.date.getDate(); k++) {
+            this.replacement[k + 1] = this.replacement[k + 1] + this.replacement[k];
+          }
+          this.setGrafic();
+        } else {
+          this.appService.session(data.error_code);
+        }
+      }, (data) => {
+        console.log(data);
+      });
+  }
+
   /** Seta as informações do grafico */
   setGrafic() {
+
     this.data = {
-      labels: ['Dia 1', 'Dia 2', 'Dia 3', 'Dia 4', 'Dia 5', 'Dia 6', 'Dia 7'], //labels: this.variavel (aqui vc coloca os dias q serão mostrados por ex so os dias q si passaram q vao mostrar)
+      labels: this.day, //labels: this.variavel (aqui vc coloca os dias q serão mostrados por ex so os dias q si passaram q vao mostrar)
       datasets: [
         {
           label: 'Nº Reposição', //Aqui você coloca si vai ser em R$ ou em quantidade de Retrabalho so por organização
           fill: false, //si true ele pinta abaixo da linha tudo
           backgroundColor: 'blue',
           borderColor: 'blue',
-          data: [1, 3, 5, 6, 7, 7, 15] //data: this.variavel (aqui são os valores por dia em sequencia)
+          data: this.replacement //data: this.variavel (aqui são os valores por dia em sequencia)
         },
         {
           label: 'Meta Mensal',
-          data: [20, 20, 20, 20, 20, 20, 20],
+          data: this.goal,
           fill: false,
           borderColor: 'red',
         }
@@ -75,13 +138,15 @@ export class DashboardComponent implements OnInit {
     this.options = {
       title: {
         display: true,
-        text: 'Reposição de ' + this.month, // Aqui é o titulo si vc quiser colocar o nome do mes ou nem colocar ai e com vc
+        text: 'Reposição de ' + this.month[this.date.getMonth()], // Aqui é o titulo si vc quiser colocar o nome do mes ou nem colocar ai e com vc
         fontSize: 18
       },
       legend: {
         position: 'none' //si quiser uma legenda para falar tipo linha vermelha é isso e so colocar a posição(ex: top , bottom)
       }
     };
+
+    this.view = true;
   }
 
 }

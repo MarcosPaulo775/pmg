@@ -74,8 +74,9 @@
   </div>
   <!-- Grafíco -->
   <mat-card class="graphic">
-
-    <p-chart type="line" [data]="data" [options]="options" width="50vw" height="40vh"></p-chart>
-
+    <div fxLayoutAlign="center" style="width: 100%;">
+      <mat-spinner *ngIf="!(data && view)"></mat-spinner>
+    </div>
+    <p-chart *ngIf="data && view" type="line" [data]="data" [options]="options" width="50vw" height="40vh"></p-chart>
   </mat-card>
 </div>

@@ -117,7 +117,7 @@ export class JobsComponent implements OnInit {
   /**busca no banco de dados as ordens de serviço */
   list(query) {
 
-    this.count();
+    //this.count();
 
     this.apiService.custom_objects_list('os', query,
       {
@@ -131,6 +131,7 @@ export class JobsComponent implements OnInit {
       .subscribe((data: Result_OS) => {
         if (!data.error) {
 
+          this.all = data.results.length;
           this.atendimento = 0;
           this.desenvolvimento = 0;
           this.aprovacao = 0;
@@ -292,7 +293,6 @@ export class JobsComponent implements OnInit {
         this.appService.openSnackBar('Erro ao comunicar com servidor', 'ok');
         console.log(data);
       });
-
   }
 
   /** Muda o status dos itens selecionados na tabela */
