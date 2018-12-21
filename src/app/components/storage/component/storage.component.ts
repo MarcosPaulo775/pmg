@@ -9,6 +9,7 @@ import { DialogComponent } from '../../storage/dialog/dialog.component';
 import { Result_OS, Count } from '../../../shared/models/api';
 import { OS } from '../../../shared/models/os';
 import { AppService } from 'src/app/shared/Services/app.service';
+import { DialogConfirmComponent } from '../../confirm/confirm.component';
 
 @Component({
   selector: 'app-storage',
@@ -67,18 +68,18 @@ export class StorageComponent implements OnInit {
           });
           dialogRef.afterClosed().subscribe(result => {
             if (result == 'load') {
-              this.list(['deleted', 'equal to', false]);
+              this.list(['deleted', 'equal to', false, 'and', 'status', 'equal to', 'Arquivado']);
             }
           });
         }
-      }, (data) => { 
+      }, (data) => {
         console.log(data);
       })
   }
 
   /**busca no banco de dados as ordens de serviço */
   list(query) {
-    this.count();
+    //this.count();
     this.apiService.custom_objects_list('os', query,
       {
         'nome': 'nome',
@@ -91,6 +92,7 @@ export class StorageComponent implements OnInit {
       .subscribe((data: Result_OS) => {
         if (!data.error) {
           //inserção de dados na tabela
+          this.all = data.results.length;
           this.dataSource = new MatTableDataSource(data.results.reverse());
           this.dataSource.paginator = this.paginator;
           this.selection.clear();
@@ -120,10 +122,10 @@ export class StorageComponent implements OnInit {
   storage(id) {
     this.apiService.custom_objects_set_keys('os', id, { 'status': 'Expedição' })
       .subscribe((data: OS) => {
-        if(!data.error){
+        if (!data.error) {
           this.list(['deleted', 'equal to', false, 'and', 'status', 'equal to', 'Arquivado']);
           this.appService.openSnackBar('Ordem de serviço retornou para Expedição', 'ok');
-        }else{
+        } else {
           this.appService.session(data.error_code);
         }
       }, (data) => {
@@ -133,17 +135,24 @@ export class StorageComponent implements OnInit {
 
   /** Marca a ordem de serviço como deletada */
   onDelete(id: string) {
-    this.apiService.custom_objects_set_keys('os', id, { 'deleted': 'true' })
-      .subscribe((data: Result_OS) => {
-        if(!data.error){
-          this.list(['deleted', 'equal to', false]);
-          this.appService.openSnackBar('Ordem de serviço foi excluida', 'ok');
-        }else{
-          this.appService.session(data.error_code);
-        }
-      }, (data) => {
-        console.log(data);
-      });
+
+    const dialogRef = this.dialog.open(DialogConfirmComponent, { data: 'Deseja realmente excluir?' });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.apiService.custom_objects_set_keys('os', id, { 'deleted': 'true' })
+          .subscribe((data: Result_OS) => {
+            if (!data.error) {
+              this.list(['deleted', 'equal to', false, 'and', 'status', 'equal to', 'Arquivado']);
+              this.appService.openSnackBar('Ordem de serviço foi excluida', 'ok');
+            } else {
+              this.appService.session(data.error_code);
+            }
+          }, (data) => {
+            console.log(data);
+          });
+      }
+    })
   }
 
   /** Aplica um filtro na tabela */

@@ -7,7 +7,7 @@
   background-color: rgb(0, 105, 204);
   color: rgba(255, 255, 255, .60);
   height: 200px;
-  width: 200px;
+  width: 10vw;
   font-size: 140%;
   font-family: "Open Sans"
 }
@@ -88,11 +88,14 @@
   cursor: pointer;
 }
 
-.mat-icon-button{
+.mat-icon-button {
   margin-left: -20px;
   margin-right: -10px
 }
 
-.grafico{
-  width: 500px;
+.graphic {
+  width: 50vw;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #cccccc;
 }
