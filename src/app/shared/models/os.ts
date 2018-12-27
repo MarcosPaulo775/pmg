@@ -1,3 +1,5 @@
+import { Item } from "./api";
+
 export class OS {
   _id?: string;
   os?: string;
@@ -5,6 +7,7 @@ export class OS {
   nome?: string;
   cliente?: string;
   pedido?: string;
+  data_inicio?: string;
   data?: string;
   codigo?: string;
   barra?: string;
@@ -78,6 +81,10 @@ export class OS {
   obs_financeiro?: string;
 
   valor?: string;
+  valor_cm?: string;
+  area?: string;
+
+  cnpj?: string;
 
   error_code?: string;
   error?: string;
@@ -111,5 +118,30 @@ export class FormColor {
   colors: Color[];
   lineatura: string[];
   angulo: string[];
+}
 
+export class XmlOs {
+  cnpj?: string;
+  core?: string;
+  value?: number;
+  n?: number;
+}
+
+export class Details{
+
+  technology?: string[];
+  variation?: string[];
+  material?: string[];
+  substrate?: string[];
+  thickness?: string[];
+  layer?: string[];
+  local?: string[];
+  lineatura?: string[];
+  angle?: string[];
+  profile?: string[];
+  face?: string[];
+  double?: string[];
+
+  error_code?: string;
+  error?: string;
 }

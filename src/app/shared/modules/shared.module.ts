@@ -5,10 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MaterialModule } from './material.module';
 import { NgxMaskModule } from 'ngx-mask';
-import { DialogConfirmComponent } from 'src/app/components/confirm/confirm.component';
-
-/** Modulo com a biblioteca dos graficos */
+import { FileSaverModule } from 'ngx-filesaver';
 import { PrimeNgModule } from './prime-ng.module';
+
+import { DialogConfirmComponent } from 'src/app/components/confirm/confirm.component';
 
 @NgModule({
     declarations: [
@@ -21,7 +21,8 @@ import { PrimeNgModule } from './prime-ng.module';
         MaterialModule,
         HttpClientModule,
         NgxMaskModule.forRoot(),
-        PrimeNgModule
+        PrimeNgModule,
+        FileSaverModule
     ],
     exports: [
         FormsModule,
@@ -29,7 +30,8 @@ import { PrimeNgModule } from './prime-ng.module';
         MaterialModule,
         HttpClientModule,
         NgxMaskModule,
-        PrimeNgModule
+        PrimeNgModule,
+        FileSaverModule
     ],
     providers: [],
     entryComponents: [DialogConfirmComponent],

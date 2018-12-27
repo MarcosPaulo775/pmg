@@ -65,17 +65,17 @@
             </div>
             <div align="right">
               <div fxLayoutGap="5px">
-                <button mat-stroked-button matTooltip="Email" *ngIf="details">
+                <button mat-stroked-button matTooltip="Email" *ngIf="details_view">
                   <mat-icon>email</mat-icon>
                 </button>
-                <button mat-stroked-button (click)="downloadPDF()" matTooltip="Gerar PDF" *ngIf="details">
+                <button mat-stroked-button (click)="downloadPDF()" matTooltip="Gerar PDF" *ngIf="details_view">
                   <mat-icon>picture_as_pdf</mat-icon>
                 </button>
-                <button mat-stroked-button (click)="print()" matTooltip="Imprimir" *ngIf="details">
+                <button mat-stroked-button (click)="print()" matTooltip="Imprimir" *ngIf="details_view">
                   <mat-icon>print</mat-icon>
                 </button>
                 <button mat-button type="button" class="button_green" (click)="onVersion()" matTooltip="Nova Versão"
-                  *ngIf="details">
+                  *ngIf="details_view">
                   <mat-icon>toll</mat-icon>
                 </button>
                 <button mat-button type="button" class="button_blue" (click)="onSubmit()" matTooltip="Salvar">
@@ -88,10 +88,13 @@
       </mat-card>
     </div>
 
+    <div fxLayoutAlign="center" style="width: 100%;" *ngIf="details_spinner">
+      <mat-spinner ></mat-spinner>
+    </div>
+
     <form [formGroup]="details" fxLayout="column" fxLayoutGap="10px" *ngIf="details_view">
 
       <mat-card>
-
         <mat-card-header>
           <mat-card-title>Clichê</mat-card-title>
         </mat-card-header>
@@ -173,7 +176,7 @@
         <mat-card-content>
           <div fxLayout="column" fxLayoutGap="10px">
 
-            <div fxLayout="row" fxLayoutGap="10px">
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
               <button mat-flat-button class="button_blue_light" matTooltip="Adiciona a cor do formulario" (click)="onAdd()">
                 <mat-icon>add</mat-icon> Adicionar Cor
               </button>
@@ -190,7 +193,6 @@
 
               </div>
             </div>
-
 
             <div>
               <table>
@@ -281,7 +283,7 @@
               <div fxLayout="column">
                 <mat-checkbox formControlName="fechado" (click)="fechado()">Já está no fechamento</mat-checkbox>
 
-                <div fxLayout="row" fxLayoutGap="10px" *ngIf="!disabled">
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px" *ngIf="!disabled">
 
                   <mat-form-field fxFlex="33.3">
                     <input matInput placeholder="Z" formControlName="z">
@@ -294,7 +296,7 @@
                   </mat-form-field>
 
                 </div>
-                <div fxLayout="row" fxLayoutGap="10px" *ngIf="!disabled">
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px" *ngIf="!disabled">
                   <mat-form-field fxFlex="50">
                     <input matInput placeholder="Quantidade de Pistas" formControlName="qtpistas">
                   </mat-form-field>
@@ -303,7 +305,7 @@
                   </mat-form-field>
                 </div>
 
-                <div fxLayout="row" fxLayoutGap="10px" *ngIf="!disabled">
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px" *ngIf="!disabled">
                   <mat-form-field fxFlex="50">
                     <input matInput placeholder="Quantidade Passo" formControlName="qtpasso">
                   </mat-form-field>
@@ -312,7 +314,7 @@
                   </mat-form-field>
                 </div>
 
-                <div fxLayout="row" fxLayoutGap="10px">
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
                   <mat-form-field fxFlex="50">
                     <input matInput placeholder="Manta" formControlName="manta">
                   </mat-form-field>
@@ -328,7 +330,7 @@
               <div>
                 <a>Sangras</a>
 
-                <div fxLayout="row" fxLayoutGap="10px">
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
                   <div fxLayout="column" fxLayoutGap="45px">
                     <br>
                     <mat-checkbox formControlName="esquerda">Esquerda</mat-checkbox>
@@ -365,7 +367,7 @@
 
           <mat-card>
 
-            <div fxLayout="row" fxLayoutGap="10px">
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
               <mat-form-field>
                 <input matInput placeholder="Tamanho Arte Largura" formControlName="largura">
               </mat-form-field>
@@ -393,7 +395,7 @@
 
         <mat-card-content fxLayout="column" fxLayoutGap="10px">
 
-          <div fxLayout="row" fxLayoutGap="10px">
+          <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
             <mat-form-field *ngIf="substrato_prova">
               <mat-select placeholder="Substrato" formControlName="substrato_prova">
                 <mat-option *ngFor="let value of substrato_prova" [value]="value">
@@ -485,7 +487,7 @@
 
         <mat-card-content fxLayout="column" fxLayoutGap="10px">
 
-          <div fxLayout="row" fxLayoutGap="10px">
+          <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px">
             <mat-form-field>
               <input matInput placeholder="Cliente terceiro" formControlName="terceiro">
             </mat-form-field>
@@ -499,7 +501,7 @@
 
           </div>
 
-          <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+          <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="left center">
             <button mat-flat-button class="button_blue_light" (click)="upload()">
               <mat-icon>attachment</mat-icon> Medir arquivo
             </button>

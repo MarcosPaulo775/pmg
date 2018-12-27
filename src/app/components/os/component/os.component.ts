@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Subject, Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
@@ -13,7 +12,7 @@ import { DialogProvaComponent } from '../dialogProva/dialog.component';
 import { DialogColorComponent } from '../dialogColor/dialog.component';
 import { DialogMedidasComponent } from '../dialogMedidas/dialog.component';
 import { DialogFinanceiroComponent } from '../dialogFinanceiro/dialog.component';
-import { OS, Color, FormColor } from '../../../shared/models/os';
+import { OS, Color, FormColor, Details } from '../../../shared/models/os';
 import {
   Count,
   Result_OS,
@@ -35,6 +34,7 @@ export class OsComponent implements OnInit {
   form: FormGroup;
   os: OS;
   details_view: boolean;
+  details_spinner: boolean;
   details: FormGroup;
   progress: Subject<number>;
 
@@ -66,7 +66,6 @@ export class OsComponent implements OnInit {
   t: number = 0;
 
   constructor(
-    private router: Router,
     private formBuilder: FormBuilder,
 
     public dialog: MatDialog,
@@ -241,7 +240,6 @@ export class OsComponent implements OnInit {
             });
 
           this.getDetail();
-          this.details_view = true;
         } else {
           this.appService.session(data.error_code);
         }
@@ -252,173 +250,54 @@ export class OsComponent implements OnInit {
 
   /**Busca os detalhes da ordem de serviço no banco de dados */
   getDetail() {
-    this.apiService.custom_objects_list('technology', '', { '': 'name' })
-      .subscribe((data: Result_Item) => {
+
+    this.details_spinner = true;
+
+    this.apiService.custom_objects_get('details', '5c24fb37440b001700000003')
+      .subscribe((data: Details) => {
         if (!data.error_code) {
-          this.tecnologia = new Array<string>();
-          for (let i = 0; i < data.results.length; i++) {
-            this.tecnologia.push(data.results[i].name);
-          }
+
+          this.tecnologia = data.technology;
+          this.variacao = data.variation;
+          this.material = data.material;
+          this.substrato = data.substrate;
+          this.substrato_prova = data.substrate;
+          this.espessura = data.thickness;
+          this.camada = data.layer;
+          this.local = data.local;
+          this.lineatura = data.lineatura;
+          this.angulo = data.angle;
+          this.perfil = data.profile;
+          this.face = data.face;
+          this.dupla = data.double;
           this.details.get('tecnologia').setValue(this.os.tecnologia);
-        }
-      }, (data) => {
-        console.log(data);
-      });
-
-    this.apiService.custom_objects_list('variation', '', { '': 'name' })
-      .subscribe((data: Result_Item) => {
-        if (!data.error_code) {
-          this.variacao = new Array<string>();
-          for (let i = 0; i < data.results.length; i++) {
-            this.variacao.push(data.results[i].name);
-          }
           this.details.get('variacao').setValue(this.os.variacao);
-        }
-      }, (data) => {
-        console.log(data);
-      });
-
-    this.apiService.custom_objects_list('material', '', { '': 'name' })
-      .subscribe((data: Result_Item) => {
-        if (!data.error_code) {
-          this.material = new Array<string>();
-          for (let i = 0; i < data.results.length; i++) {
-            this.material.push(data.results[i].name);
-          }
           this.details.get('material').setValue(this.os.material);
-        }
-      }, (data) => {
-        console.log(data);
-      });
-
-    this.apiService.custom_objects_list('substrate', '', { '': 'name' })
-      .subscribe((data: Result_Item) => {
-        if (!data.error_code) {
-          this.substrato = new Array<string>();
-          this.substrato_prova = new Array<string>();
-          for (let i = 0; i < data.results.length; i++) {
-            this.substrato.push(data.results[i].name);
-            this.substrato_prova.push(data.results[i].name);
-          }
           this.details.get('substrato').setValue(this.os.substrato);
           this.details.get('substrato_prova').setValue(this.os.substrato_prova);
-        }
-      }, (data) => {
-        console.log(data);
-      });
-
-    this.apiService.custom_objects_list('thickness', '', { '': 'name' })
-      .subscribe((data: Result_Item) => {
-        if (!data.error_code) {
-          this.espessura = new Array<string>();
-          for (let i = 0; i < data.results.length; i++) {
-            this.espessura.push(data.results[i].name);
-          }
           this.details.get('espessura').setValue(this.os.espessura);
-        }
-      }, (data) => {
-        console.log(data);
-      });
-
-    this.apiService.custom_objects_list('layer', '', { '': 'name' })
-      .subscribe((data: Result_Item) => {
-        if (!data.error_code) {
-          this.camada = new Array<string>();
-          for (let i = 0; i < data.results.length; i++) {
-            this.camada.push(data.results[i].name);
-          }
           this.details.get('camada').setValue(this.os.camada);
-        }
-      }, (data) => {
-        console.log(data);
-      });
-
-    this.apiService.custom_objects_list('local', '', { '': 'name' })
-      .subscribe((data: Result_Item) => {
-        if (!data.error_code) {
-          this.local = new Array<string>();
-          for (let i = 0; i < data.results.length; i++) {
-            this.local.push(data.results[i].name);
-          }
           this.details.get('local').setValue(this.os.local);
-        }
-      }, (data) => {
-        console.log(data);
-      });
-
-    this.apiService.custom_objects_list('lineatura', '', { '': 'name' })
-      .subscribe((data: Result_Item) => {
-        if (!data.error_code) {
-          this.lineatura = new Array<string>();
-          for (let i = 0; i < data.results.length; i++) {
-            this.lineatura.push(data.results[i].name);
-          }
-        }
-      }, (data) => {
-        console.log(data);
-      });
-
-    this.apiService.custom_objects_list('angle', '', { '': 'name' })
-      .subscribe((data: Result_Item) => {
-        if (!data.error_code) {
-          this.angulo = new Array<string>();
-          for (let i = 0; i < data.results.length; i++) {
-            this.angulo.push(data.results[i].name);
-          }
-        }
-      }, (data) => {
-        console.log(data);
-      });
-
-    this.apiService.custom_objects_list('profile', '', { '': 'name' })
-      .subscribe((data: Result_Item) => {
-        if (!data.error_code) {
-          this.perfil = new Array<string>();
-          for (let i = 0; i < data.results.length; i++) {
-            this.perfil.push(data.results[i].name);
-          }
           this.details.get('perfil').setValue(this.os.perfil);
-        }
-      }, (data) => {
-        console.log(data);
-      });
-
-    this.apiService.custom_objects_list('face', '', { '': 'name' })
-      .subscribe((data: Result_Item) => {
-        if (!data.error_code) {
-          this.face = new Array<string>();
-          for (let i = 0; i < data.results.length; i++) {
-            this.face.push(data.results[i].name);
-          }
           this.details.get('face').setValue(this.os.face);
-        }
-      }, (data) => {
-        console.log(data);
-      });
-
-    this.apiService.custom_objects_list('pantone', '', null)
-      .subscribe((data: Result_Color) => {
-        if (!data.error_code) {
-          this.colors = new Array<Color>();
-          this.colors.push({ color: 'Cyan', hex: '00aeef' });
-          this.colors.push({ color: 'Magenta', hex: 'ec008c' });
-          this.colors.push({ color: 'Yellow', hex: 'fff200' });
-          this.colors.push({ color: 'Black', hex: "231f20" });
-          this.colors.push({ color: 'White', hex: 'ffffff' });
-          this.colors = this.colors.concat(data.results);
-        }
-      }, (data) => {
-        console.log(data);
-      });
-
-    this.apiService.custom_objects_list('double', '', { '': 'name' })
-      .subscribe((data: Result_Item) => {
-        if (!data.error_code) {
-          this.dupla = new Array<string>();
-          for (let i = 0; i < data.results.length; i++) {
-            this.dupla.push(data.results[i].name);
-          }
           this.details.get('dupla').setValue(this.os.dupla);
+          this.details_view = true;
+          this.details_spinner = false;
+
+          this.apiService.custom_objects_list('pantone', '', null)
+            .subscribe((data: Result_Color) => {
+              if (!data.error_code) {
+                this.colors = new Array<Color>();
+                this.colors.push({ color: 'Cyan', hex: '00aeef' });
+                this.colors.push({ color: 'Magenta', hex: 'ec008c' });
+                this.colors.push({ color: 'Yellow', hex: 'fff200' });
+                this.colors.push({ color: 'Black', hex: "231f20" });
+                this.colors.push({ color: 'White', hex: 'ffffff' });
+                this.colors = this.colors.concat(data.results);
+              }
+            }, (data) => {
+              console.log(data);
+            });
         }
       }, (data) => {
         console.log(data);
@@ -551,8 +430,11 @@ export class OsComponent implements OnInit {
       this.getForm();
 
       if (!localStorage.getItem("_id")) {
+        const data = new Date();
         this.os.versao = 1;
         this.os.os = '';
+        this.os.data_inicio = String(data.getFullYear()) + '-' + String(data.getMonth() + 1) + '-' + String(data.getDate()) + '-' + String(data.getHours()) + ':' + String(data.getMinutes());
+        console.log(this.os.data_inicio);
         this.save();
       } else {
         this.update();
@@ -611,8 +493,6 @@ export class OsComponent implements OnInit {
 
   /** Salva uma Ordem de serviço nova no banco de dados*/
   save() {
-
-    this.details_view = true;
 
     // Salva uma versao nova
     if (localStorage.getItem('version') == 'true') {
@@ -788,9 +668,7 @@ export class OsComponent implements OnInit {
     this.spinner = true;
     this.apiService.hub_start_from_whitepaper_with_files_and_variables('medidas_os', 'input', ['cloudflow://PP_FILE_STORE/dimensionColor/' + file])
       .subscribe((data: Flow) => {
-
         if (!data.error) {
-
           this.workable(data.workable_id);
         }
       }, (data) => {
@@ -863,7 +741,6 @@ export class OsComponent implements OnInit {
       });
   }
 
-
   /** Faz um busca no preço no cadastro do cliente e calcula o valor do material com o tamnhanho das cores */
   calcular(checked: boolean) {
     let moeda = 0;
@@ -879,10 +756,13 @@ export class OsComponent implements OnInit {
             'margem_u': 'margem_u',
             'margem_d': 'margem_d',
             'margem_l': 'margem_l',
-            'margem_r': 'margem_r'
+            'margem_r': 'margem_r',
+            'cnpj_cpf': 'cnpj_cpf'
           })
           .subscribe((data: Result_Company) => {
             if (!data.error) {
+
+              this.os.cnpj = data.results[0].cnpj_cpf;
 
               if (this.os.tecnologia === 'Kodak NX' && this.os.espessura === '1.14') {
                 moeda = Number(data.results[0].kodak_114);
@@ -900,13 +780,16 @@ export class OsComponent implements OnInit {
               }
 
               moeda = moeda * 0.001;
+              this.os.valor_cm = String(moeda);
               let total = 0;
+              let area_total = 0;
 
               for (let i = 0; i < this.os.colors.length; i++) {
                 let altura = (Number(this.os.colors[i].altura) * 0.1) + Number(data.results[0].margem_u) + Number(data.results[0].margem_d);
                 let largura = (Number(this.os.colors[i].largura) * 0.1) + Number(data.results[0].margem_l) + Number(data.results[0].margem_r);
                 let area = altura * largura;
-                let valor = moeda * area;
+                area_total = area_total + area;
+                let valor = moeda * area * Number(this.os.colors[i].jogos);
                 if (valor) {
                   this.os.colors[i].valor = valor.toFixed(2);
                   total = total + valor;
@@ -915,6 +798,7 @@ export class OsComponent implements OnInit {
                 }
               }
               this.os.valor = total.toFixed(2);
+              this.os.area = String(area_total);
             }
 
           }, (data) => {

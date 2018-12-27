@@ -26,7 +26,6 @@ export class StorageComponent implements OnInit {
     'Nome do trabalho',
     'Pedido',
     'Data',
-    'Status',
     'Ações'
   ];
 
@@ -87,7 +86,13 @@ export class StorageComponent implements OnInit {
         'cliente': 'cliente',
         'pedido': 'pedido',
         'data': 'data',
-        'status': 'status'
+        'data_inicio': 'data_inicio',
+        'colors': 'colors',
+        'espessura': 'espessura',
+        'valor': 'valor',
+        'cnpj': 'cnpj',
+        'valor_cm': 'valor_cm',
+        'area': 'area'
       })
       .subscribe((data: Result_OS) => {
         if (!data.error) {
@@ -175,6 +180,16 @@ export class StorageComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  /** Faz download do XML */
+  downloadXML(os: OS) {
+    this.appService.generateXmlOs([os]);
+  }
+
+  /** Faz download do XML de uma lista de OS */
+  downloadXMLs() {
+    this.appService.generateXmlOs(this.selection.selected);
   }
 
 }

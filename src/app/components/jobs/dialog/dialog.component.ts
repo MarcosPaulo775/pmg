@@ -39,7 +39,7 @@ export class DialogComponent {
 
   /** Marca a OS como deletada */
   onDelete() {
-    const dialogRef = this.dialog.open(DialogConfirmComponent, {data: 'Deseja realmente excluir?'});
+    const dialogRef = this.dialog.open(DialogConfirmComponent, { data: 'Deseja realmente excluir?' });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

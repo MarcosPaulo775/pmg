@@ -39,6 +39,7 @@ export class DashboardComponent implements OnInit {
   ];
   view: boolean;
   sum = 0;
+
   constructor(
     public snackBar: MatSnackBar,
     private authService: AuthService,
@@ -77,7 +78,7 @@ export class DashboardComponent implements OnInit {
     this.date = new Date();
     this.day = new Array<string>();
     this.goal = new Array<number>();
-    this.replacement = new Array<number>();
+    this.replacement = [];
 
     const query = [
       'deleted', 'equal to', false,
@@ -89,7 +90,7 @@ export class DashboardComponent implements OnInit {
       'data', 'contains', String(this.date.getFullYear()) + '-' + String(this.date.getMonth() + 1)
     ];
 
-    this.apiService.custom_objects_list('os', query, { 'data': 'data' })
+    this.apiService.custom_objects_list('os', query, { 'data_inicio': 'data_inicio' })
       .subscribe((data: Result_OS) => {
         if (!data.error) {
           for (let i = 0; i < this.date.getDate(); i++) {
@@ -98,7 +99,7 @@ export class DashboardComponent implements OnInit {
             this.replacement.push(0);
           }
           for (let j = 0; j < data.results.length; j++) {
-            let day = Number(data.results[j].data.split('-')[2]);
+            let day = Number(data.results[j].data_inicio.split('-')[2]);
             this.replacement[day - 1]++;
           }
           for (let k = 0; k < this.date.getDate(); k++) {

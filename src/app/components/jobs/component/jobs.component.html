@@ -10,56 +10,56 @@
         <mat-card-content>
 
           <div fxFlex fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column" fxLayoutGap="10px" align="center">
-            <div class="full-width" fxLayout="column" fxFlex="12.5">
+            <div class="full-width" fxLayout="column">
               <button mat-button class="button_blue" (click)="onFlow('all')" [style.background-color]="all_s">
                 Todos
                 <br>
                 {{all}}
               </button>
             </div>
-            <div class="full-width" fxLayout="column" fxFlex="12.5">
+            <div class="full-width" fxLayout="column">
               <button mat-button class="button_blue" (click)="onFlow('Atendimento')" [style.background-color]="atendimento_s">
                 Atendimento
                 <br>
                 {{atendimento}}
               </button>
             </div>
-            <div class="full-width" fxLayout="column" fxFlex="12.5">
+            <div class="full-width" fxLayout="column">
               <button mat-button class="button_blue" (click)="onFlow('Desenvolvimento')" [style.background-color]="desenvolvimento_s">
                 Desenvolvimento
                 <br>
                 {{desenvolvimento}}
               </button>
             </div>
-            <div class="full-width" fxLayout="column" fxFlex="12.5">
+            <div class="full-width" fxLayout="column">
               <button mat-button class="button_blue" (click)="onFlow('Aprovação')" [style.background-color]="aprovacao_s">
                 Aprovação
                 <br>
                 {{aprovacao}}
               </button>
             </div>
-            <div class="full-width" fxLayout="column" fxFlex="12.5">
+            <div class="full-width" fxLayout="column">
               <button mat-button class="button_blue" (click)="onFlow('Editoração')" [style.background-color]="editoracao_s">
                 Editoração
                 <br>
                 {{editoracao}}
               </button>
             </div>
-            <div class="full-width" fxLayout="column" fxFlex="12.5">
+            <div class="full-width" fxLayout="column">
               <button mat-button class="button_blue" (click)="onFlow('Conferência')" [style.background-color]="conferencia_s">
                 Conferência
                 <br>
                 {{conferencia}}
               </button>
             </div>
-            <div class="full-width" fxLayout="column" fxFlex="12.5">
+            <div class="full-width" fxLayout="column">
               <button mat-button class="button_blue" (click)="onFlow('Gravação')" [style.background-color]="gravacao_s">
                 Gravação
                 <br>
                 {{gravacao}}
               </button>
             </div>
-            <div class="full-width" fxLayout="column" fxFlex="12.5">
+            <div class="full-width" fxLayout="column">
               <button mat-button class="button_blue" (click)="onFlow('Expedição')" [style.background-color]="expedicao_s">
                 Expedição
                 <br>
@@ -200,7 +200,7 @@
                     <th mat-header-cell *matHeaderCellDef style="width:100px"> </th>
                     <td mat-cell *matCellDef="let row">
                       <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column">
-                        <button mat-icon-button matTooltip="Finalizar OS" *ngIf="expedicao_s && check" (click)="storage(row._id)">
+                        <button mat-icon-button matTooltip="Finalizar OS" *ngIf="expedicao_s && check" (click)="storage(row)">
                           <mat-icon>done</mat-icon>
                         </button>
 

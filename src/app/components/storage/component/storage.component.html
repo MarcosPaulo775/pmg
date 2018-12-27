@@ -1,99 +1,110 @@
 <div fxFlex fxLayout="column" fxLayoutGap="10px">
 
-    <div>
-      <mat-card class="card">
-        <mat-card-header>
-            <mat-card-title *ngIf="all">{{all}} Ordens de serviço arquivadas</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div>
+  <div>
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title *ngIf="all">{{all}} Ordens de serviço arquivadas</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <div fxLayout="row">
             <mat-form-field>
               <mat-icon matPrefix>search</mat-icon>
               <input matInput (keyup)="applyFilter($event.target.value)">
             </mat-form-field>
-
-            <div fxLayoutAlign="center" style="width: 100%;">
-              <mat-spinner *ngIf="!dataSource"></mat-spinner>
+  
+            <div style="flex-grow: 1;"></div>
+  
+            <div fxLayoutGap="5px">
+              <button mat-stroked-button (click)="downloadXMLs()">
+                <mat-icon>settings_ethernet</mat-icon>
+                Gerar XML
+              </button>
             </div>
-            <div *ngIf="dataSource">
-              <table mat-table [dataSource]="dataSource" matSort>
-
-                <!-- Checkbox Column -->
-                <ng-container matColumnDef="select">
-                  <th mat-header-cell *matHeaderCellDef style="width:40px">
-                    <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-                      [indeterminate]="selection.hasValue() && !isAllSelected()">
-                    </mat-checkbox>
-                  </th>
-                  <td mat-cell *matCellDef="let row">
-                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-                      [checked]="selection.isSelected(row)">
-                    </mat-checkbox>
-                  </td>
-                </ng-container>
-
-                <!-- ID Column -->
-                <ng-container matColumnDef="id">
-                  <th mat-header-cell *matHeaderCellDef> OS </th>
-                  <td mat-cell *matCellDef="let row"> {{row.os}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="Cliente">
-                  <th mat-header-cell *matHeaderCellDef> Cliente </th>
-                  <td mat-cell *matCellDef="let row"> {{row.cliente}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="Nome do trabalho">
-                  <th mat-header-cell *matHeaderCellDef> Nome do trabalho </th>
-                  <td mat-cell *matCellDef="let row"> {{row.nome}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="Pedido">
-                  <th mat-header-cell *matHeaderCellDef> Pedido </th>
-                  <td mat-cell *matCellDef="let row"> {{row.pedido}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="Data">
-                  <th mat-header-cell *matHeaderCellDef> Data </th>
-                  <td mat-cell *matCellDef="let row">
-                    {{row.data.split('-')[2]}}/{{row.data.split('-')[1]}}/{{row.data.split('-')[0]}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="Status">
-                  <th mat-header-cell *matHeaderCellDef> Status </th>
-                  <td mat-cell *matCellDef="let row"> {{row.status}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="Ações">
-                  <th mat-header-cell *matHeaderCellDef style="width:100px"> </th>
-                  <td mat-cell *matCellDef="let row">
-                    <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column">
-                      <button mat-icon-button matTooltip="Retornar OS para a produção" (click)="storage(row._id)">
-                        <mat-icon>undo</mat-icon>
-                      </button>
-
-                      <button mat-icon-button matTooltip="Visualizar" (click)="openDialog(row._id)">
-                        <mat-icon>visibility</mat-icon>
-                      </button>
-
-                      <button mat-icon-button matTooltip="Excluir" (click)="onDelete(row._id)">
-                        <mat-icon>delete</mat-icon>
-                      </button>
-
-                    </div>
-                  </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;">
-                </tr>
-              </table>
-
-              <mat-paginator [pageSizeOptions]="[30, 50, 100]"></mat-paginator>
-            </div>
-
           </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
+
+          <div fxLayoutAlign="center" style="width: 100%;">
+            <mat-spinner *ngIf="!dataSource"></mat-spinner>
+          </div>
+          <div *ngIf="dataSource">
+            <table mat-table [dataSource]="dataSource" matSort>
+
+              <!-- Checkbox Column -->
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef style="width:40px">
+                  <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+
+              <!-- ID Column -->
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> OS </th>
+                <td mat-cell *matCellDef="let row"> {{row.os}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Cliente">
+                <th mat-header-cell *matHeaderCellDef> Cliente </th>
+                <td mat-cell *matCellDef="let row"> {{row.cliente}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Nome do trabalho">
+                <th mat-header-cell *matHeaderCellDef> Nome do trabalho </th>
+                <td mat-cell *matCellDef="let row"> {{row.nome}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Pedido">
+                <th mat-header-cell *matHeaderCellDef> Pedido </th>
+                <td mat-cell *matCellDef="let row"> {{row.pedido}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Data">
+                <th mat-header-cell *matHeaderCellDef> Data </th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.data.split('-')[2]}}/{{row.data.split('-')[1]}}/{{row.data.split('-')[0]}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Ações">
+                <th mat-header-cell *matHeaderCellDef style="width:100px"> </th>
+                <td mat-cell *matCellDef="let row">
+                  <div fxLayout="row" fxLayout.sm="column" fxLayout.lt-sm="column">
+
+                    <button mat-icon-button matTooltip="Retornar OS para a produção" (click)="storage(row._id)">
+                      <mat-icon>undo</mat-icon>
+                    </button>
+
+                    <button mat-icon-button (click)="downloadXML(row)" matTooltip="Gerar XML">
+                      <mat-icon>settings_ethernet</mat-icon>
+                    </button>
+
+                    <button mat-icon-button matTooltip="Visualizar" (click)="openDialog(row._id)">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+
+                    <button mat-icon-button matTooltip="Excluir" (click)="onDelete(row._id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+              </tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[30, 50, 100]"></mat-paginator>
+          </div>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
+</div>

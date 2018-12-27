@@ -37,6 +37,7 @@ export class DialogComponent {
     }
   }
 
+
   /** Marca a ordem de serviço como deletada */
   onDelete() {
     this.apiService.custom_objects_set_keys('os', this.os._id, { 'deleted': 'true' })
@@ -60,6 +61,11 @@ export class DialogComponent {
   /** Faz download do layout */
   downloadPDF() {
     this.appService.downloadOS(this.os);
+  }
+
+  /** Faz download do XML */
+  downloadXML() {
+    this.appService.generateXmlOs([this.os]);
   }
 
   /** Fecha a caixa de dialogo */

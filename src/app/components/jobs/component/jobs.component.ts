@@ -126,7 +126,8 @@ export class JobsComponent implements OnInit {
         'cliente': 'cliente',
         'pedido': 'pedido',
         'data': 'data',
-        'status': 'status'
+        'status': 'status',
+        'valor': 'valor'
       })
       .subscribe((data: Result_OS) => {
         if (!data.error) {
@@ -311,19 +312,26 @@ export class JobsComponent implements OnInit {
   }
 
   /** Arquiva a OS */
-  storage(id) {
-    this.apiService.custom_objects_set_keys('os', id, { 'status': 'Arquivado' })
-      .subscribe((data: OS) => {
-        if (!data.error) {
-          this.list(['status', 'equal to', 'Expedição']);
-          this.appService.openSnackBar('Ordem de serviço arquivada', 'ok');
-        } else {
-          this.appService.session(data.error_code);
-        }
-      }, (data) => {
-        this.appService.openSnackBar('Erro ao comunicar com servidor', 'ok');
-        console.log(data);
-      });
+  storage(os: OS) {
+    if (os.valor) {
+      this.apiService.custom_objects_set_keys('os', os._id, { 'status': 'Arquivado' })
+        .subscribe((data: OS) => {
+
+          if (!data.error) {
+
+            this.list(['status', 'equal to', 'Expedição']);
+            this.appService.openSnackBar('Ordem de serviço arquivada', 'ok');
+          } else {
+            this.appService.session(data.error_code);
+          }
+
+        }, (data) => {
+          this.appService.openSnackBar('Erro ao comunicar com servidor', 'ok');
+          console.log(data);
+        });
+    } else {
+      this.appService.openSnackBar('Falta cadastrar os tamanhos da cores', 'ok');
+    }
   }
 
   /** Entra na pagina de cadastro de ordem de servico */
@@ -337,7 +345,7 @@ export class JobsComponent implements OnInit {
   /** Marca a ordem de serviço como deletada */
   onDelete(id: string) {
 
-    const dialogRef = this.dialog.open(DialogConfirmComponent, {data: 'Deseja realmente excluir?'});
+    const dialogRef = this.dialog.open(DialogConfirmComponent, { data: 'Deseja realmente excluir?' });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
