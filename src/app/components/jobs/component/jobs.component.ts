@@ -79,7 +79,7 @@ export class JobsComponent implements OnInit {
     this.list(['deleted', 'equal to', false, 'and', 'status', 'not equal to', 'Arquivado']);
     this.production.title = 'Trabalhos';
     this.production.dashboard = '';
-    this.production.print = '';
+    this.production.preset = '';
     this.production.jobs = 'rgb(0, 90, 176)';
     this.production.storage = '';
 
@@ -339,7 +339,7 @@ export class JobsComponent implements OnInit {
     if (localStorage.getItem('_id')) {
       localStorage.removeItem('_id');
     }
-    this.router.navigate(['/production/os']);
+    this.router.navigate(['/production/new-job']);
   }
 
   /** Marca a ordem de serviço como deletada */
@@ -349,7 +349,7 @@ export class JobsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.apiService.custom_objects_set_keys('os', id, { 'deleted': 'true' })
+        this.apiService.custom_objects_set_keys('os', id, { 'deleted': true })
           .subscribe((data: Result_OS) => {
             if (!data.error) {
               this.list(['deleted', 'equal to', false, 'and', 'status', 'not equal to', 'Arquivado']);

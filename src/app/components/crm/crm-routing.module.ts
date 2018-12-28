@@ -18,8 +18,8 @@ const routes: Routes = [
         loadChildren: '../companies/companies.module#CompaniesModule'
       },
       {
-        path: 'register',
-        loadChildren: '../register/register.module#RegisterModule'
+        path: 'new-company',
+        loadChildren: '../new-company/new-company.module#NewCompanyModule'
       },
     ]
   }

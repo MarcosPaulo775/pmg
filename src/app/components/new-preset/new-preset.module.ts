@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PrintRoutingModule } from './print-routing.module';
-import { PrintComponent } from './component/print.component';
+import { NewPresetRoutingModule } from './new-preset-routing.module';
+import { NewPresetComponent } from './component/new-preset.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -10,12 +10,12 @@ import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   imports: [
     CommonModule,
-    PrintRoutingModule,
+    NewPresetRoutingModule,
     SharedModule,
     HttpClientModule
   ],
   providers: [],
   entryComponents: [],
-  declarations: [PrintComponent],
+  declarations: [NewPresetComponent],
 })
-export class PrintModule { }
+export class NewPresetModule { }

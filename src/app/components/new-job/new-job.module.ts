@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { OsRoutingModule } from './os-routing.module';
-import { OsComponent } from './component/os.component';
+import { NewJobRoutingModule } from './new-job-routing.module';
+import { NewJobComponent } from './component/new-job.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
 import { DialogColorComponent } from './dialogColor/dialog.component';
@@ -14,11 +14,11 @@ import { DialogMedidasComponent } from './dialogMedidas/dialog.component';
 @NgModule({
   imports: [
     CommonModule,
-    OsRoutingModule,
+    NewJobRoutingModule,
     SharedModule
   ],
   providers: [],
   entryComponents: [DialogColorComponent, DialogProvaComponent, DialogFinanceiroComponent, DialogMedidasComponent],
-  declarations: [OsComponent, DialogColorComponent, DialogProvaComponent, DialogFinanceiroComponent, DialogMedidasComponent],
+  declarations: [NewJobComponent, DialogColorComponent, DialogProvaComponent, DialogFinanceiroComponent, DialogMedidasComponent],
 })
-export class OsModule { }
+export class NewJobModule { }

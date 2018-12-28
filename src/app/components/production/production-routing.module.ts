@@ -14,20 +14,24 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'os',
-        loadChildren: '../os/os.module#OsModule'
+        path: 'new-job',
+        loadChildren: '../new-job/new-job.module#NewJobModule'
       },
       {
         path: 'jobs',
         loadChildren: '../jobs/jobs.module#JobsModule'
       },
       {
-        path: 'print',
-        loadChildren: '../print/print.module#PrintModule'
-      },
-      {
         path: 'storage',
         loadChildren: '../storage/storage.module#StorageModule'
+      },
+      {
+        path: 'preset',
+        loadChildren: '../preset/preset.module#PresetModule'
+      },
+      {
+        path: 'new-preset',
+        loadChildren: '../new-preset/new-preset.module#NewPresetModule'
       }
     ]
   }

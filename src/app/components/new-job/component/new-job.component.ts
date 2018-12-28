@@ -25,11 +25,11 @@ import {
 } from '../../../shared/models/api';
 
 @Component({
-  selector: 'app-os',
-  templateUrl: './os.component.html',
-  styleUrls: ['./os.component.css']
+  selector: 'app-new-job',
+  templateUrl: './new-job.component.html',
+  styleUrls: ['./new-job.component.css']
 })
-export class OsComponent implements OnInit {
+export class NewJobComponent implements OnInit {
 
   form: FormGroup;
   os: OS;
@@ -81,7 +81,7 @@ export class OsComponent implements OnInit {
     this.os.colors = new Array<Color>();
     this.production.title = 'Ordem de serviço';
     this.production.dashboard = '';
-    this.production.print = '';
+    this.production.preset = '';
     this.production.jobs = '';
     this.production.storage = '';
 

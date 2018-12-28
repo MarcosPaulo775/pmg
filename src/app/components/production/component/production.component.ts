@@ -19,7 +19,7 @@ export class ProductionComponent implements OnInit {
   title: string;
   dashboard: string;
   jobs: string;
-  print: string;
+  preset: string;
   storage: string;
   user: User;
   data: string;
@@ -90,8 +90,8 @@ export class ProductionComponent implements OnInit {
   }
 
   @Input()
-  set setPrint(color: string) {
-    this.print = color;
+  set setPreset(color: string) {
+    this.preset = color;
   }
 
   @Input()

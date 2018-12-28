@@ -1,0 +1,25 @@
+<mat-card>
+  <div fxLayoutAlign="center" style="width: 100%;">
+    <mat-spinner *ngIf="!preset"></mat-spinner>
+  </div>
+  <table *ngIf="preset" style="font-family: arial, sans-serif; width: 100%;">
+    <thead>
+      <tr style="text-align: left;">
+        <th>Nome</th>
+        <th fxLayoutAlign="end">Editar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of preset" style="border-top: 1px solid #dddddd;">
+        <td>
+          {{row.nome}}
+        </td>
+        <th fxLayoutAlign="end">
+          <button mat-button matTooltip="Editar" (click)="onEdit(user)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</mat-card>

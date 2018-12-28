@@ -5,7 +5,7 @@ import { StorageRoutingModule } from './storage-routing.module';
 import { StorageComponent } from './component/storage.component';
 
 import { SharedModule } from '../../shared/modules/shared.module';
-import { DialogComponent } from '../storage/dialog/dialog.component';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   imports: [

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PrintComponent } from './component/print.component';
+import { NewPresetComponent } from './component/new-preset.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: PrintComponent
+    component: NewPresetComponent
   }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PrintRoutingModule { }
+export class NewPresetRoutingModule { }

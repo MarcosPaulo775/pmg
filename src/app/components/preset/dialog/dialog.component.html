@@ -1,0 +1,287 @@
+<h2 mat-dialog-title>Ordem de serviço {{os.os}} / {{os.status}}</h2>
+<mat-dialog-content class="mat-typography">
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <div fxFlex="33.33">
+      <a>Nome do serviço: {{os.nome}}</a>
+      <br>
+      <a> Cliente: {{os.cliente}} </a>
+    </div>
+
+    <div fxFlex="33.33">
+      <a> Pedido: {{os.pedido}}</a>
+      <br>
+      <a> Código do produto: {{os.codigo}}</a>
+    </div>
+    <div fxFlex="33.33">
+      <a> Código Barras: {{os.barra}}</a>
+      <br>
+      <a> Data de Despacho: {{os.data.split('-')[2]}}/{{os.data.split('-')[1]}}/{{os.data.split('-')[0]}}</a>
+    </div>
+  </div>
+
+  <p></p>
+
+  <h3><strong>Clichê</strong></h3>
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <div fxFlex="33.33">
+      <a> Tecnologia: {{os.tecnologia}} </a>
+      <br>
+      <a> Variação: {{os.variacao}}</a>
+      <br>
+      <a> Material: {{os.material}} </a>
+    </div>
+    <div fxFlex="33.33">
+      <a> Substrato: {{os.substrato}}</a>
+      <br>
+      <a> Espessura: {{os.espessura}} </a>
+      <br>
+      <a> Camada: {{os.camada}} </a>
+    </div>
+    <div fxFlex="33.33">
+      <a> Dupla Face: {{os.face}}</a>
+      <a> Local: {{os.local}} </a>
+      <br>
+      <a> observação: {{os.obs_cliche}} </a>
+    </div>
+  </div>
+
+  <p></p>
+
+  <h3><strong>Montagem</strong></h3>
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <div fxFlex="25">
+      <a> Tamanho arte largura: {{os.largura}} </a>
+      <br>
+      <a> Tamanho Arte Altura: {{os.altura}} </a>
+      <br>
+      <a> Largura Material: {{os.largura_material}} </a>
+      <br>
+      <a> Z: {{os.z}}</a>
+      <br>
+      <a> Observações: {{os.obs_montagem}} </a>
+    </div>
+    <div fxFlex="25">
+      <a> Manta: {{os.manta}}</a>
+      <br>
+      <a> Desenvolvimento: {{os.desenvolvimento}}</a>
+      <br>
+      <a> Fechamento: {{os.fechamento}}</a>
+      <br>
+      <a> Num. Faca: {{os.faca}}</a>
+    </div>
+    <div fxFlex="25">
+      <a> Quantidade de Pistas: {{os.qtpistas}}</a>
+      <br>
+      <a> Entre Pistas: {{os.entre_pistas}}</a>
+      <br>
+      <a> Quantidade Passo: {{os.qtpasso}}</a>
+      <br>
+      <a> Entre Passo: {{os.entre_passos}}</a>
+    </div>
+    <div fxLayout="row" fxLayoutGap="10px" fxFlex="25">
+
+      <div fxLayout="column">
+        <mat-checkbox disabled="true" [checked]="os.esquerda">Esquerda</mat-checkbox>
+        <mat-checkbox disabled="true" [checked]="os.direita">Direita</mat-checkbox>
+        <mat-checkbox disabled="true" [checked]="os.topo">Topo</mat-checkbox>
+        <mat-checkbox disabled="true" [checked]="os.base">Base</mat-checkbox>
+      </div>
+
+      <div fxLayout="column" fxLayoutGap="5px">
+        <a>{{os.esquerda_mm}} mm</a>
+
+        <a>{{os.direita_mm}} mm</a>
+
+        <a>{{os.topo_mm}} mm</a>
+
+        <a>{{os.base_mm}} mm</a>
+      </div>
+
+      <div fxLayout="column">
+        <mat-checkbox disabled="true" [checked]="os.refile">Marcas Refile</mat-checkbox>
+        <mat-checkbox disabled="true" [checked]="os.corte">Marcas Corte</mat-checkbox>
+        <mat-checkbox disabled="true" [checked]="os.cameron">Cameron</mat-checkbox>
+        <mat-checkbox disabled="true" [checked]="os.microponto">Microponto</mat-checkbox>
+      </div>
+
+    </div>
+  </div>
+
+  <p></p>
+
+  <h3><strong>Cores</strong></h3>
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <div fxFlex="33.33">
+      <a> Perfil de cor: {{os.perfil}} </a>
+    </div>
+    <div fxFlex="66.66">
+      <a> observação: {{os.obs_color}} </a>
+    </div>
+  </div>
+
+  <table style="font-family: arial, sans-serif; width: 100%;">
+    <thead>
+      <tr style="text-align: left;">
+        <th>Cor</th>
+        <th>Lineatura 1</th>
+        <th>Lineatura 2</th>
+        <th>Angulo</th>
+        <th>Jogos</th>
+        <th>Configuração</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let color of os.colors" style="border-top: 1px solid #dddddd;">
+        <td>
+          <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+            <div>
+              <mat-icon [style.color]="'#' + color.hex">fiber_manual_record</mat-icon>
+            </div>
+            <div>
+              {{color.color}}
+            </div>
+          </div>
+        </td>
+        <td>{{color.lineatura1}}</td>
+        <td>{{color.lineatura2}}</td>
+        <td>{{color.angulo}}</td>
+        <td>{{color.jogos}}</td>
+        <td>
+          <div *ngIf="color.fotocelula">
+            <mat-checkbox disabled="true" [checked]="color.fotocelula">Fotocélula</mat-checkbox>
+          </div>
+          <div *ngIf="color.unitario">
+            <mat-checkbox disabled="true" [checked]="color.unitario">Unitario</mat-checkbox>
+          </div>
+          <div *ngIf="color.camerom">
+            <mat-checkbox disabled="true" [checked]="color.camerom">Camerom</mat-checkbox>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p></p>
+  <h3><strong>Prova</strong></h3>
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <div fxFlex="33.33">
+      <a>Substrato: {{os.substrato_prova}}</a>
+      <br>
+      <a>Velocidade: {{os.velocidade}}</a>
+      <br>
+      <a>Dupla face: {{os.dupla}}</a>
+    </div>
+    <div fxFlex="66.66">
+      <a>Temperatura: {{os.temperatura}}</a>
+      <br>
+      <a>Horario: {{os.horario}}</a>
+      <br>
+      <a>Observações: {{os.obs_prova}}</a>
+    </div>
+  </div>
+
+  <table style="font-family: arial, sans-serif; width: 100%;">
+    <thead>
+      <tr style="text-align: left;">
+        <th>Cor</th>
+        <th>Anilox</th>
+        <th>Ganho de ponto</th>
+        <th>Densidade</th>
+        <th>BCM</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let color of os.colors" style="border-top: 1px solid #dddddd;">
+        <td>
+          <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+            <div>
+              <mat-icon [style.color]="'#' + color.hex">fiber_manual_record</mat-icon>
+            </div>
+            <div>
+              {{color.color}}
+            </div>
+          </div>
+        </td>
+        <td>
+          {{color.anilox}}
+        </td>
+        <td>
+          {{color.ganho}}
+        </td>
+        <td>
+          {{color.densidade}}
+        </td>
+        <td>
+          {{color.bcm}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p></p>
+
+  <h3><strong>Financeiro</strong></h3>
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <div fxFlex="33.33">
+      <a>Cliente terceiro: {{os.terceiro}}</a>
+      <br>
+      <a>Tipo de cobranca: {{os.velocidade}}</a>
+    </div>
+    <div fxFlex="66.66">
+      <a>Ordem de compra: {{os.dupla}}</a>
+      <br>
+      <a>Observações: {{os.obs_financeiro}}</a>
+    </div>
+  </div>
+
+  <table style="font-family: arial, sans-serif; width: 100%;">
+    <thead>
+      <tr style="text-align: left;">
+        <th>Cor</th>
+        <th>Altura</th>
+        <th>Largura</th>
+        <th fxLayoutAlign="end" style="text-align: end">Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let color of os.colors" style="border-top: 1px solid #dddddd;">
+        <td>
+          <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="left center">
+            <div>
+              <mat-icon [style.color]="'#' + color.hex">fiber_manual_record</mat-icon>
+            </div>
+            <div>
+              {{color.color}}
+            </div>
+          </div>
+        </td>
+        <td>
+          {{color.altura}} mm
+        </td>
+        <td>
+          {{color.largura}} mm
+        </td>
+        <td fxLayoutAlign="end" style="text-align: end">
+          R$ {{color.valor}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <td fxLayoutAlign="end" style="text-align: end">
+    Total: R$ {{os.valor}}
+  </td>
+
+</mat-dialog-content>
+<mat-dialog-actions fxLayoutGap="10px">
+  <button mat-stroked-button matTooltip="Excluir" (click)="onDelete()">
+    <mat-icon>delete</mat-icon>
+  </button>
+  <div style="flex-grow: 1;"></div>
+  <button mat-stroked-button (click)="onNoClick()" cdkFocusInitial>Fechar</button>
+</mat-dialog-actions>

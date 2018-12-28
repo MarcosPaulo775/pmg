@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { MatSelectChange, MatSnackBar } from '@angular/material';
 
@@ -13,11 +12,11 @@ import { AuthService } from 'src/app/core/authentication/auth.service';
 import { User } from 'src/app/shared/models/user';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: 'app-new-company',
+  templateUrl: './new-company.component.html',
+  styleUrls: ['./new-company.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class NewCompanyComponent implements OnInit {
 
   basicos: FormGroup;
   cadastrais: FormGroup;
@@ -34,7 +33,6 @@ export class RegisterComponent implements OnInit {
   users: string[] = [];
 
   constructor(
-    private router: Router,
     private formBuilder: FormBuilder,
 
     public snackBar: MatSnackBar,

@@ -51,7 +51,7 @@ export class StorageComponent implements OnInit {
     this.list(['deleted', 'equal to', false, 'and', 'status', 'equal to', 'Arquivado']);
     this.production.title = 'Arquivados';
     this.production.dashboard = '';
-    this.production.print = '';
+    this.production.preset = '';
     this.production.jobs = '';
     this.production.storage = 'rgb(0, 90, 176)';
   }
