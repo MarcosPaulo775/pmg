@@ -5,7 +5,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'production',
+    redirectTo: 'dashboard',
     pathMatch: 'full',
     canActivate: [AuthGuard]
   },

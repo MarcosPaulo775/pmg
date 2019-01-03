@@ -1,0 +1,53 @@
+<div fxLayout="column" fxLayoutGap="10px">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Adicionar Tecnologia</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div fxLayout="row" fxLayoutGap="5px">
+        <form [formGroup]="form" style="width: 100%">
+          <mat-form-field style="width: 100%">
+            <input matInput placeholder="Nome" autocomplete="off" formControlName="technology">
+          </mat-form-field>
+        </form>
+        <div>
+          <button mat-button type="button" class="button_blue" (click)="onSubmit()">
+            <mat-icon>add</mat-icon>
+            Adicionar
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <div fxLayoutAlign="center" style="width: 100%;">
+      <mat-spinner *ngIf="!tecnologias"></mat-spinner>
+    </div>
+    <table *ngIf="tecnologias" style="font-family: arial, sans-serif; width: 100%;">
+      <thead>
+        <tr style="text-align: left;">
+          <th>Nome</th>
+          <th fxLayoutAlign="end"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tecnologia of tecnologias" style="border-top: 1px solid #dddddd;">
+          <td>
+            {{tecnologia.technology}}
+          </td>
+          <td fxLayoutAlign="end">
+            <div fxLayout="row" fxLayout.sm="column" fxLayoutGap="10px">
+              <button mat-stroked-button matTooltip="Editar Variações" (click)="openDialogVariation(tecnologia)">Variação </button>
+              <button mat-stroked-button matTooltip="Editar Materiais" (click)="openDialogMaterial(tecnologia)">Material </button>
+              <button mat-stroked-button matTooltip="Editar lineaturas" (click)="openDialogLineatura(tecnologia)">Lineatura
+              </button>
+              <button mat-stroked-button matTooltip="Excluir" (click)="onDeleted(tecnologia._id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card>
+</div>

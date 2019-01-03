@@ -19,6 +19,8 @@ export class StockComponent implements OnInit {
   dashboard: string;
   in: string;
   out: string;
+  graphic: string;
+  technology: string;
   user: User;
   data: string;
 
@@ -96,6 +98,16 @@ export class StockComponent implements OnInit {
   @Input()
   set setOut(color: string) {
     this.out = color;
+  }
+
+  @Input()
+  set setGraphic(color: string) {
+    this.graphic = color;
+  }
+
+  @Input()
+  set setTechnology(color: string) {
+    this.technology = color;
   }
 
 }

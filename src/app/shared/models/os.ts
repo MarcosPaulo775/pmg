@@ -2,6 +2,8 @@ import { Item } from "./api";
 
 export class OS {
   _id?: string;
+
+  //dados basicos
   os?: string;
   versao?: number;
   nome?: string;
@@ -64,7 +66,6 @@ export class OS {
   obs_montagem?: string;
 
   //Prova
-
   substrato_prova?: string;
   velocidade?: string;
   dupla?: string;
@@ -73,7 +74,6 @@ export class OS {
   obs_prova?: string;
 
   //financeiro
-
   terceiro?: string;
   cobranca?: string;
   compra?: string;
@@ -127,7 +127,8 @@ export class XmlOs {
   n?: number;
 }
 
-export class Details{
+export class Details {
+  _id?: string;
 
   technology?: string[];
   variation?: string[];
@@ -141,6 +142,18 @@ export class Details{
   profile?: string[];
   face?: string[];
   double?: string[];
+
+  error_code?: string;
+  error?: string;
+}
+
+export class Technology {
+  _id?: string;
+
+  technology?: string;
+  variation?: string[];
+  material?: string[];
+  lineatura?: string[];
 
   error_code?: string;
   error?: string;

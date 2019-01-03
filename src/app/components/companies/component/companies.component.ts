@@ -59,7 +59,7 @@ export class CompaniesComponent implements OnInit {
   onEdit(id: string) {
     if (id) {
       localStorage.setItem('_id_company', id);
-      this.router.navigate(['/crm/register']);
+      this.router.navigate(['/crm/new-company']);
     }
   }
 

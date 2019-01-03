@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Materiais</h2>
+<mat-dialog-content class="mat-typography">
+
+  <div fxLayout="row" fxLayoutGap="5px">
+    <form [formGroup]="form" style="width: 100%">
+      <mat-form-field style="width: 100%">
+        <input matInput placeholder="Nome" autocomplete="off" formControlName="material">
+      </mat-form-field>
+    </form>
+    <div>
+      <button mat-stroked-button type="button" class="button_blue" (click)="onSubmit()">
+        <mat-icon>add</mat-icon>
+        Adicionar
+      </button>
+    </div>
+  </div>
+
+  <table style="font-family: arial, sans-serif; width: 100%;">
+    <thead>
+      <tr style="text-align: left;">
+        <th></th>
+        <th fxLayoutAlign="end"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let material of materiais" style="border-top: 1px solid #dddddd;">
+        <td>
+          {{material}}
+        </td>
+        <td fxLayoutAlign="end">
+          <div fxLayout="row" fxLayout.sm="column" fxLayoutGap="10px">
+            <button mat-stroked-button matTooltip="Excluir" (click)="onDeleted(material)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</mat-dialog-content>
+<mat-dialog-actions fxLayoutGap="10px">
+  <button mat-stroked-button (click)="onNoClick()" cdkFocusInitial>Fechar</button>
+</mat-dialog-actions>

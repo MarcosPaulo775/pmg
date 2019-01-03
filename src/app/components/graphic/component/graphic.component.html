@@ -1,0 +1,19 @@
+<div fxLayout="column" fxLayoutGap="10px">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Estoque</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+      <div fxLayoutAlign="center" style="width: 100%;">
+        <mat-spinner *ngIf="!estoque"></mat-spinner>
+      </div>
+      <p-chart type="doughnut" [data]="estoque"></p-chart>
+      <a>Flint: {{flint}} cm²</a>
+      <br>
+      <a>Kodak: {{kodak}} cm²</a>
+      <br>
+      <a>Dupont: {{dupont}} cm²</a>
+    </mat-card-content>
+  </mat-card>
+</div>

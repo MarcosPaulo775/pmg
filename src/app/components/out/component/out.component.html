@@ -1,1 +1,92 @@
-<mat-card> out works!</mat-card>
+<div fxLayout="column" fxLayoutGap="10px">
+    <mat-card>
+  
+      <mat-card-header>
+        <mat-card-title>Adicionar chapa</mat-card-title>
+      </mat-card-header>
+  
+      <mat-card-content>
+        <form [formGroup]="form" fxLayout="column" fxLayoutGap="5px">
+          <mat-form-field>
+            <mat-select [(value)]="tipo" placeholder="Tipo" formControlName="tipo">
+              <mat-option value="Chapa Inteira">Chapa Inteira</mat-option>
+              <mat-option value="Retalho">Retalho</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select [(value)]="marca" placeholder="Marca" formControlName="marca">
+              <mat-option value="Flint">Flint</mat-option>
+              <mat-option value="Kodak">Kodak</mat-option>
+              <mat-option value="Dupont">Dupont</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div fxLayout="row" fxLayoutGap="5px">
+            <mat-form-field style="width: 100%">
+              <input matInput type='text' mask="000,0" placeholder="Largura" autocomplete="off" formControlName="largura">
+              <a matSuffix>cm</a>
+            </mat-form-field>
+            <mat-form-field style="width: 100%">
+              <input matInput type='text' mask="000,0" placeholder="Altura" autocomplete="off" formControlName="altura">
+              <a matSuffix>cm</a>
+            </mat-form-field>
+            <div>
+              <button mat-button type="button" class="button_blue" (click)="onSubmit()">
+                <mat-icon>add</mat-icon>
+                Adicionar
+              </button>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <div fxLayoutAlign="center" style="width: 100%;">
+        <mat-spinner *ngIf="!chapas"></mat-spinner>
+      </div>
+      <table *ngIf="chapas" style="font-family: arial, sans-serif; width: 100%;">
+        <thead>
+          <tr style="text-align: left;">
+            <th>Tipo</th>
+            <th>Marca</th>
+            <th>Largura</th>
+            <th>Altura</th>
+            <th>Área</th>
+            <th>Data</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let chapa of chapas" style="border-top: 1px solid #dddddd;">
+            <td>
+              {{chapa.tipo}}
+            </td>
+            <td>
+              {{chapa.marca}}
+            </td>
+            <td>
+              {{chapa.largura}} cm
+            </td>
+            <td>
+              {{chapa.altura}} cm
+            </td>
+            <td>
+              {{chapa.area}} cm²
+            </td>
+            <td>
+              {{chapa.data.split('-')[2]}}/{{chapa.data.split('-')[1]}}/{{chapa.data.split('-')[0]}}
+            </td>
+            <td>
+              <div fxLayout="row" fxLayout.sm="column" fxLayoutGap="10px">
+                <button mat-stroked-button type="button" matTooltip="Entrada" (click)="onIn(chapa._id)">
+                  <mat-icon>call_received</mat-icon>
+                </button>
+                <button mat-stroked-button type="button" matTooltip="Excluir" (click)="onDeleted(chapa._id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card>
+  </div>

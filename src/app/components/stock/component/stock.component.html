@@ -26,9 +26,14 @@
       <p></p>
       <div fxLayout="column" fxLayoutGap="5px">
 
-        <a mat-button href="#" routerLink="/dashboard" [style.background-color]="dashboard">
+        <a mat-button href="#" routerLink="/dashboard">
           <mat-icon>dashboard</mat-icon>
           Dashboard
+        </a>
+
+        <a mat-button routerLink="/stock/graphic" [style.background-color]="graphic">
+          <mat-icon>assessment</mat-icon>
+          Graficos
         </a>
 
         <a mat-button routerLink="/stock/in" [style.background-color]="in">
@@ -39,6 +44,11 @@
         <a mat-button routerLink="/stock/out" [style.background-color]="out">
           <mat-icon>call_made</mat-icon>
           Saída
+        </a>
+
+        <a mat-button routerLink="/stock/technology" [style.background-color]="technology">
+          <mat-icon>gradient</mat-icon>
+          Tecnologias
         </a>
 
       </div>

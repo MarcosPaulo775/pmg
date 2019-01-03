@@ -369,7 +369,7 @@ export class JobsComponent implements OnInit {
   onEdit(id: string) {
     if (id) {
       localStorage.setItem('_id', id);
-      this.router.navigate(['/production/os']);
+      this.router.navigate(['/production/new-job']);
     }
   }
 

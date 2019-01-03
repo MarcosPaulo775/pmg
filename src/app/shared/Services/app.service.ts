@@ -17,7 +17,7 @@ export class AppService {
 
   constructor(
     private router: Router,
-    public snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     private _FileSaverService: FileSaverService,
   ) { }
 

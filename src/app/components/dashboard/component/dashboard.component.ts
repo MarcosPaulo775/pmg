@@ -103,7 +103,7 @@ export class DashboardComponent implements OnInit {
             this.replacement[day - 1]++;
           }
           for (let k = 0; k < this.date.getDate(); k++) {
-            this.replacement[k + 1] = this.replacement[k + 1] + this.replacement[k];
+            this.replacement[k + 1] += + this.replacement[k];
           }
           this.setGrafic();
         } else {

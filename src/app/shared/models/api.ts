@@ -1,6 +1,7 @@
-import { OS, Color } from "./os";
+import { OS, Color, Technology } from "./os";
 import { Company, State, City } from "./company";
 import { Avatar } from "./user";
+import { Chapa } from './chapa';
 
 export interface Session {
     session: string;
@@ -25,14 +26,14 @@ export interface Item {
     name: string;
 }
 
-export interface Technology {
-    _id: string,
-    name: string;
-    variation: Item[];
-    material: Item[];
-}
 export interface Result_Technology {
     results: Technology[];
+    error_code: string;
+    error: string;
+}
+
+export interface Result_Chapa {
+    results: Chapa[];
     error_code: string;
     error: string;
 }

@@ -11,7 +11,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'in',
+        redirectTo: 'graphic',
         pathMatch: 'full'
       },
       {
@@ -21,6 +21,14 @@ const routes: Routes = [
       {
         path: 'out',
         loadChildren: '../out/out.module#OutModule'
+      },
+      {
+        path: 'graphic',
+        loadChildren: '../graphic/graphic.module#GraphicModule'
+      },
+      {
+        path: 'technology',
+        loadChildren: '../technology/technology.module#TechnologyModule'
       }
     ]
   }
