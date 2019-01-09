@@ -124,7 +124,7 @@ export class ApiService {
     }
 
     /** Inicia um fluxo do servidor */
-    public hub_start_from_whitepaper_with_files_and_variables(whitepaper_name, input_name, files) {
+    public hub_start_from_whitepaper_with_files(whitepaper_name, input_name, files) {
         return this.http.post(
             URL.server,
             {
@@ -137,7 +137,22 @@ export class ApiService {
         )
     }
 
-    /** Verifica status de um fluxo no servidor */
+     /** Inicia um trabalho em um fluxo do servidor */
+     public hub_start_from_whitepaper_with_files_and_variables(whitepaper_name, input_name, files, variables) {
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'hub.start_from_whitepaper_with_files_and_variables',
+                'whitepaper_name': whitepaper_name,
+                'input_name': input_name,
+                'files': files,
+                'variables': variables
+            }
+        )
+    }
+
+    /** Verifica status de um trabalho em um fluxo no servidor */
     public hub_get_waiting_room_of_workable(workable_id) {
         return this.http.post(
             URL.server,
@@ -147,5 +162,20 @@ export class ApiService {
                 'workable_id': workable_id
             }
         )
+    }
+
+    /** Lista os trabalhos ativos em todos os fluxos */
+    public workable_list(query, field){
+
+        return this.http.post(
+            URL.server,
+            {
+                'session': localStorage.getItem('session'),
+                'method': 'workable.list',
+                'query': query,
+                'field': field
+            }
+        )
+
     }
 }

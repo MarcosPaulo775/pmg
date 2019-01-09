@@ -6,21 +6,24 @@
     <button mat-button class="button_blue" (click)="fileInput.click()">
 
       <mat-icon>cloud_upload</mat-icon> Upload JPG ou PNG
-      <input hidden type="file" accept="image/png, image/jpeg" (change)="inputFileChange($event)" #fileInput>
+      <input hidden type="file" accept="image/png, image/jpeg" ng2FileSelect [uploader]="uploader" (change)="uploadAll($event)" #fileInput />
 
     </button>
   </div>
 
   <p></p>
-  <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress | async"></mat-progress-bar>
+  <mat-progress-bar *ngIf="uploader.progress" mode="determinate" [value]="uploader.progress"></mat-progress-bar>
   <p>
-    {{percentDone}}
+    {{uploader.progress}}%
   </p>
 
   <div *ngIf="invalid">
     Arquivo inválido;
   </div>
+  <div *ngIf="size">
+    Arquivo maior que 5mb;
+  </div>
 </div>
 <div mat-dialog-actions align="center">
-  <button *ngIf="ok" mat-button (click)="onNoClick()">OK</button>
+  <button *ngIf="uploader.progress == 100 || invalid || size" mat-button (click)="onNoClick()">OK</button>
 </div>

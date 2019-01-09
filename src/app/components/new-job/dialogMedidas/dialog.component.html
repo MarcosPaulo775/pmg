@@ -5,22 +5,25 @@
     <button mat-button class="button_blue" (click)="fileInput.click()">
 
       <mat-icon>cloud_upload</mat-icon> Upload PDF
-      <input hidden type="file" accept="application/pdf" (change)="inputFileChange($event)" #fileInput>
+      <input hidden type="file" accept="application/pdf" ng2FileSelect [uploader]="uploader" (change)="uploadAll($event)" #fileInput />
 
     </button>
     <p>OBS: O PDF deve estar em CMYK ou haverá erro.</p>
   </div>
 
   <p></p>
-  <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress | async"></mat-progress-bar>
+  <mat-progress-bar *ngIf="uploader.progress" mode="determinate" [value]="uploader.progress"></mat-progress-bar>
   <p>
-    {{percentDone}}
+    {{uploader.progress}}%
   </p>
 
   <div *ngIf="invalid">
     Arquivo inválido;
   </div>
+  <div *ngIf="size">
+    Arquivo maior que 300mb;
+  </div>
 </div>
 <div mat-dialog-actions align="center">
-  <button *ngIf="ok" mat-button (click)="onNoClick()">OK</button>
+  <button *ngIf="uploader.progress == 100 || invalid || size" mat-button (click)="onNoClick()">OK</button>
 </div>

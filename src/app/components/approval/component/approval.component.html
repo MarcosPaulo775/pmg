@@ -1,0 +1,154 @@
+<div fxLayout="column" fxLayoutGap="10px">
+  <mat-card>
+
+    <mat-card-header>
+      <mat-card-title>Adicionar nova aprovação</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div>
+        <div ng2FileDrop accept="application/pdf" [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
+          [uploader]="uploader" class="well drop-zone" (dblclick)="fileInput.click()">
+          <div *ngIf="!uploader?.queue?.length" style="width: 100%; height: 300px;" fxLayoutAlign="center center">
+            <div class="naoSelecionavel">
+              <h3>
+                Arraste um arquivo PDF aqui,
+              </h3>
+              <h3>
+                ou clique duas vezes!
+              </h3>
+            </div>
+          </div>
+          <table class="table" *ngIf="uploader?.queue?.length">
+            <thead>
+              <tr>
+                <th width="50%">Nome</th>
+                <th>Tamanho</th>
+                <th>Progresso</th>
+                <th>Status</th>
+                <th>Remover</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of uploader.queue">
+                <td><strong>{{ item?.file?.name }}</strong></td>
+                <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                <td>
+                  <div *ngIf="item.progress" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+                    <mat-progress-spinner [value]="item.progress" diameter="25"></mat-progress-spinner>
+                    <a>
+                      Upload: {{item.progress}}%
+                    </a>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <span *ngIf="item.isSuccess">
+                    <mat-icon>done</mat-icon>
+                  </span>
+                  <span *ngIf="item.isCancel">
+                    <mat-icon>block</mat-icon>
+                  </span>
+                  <span *ngIf="item.isError">
+                    <mat-icon>clear</mat-icon>
+                  </span>
+                </td>
+                <td nowrap>
+                  <button mat-icon-button (click)="item.remove()">
+                    <mat-icon>clear</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button mat-stroked-button class="button_blue" (click)="fileInput.click()">
+          <mat-icon>add</mat-icon> Adicinar PDF
+          <input hidden type="file" accept="application/pdf" ng2FileSelect [uploader]="uploader" (change)="fileOverBase($event)" multiple #fileInput />
+        </button>
+      </div>
+
+      <form class="form" class="full-width">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Email" [formControl]="emailFormControl" [errorStateMatcher]="matcher">
+          <!-->mat-hint>Erros aparecem instantaneamente!</mat-hint-->
+          <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+            Por favor insira um endereço de e-mail válido
+          </mat-error>
+          <mat-error *ngIf="emailFormControl.hasError('required')">
+            E-mail é <strong>obrigatório</strong>
+          </mat-error>
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutGap="10px">
+          <button mat-stroked-button type="submit" color="primary" (click)="uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+            <mat-icon>cloud_upload</mat-icon> Enviar arquivos
+          </button>
+          <button mat-stroked-button color="accent" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+            <mat-icon>block</mat-icon> Cancelar todos
+          </button>
+          <button mat-stroked-button color="warn" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+            <mat-icon>delete</mat-icon> Remover todos
+          </button>
+          <div *ngIf="uploader.progress" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+            <mat-progress-spinner [value]="uploader.progress" diameter="30"></mat-progress-spinner>
+            <a>
+              Upload: {{uploader.progress}}%
+            </a>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+
+    <mat-card-header>
+      <mat-card-title>
+        Aprovações disponíveis
+        <button mat-stroked-button (click)="updateTable()" *ngIf="workables" matTooltip="Atualizar">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div fxLayoutAlign="center" style="width: 100%;">
+        <mat-spinner *ngIf="!workables"></mat-spinner>
+      </div>
+      <table *ngIf="workables">
+        <thead>
+          <tr>
+            <th>
+              Nome
+            </th>
+            <th>
+              email
+            </th>
+            <th>
+              Status
+            </th>
+            <th>
+
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let workable of workables">
+            <td>
+              {{workable.name?.split('-')[0]}}
+            </td>
+            <td>
+              {{workable.variables?.email}}
+            </td>
+            <td>
+              {{workable.node_name}}
+            </td>
+            <td>
+              <button mat-stroked-button *ngIf="workables" (click)="openDialog(workable.variables.proofscope_url)" matTooltip="Atualizar">
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

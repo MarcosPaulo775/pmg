@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 
 import { ChartModule } from 'primeng/chart';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
     declarations: [
     ],
     imports: [
-        ChartModule
+        ChartModule,
+        FileUploadModule
     ],
     exports: [
-        ChartModule
+        ChartModule,
+        FileUploadModule
     ],
     providers: []
 })

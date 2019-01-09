@@ -1,0 +1,55 @@
+<mat-drawer-container class="container" autosize>
+  <mat-drawer #drawer class="sidenav" [mode]="'side'" opened>
+    <!--opened-->
+    <div align="center">
+      <p></p>
+      <img mat-card-avatar *ngIf="data" [src]="data" alt="image">
+      <div *ngIf="user" style="color: rgba(255, 255, 255, .60); font-family: Open sans">
+        <div>
+          Olá {{user.fullname}}
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/config/user">
+              <mat-icon>account_circle</mat-icon> Minha Conta
+            </button>
+            <button mat-menu-item routerLink="/config">
+              <mat-icon>settings</mat-icon> Configurações
+            </button>
+            <button mat-menu-item (click)="logout();">
+              <mat-icon>exit_to_app</mat-icon> Logout
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+      <p></p>
+      <div fxLayout="column" fxLayoutGap="5px">
+
+        <a mat-button routerLink="/dashboard">
+          <mat-icon>dashboard</mat-icon>
+          Dashboard
+        </a>
+
+        <a mat-button routerLink="/cloudflow/approval" [style.background-color]="approval">
+          <mat-icon>add_photo_alternate</mat-icon>
+          Aprovação
+        </a>
+
+      </div>
+    </div>
+  </mat-drawer>
+
+  <div class="sidenav-content">
+    <mat-toolbar fxLayoutGap="20px">
+      <button type="button" mat-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <p>{{title}}</p>
+    </mat-toolbar>
+    <div class="contend">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</mat-drawer-container>

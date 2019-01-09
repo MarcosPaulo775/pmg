@@ -115,13 +115,6 @@ export class Flow {
     error?: string;
 }
 
-export class Workable {
-    collar?: string;
-    connector?: string;
-    node?: string;
-    error_code?: string;
-    error?: string;
-}
 
 export interface is_admin {
     user_id?: string;
@@ -141,4 +134,46 @@ export interface _id {
     error_code?: string;
     error?: string;
 }
+
+
+/** workable */
+export class Waiting_room {
+    collar?: string;
+    connector?: string;
+    node?: string;
+    error_code?: string;
+    error?: string;
+}
+
+export class Workable {
+    _id?: string;
+    id?: string;
+    birth?: string;
+    do_schedule?: boolean;
+    jacket?: string;
+    modification?: string;
+    name?: string;
+    node_name?: string;
+    priority?: number;
+    run_state?: string;
+    save_id?: string;
+    schedule?: number;
+    state?: string;
+    system?: boolean;
+    whitepaper?: string;
+    whitepaper_name?: string;
+    instructions?: any[];
+    log?: any[];
+    roles?: any;
+    variables?: any;
+    waiting_room?: Waiting_room;
+    hold_in_kiosk?: boolean
+}
+
+export interface Result_Workable {
+    results: Workable[];
+    error_code: string;
+    error: string;
+}
+
 

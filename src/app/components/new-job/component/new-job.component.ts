@@ -20,7 +20,7 @@ import {
   Result_Color,
   Result_Company,
   Flow,
-  Workable,
+  Waiting_room,
   Result_DimensionColor
 } from '../../../shared/models/api';
 
@@ -217,7 +217,7 @@ export class NewJobComponent implements OnInit {
                 for (let i = 0; i < data.results.length; i++) {
                   this.clientes.push(data.results[i].razao);
                 }
-                if (this.clientes.indexOf(this.os.cliente)) {
+                if (!this.clientes.indexOf(this.os.cliente)) {
                   this.clientes.push(this.os.cliente);
                 }
                 this.form.get('clientes').setValue(this.os.cliente);
@@ -666,7 +666,7 @@ export class NewJobComponent implements OnInit {
   /** Inicia Fluxo do servidor para medir cores do PDF */
   dimensionColor(file: string) {
     this.spinner = true;
-    this.apiService.hub_start_from_whitepaper_with_files_and_variables('medidas_os', 'input', ['cloudflow://PP_FILE_STORE/dimensionColor/' + file])
+    this.apiService.hub_start_from_whitepaper_with_files('Angular_dimensions', 'input', ['cloudflow://PP_FILE_STORE/dimensionColor/' + file])
       .subscribe((data: Flow) => {
         if (!data.error) {
           this.workable(data.workable_id);
@@ -679,7 +679,7 @@ export class NewJobComponent implements OnInit {
   /** Verifica a cada 2 segundos se o fluxo de medidas do servidor terminou*/
   workable(workable_id) {
     this.apiService.hub_get_waiting_room_of_workable(workable_id)
-      .pipe(delay(2 * 1000)).subscribe((data: Workable) => {
+      .pipe(delay(2 * 1000)).subscribe((data: Waiting_room) => {
         this.t = this.t + 2;
 
         console.log(this.t + ' segundos');

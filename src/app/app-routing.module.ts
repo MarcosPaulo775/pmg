@@ -38,6 +38,11 @@ const routes: Routes = [
     loadChildren: './components/stock/stock.module#StockModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'cloudflow',
+    loadChildren: './components/cloudflow/cloudflow.module#CloudflowModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

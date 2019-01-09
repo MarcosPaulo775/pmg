@@ -8,7 +8,10 @@ import { NgxMaskModule } from 'ngx-mask';
 import { FileSaverModule } from 'ngx-filesaver';
 import { PrimeNgModule } from './prime-ng.module';
 
+import {FileUploadModule} from 'ng2-file-upload';
+
 import { DialogConfirmComponent } from 'src/app/components/confirm/confirm.component';
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
     declarations: [
@@ -22,7 +25,9 @@ import { DialogConfirmComponent } from 'src/app/components/confirm/confirm.compo
         HttpClientModule,
         NgxMaskModule.forRoot(),
         PrimeNgModule,
-        FileSaverModule
+        FileSaverModule,
+        FileUploadModule,
+        ClipboardModule
     ],
     exports: [
         FormsModule,
@@ -31,7 +36,9 @@ import { DialogConfirmComponent } from 'src/app/components/confirm/confirm.compo
         HttpClientModule,
         NgxMaskModule,
         PrimeNgModule,
-        FileSaverModule
+        FileSaverModule,
+        FileUploadModule,
+        ClipboardModule
     ],
     providers: [],
     entryComponents: [DialogConfirmComponent],

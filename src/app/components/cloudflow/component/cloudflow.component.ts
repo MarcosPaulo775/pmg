@@ -1,24 +1,20 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
-
+import { Result_Avatar } from 'src/app/shared/models/api';
+import { User } from 'src/app/shared/models/user';
 import { MatSnackBar } from '@angular/material';
-
 import { AuthService } from 'src/app/core/authentication/auth.service';
 import { ApiService } from 'src/app/core/http/api.service';
-import { User } from 'src/app/shared/models/user';
-import { Result_Avatar } from 'src/app/shared/models/api';
 import { AppService } from 'src/app/shared/Services/app.service';
 
 @Component({
-  selector: 'app-config',
-  templateUrl: './config.component.html',
-  styleUrls: ['./config.component.css']
+  selector: 'app-cloudflow',
+  templateUrl: './cloudflow.component.html',
+  styleUrls: ['./cloudflow.component.css']
 })
-export class ConfigComponent implements OnInit {
+export class CloudflowComponent implements OnInit {
 
   title: string;
-  user_color: string;
-  users_color: string;
+  approval: string;
   data: string;
   user: User;
 
@@ -89,12 +85,8 @@ export class ConfigComponent implements OnInit {
   }
 
   @Input()
-  set setUserColor(color: string) {
-    this.user_color = color;
+  set setApproval(color: string) {
+    this.approval = color;
   }
 
-  @Input()
-  set setUsersColor(color: string) {
-    this.users_color = color;
-  }
 }
