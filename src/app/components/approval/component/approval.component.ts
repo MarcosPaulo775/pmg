@@ -132,6 +132,7 @@ export class ApprovalComponent implements OnInit {
 
   /** Atualiza Tabela */
   updateTable() {
+    this.workables = null;
     this.apiService.workable_list([
       'whitepaper_name',
       'equal to',
