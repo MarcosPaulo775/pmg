@@ -121,6 +121,9 @@ export class ApprovalComponent implements OnInit {
     ).subscribe((data: Flow) => {
       if (!data.error) {
         this.updateTable();
+        this.uploader.clearQueue();
+        this.emailFormControl.setValue(null);
+        this.appService.openSnackBar('Aguarde alguns segundos e atualize a tabela para visualizar', 'ok');
       }
     }, (data) => {
       console.log(data);
