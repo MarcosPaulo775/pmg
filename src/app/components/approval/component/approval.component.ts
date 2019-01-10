@@ -10,6 +10,7 @@ import { Flow, Workable, Result_Workable } from 'src/app/shared/models/api';
 import { AppService } from 'src/app/shared/Services/app.service';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MatDialog } from '@angular/material';
+import { ValidateMultipleEmail } from 'src/app/shared/validators/multipleEmail.validator';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -42,7 +43,7 @@ export class ApprovalComponent implements OnInit {
 
   emailFormControl = new FormControl('', [
     Validators.required,
-    Validators.email,
+    ValidateMultipleEmail
   ]);
 
   sub: Subscription;
@@ -82,13 +83,15 @@ export class ApprovalComponent implements OnInit {
           }
           this.uploader.authToken = localStorage.getItem('session');
           this.uploader.uploadAll();
+
           this.progress = new Observable<string>((observer: Observer<string>) => {
             setInterval(() => observer.next(this.uploader.progress.toString()), 500);
           });
+
           this.sub = this.progress.subscribe((data) => {
             if (data == '100') {
-              this.sub.unsubscribe();
               this.initApproval();
+              this.sub.unsubscribe();
             }
           });
         } else {
@@ -106,7 +109,8 @@ export class ApprovalComponent implements OnInit {
   initApproval() {
     let files = [];
     for (let i = 0; i < this.uploader.queue.length; i++) {
-      files.push('cloudflow://PP_FILE_STORE/approval/' + this.uploader.queue[i].file.name);
+      let name = this.uploader.queue[i].file.name.replace(/ /g, "%20");
+      files.push('cloudflow://PP_FILE_STORE/approval/' + name);
     }
 
     this.apiService.hub_start_from_whitepaper_with_files_and_variables(
