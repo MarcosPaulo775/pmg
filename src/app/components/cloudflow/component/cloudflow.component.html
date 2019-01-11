@@ -1,5 +1,5 @@
 <mat-drawer-container class="container" autosize>
-  <mat-drawer #drawer class="sidenav" [mode]="'side'" opened>
+  <mat-drawer #drawer class="sidenav" mode="side" opened>
     <!--opened-->
     <div align="center">
       <p></p>
@@ -24,8 +24,7 @@
         </div>
       </div>
       <p></p>
-      <div fxLayout="column" fxLayoutGap="5px">
-
+      <div fxLayout="column">
         <a mat-button routerLink="/dashboard">
           <mat-icon>dashboard</mat-icon>
           Dashboard
@@ -35,21 +34,21 @@
           <mat-icon>add_photo_alternate</mat-icon>
           Aprovação
         </a>
-
       </div>
     </div>
   </mat-drawer>
 
   <div class="sidenav-content">
-    <mat-toolbar fxLayoutGap="20px">
-      <button type="button" mat-button (click)="drawer.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <p>{{title}}</p>
-    </mat-toolbar>
+    <mat-toolbar></mat-toolbar>
     <div class="contend">
       <router-outlet></router-outlet>
     </div>
+    <mat-toolbar class="fixed">
+      <button type="button" mat-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <h4>{{title}}</h4>
+    </mat-toolbar>
   </div>
 
 </mat-drawer-container>

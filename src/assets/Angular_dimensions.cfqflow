@@ -1,0 +1,393 @@
+{
+	"document_type":	"application/vnd.nixps-whitepaper+json",
+	"_id":	"5c33af3fd00000d500000003",
+	"birth":	"2019-01-07T19:57:51Z",
+	"name":	"Angular_dimensions",
+	"run_state":	"ready",
+	"save_id":	"f6ad04af-9ae6-498c-be8b-cb68b81c339d",
+	"modification":	"2019-01-07T20:01:58Z",
+	"nodes":	[{
+			"collar":	"com.nixps.quantum.end.0",
+			"title":	"End",
+			"parameters":	{
+				"delay":	1,
+				"delete_jacket":	true
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}],
+			"selected":	false,
+			"x":	817,
+			"y":	200,
+			"id":	"108241df-2372-b824-eda9-32d6113f6d8a",
+			"run_state":	"ready"
+		}, {
+			"collar":	"com.packz.quantum.packzflow.0",
+			"title":	"Metadata\nDimension",
+			"parameters":	{
+				"quantum_logicals":	["PACKZFLOW"],
+				"packzflow":	"cloudflowlogical:PACKZFLOW",
+				"packz_action":	{
+					"Title":	"Export Metadata",
+					"Action":	"EXPORTVARIABLE",
+					"Input":	[{
+							"type":	"com.nixps.quantum.url_to_local_path.0",
+							"url":	[{
+									"type":	"com.nixps.quantum.parameter.0",
+									"parameter":	"file"
+								}]
+						}],
+					"ExportParams":	{
+						"Variable":	[{
+								"type":	"com.nixps.quantum.parameter.0",
+								"parameter":	"packzvariable"
+							}],
+						"Cloudflow":	[{
+								"type":	"com.nixps.quantum.parameter.0",
+								"parameter":	"cloudflowvariable"
+							}],
+						"TemplateFile":	[{
+								"type":	"com.nixps.quantum.url_to_local_path.0",
+								"url":	[{
+										"type":	"com.nixps.quantum.parameter.0",
+										"parameter":	"templatefile"
+									}]
+							}],
+						"OutputFile":	[{
+								"type":	"com.nixps.quantum.url_to_local_path.0",
+								"url":	[{
+										"type":	"com.nixps.quantum.parameter.0",
+										"parameter":	"output"
+									}]
+							}]
+					}
+				},
+				"packz_save":	{
+					"Action":	"SAVE",
+					"Input":	[{
+							"type":	"com.nixps.quantum.url_to_local_path.0",
+							"url":	[{
+									"type":	"com.nixps.quantum.parameter.0",
+									"parameter":	"file"
+								}]
+						}],
+					"Output":	[{
+							"type":	"com.nixps.quantum.url_to_local_path.0",
+							"url":	[{
+									"type":	"com.nixps.quantum.parameter.0",
+									"parameter":	"file"
+								}]
+						}]
+				},
+				"cloudflowvariable":	"packz_var",
+				"packzvariable":	"js.ub56d6279b7c0cfba",
+				"file":	[{
+						"type":	"com.nixps.quantum.data_from_previous_node.0",
+						"first_only":	true
+					}],
+				"templatefile":	"",
+				"output":	"",
+				"output_reconstruction_base":	"file",
+				"result_variable":	"dimension"
+			},
+			"parameter_references":	["packzflow", "packz_action", "packz_save", "output_reconstruction_base"],
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"variant":	"com.packz.packzflow.exportmetadata.1",
+			"selected":	false,
+			"x":	323,
+			"y":	152,
+			"id":	"76c0c3c0-2a30-6dc3-8ad9-efe4525d54c5",
+			"run_state":	"ready"
+		}, {
+			"collar":	"com.nixps.quantum.get_file_info.0",
+			"title":	"Get File Info",
+			"parameters":	{
+				"files":	[{
+						"type":	"com.nixps.quantum.data_from_previous_node.0",
+						"first_only":	false
+					}],
+				"variable":	"file_info",
+				"support_multiple_files":	false,
+				"only_from_file":	false
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	221,
+			"y":	152,
+			"id":	"74167073-bf31-6d8c-ac4a-d717df78b1e1",
+			"run_state":	"ready"
+		}, {
+			"collar":	"com.nixps.quantum.start_from_form.0",
+			"title":	"Start From Form",
+			"parameters":	{
+				"name":	"input",
+				"workable_name":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"value":	""
+					}],
+				"jacket_name":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"value":	""
+					}],
+				"jacket_id":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"value":	""
+					}],
+				"priority":	50,
+				"allow_guest":	false,
+				"access_for_scopes":	"",
+				"scope_from_user":	false,
+				"work_servers":	[]
+			},
+			"connectors":	[{
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	114,
+			"y":	152,
+			"id":	"2bbc353f-a5d3-60c9-961d-15823b815284"
+		}, {
+			"collar":	"com.nixps.quantum.script.0",
+			"title":	"Script",
+			"parameters":	{
+				"variables":	[{
+						"type":	"com.nixps.quantum.all_variables.0"
+					}],
+				"files":	[{
+						"type":	"com.nixps.quantum.data_from_previous_node.0",
+						"first_only":	false
+					}],
+				"log_function_feedback":	true,
+				"fail_on_function_errors":	true,
+				"script_file":	"",
+				"script":	"var data = getParameters().variables.dimension;\r\nvar data2 = getParameters().variables.meta_data.output_color_space.colorants;\r\n\r\nvar colors = [];\r\nvar os = getParameters().variables.file_info.document_name;\r\n\r\nvar cmykTorgb = function (c,m,y,k) { \r\n\r\n  var result = {};\r\n  result.r = 1 - Math.min( 1, c * ( 1 - k ) + k );\r\n  result.g = 1 - Math.min( 1, m * ( 1 - k ) + k );\r\n  result.b = 1 - Math.min( 1, y * ( 1 - k ) + k );\r\n \r\n  result.r = Math.round( result.r * 255 );\r\n  result.g = Math.round( result.g * 255 );\r\n  result.b = Math.round( result.b * 255 );\r\n  return result;\r\n};\r\n\r\nvar rgbToHex = function (rgb) { \r\n  var hex = Number(rgb).toString(16);\r\n  if (hex.length < 2) {\r\n       hex = \"0\" + hex;\r\n  }\r\n  return hex;\r\n};\r\n\r\nvar fullColorHex = function(r,g,b) {   \r\n  var red = rgbToHex(r);\r\n  var green = rgbToHex(g);\r\n  var blue = rgbToHex(b);\r\n  return red+green+blue;\r\n};\r\n\r\nfor(var i = 0; i < data2.length; i++){\r\n    \r\n    if(data2[i].previews.rgb){\r\n        var red = Math.round(data2[i].previews.rgb[0] * 255);\r\n        var blue = Math.round(data2[i].previews.rgb[1] * 255); \r\n        var green =  Math.round(data2[i].previews.rgb[2] * 255);\r\n    }\r\n    else if(data2[i].previews.cmyk){\r\n        var c = Math.round(data2[i].previews.cmyk[0]);\r\n        var m = Math.round(data2[i].previews.cmyk[1]);\r\n        var y = Math.round(data2[i].previews.cmyk[2]);\r\n        var k = Math.round(data2[i].previews.cmyk[3]);\r\n\r\n        var rgb = cmykTorgb(c,m,y,k)\r\n\r\n        var red = rgb.r;\r\n        var blue = rgb.b;\r\n        var green = rgb.g;\r\n    }\r\n    \r\n    var color = {\r\n        'largura': data[i].box[0],\r\n        'altura': data[i].box[1],\r\n        'color': data2[i].name,\r\n        'red':  red,\r\n        'blue': blue,\r\n        'green': green,\r\n        'hex': fullColorHex(red, green, blue)\r\n    };    \r\n    colors.push(color);\r\n}\r\n\r\napi.custom_objects.create('dimensionColor', {'color': colors, 'os': os});",
+				"quantum_work_servers":	[],
+				"quantum_max_concurrent_workers":	0
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	539,
+			"y":	152,
+			"id":	"cd666755-91ae-4a2f-2cf1-c941046b7c04"
+		}, {
+			"collar":	"com.nixps.quantum.delete_file.0",
+			"title":	"Delete File",
+			"parameters":	{
+				"files":	[{
+						"type":	"com.nixps.quantum.data_from_node.0",
+						"node_name":	"Start From Form",
+						"first_only":	false
+					}],
+				"delete_enclosing_folder":	false,
+				"ignore_missing_file":	true
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	684,
+			"y":	200,
+			"id":	"7300e0fd-47f2-7bc7-892c-b65f5b7d01c3"
+		}, {
+			"collar":	"com.nixps.quantum.unhandled_problem.0",
+			"title":	"Unhandled Problem",
+			"parameters":	{
+				"delay":	5
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	539,
+			"y":	258,
+			"id":	"059b2ea3-24bb-092d-7572-e022cf6440af"
+		}, {
+			"collar":	"com.nixps.quantum.get_meta_data.0",
+			"title":	"Get Meta Data",
+			"parameters":	{
+				"files":	[{
+						"type":	"com.nixps.quantum.data_from_previous_node.0",
+						"first_only":	false
+					}],
+				"variable":	"meta_data",
+				"support_multiple_files":	false,
+				"only_from_file":	false,
+				"data_selector":	{
+					"XMP":	false,
+					"EmbeddedData":	false
+				}
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	431,
+			"y":	152,
+			"id":	"39ec766e-58e0-6e58-8b53-afbd5887b3d4"
+		}],
+	"comments":	[],
+	"connections":	[{
+			"id":	"b02d5fb1-13ae-c3a1-f7ec-0ad8b8b664b8",
+			"from":	{
+				"node":	"059b2ea3-24bb-092d-7572-e022cf6440af",
+				"connector":	"failure"
+			},
+			"to":	{
+				"node":	"7300e0fd-47f2-7bc7-892c-b65f5b7d01c3",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"11cb5195-7b45-33d3-f5b6-a0a96db08fa9",
+			"from":	{
+				"node":	"7300e0fd-47f2-7bc7-892c-b65f5b7d01c3",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"108241df-2372-b824-eda9-32d6113f6d8a",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"6a31b8dc-5881-22c0-45d6-ffe614e89be7",
+			"from":	{
+				"node":	"7300e0fd-47f2-7bc7-892c-b65f5b7d01c3",
+				"connector":	"failure"
+			},
+			"to":	{
+				"node":	"108241df-2372-b824-eda9-32d6113f6d8a",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"43ffa6f5-f53d-9a01-3967-dd36b60d1e84",
+			"from":	{
+				"node":	"74167073-bf31-6d8c-ac4a-d717df78b1e1",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"76c0c3c0-2a30-6dc3-8ad9-efe4525d54c5",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"83c4483a-fd47-560c-2033-18334c204905",
+			"from":	{
+				"node":	"76c0c3c0-2a30-6dc3-8ad9-efe4525d54c5",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"39ec766e-58e0-6e58-8b53-afbd5887b3d4",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"25559032-feaf-f318-2d70-38e383335f03",
+			"from":	{
+				"node":	"cd666755-91ae-4a2f-2cf1-c941046b7c04",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"7300e0fd-47f2-7bc7-892c-b65f5b7d01c3",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"cf056931-6a8a-7a7a-7494-cbfceac9dad2",
+			"from":	{
+				"node":	"39ec766e-58e0-6e58-8b53-afbd5887b3d4",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"cd666755-91ae-4a2f-2cf1-c941046b7c04",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"531ade7f-b3ac-883d-c506-64c6ab6a5ea8",
+			"from":	{
+				"node":	"2bbc353f-a5d3-60c9-961d-15823b815284",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"74167073-bf31-6d8c-ac4a-d717df78b1e1",
+				"connector":	"input"
+			}
+		}]
+}

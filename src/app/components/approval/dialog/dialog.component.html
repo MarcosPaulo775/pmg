@@ -14,6 +14,11 @@
     <button mat-stroked-button (click)="copy()" matTooltip="Copiar Link">
       <mat-icon>assignment</mat-icon>
     </button>
+    <a [href]="url" style="color: black"target="_blank">
+      <button mat-stroked-button matTooltip="Abrir em uma nova aba">
+        <mat-icon>open_in_new</mat-icon>
+      </button>
+    </a>
     <div style="flex-grow: 1;"></div>
     <button mat-stroked-button mat-dialog-close>Fechar</button>
   </mat-card-actions>

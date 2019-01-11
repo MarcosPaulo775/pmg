@@ -1,0 +1,986 @@
+{
+	"document_type":	"application/vnd.nixps-whitepaper+json",
+	"_id":	"5c33a566440100ac00000003",
+	"birth":	"2019-01-07T19:15:50Z",
+	"name":	"Angular_Approval",
+	"run_state":	"ready",
+	"save_id":	"d502b258-f81a-4058-8a22-f6c6cc2398b5",
+	"modification":	"2019-01-09T11:52:41Z",
+	"nodes":	[{
+			"collar":	"com.nixps.quantum.unhandled_problem.0",
+			"title":	"Unhandled Problem",
+			"parameters":	{
+				"delay":	1
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	1305,
+			"y":	505,
+			"id":	"5791b236-8304-cad3-0b5f-7cbf57fc043f"
+		}, {
+			"collar":	"com.nixps.quantum.start_from_form.0",
+			"title":	"Inicio",
+			"parameters":	{
+				"name":	"input",
+				"workable_name":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"value":	""
+					}],
+				"jacket_name":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"value":	""
+					}],
+				"jacket_id":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"value":	""
+					}],
+				"priority":	50,
+				"allow_guest":	false,
+				"access_for_scopes":	"",
+				"scope_from_user":	false,
+				"work_servers":	[]
+			},
+			"connectors":	[{
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	95,
+			"y":	323,
+			"id":	"b8900ad9-cced-bacc-98df-f13716ec4eb3"
+		}, {
+			"collar":	"com.nixps.quantum.approval.start_approval.0",
+			"title":	"Iniciando aprovação",
+			"parameters":	{
+				"references":	[{
+						"type":	"com.nixps.quantum.data_from_previous_node.0"
+					}],
+				"participant_emails":	[[{
+							"type":	"com.nixps.quantum.variable.0",
+							"variable":	"email"
+						}]],
+				"combined_approval":	false,
+				"approval_time_out":	10080,
+				"approval_time_out_assessment":	"reject",
+				"approval_remind_interval":	7200,
+				"participants":	[],
+				"participant_attributes":	[],
+				"allow_delegating":	false,
+				"informative_participants":	[],
+				"informative_participant_emails":	[],
+				"informative_participant_attributes":	[],
+				"variable":	"approval",
+				"one_approval_per_reference":	false,
+				"hold_restart_until_change":	false,
+				"restart_settling_time":	10,
+				"enable_comment":	false,
+				"allow_conditional_accept":	false
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"restart",
+					"label":	"Restart",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"approvals",
+					"label":	"Approvals",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	571,
+			"y":	343,
+			"id":	"7e8e3765-4650-84ae-da37-25dbcb895623"
+		}, {
+			"collar":	"com.nixps.quantum.approval.wait_for_approval.0",
+			"title":	"Aguardando aprovação",
+			"parameters":	{
+		},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"reminder",
+					"label":	"Reminders",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	931,
+			"y":	387,
+			"id":	"a6b4fb0d-3dea-67d8-7f9b-926f3698f910"
+		}, {
+			"collar":	"com.nixps.quantum.approval.prepare_proofscope.0",
+			"title":	"Preparando o Proofscope",
+			"parameters":	{
+				"files":	[{
+						"type":	"com.nixps.quantum.data_from_previous_node.0"
+					}],
+				"wait_for_render":	false,
+				"generate_text_layer":	false
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"no_proofscope_view",
+					"label":	"Can't Be Viewed in Proofscope",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	209,
+			"y":	311,
+			"id":	"83498af5-602d-cf38-0b07-7a0544ef6eec"
+		}, {
+			"collar":	"com.nixps.quantum.approval.route_after_approval.0",
+			"title":	"Verificando aprovação",
+			"parameters":	{
+				"policy":	"Any"
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"approvals",
+					"label":	"Approvals",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Approved",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"rejected",
+					"label":	"Rejected",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"reference_updated",
+					"label":	"Reference Updated",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"conditional",
+					"label":	"Conditional Approve",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	1090,
+			"y":	338,
+			"id":	"dda09e2a-da7c-c2a9-5d2a-cef83a91a522"
+		}, {
+			"collar":	"com.nixps.quantum.script.0",
+			"title":	"Report Proofscope Problem",
+			"parameters":	{
+				"variables":	[{
+						"type":	"com.nixps.quantum.all_variables.0"
+					}],
+				"files":	[{
+						"type":	"com.nixps.quantum.data_from_previous_node.0"
+					}],
+				"log_function_feedback":	true,
+				"fail_on_function_errors":	true,
+				"script":	"addEventMessage('error', 'file cannot be handled by proofscope', getParameters().files[0]);",
+				"quantum_work_servers":	[],
+				"script_file":	"",
+				"quantum_max_concurrent_workers":	0
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	344,
+			"y":	423,
+			"id":	"5e5ed430-0e55-b9cb-3baa-1cbd3fcd2ce0"
+		}, {
+			"collar":	"com.nixps.quantum.get_user_info.0",
+			"title":	"Obtendo informações do usuário",
+			"parameters":	{
+				"username":	[{
+						"type":	"com.nixps.quantum.role.0",
+						"role":	"creator"
+					}],
+				"variable":	"user_info"
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	437,
+			"y":	304,
+			"id":	"107f5e6c-55ca-2b83-4b45-f0319ed5c996"
+		}, {
+			"collar":	"com.nixps.quantum.send_email.0",
+			"title":	"Enviando E-Mail  de lembrete",
+			"parameters":	{
+				"from_address":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"ui_type":	"com.nixps.quantum.stringinput.0",
+						"value":	"demo@hybridsoftware.com"
+					}],
+				"to_addresses":	[{
+						"type":	"com.nixps.quantum.variable.0",
+						"variable":	"quantum.approval.participant.email_address"
+					}],
+				"mail_data_source":	"FromTemplate",
+				"subject":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"value":	""
+					}],
+				"body":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"value":	""
+					}],
+				"template_name":	"ApprovalReminder",
+				"template_language_from_user":	false,
+				"template_language":	"en",
+				"body_type":	"Plain+Template",
+				"template_variables":	[{
+						"type":	"com.nixps.quantum.all_variables.0",
+						"include_quantum":	true
+					}],
+				"attachments":	"",
+				"previews":	[{
+						"type":	"com.nixps.quantum.data_from_previous_node.0"
+					}],
+				"retry_count":	5,
+				"retry_interval":	300,
+				"cc_addresses":	[],
+				"bcc_addresses":	[]
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	931,
+			"y":	486,
+			"id":	"dfb87879-bb40-6554-2c13-b78e54c1cf86"
+		}, {
+			"collar":	"com.nixps.quantum.end.0",
+			"title":	"Run Failure",
+			"parameters":	{
+				"delay":	10,
+				"delete_jacket":	false
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}],
+			"selected":	false,
+			"x":	443,
+			"y":	433,
+			"id":	"2e5e81ee-7f12-eba8-820c-8fa5a2a67a03"
+		}, {
+			"collar":	"com.nixps.quantum.end.0",
+			"title":	"Aprovado",
+			"parameters":	{
+				"delay":	1,
+				"delete_jacket":	true
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}],
+			"selected":	false,
+			"x":	1570,
+			"y":	380,
+			"id":	"aa0137f2-eb23-0ad4-8c41-019c029ffe6b"
+		}, {
+			"collar":	"com.nixps.quantum.approval.generate_proofscope_url.1",
+			"title":	"Gerando Link Proofscope",
+			"parameters":	{
+				"files":	[{
+						"type":	"com.nixps.quantum.data_from_previous_node.0",
+						"first_only":	false
+					}],
+				"base_proofscope_url":	"http://187.32.22.105:9090",
+				"variable":	"proofscope_url",
+				"url_type":	"File",
+				"difference_file":	"",
+				"as3d_file":	"",
+				"approval":	true,
+				"guest_access":	true,
+				"email_address":	[{
+						"type":	"com.nixps.quantum.variable.0",
+						"variable":	"quantum.approval.participant.email_address"
+					}],
+				"require_login":	false,
+				"maximum_zoom_level":	16,
+				"invert_colorants":	false,
+				"render_single_colorant_as_black":	false,
+				"has_notes":	true,
+				"require_note_on_reject":	true,
+				"view_only_notes_after_assessment":	true,
+				"view_info_details":	true,
+				"show_measure_density_tool":	true,
+				"show_measure_halftone_tool":	true,
+				"show_download_low_resolution_document":	false,
+				"show_download_notes_report":	false,
+				"show_read_barcode_tool":	true,
+				"show_note_from_text_tool":	false,
+				"view_time_out":	1209600,
+				"can_save_view":	false,
+				"show_preflight_notes":	false,
+				"can_delete_notes":	false,
+				"show_page_boxes":	true,
+				"show_page_size":	true,
+				"intro_url":	""
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	703,
+			"y":	373,
+			"id":	"4099cec5-811a-6fa6-066f-f626301ef7fb"
+		}, {
+			"collar":	"com.nixps.quantum.send_email.0",
+			"title":	"Enviando E-Mail",
+			"parameters":	{
+				"from_address":	[{
+						"type":	"com.nixps.quantum.variable.0",
+						"variable":	"user_info.email"
+					}],
+				"to_addresses":	[[{
+							"type":	"com.nixps.quantum.variable.0",
+							"variable":	"quantum.approval.participant.email_address"
+						}]],
+				"cc_addresses":	[],
+				"bcc_addresses":	[],
+				"mail_data_source":	"FromTemplate",
+				"subject":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"value":	""
+					}],
+				"body":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"value":	""
+					}],
+				"template_name":	"Angular_Aprproval",
+				"template_language_from_user":	false,
+				"template_language":	"en",
+				"body_type":	"HTML+Template",
+				"template_variables":	[{
+						"type":	"com.nixps.quantum.all_variables.0",
+						"include_quantum":	true
+					}],
+				"attachments":	"",
+				"previews":	"",
+				"retry_count":	5,
+				"retry_interval":	300
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	811,
+			"y":	387,
+			"id":	"6764db54-8e0a-b328-1c29-9be1463bd3bf"
+		}, {
+			"collar":	"com.nixps.quantum.script.0",
+			"title":	"Alterando link",
+			"parameters":	{
+				"variables":	[{
+						"type":	"com.nixps.quantum.all_variables.0"
+					}],
+				"files":	[{
+						"type":	"com.nixps.quantum.data_from_previous_node.0",
+						"first_only":	false
+					}],
+				"log_function_feedback":	true,
+				"fail_on_function_errors":	true,
+				"script_file":	"",
+				"script":	"var url_externa = getParameters().variables.proofscope_url;\n\nvar url_interna = url_externa.replace(\"187.32.22.105\",\"192.168.1.225\");\n\nsetResultVariables({\"proofscope_url2\":url_interna})",
+				"quantum_work_servers":	[],
+				"quantum_max_concurrent_workers":	0
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	1203,
+			"y":	338,
+			"id":	"8f402473-c9be-4841-2d9f-fea6f6257d4c"
+		}, {
+			"collar":	"com.nixps.quantum.script.0",
+			"title":	"Alterando link",
+			"parameters":	{
+				"variables":	[{
+						"type":	"com.nixps.quantum.all_variables.0"
+					}],
+				"files":	[{
+						"type":	"com.nixps.quantum.data_from_previous_node.0",
+						"first_only":	false
+					}],
+				"log_function_feedback":	true,
+				"fail_on_function_errors":	true,
+				"script_file":	"",
+				"script":	"var url_externa = getParameters().variables.proofscope_url;\n\nvar url_interna = url_externa.replace(\"187.32.22.105\",\"192.168.1.225\");\n\nsetResultVariables({\"proofscope_url2\":url_interna})",
+				"quantum_work_servers":	[],
+				"quantum_max_concurrent_workers":	0
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	1204,
+			"y":	418,
+			"id":	"f271c50c-32e5-e316-0bf2-2dfda10e0eb9"
+		}, {
+			"collar":	"com.nixps.quantum.send_email.0",
+			"title":	"Enviando E-Mail",
+			"parameters":	{
+				"from_address":	[{
+						"type":	"com.nixps.quantum.variable.0",
+						"variable":	"email"
+					}],
+				"to_addresses":	[[{
+							"type":	"com.nixps.quantum.variable.0",
+							"variable":	"user_info.email"
+						}]],
+				"cc_addresses":	[],
+				"bcc_addresses":	[],
+				"mail_data_source":	"FromTemplate",
+				"subject":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"value":	""
+					}],
+				"body":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"value":	""
+					}],
+				"template_name":	"ArqAprovado",
+				"template_language_from_user":	false,
+				"template_language":	"en",
+				"body_type":	"HTML+Template",
+				"template_variables":	[{
+						"type":	"com.nixps.quantum.all_variables.0",
+						"include_quantum":	true
+					}],
+				"attachments":	"",
+				"previews":	"",
+				"retry_count":	5,
+				"retry_interval":	300
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	1306,
+			"y":	338,
+			"id":	"fa734e20-a73c-aa1e-18b8-4780c3a71960"
+		}, {
+			"collar":	"com.nixps.quantum.send_email.0",
+			"title":	"Enviando E-Mail",
+			"parameters":	{
+				"from_address":	[{
+						"type":	"com.nixps.quantum.variable.0",
+						"variable":	"email"
+					}],
+				"to_addresses":	[[{
+							"type":	"com.nixps.quantum.variable.0",
+							"variable":	"user_info.email"
+						}]],
+				"cc_addresses":	[],
+				"bcc_addresses":	[],
+				"mail_data_source":	"FromTemplate",
+				"subject":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"value":	""
+					}],
+				"body":	[{
+						"type":	"com.nixps.quantum.value.0",
+						"value":	""
+					}],
+				"template_name":	"ArqReprovado",
+				"template_language_from_user":	false,
+				"template_language":	"en",
+				"body_type":	"HTML+Template",
+				"template_variables":	[{
+						"type":	"com.nixps.quantum.all_variables.0",
+						"include_quantum":	true
+					}],
+				"attachments":	"",
+				"previews":	"",
+				"retry_count":	5,
+				"retry_interval":	300
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	1304,
+			"y":	418,
+			"id":	"69c85401-606d-eca6-1836-26b6aa105833"
+		}, {
+			"collar":	"com.nixps.quantum.get_file_info.0",
+			"title":	"Obtendo informações do arquivo",
+			"parameters":	{
+				"files":	[{
+						"type":	"com.nixps.quantum.data_from_previous_node.0",
+						"first_only":	false
+					}],
+				"variable":	"file_info",
+				"support_multiple_files":	false,
+				"only_from_file":	false
+			},
+			"connectors":	[{
+					"id":	"input",
+					"label":	"Input",
+					"type":	"input"
+				}, {
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	323,
+			"y":	304,
+			"id":	"8da83813-89ad-2b06-9892-8b733be8bcb7"
+		}, {
+			"collar":	"com.nixps.quantum.start_from_kiosk.0",
+			"title":	"Start From Kiosk",
+			"parameters":	{
+				"name":	"Requisitar aprovação",
+				"workable_name":	"",
+				"jacket_name":	"",
+				"access_for_scopes":	"*",
+				"scope_from_user":	false,
+				"options":	[{
+						"name":	"Email do cliente",
+						"variable":	"email",
+						"storage_unit":	null,
+						"edit_type":	"string",
+						"default":	"",
+						"component":	{
+							"id":	"id",
+							"type":	"Input",
+							"options":	{
+								"value":	"",
+								"placeholder":	"",
+								"pattern":	"",
+								"patternMessage":	"Inserir um email",
+								"type":	"text"
+							}
+						},
+						"required":	true,
+						"helptext":	""
+					}],
+				"upload_files_mode":	"OneOrMore",
+				"upload_url":	"cloudflow://PP_FILE_STORE/Incoming/02/",
+				"upload_time_out":	1440,
+				"category":	"Approval",
+				"enable_upload":	true,
+				"enable_file_browser":	true,
+				"work_servers":	[],
+				"priority":	50,
+				"allow_guest":	false,
+				"options_layout":	{
+			},
+				"maximum_upload_mb":	1024,
+				"handle_files_separately":	true
+			},
+			"connectors":	[{
+					"id":	"success",
+					"label":	"Success",
+					"type":	"output",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}, {
+					"id":	"failure",
+					"label":	"Failure",
+					"type":	"error",
+					"collar":	"com.nixps.quantum.conductor.0"
+				}],
+			"selected":	false,
+			"x":	95,
+			"y":	419,
+			"id":	"e354f367-98e0-c47d-d85b-b2e73028d78a"
+		}],
+	"comments":	[],
+	"connections":	[{
+			"id":	"cb771c7b-7c9b-1f4e-e901-24c797a9fe50",
+			"from":	{
+				"node":	"5e5ed430-0e55-b9cb-3baa-1cbd3fcd2ce0",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"2e5e81ee-7f12-eba8-820c-8fa5a2a67a03",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"1af41204-d14e-7631-1eb6-ba8f36f51e3c",
+			"from":	{
+				"node":	"83498af5-602d-cf38-0b07-7a0544ef6eec",
+				"connector":	"no_proofscope_view"
+			},
+			"to":	{
+				"node":	"5e5ed430-0e55-b9cb-3baa-1cbd3fcd2ce0",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"1cabcdca-6716-ac7f-32da-320f43634b66",
+			"from":	{
+				"node":	"e354f367-98e0-c47d-d85b-b2e73028d78a",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"83498af5-602d-cf38-0b07-7a0544ef6eec",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"a96c4e2b-ae2c-e008-42d5-b3a9433caf27",
+			"from":	{
+				"node":	"b8900ad9-cced-bacc-98df-f13716ec4eb3",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"83498af5-602d-cf38-0b07-7a0544ef6eec",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"3a81c958-cf3d-f578-1fb1-062f53608c26",
+			"from":	{
+				"node":	"83498af5-602d-cf38-0b07-7a0544ef6eec",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"8da83813-89ad-2b06-9892-8b733be8bcb7",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"0f6c86e4-d12f-c1e2-8ece-5726c95b6965",
+			"from":	{
+				"node":	"8da83813-89ad-2b06-9892-8b733be8bcb7",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"107f5e6c-55ca-2b83-4b45-f0319ed5c996",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"63544850-17c3-69c4-89d3-61b09a2367e0",
+			"from":	{
+				"node":	"107f5e6c-55ca-2b83-4b45-f0319ed5c996",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"7e8e3765-4650-84ae-da37-25dbcb895623",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"aa4510bd-5367-dad5-3974-0989fcc6f68b",
+			"from":	{
+				"node":	"7e8e3765-4650-84ae-da37-25dbcb895623",
+				"connector":	"approvals"
+			},
+			"to":	{
+				"node":	"4099cec5-811a-6fa6-066f-f626301ef7fb",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"4bb543b3-425f-8ee9-7ded-0f1a0851c234",
+			"from":	{
+				"node":	"a6b4fb0d-3dea-67d8-7f9b-926f3698f910",
+				"connector":	"reminder"
+			},
+			"to":	{
+				"node":	"dfb87879-bb40-6554-2c13-b78e54c1cf86",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"91a3bafd-d98a-a4dc-f494-7c1b6124e972",
+			"from":	{
+				"node":	"dfb87879-bb40-6554-2c13-b78e54c1cf86",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"a6b4fb0d-3dea-67d8-7f9b-926f3698f910",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"8f295ebd-b41f-9568-c9bd-e1eb8f657c2a",
+			"from":	{
+				"node":	"7e8e3765-4650-84ae-da37-25dbcb895623",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"dda09e2a-da7c-c2a9-5d2a-cef83a91a522",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"6af11b74-d74b-ceaf-2186-d58e406e06ab",
+			"from":	{
+				"node":	"a6b4fb0d-3dea-67d8-7f9b-926f3698f910",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"dda09e2a-da7c-c2a9-5d2a-cef83a91a522",
+				"connector":	"approvals"
+			}
+		}, {
+			"id":	"1847bacc-20ca-07b7-8050-a41b718d214c",
+			"from":	{
+				"node":	"dda09e2a-da7c-c2a9-5d2a-cef83a91a522",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"8f402473-c9be-4841-2d9f-fea6f6257d4c",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"af2f2f91-6448-472f-953f-37c12e17ec09",
+			"from":	{
+				"node":	"dda09e2a-da7c-c2a9-5d2a-cef83a91a522",
+				"connector":	"rejected"
+			},
+			"to":	{
+				"node":	"f271c50c-32e5-e316-0bf2-2dfda10e0eb9",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"80719f00-c18e-bcb4-ce78-8230b4928560",
+			"from":	{
+				"node":	"8f402473-c9be-4841-2d9f-fea6f6257d4c",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"fa734e20-a73c-aa1e-18b8-4780c3a71960",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"f883c625-5f40-8269-3184-73370a9ddea6",
+			"from":	{
+				"node":	"4099cec5-811a-6fa6-066f-f626301ef7fb",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"6764db54-8e0a-b328-1c29-9be1463bd3bf",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"0f2a64b3-2d41-8f0b-5111-89e29d7ea882",
+			"from":	{
+				"node":	"6764db54-8e0a-b328-1c29-9be1463bd3bf",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"a6b4fb0d-3dea-67d8-7f9b-926f3698f910",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"54f5bf86-7030-584c-07ab-8ff8e2c5c286",
+			"from":	{
+				"node":	"f271c50c-32e5-e316-0bf2-2dfda10e0eb9",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"69c85401-606d-eca6-1836-26b6aa105833",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"335308cf-0251-dc24-1f2c-b4523f21afa8",
+			"from":	{
+				"node":	"fa734e20-a73c-aa1e-18b8-4780c3a71960",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"aa0137f2-eb23-0ad4-8c41-019c029ffe6b",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"e4b0ac66-88bb-1010-0336-e2aa01073377",
+			"from":	{
+				"node":	"69c85401-606d-eca6-1836-26b6aa105833",
+				"connector":	"success"
+			},
+			"to":	{
+				"node":	"aa0137f2-eb23-0ad4-8c41-019c029ffe6b",
+				"connector":	"input"
+			}
+		}, {
+			"id":	"78b3d1e8-b559-74d9-6370-40fef9aa1514",
+			"from":	{
+				"node":	"5791b236-8304-cad3-0b5f-7cbf57fc043f",
+				"connector":	"failure"
+			},
+			"to":	{
+				"node":	"aa0137f2-eb23-0ad4-8c41-019c029ffe6b",
+				"connector":	"input"
+			}
+		}]
+}
