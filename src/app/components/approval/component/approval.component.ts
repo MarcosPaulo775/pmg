@@ -107,27 +107,26 @@ export class ApprovalComponent implements OnInit {
 
   /** Inicia fluxo de aprovacao de arquivo */
   initApproval() {
-    let files = [];
     for (let i = 0; i < this.uploader.queue.length; i++) {
       let name = this.uploader.queue[i].file.name.replace(/ /g, "%20");
-      files.push('cloudflow://PP_FILE_STORE/approval/' + name);
-    }
 
-    this.apiService.hub_start_from_whitepaper_with_files_and_variables(
-      'Angular_Approval',
-      'input',
-      files,
-      { 'email': this.emailFormControl.value }
-    ).subscribe((data: Flow) => {
-      if (!data.error) {
-        this.updateTable();
-        this.uploader.clearQueue();
-        this.emailFormControl.setValue(null);
-        this.appService.openSnackBar('Aguarde alguns segundos e atualize a tabela para visualizar', 'ok');
-      }
-    }, (data) => {
-      console.log(data);
-    })
+      this.apiService.hub_start_from_whitepaper_with_files_and_variables(
+        'Angular_Approval',
+        'input',
+        ['cloudflow://PP_FILE_STORE/approval/' + name],
+        { 'email': this.emailFormControl.value }
+      ).subscribe((data: Flow) => {
+        if (!data.error) {
+        }
+      }, (data) => {
+        console.log(data);
+      });
+    }
+    
+    this.updateTable();
+    this.uploader.clearQueue();
+    this.emailFormControl.setValue(null);
+    this.appService.openSnackBar('Aguarde alguns segundos e atualize a tabela para visualizar', 'ok');
   }
 
   /** Atualiza Tabela */
