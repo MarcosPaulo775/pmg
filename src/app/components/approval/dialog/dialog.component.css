@@ -1,35 +1,44 @@
 table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
 }
 
-td, th {
-    text-align: left;
-    padding: 8px;
-    font-family: "Open Sans";
+td,
+th {
+  text-align: left;
+  padding: 8px;
+  font-family: "Open Sans";
 }
 
 td {
-    border-top: 1px solid #dddddd;
+  border-top: 1px solid #dddddd;
 }
 
 thead {
-    background-color: rgb(242, 242, 242);
+  background-color: rgb(242, 242, 242);
 }
 
 iframe {
-    position: relative;
+  position: relative;
+  height: 100vh;
+  max-height: 85vh;
+  width: 100%;
 }
 
 .load {
-    background-position: 50% 50%;
-    position: absolute;
-    width: 100%;
-    height: 100%;
+  background-position: 50% 50%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
-.mat-typography {
-    width: 100%;
-    height: 100vh;
+.mat-card-content{
+    margin-bottom: 5px;
+}
+
+.mat-card-actions {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
 }

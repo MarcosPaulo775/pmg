@@ -1,18 +1,20 @@
-<mat-dialog-content class="mat-typography">
-
-  <div fxLayoutAlign="center" style="width: 100%;">
-    <mat-spinner class="load"></mat-spinner>
-  </div>
-
-  <div style="height: '1000px';">
-    <iframe width="99%" height="1000px" [src]="iframe"></iframe>
-  </div>
-
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-stroked-button (click)="copy()" matTooltip="Copiar Link">
-    <mat-icon>assignment</mat-icon>
-  </button>
-  <div style="flex-grow: 1;"></div>
-  <button mat-stroked-button mat-dialog-close>Fechar</button>
-</mat-dialog-actions>
+<mat-card>
+  <mat-card-content>
+  
+    <div fxLayoutAlign="center" style="width: 100%;">
+      <mat-spinner class="load"></mat-spinner>
+    </div>
+  
+    <div>
+      <iframe [src]="iframe"></iframe>
+    </div>
+  
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-stroked-button (click)="copy()" matTooltip="Copiar Link">
+      <mat-icon>assignment</mat-icon>
+    </button>
+    <div style="flex-grow: 1;"></div>
+    <button mat-stroked-button mat-dialog-close>Fechar</button>
+  </mat-card-actions>
+</mat-card>

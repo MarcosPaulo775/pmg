@@ -58,7 +58,7 @@ export class ApprovalComponent implements OnInit {
    * Verifica se os arquivos sao PDF
    */
   public fileOverBase(e: any): void {
-    if(typeof(e) === 'boolean'){
+    if (typeof (e) === 'boolean') {
       this.hasBaseDropZoneOver = e;
     }
     for (let i = 0; i < this.uploader.queue.length; i++) {
@@ -149,6 +149,9 @@ export class ApprovalComponent implements OnInit {
 
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '100vw',
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      panelClass: 'my-dialog',
       data: url
     });
     dialogRef.afterClosed().subscribe(result => {
